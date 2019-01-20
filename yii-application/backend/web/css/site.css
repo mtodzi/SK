@@ -1,0 +1,20 @@
+.container {
+    margin-top: 4em;
+}
+@media(min-width:992px) {
+    .my_row_input_login{
+        margin-top: -4em;
+    }
+    #img_992_less{
+        display: none; 
+    }
+    
+}
+@media(max-width:992px) {
+    #img_992_more{
+        display: none; 
+    }
+    #img_992_less{
+        display: inline; 
+    }
+}

@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+.header{
+    position: absolute;
+    top:0;
+    width: 100%;
+    z-index: 2;
+    
+}    
+.container {
+    margin: 0;
+    margin-left: 85px;
+    margin-top: 100px;
+    width: auto;
+    height: 100%;
+    
+}
+.footer {
+    position: absolute;
+    padding-left: 85px;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
+    z-index: 0;
+}
+.aside_left{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding-top: 65px;
+    width: 85px;
+    z-index: 1;
+    
+}
+#logo_aside_top{
+    width: 50px;
+    height: 25px;
+    background-color: red;
+}
+#menu_navbar_top{
+    width: 25px;
+    height: 25px;
+}
+.exit{
+    position: absolute;
+    bottom: 5px;
+}
+.exit_img{
+    background-image: url(../img/exit.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px 30px; 
+    height: 50px;
+    width: 50px;
+}
+.menu_left{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.right_text_brend{
+    text-align: right;
+    margin-right: 100px;
+    margin-top: 20px;
+}
+.main_content{
+    position: absolute;
+    left: 100px;
+    right: 15px;
+    top:100px;
+    bottom: 60px;
+}
+.user_photo{
+    width: 100px;
+    height: 100px;
+}
