@@ -11,13 +11,13 @@ use yiister\gentelella\widgets\Panel;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
 
-$this->title = Yii::t('app', 'Сотрудники');
+$this->title = Yii::t('app', 'Персонал');
 
 ?>
 <div class='index_user_bloc'>
     <div class="my_heders_bloc">
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="<?=Url::to(['/user/user'])?>">Сотрудники</a>
+            <a class="navbar-brand" href="<?=Url::to(['/user/user'])?>">Персонал</a>
             <form class="form-inline float-right">
                 <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
@@ -40,7 +40,12 @@ $this->title = Yii::t('app', 'Сотрудники');
                     </div>
                     <div class="col-9">
                         <ul class="list-group">
-                            <li class="list-group-item">Телефон #: 062-325-26-22</li>
+                            <li class="list-group-item">
+                                <span>Телефон #: 062-325-26-22</span>
+                                <a  class="btn btn-dark float-right" href="#" data-toggle="tooltip" data-placement="right" title="Редактировать">
+                                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/edit.svg'])?>' alt="Меню">
+                                </a>
+                            </li>
                             <li class="list-group-item list-group-item-primary">Электронная почта: mtodzi@gmail.com</li>
                         </ul>
                     </div>
