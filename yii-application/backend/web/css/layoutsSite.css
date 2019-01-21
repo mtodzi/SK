@@ -78,5 +78,16 @@ html {
 }
 .user_photo{
     width: 100px;
-    height: 100px;
+    height: 120px;
 }
+.list-group-item-noradius{
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+.my_icon{
+    height: 22px;
+}
+.p_margin0{
+    margin-bottom:0;
+}
+

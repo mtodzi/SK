@@ -25,107 +25,32 @@ $this->title = Yii::t('app', 'Персонал');
         </nav>
     </div>
     <div class="my_content_bloc">
-        <div class="row">
-            <div class="col-4 m-3">
-            <div class="border">    
-                <div class="user_heder">
-                    <nav class="navbar bg-dark">
-                        <h4 class="text-light">Морозов Андрей Алексеевич</h4>
-                    </nav>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <h6 class="px-1">Фото сотрудника</h6>
-                        <img  class="user_photo bg-secondary mx-2" src='<?=Url::to(['/img/profile.svg'])?>' alt="Меню">
+        <div class="my_user_box border">
+            <div class="media my-1">
+                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/profile.svg'])?>" class="align-self-start mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0">Top-aligned media</h5>
+                        <p>Cras sit amet nibh libero, in gravida nulla. </p>
+                        <p>Donec sed odio dui. Nullam quis risus eget   </p>
                     </div>
-                    <div class="col-9">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span>Телефон #: 062-325-26-22</span>
-                                <a  class="btn btn-dark float-right" href="#" data-toggle="tooltip" data-placement="right" title="Редактировать">
-                                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/edit.svg'])?>' alt="Меню">
-                                </a>
-                            </li>
-                            <li class="list-group-item list-group-item-primary">Электронная почта: mtodzi@gmail.com</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>    
             </div>
         </div>
-        <?php
-            /*
-            echo ListView::widget([
-                'dataProvider' => $dataProvider,
-                'itemOptions' => ['class' => 'item'],
-                'summary'=>FALSE,
-                'itemView' => function ($model, $key, $index, $widget) {
-                    $bloc = "<div class='col-md-4 col-sm-4 col-xs-12 profile_details'>"
-                                ."<div class='well profile_view'>"
-                                    ."<div class='col-sm-12'>"
-                                        ."<h4 class='brief'><i>$model->employeename</i></h4>"
-                                        ."<div class='left col-xs-7'>"
-                                            //."<h2>".$model->position->name_position."</h2>"
-                                            //."<p><strong>About: </strong> Web Designer / UI. </p>"
-                                            ."<ul class='list-unstyled'>"
-                                                ."<li><i class='fa fa-phone'></i> Телефон #: $model->phone</li>"
-                                                ."<li><i class='fa fa-envelope'></i> Электронная почта: $model->email</li>" 
-                                                ."<li><i class='fa fa-building'></i> Address: $model->address</li>"
-                                                                                           
-                                            ."</ul>"
-                                        ."</div>"
-                                    ."<div class='right col-xs-5 text-center'>"
-                                        //."<img src='".$model->getUrlMiniature()."' alt='' class='img-circle img-responsive'>"
-                                    ."</div>"
-                                ."</div>"
-                                ."<div class='col-xs-12 bottom center '>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['view', 'id' => $model->id])."' class='btn btn-primary btn-xs'>"
-                                            ."<i class='fa fa-user'> </i> Данные сотрудника"
-                                        ."</a>"
-                                    ."</div>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['update', 'id' => $model->id])."' class='btn btn-primary btn-xs'>"
-                                            ."<i class='fa fa-pencil'> </i> Редактировать"
-                                        ."</a>"
-                                    ."</div>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['foto', 'id' => $model->id])."' class='btn btn-primary btn-xs'>"
-                                            ."<i class='fa fa-file-image-o'> </i> Редактировать миниатюру"
-                                        ."</a>"
-                                    ."</div>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['changepassword', 'id' => $model->id])."' class='btn btn-primary btn-xs'>"
-                                            ."<i class='fa fa-repeat'> </i> Cменить пароль"
-                                        ."</a>"
-                                    ."</div>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['asktheemployeerole', 'id' => $model->id])."' class='btn btn-primary btn-xs'>"
-                                            ."<i class='fa fa-child'> </i> Задать роль"
-                                        ."</a>"
-                                    ."</div>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['deletingauserrole', 'id' => $model->id])."' class='btn btn-danger btn-xs'>"
-                                            ."<i class='fa fa-child'> </i> Удалить роль"
-                                        ."</a>"
-                                    ."</div>"
-                                    ."<div class='' style = 'float: left; margin-left: 5px;'>"
-                                        ."<a href='".Url::to(['delete', 'id' => $model->id])."' class='btn btn-danger btn-xs' data-confirm='Вы уверенны что хотите удалить - ".$model->employeename."' data-method='post'>"
-                                            ."<i class='fa fa-user'> </i> Удалить работника "
-                                        ."</a>"
-                                    ."</div>"
-                                ."</div>"
-                            ."</div>"
-                        ."</div>";
-    
-        return $bloc;
-            },
-        ]);
-             * 
-             */
-        ?>   
+        <div class="my_user_box border my-2">
+            <div class="media my-1">
+                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0">Батасов Роман Александрович - инженер</h5>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/mail.svg'])?>">romanbatasov@gmail.com</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/smartphone-call.svg'])?>">(050) 789-98-65</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/home.svg'])?>">ул. Щетинина д. 12 кв. 113 </p>
+                        <p></p>
+                    </div>
+            </div>
+        </div>
+      
     </div>
-    <div class="my_footer_bloc"></div>
+    <div class="my_footer_bloc">
+    </div>
 </div>
 <!--
 <div class="user-index">
