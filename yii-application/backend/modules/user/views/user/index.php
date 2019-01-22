@@ -29,9 +29,11 @@ $this->title = Yii::t('app', 'Персонал');
             <div class="media my-1">
                 <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/profile.svg'])?>" class="align-self-start mr-3" alt="...">
                     <div class="media-body">
-                        <h5 class="mt-0">Top-aligned media</h5>
-                        <p>Cras sit amet nibh libero, in gravida nulla. </p>
-                        <p>Donec sed odio dui. Nullam quis risus eget   </p>
+                        <h5 class="mt-0">Морозов Андрей Алексеевич - менеджер</h5>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/mail.svg'])?>">morozov@gmail.com</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/smartphone-call.svg'])?>">(050) 999-13-13</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/home.svg'])?>">ул. Сорокина д. 13 кв. 13 </p>
+                        <p></p>
                     </div>
             </div>
         </div>
@@ -48,6 +50,38 @@ $this->title = Yii::t('app', 'Персонал');
             </div>
         </div>
       
+        <div class="my_user_box border my-2">
+            <div class="media my-1">
+                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0">Попов Михаил Викторович - инженер</h5>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/mail.svg'])?>">popos@gmail.com</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/smartphone-call.svg'])?>">(099) 123-45-67</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/home.svg'])?>">ул. Майями д. 1 кв. 1 </p>
+                        <p>
+                            <a  class="btn btn-dark menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="bottom" title="Редактировать">
+                                <img class="edit_button" src='<?=Url::to(['/img/edit.svg'])?>' alt="Редактировать">
+                            </a>
+                        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="my_user_box border my-2">
+            <div class="media my-1">
+                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0"><input class="form-control my_input_employee_name" type="text" value="Попов Михаил Викторович"> - инженер</h5>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/mail.svg'])?>">popos@gmail.com</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/smartphone-call.svg'])?>">(099) 123-45-67</p>
+                        <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/home.svg'])?>">ул. Майями д. 1 кв. 1 </p>
+                        <p>
+                            <a  class="btn btn-dark menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="bottom" title="Редактировать">
+                                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/edit.svg'])?>' alt="Редактировать">
+                            </a>
+                        </p>
+                    </div>
+            </div>
+        </div>
     </div>
     <div class="my_footer_bloc">
     </div>

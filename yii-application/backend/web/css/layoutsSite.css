@@ -90,4 +90,10 @@ html {
 .p_margin0{
     margin-bottom:0;
 }
-
+.edit_button{
+    height:15px;
+  }
+  .my_input_employee_name{
+      width:400px;
+      display: inline-block;
+  }
