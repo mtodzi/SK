@@ -14,8 +14,8 @@ use yiister\gentelella\widgets\Panel;
 $this->title = Yii::t('app', 'Персонал');
 
 ?>
-<div class='index_user_bloc'>
-    <div class="my_heders_bloc">
+<div class='index_user_bloc row'>
+    <div class="my_heders_bloc col-12">
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="<?=Url::to(['/user/user'])?>">Персонал</a>
             <form class="form-inline float-right">
@@ -24,7 +24,7 @@ $this->title = Yii::t('app', 'Персонал');
             </form>
         </nav>
     </div>
-    <div class="my_content_bloc">
+    <div class="my_content_bloc col-12">
         <div class="my_user_box border">
             <div class="media my-1">
                 <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/profile.svg'])?>" class="align-self-start mr-3" alt="...">
@@ -49,7 +49,6 @@ $this->title = Yii::t('app', 'Персонал');
                     </div>
             </div>
         </div>
-<<<<<<< HEAD
         
         <div class="row">
             <div class="col-xl-6 col-12 my-1">
@@ -107,7 +106,6 @@ $this->title = Yii::t('app', 'Персонал');
         </div>  
         
         
-=======
       
         <div class="my_user_box border my-2">
             <div class="media my-1">
@@ -141,9 +139,8 @@ $this->title = Yii::t('app', 'Персонал');
                     </div>
             </div>
         </div>
->>>>>>> 9f3fd23f73ab316dba68b314126e34f596440cc9
     </div>
-    <div class="my_footer_bloc">
+    <div class="my_footer_bloc co-12">
     </div>
 </div>
 <!--
