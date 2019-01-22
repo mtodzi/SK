@@ -47,7 +47,63 @@ $this->title = Yii::t('app', 'Персонал');
                     </div>
             </div>
         </div>
-      
+        
+        <div class="row">
+            <div class="col-xl-6 col-12 my-1">
+                <div class="my_box">
+                    <div class = "my_box_heder">
+                        <nav class="navbar navbar-light bg-primary rounded-top">
+                            <span class="navbar-brand">Карточка</span>
+                            <a  class="btn btn-info float-right" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Редактировать">
+                                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/edit.svg'])?>' alt="Редактировать">
+                            </a>
+                        </nav>
+                    </div>             
+                    <div class="my_box_content rounded-bottom bg-warning">
+                        <div class="row py-2">
+                            <div class="col-12 col-xl-2">
+                                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                            </div>
+                            <div class="col-12 col-xl-10">
+                                <h5 class="mt-0">Батасов Роман Александрович - инженер</h5>
+                                <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/mail.svg'])?>">romanbatasov@gmail.com</p>
+                                <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/smartphone-call.svg'])?>">(050) 789-98-65</p>
+                                <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/home.svg'])?>">ул. Щетинина д. 12 кв. 113 </p>
+                                <p></p>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12 my-1">
+                <div class="my_box">
+                    <div class = "my_box_heder">
+                        <nav class="navbar navbar-light bg-primary rounded-top">
+                            <span class="navbar-brand">Карточка</span>
+                            <a  class="btn btn-info float-right" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Редактировать">
+                                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/edit.svg'])?>' alt="Редактировать">
+                            </a>
+                        </nav>
+                    </div>             
+                    <div class="my_box_content rounded-bottom bg-warning">
+                        <div class="row py-2">
+                            <div class="col-3">
+                                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                            </div>
+                            <div class="col-9">
+                                <h5 class="mt-0">Батасов Роман Александрович - инженер</h5>
+                                <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/mail.svg'])?>">romanbatasov@gmail.com</p>
+                                <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/smartphone-call.svg'])?>">(050) 789-98-65</p>
+                                <p class="p_margin0"><img class="my_icon" src="<?=Url::to(['/img/home.svg'])?>">ул. Щетинина д. 12 кв. 113 </p>
+                                <p></p>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>  
+        
+        
     </div>
     <div class="my_footer_bloc">
     </div>
