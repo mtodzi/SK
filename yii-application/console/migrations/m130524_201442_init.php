@@ -58,7 +58,6 @@ class m130524_201442_init extends Migration
         
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(), //id
-            'username' => $this->string(32)->unique()->notNull(),//ключ аунтификации
             'auth_key' => $this->string(32)->notNull(),//ключ аунтификации
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
@@ -74,10 +73,9 @@ class m130524_201442_init extends Migration
             "FOREIGN KEY (id_position) REFERENCES position (id) ON DELETE SET NULL ON UPDATE CASCADE",
         ], $tableOptions);
         $this->insert('{{%user}}',['id' => '1',
-                                   'username' => 'admin',
                                    'auth_key' => Yii::$app->security->generateRandomString(),
                                    'password_hash' => Yii::$app->security->generatePasswordHash('123456'),
-                                   'password_reset_token' => 'NULL',
+                                   'password_reset_token' => NULL,
                                    'email' => 'mtodzi@gmail.com',
                                    'employeename' => 'Морозов Андрей Алексеевич',
                                    'phone'=> '066-184-21-01',
@@ -86,7 +84,21 @@ class m130524_201442_init extends Migration
                                    'status' => '10',
                                    'created_at' => time(),
                                    'updated_at' => time(),]);
-    
+        //добавляем некоторое количество тестовых пользователей
+        for($i=2; $i<=30; $i++){
+            $this->insert('{{%user}}',['id' => $i,
+                                   'auth_key' => Yii::$app->security->generateRandomString(),
+                                   'password_hash' => Yii::$app->security->generatePasswordHash('123456'),
+                                   'password_reset_token' => NULL,
+                                   'email' => 'test-'.$i.'@gmail.com',
+                                   'employeename' => 'Тест тестович Тестович '.$i,
+                                   'phone'=> '066-184-21-01',
+                                   'address' => 'ул Тестовая дом '.$i.' квартира',
+                                   'id_position' => random_int(2,3),
+                                   'status' => '10',
+                                   'created_at' => time(),
+                                   'updated_at' => time(),]);
+        }
         $this->createTable($authManager->ruleTable, [
             'name' => $this->string(64)->notNull(),
             'data' => $this->binary(),

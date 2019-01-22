@@ -80,17 +80,25 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        $gweryuUsername = static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        //$gweryuUsername = static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
         $gweryuEmail = static::findOne(['email' => $username, 'status' => self::STATUS_ACTIVE]);
-          if(empty($gweryuUsername)){
-             if(empty($gweryuEmail)){
-                 return null; 
-             } else{
-                 return $gweryuEmail;
-             }
+        if(empty($gweryuEmail)){
+            return null; 
+        }else{
+            return $gweryuEmail;            
+        }
+        /* логика при использованию username и gmail при входе 
+        if(empty($gweryuUsername)){
+            if(empty($gweryuEmail)){
+                return null; 
+            }else{
+                return $gweryuEmail;
+            }
           }else{
             return $gweryuUsername;  
-          }
+        }
+         * 
+         */
     }
 
     /**

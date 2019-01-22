@@ -70,11 +70,16 @@ html {
     margin-top: 20px;
 }
 .main_content{
+    /*
     position: absolute;
     left: 100px;
     right: 15px;
     top:55px;
     bottom: 60px;
+    */
+    margin-top: 65px;
+    margin-left: 95px;
+    margin-bottom: 60px;
 }
 .user_photo{
     width: 100px;

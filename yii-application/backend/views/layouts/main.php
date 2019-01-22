@@ -35,7 +35,7 @@ MyAppAssetLayouteSite::register($this);
             </a>
         </nav>
     </header>
-    <main id="main" role="main" class="main_content"> 
+    <main id="main" role="main" class="main_content row"> 
         <?= $content ?>    
     </main>
 
@@ -44,15 +44,15 @@ MyAppAssetLayouteSite::register($this);
     </footer>
     <aside id="aside_left" class="bg-dark aside_left">
             <nav class="navbar">
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/home_1.svg'])?>' alt="Меню">
+                </a>
                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Сотрудники">
                 </a>
                 <a  class="navbar-brand btn btn-light menu_left" href="#" data-toggle="tooltip" data-placement="right" title="Сотрудники">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Меню">
-                </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="#" data-toggle="tooltip" data-placement="right" title="Сотрудники">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Меню">
-                </a>
+                </a>                
             </nav>
             <nav class="navbar exit">
             <?php    
