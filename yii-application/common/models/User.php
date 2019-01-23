@@ -204,4 +204,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+    public function getPosition()
+    {
+        return $this->hasOne(\backend\modules\user\models\Position::className(), ['id' => 'id_position']);
+    }
+    
 }
