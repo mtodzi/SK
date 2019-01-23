@@ -88,7 +88,22 @@ html {
 .edit_button{
     height:15px;
   }
- /* .my_input_employee_name{
-      width:400px;
-      display: inline-block;
-  }*/
+/*блок замещения цвета и размера подсказок*/ 
+.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
+    border-top-color: #17a2b8; /* цвет стрелочки (по умолчанию #000)*/
+}
+.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+    border-bottom-color: #17a2b8; /* цвет стрелочки (по умолчанию #000) */
+}
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    border-right-color: #2893ed; /* цвет стрелочки (по умолчанию #000)*/
+}
+.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
+    border-left-color: #2893ed; /* цвет стрелочки (по умолчанию #000) */
+}
+.tooltip-inner {
+    max-width: 250px; /* максимальная ширина подсказки (по умолчанию 200px) */
+    color: #fff; /* цвет шрифта */
+    background-color: #2893ed; /* цвет фона (по умолчанию #000) */
+    border-radius: 0.25rem; /* радиус скругдения углов */
+}
