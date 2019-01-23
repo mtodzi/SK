@@ -253,5 +253,8 @@ class UserController extends Controller
         
     }
     
+    public function actionMytest(){
+        return $this->render('test'); 
+    }
     
 }

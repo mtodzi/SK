@@ -7,22 +7,19 @@ html {
   min-height: 100%;
 }
 .header{
-    position: absolute;
+    position: fixed;
     top:0;
     width: 100%;
     z-index: 2;
-    
 }    
 .container {
-    margin: 0;
+    /*margin: 0;*/
     margin-left: 85px;
-    margin-top: 100px;
-    width: auto;
-    height: 100%;
-    
+    margin-top: 65px;
+    margin-bottom: 65px;
 }
 .footer {
-    position: absolute;
+    position: fixed;
     padding-left: 85px;
     bottom: 0;
     width: 100%;
@@ -31,9 +28,10 @@ html {
     z-index: 0;
 }
 .aside_left{
-    position: absolute;
+    position: fixed;
     top: 0;
-    bottom: 0;
+    bottom:0;
+    height: 100%;
     padding-top: 65px;
     width: 85px;
     z-index: 1;
@@ -70,25 +68,17 @@ html {
     margin-top: 20px;
 }
 .main_content{
-    /*
-    position: absolute;
-    left: 100px;
-    right: 15px;
-    top:55px;
-    bottom: 60px;
-    */
-    margin-top: 65px;
-    margin-left: 95px;
-    margin-bottom: 60px;
+    position: relative;
 }
 .user_photo{
     width: 100px;
     height: 120px;
 }
-.list-group-item-noradius{
+/*.list-group-item-noradius{
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
 }
+*/
 .my_icon{
     height: 22px;
 }
@@ -98,7 +88,7 @@ html {
 .edit_button{
     height:15px;
   }
-  .my_input_employee_name{
+ /* .my_input_employee_name{
       width:400px;
       display: inline-block;
-  }
+  }*/

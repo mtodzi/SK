@@ -28,6 +28,7 @@ MyAppAssetLayouteSite::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+    
     <header class="header">
         <nav class="navbar ">
             <a id ="buttonMenu" class="navbar-brand btn btn-light" href="#" data-menu="0">
@@ -35,13 +36,7 @@ MyAppAssetLayouteSite::register($this);
             </a>
         </nav>
     </header>
-    <main id="main" role="main" class="main_content row"> 
-        <?= $content ?>    
-    </main>
-
-    <footer id="footer" class="footer">
-        <p class="right_text_brend">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-    </footer>
+    
     <aside id="aside_left" class="bg-dark aside_left">
             <nav class="navbar">
                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
@@ -50,7 +45,7 @@ MyAppAssetLayouteSite::register($this);
                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Сотрудники">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="#" data-toggle="tooltip" data-placement="right" title="Сотрудники">
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user/mytest'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Меню">
                 </a>                
             </nav>
@@ -65,7 +60,17 @@ MyAppAssetLayouteSite::register($this);
             ?>
             </nav>      
     </aside>
+    
+    <main id="main" role="main" class="main_content container"> 
+        
+           <?= $content ?>   
+          
+    </main>
 
+    <footer id="footer" class="footer">
+        <p class="right_text_brend">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+    </footer>
+    
 <?php $this->endBody() ?>
 </body>
 </html>

@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Обновить');
 
                         'allow' => function ($url,$searchModel,$key) {
                             return Html::a(
-                            '<span class="glyphicon glyphicon-ok"></span>', 
+                            '<span class="glyphicon glyphicon-ok">Разрешить</span>', 
                             $url,['title'=>'Разрешить']);
                         },
                         'deny' => function ($url,$searchModel,$key) {
