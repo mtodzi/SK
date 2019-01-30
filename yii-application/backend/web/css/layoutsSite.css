@@ -37,6 +37,11 @@ html {
     z-index: 1;
     
 }
+.my_heders_bloc{
+    /*background-color: #f5f5a5;
+    z-index: 1;*/
+    position: fixed-top;    
+}
 #logo_aside_top{
     width: 50px;
     height: 25px;
@@ -70,15 +75,13 @@ html {
 .main_content{
     position: relative;
 }
+/*.my_content_bloc{
+    margin-top: 65px;
+}*/
 .user_photo{
     width: 100px;
     height: 120px;
 }
-/*.list-group-item-noradius{
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-}
-*/
 .my_icon{
     height: 22px;
 }

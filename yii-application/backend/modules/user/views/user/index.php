@@ -50,7 +50,7 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='В архив'>".
                                             "</a>".
                                             "<!--кнопка редактировать сотрудника-->".
-                                            "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' href='".Url::to(['/user/user'])."' data-toggle='tooltip' data-placement='right' title='Применить'>".
+                                            "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' href='".Url::to(['/user/user'])."' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Применить'>".
                                             "</a>".
                                         "</div>".
