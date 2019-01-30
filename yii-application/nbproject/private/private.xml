@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/N:/OpenServer/domains/sv/yii-application/backend/modules/user/controllers/UserController.php</file>
             <file>file:/N:/OpenServer/domains/sv/yii-application/backend/modules/user/views/user/index.php</file>
+            <file>file:/N:/OpenServer/domains/sv/yii-application/console/migrations/m130524_201442_init.php</file>
             <file>file:/N:/OpenServer/domains/sv/yii-application/backend/web/js/js.js</file>
-            <file>file:/N:/OpenServer/domains/sv/yii-application/backend/web/css/layoutsSite.css</file>
-            <file>file:/N:/OpenServer/domains/sv/yii-application/backend/views/layouts/main.php</file>
-            <file>file:/N:/OpenServer/domains/sv/yii-application/backend/views/layouts/error.php</file>
-            <file>file:/N:/OpenServer/domains/sv/yii-application/backend/views/site/login.php</file>
-            <file>file:/N:/OpenServer/domains/sv/yii-application/backend/views/site/index.php</file>
         </group>
     </open-files>
 </project-private>

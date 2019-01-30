@@ -56,49 +56,7 @@ class m130524_201442_init extends Migration
                                        'name_position' => 'Инженер',
                                        'description_position'=>'NULL']);
         
-        $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey(), //id
-            'auth_key' => $this->string(32)->notNull(),//ключ аунтификации
-            'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
-            'employeename' => $this->string()->notNull(),
-            'phone'=> $this->string(13)->notNull(),
-            'address' => $this->string()->notNull(),
-            'id_position' => $this->integer(10)->defaultValue(null),   
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
-            "KEY id_controler (id_position)",
-            "FOREIGN KEY (id_position) REFERENCES position (id) ON DELETE SET NULL ON UPDATE CASCADE",
-        ], $tableOptions);
-        $this->insert('{{%user}}',['id' => '1',
-                                   'auth_key' => Yii::$app->security->generateRandomString(),
-                                   'password_hash' => Yii::$app->security->generatePasswordHash('123456'),
-                                   'password_reset_token' => NULL,
-                                   'email' => 'mtodzi@gmail.com',
-                                   'employeename' => 'Морозов Андрей Алексеевич',
-                                   'phone'=> '066-184-21-01',
-                                   'address' => 'ул Роскошная дом 4 квартира 2',
-                                   'id_position' => '1',
-                                   'status' => '10',
-                                   'created_at' => time(),
-                                   'updated_at' => time(),]);
-        //добавляем некоторое количество тестовых пользователей
-        for($i=2; $i<=30; $i++){
-            $this->insert('{{%user}}',['id' => $i,
-                                   'auth_key' => Yii::$app->security->generateRandomString(),
-                                   'password_hash' => Yii::$app->security->generatePasswordHash('123456'),
-                                   'password_reset_token' => NULL,
-                                   'email' => 'test-'.$i.'@gmail.com',
-                                   'employeename' => 'Тест тестович Тестович '.$i,
-                                   'phone'=> '066-184-21-01',
-                                   'address' => 'ул Тестовая дом '.$i.' квартира',
-                                   'id_position' => random_int(2,3),
-                                   'status' => '10',
-                                   'created_at' => time(),
-                                   'updated_at' => time(),]);
-        }
+        
         $this->createTable($authManager->ruleTable, [
             'name' => $this->string(64)->notNull(),
             'data' => $this->binary(),
@@ -184,12 +142,91 @@ class m130524_201442_init extends Migration
                                         'created_at' => time(),
                                         'updated_at' => time(),
                                         ]);
+        $this->insert($authManager->itemTable,[
+                                        'name' => 'engineer',
+                                        'type' => 1,
+                                        'description' => 'Роль инженера ',
+                                        //'rule_name' =>'',
+                                        //'data' => '',
+                                        'created_at' => time(),
+                                        'updated_at' => time(),
+                                        ]);
+        $this->insert($authManager->itemTable,[
+                                        'name' => 'manager',
+                                        'type' => 1,
+                                        'description' => 'Роль менеджера',
+                                        //'rule_name' =>'',
+                                        //'data' => '',
+                                        'created_at' => time(),
+                                        'updated_at' => time(),
+                                        ]);
+        
+        $this->createTable('{{%user}}', [
+            'id' => $this->primaryKey(), //id
+            'auth_key' => $this->string(32)->notNull(),//ключ аунтификации
+            'password_hash' => $this->string()->notNull(),
+            'password_reset_token' => $this->string()->unique(),
+            'email' => $this->string()->notNull()->unique(),
+            'employeename' => $this->string()->notNull(),
+            'phone'=> $this->string(16)->notNull(),
+            'address' => $this->string()->notNull(),
+            'id_position' => $this->integer(10)->defaultValue(null),   
+            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'archive'=> $this->smallInteger()->notNull()->defaultValue(0),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
+            "KEY id_controler (id_position)",
+            "FOREIGN KEY (id_position) REFERENCES position (id) ON DELETE SET NULL ON UPDATE CASCADE",
+        ], $tableOptions);
+        
+        $this->insert('{{%user}}',['id' => '1',
+                                   'auth_key' => Yii::$app->security->generateRandomString(),
+                                   'password_hash' => Yii::$app->security->generatePasswordHash('123456'),
+                                   'password_reset_token' => NULL,
+                                   'email' => 'mtodzi@gmail.com',
+                                   'employeename' => 'Морозов Андрей Алексеевич',
+                                   'phone'=> '8(066)-184-21-01',
+                                   'address' => 'ул Роскошная дом 4 квартира 2',
+                                   'id_position' => '1',
+                                   'status' => '10',
+                                   'archive'=> 0,
+                                   'created_at' => time(),
+                                   'updated_at' => time(),]);
+        
         $this->insert($authManager->assignmentTable,[
                                         'item_name' => 'admin',
                                         'user_id' => 1,
                                         'created_at' => time(),
                                         ]);
-        
+        //добавляем некоторое количество тестовых пользователей
+        for($i=2; $i<=30; $i++){
+            $id_position = random_int(2,3);
+            if($id_position == 2){
+                $item_name = 'manager';
+            }else{
+                $item_name = 'engineer';
+            }
+            $this->insert('{{%user}}',['id' => $i,
+                                   'auth_key' => Yii::$app->security->generateRandomString(),
+                                   'password_hash' => Yii::$app->security->generatePasswordHash('123456'),
+                                   'password_reset_token' => NULL,
+                                   'email' => 'test-'.$i.'@gmail.com',
+                                   'employeename' => 'Тест тестович Тестович '.$i,
+                                   'phone'=> '8(066)-184-21-'.($i+10),
+                                   'address' => 'ул Тестовая дом '.$i.' квартира',
+                                   'id_position' => random_int(2,3),
+                                   'status' => '10',
+                                   'archive'=> 0,
+                                   'created_at' => time(),
+                                   'updated_at' => time(),]);
+            
+            $this->insert($authManager->assignmentTable,[
+                                        'item_name' => $item_name,
+                                        'user_id' => $i,
+                                        'created_at' => time(),
+                                        ]);
+        }
+                
         $this->createTable('{{%controler}}', [
             'id' => $this->primaryKey(),
             'name_controler' => $this->string(64)->notNull(),
@@ -417,6 +454,67 @@ class m130524_201442_init extends Migration
         $this->insert('{{%acsess}}',['id' => '27', 'item_name' => 'admin', 'id_action_ct' => '27','rows' => 1]);
         $this->insert('{{%acsess}}',['id' => '28', 'item_name' => 'admin', 'id_action_ct' => '28','rows' => 1]);
         $this->insert('{{%acsess}}',['id' => '29', 'item_name' => 'admin', 'id_action_ct' => '29','rows' => 1]);
+        
+        $this->insert('{{%acsess}}',['id' => '30', 'item_name' => 'manager', 'id_action_ct' => '1','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '31', 'item_name' => 'manager', 'id_action_ct' => '2','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '32', 'item_name' => 'manager', 'id_action_ct' => '3','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '33', 'item_name' => 'manager', 'id_action_ct' => '4','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '34', 'item_name' => 'manager', 'id_action_ct' => '5','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '35', 'item_name' => 'manager', 'id_action_ct' => '6','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '36', 'item_name' => 'manager', 'id_action_ct' => '7','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '37', 'item_name' => 'manager', 'id_action_ct' => '8','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '38', 'item_name' => 'manager', 'id_action_ct' => '9','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '39', 'item_name' => 'manager', 'id_action_ct' => '10','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '40', 'item_name' => 'manager', 'id_action_ct' => '11','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '41', 'item_name' => 'manager', 'id_action_ct' => '12','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '42', 'item_name' => 'manager', 'id_action_ct' => '13','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '43', 'item_name' => 'manager', 'id_action_ct' => '14','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '44', 'item_name' => 'manager', 'id_action_ct' => '15','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '45', 'item_name' => 'manager', 'id_action_ct' => '16','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '46', 'item_name' => 'manager', 'id_action_ct' => '17','rows' => 0]);                
+        $this->insert('{{%acsess}}',['id' => '47', 'item_name' => 'manager', 'id_action_ct' => '18','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '48', 'item_name' => 'manager', 'id_action_ct' => '19','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '49', 'item_name' => 'manager', 'id_action_ct' => '20','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '50', 'item_name' => 'manager', 'id_action_ct' => '21','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '51', 'item_name' => 'manager', 'id_action_ct' => '22','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '52', 'item_name' => 'manager', 'id_action_ct' => '23','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '53', 'item_name' => 'manager', 'id_action_ct' => '24','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '54', 'item_name' => 'manager', 'id_action_ct' => '25','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '55', 'item_name' => 'manager', 'id_action_ct' => '26','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '56', 'item_name' => 'manager', 'id_action_ct' => '27','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '57', 'item_name' => 'manager', 'id_action_ct' => '28','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '58', 'item_name' => 'manager', 'id_action_ct' => '29','rows' => 0]);
+        
+        $this->insert('{{%acsess}}',['id' => '59', 'item_name' => 'engineer', 'id_action_ct' => '1','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '60', 'item_name' => 'engineer', 'id_action_ct' => '2','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '61', 'item_name' => 'engineer', 'id_action_ct' => '3','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '62', 'item_name' => 'engineer', 'id_action_ct' => '4','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '63', 'item_name' => 'engineer', 'id_action_ct' => '5','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '64', 'item_name' => 'engineer', 'id_action_ct' => '6','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '65', 'item_name' => 'engineer', 'id_action_ct' => '7','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '66', 'item_name' => 'engineer', 'id_action_ct' => '8','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '67', 'item_name' => 'engineer', 'id_action_ct' => '9','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '68', 'item_name' => 'engineer', 'id_action_ct' => '10','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '69', 'item_name' => 'engineer', 'id_action_ct' => '11','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '70', 'item_name' => 'engineer', 'id_action_ct' => '12','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '71', 'item_name' => 'engineer', 'id_action_ct' => '13','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '72', 'item_name' => 'engineer', 'id_action_ct' => '14','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '73', 'item_name' => 'engineer', 'id_action_ct' => '15','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '74', 'item_name' => 'engineer', 'id_action_ct' => '16','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '75', 'item_name' => 'engineer', 'id_action_ct' => '17','rows' => 0]);                
+        $this->insert('{{%acsess}}',['id' => '76', 'item_name' => 'engineer', 'id_action_ct' => '18','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '77', 'item_name' => 'engineer', 'id_action_ct' => '19','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '78', 'item_name' => 'engineer', 'id_action_ct' => '20','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '79', 'item_name' => 'engineer', 'id_action_ct' => '21','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '80', 'item_name' => 'engineer', 'id_action_ct' => '22','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '81', 'item_name' => 'engineer', 'id_action_ct' => '23','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '82', 'item_name' => 'engineer', 'id_action_ct' => '24','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '83', 'item_name' => 'engineer', 'id_action_ct' => '25','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '84', 'item_name' => 'engineer', 'id_action_ct' => '26','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '85', 'item_name' => 'engineer', 'id_action_ct' => '27','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '86', 'item_name' => 'engineer', 'id_action_ct' => '28','rows' => 0]);
+        $this->insert('{{%acsess}}',['id' => '87', 'item_name' => 'engineer', 'id_action_ct' => '29','rows' => 0]);
+        
         
     }
 
