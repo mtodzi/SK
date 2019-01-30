@@ -119,9 +119,27 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-       
+        if(\Yii::$app->request->isAjax){
+            //$model = $this->findModelAJAX(0);
+            $model = $this->findModelAJAX(Yii::$app->request->post('User')['id']);
+            if(!empty($model)){
+                $model->employeename = Yii::$app->request->post('User')['employeename'];
+                $model->save();
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                $items = ['1','msg'=>"Такой мадели  сушествует"];
+                return $items;
+            }else{
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;            
+                $items = [0,'msg'=>"Данные не обнаружены на сервере. Попробуйте заново."];
+                return $items;
+            }
+        }else{
+            return $this->redirect(['index']);
+        }
+        
+        /*
         $model = $this->findModel($id);
         //$modelUser = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->save()){
@@ -130,6 +148,22 @@ class UserController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
+        }
+         * 
+            $model = $this->findModelAJAX();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;            
+            $items = ['some', 'array', 'of', 'data' => ['associative', 'array']];
+            return $items;
+         * 
+         * 
+         */
+    }
+    protected function findModelAJAX($id)
+    {   
+        if (($model = User::findOne($id)) !== null) {
+            return $model;
+        } else {
+            return FALSE;  
         }
     }
 
@@ -165,14 +199,7 @@ class UserController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
+    
     public function actionCreaterole(){
         $role = new AddRole();
         

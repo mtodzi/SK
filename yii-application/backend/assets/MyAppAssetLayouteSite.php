@@ -16,6 +16,7 @@ class MyAppAssetLayouteSite extends AssetBundle
         'css/layoutsSite.css',
     ];
     public $js = [
+        'js/jquery.maskedinput.min.js',
         'js/js.js',
     ];
     public $depends = [
