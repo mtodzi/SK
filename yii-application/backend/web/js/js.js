@@ -82,9 +82,10 @@ $('#buttonMenu').click(function(){
             console.log($('#input_user_employeename-'+id).val());
             $('#span_user_alert_server-'+id).text('');
             $('#user_alert_server-'+id).css('display', 'none');
-            if(validationUser(id)){
+            if(true/*validationUser(id)*/){
                 var data = $('#form-update_user-'+id).serialize();
                 console.log(data);
+                сleanErrorServerTreatment(id)
                 $.ajax({
                     url: '/yii-application/backend/web/user/user/update',
                     type: 'POST',
@@ -92,6 +93,7 @@ $('#buttonMenu').click(function(){
                     success: function(res){
                         if(res[0]!=0){
                             console.log(res);
+                            addUserCardDataServer(res['model'],id)
                             $('#user_card_button_edit_archive-'+id).css('display', 'flex');//Показываем группу кнопок редактировать в архив
                             $('#user_data-'+id).css('display', 'block');//
                             $('#user_cancel_button_card_apply-'+id).css('display', 'none');// 
@@ -103,6 +105,7 @@ $('#buttonMenu').click(function(){
                             console.log(res);
                             $('#span_user_alert_server-'+id).text(res['msg']);
                             $('#user_alert_server-'+id).css('display', 'block');
+                            errorServerTreatment(res['model'],id);
                             return false;
                         }    
                     },
@@ -206,5 +209,37 @@ $('#buttonMenu').click(function(){
     function emailEmpty(email){
         var re =  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return !re.test(email);
+    }
+    //Функция обработки полученных ошибок с сервера
+    function errorServerTreatment(res,id){
+        //переберает поля с данными присланные с сервера
+        $.each(res,function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            $('#error_user_'+index.toString()+'-'+id).text(value.toString());//Добавляем текст ошибки
+            $('#error_user_'+index.toString()+'-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+            $('#input_user_'+index.toString()+'-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+        });
+        return false;
+    }
+    //Функция которае очишает и убирает поля ошибок перед повторной отправкой на сервер
+    function сleanErrorServerTreatment(id){
+        var res = ['employeename','email','phone','address'];
+        //переберает поля с данными присланные с сервера
+        $.each(res,function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            $('#error_user_'+value.toString()+'-'+id).text('');//Убирает текст ошибки
+            $('#error_user_'+value.toString()+'-'+id).css('display', 'none');//Блок ошибки скрываем от  пользователю
+            $('#input_user_'+value.toString()+'-'+id).removeClass('is-invalid');//Убираем окрашивание у поля где ошибка была
+        });
+        return false;
+    }
+    //Функция применяет полученные данные с сервера о обаляет карточку
+    function addUserCardDataServer(res,id){
+        //переберает поля с данными присланные с сервера
+        $.each(res,function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            $('#span_user_'+index.toString()+'-'+id).text(value.toString());//Заменяем текст в карточке на текст присланный с сервера
+        });
+        return false;
     }
 //конец обработки данных модуля user

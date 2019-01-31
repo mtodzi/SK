@@ -122,14 +122,25 @@ class UserController extends Controller
     public function actionUpdate()
     {
         if(\Yii::$app->request->isAjax){
-            //$model = $this->findModelAJAX(0);
             $model = $this->findModelAJAX(Yii::$app->request->post('User')['id']);
             if(!empty($model)){
-                $model->employeename = Yii::$app->request->post('User')['employeename'];
-                $model->save();
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
-                $items = ['1','msg'=>"Такой мадели  сушествует"];
-                return $items;
+                if ($model->load(Yii::$app->request->post()) && $model->save()){
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                    $items = ['1','msg'=>"Модель загрузилась и сахранилась",
+                            'model'=>[
+                                'employeename'=>$model->employeename,
+                                'email'=>$model->email,
+                                'phone'=>$model->phone,
+                                'address'=>$model->address,
+                                'name_position'=>$model->position->name_position
+                            ]
+                    ];
+                    return $items;
+                }else{
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                    $items = ['0','msg'=>"Модель не загрузилась и не сахранилась", 'model'=>$model->getErrors()];
+                    return $items;
+                }                     
             }else{
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;            
                 $items = [0,'msg'=>"Данные не обнаружены на сервере. Попробуйте заново."];
@@ -138,25 +149,6 @@ class UserController extends Controller
         }else{
             return $this->redirect(['index']);
         }
-        
-        /*
-        $model = $this->findModel($id);
-        //$modelUser = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->save()){
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-         * 
-            $model = $this->findModelAJAX();
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;            
-            $items = ['some', 'array', 'of', 'data' => ['associative', 'array']];
-            return $items;
-         * 
-         * 
-         */
     }
     protected function findModelAJAX($id)
     {   

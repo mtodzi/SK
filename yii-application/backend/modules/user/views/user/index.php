@@ -80,10 +80,10 @@ $this->title = Yii::t('app', 'Персонал');
                                             "<img class='user_photo bg-secondary mx-2' src='".Url::to(['/img/6170248_xlarge.jpg'])."' class='align-self-start mr-3' alt='...'>".
                                         "</div>".
                                         "<div id='user_data-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' >".                
-                                            "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - ".$model->position->name_position."</h5>".
-                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'>".$model->email."</p>".
-                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'>".$model->phone."</p>".
-                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'>".$model->address."</p>".
+                                            "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
+                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
+                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
+                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
                                         "</div>".                                   
                                         "<div id='user_data_edit-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' style='display: none;'>".
                                             "<div id='user_alert_server-".$model->id."' class='alert alert-danger' role='alert' style='display: none;'>".
