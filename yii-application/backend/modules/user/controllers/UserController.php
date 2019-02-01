@@ -121,11 +121,32 @@ class UserController extends Controller
      */
     public function actionUpdate()
     {
+        //Проверяе пришедший запрос AJAX
         if(\Yii::$app->request->isAjax){
-            $model = $this->findModelAJAX(Yii::$app->request->post('User')['id']);
-            if(!empty($model)){
+            $buferRole=0;//Переменная которая указывает нужно ли менять роль  сотрудника 0-нет 1-да
+            $old_id_position=0;//переменная хранит id должности сотрудника до изменения 0 если измененй небыло
+            $model = $this->findModelAJAX(Yii::$app->request->post('User')['id']);//вытаскиваем из базы данные сотрудника
+            if(!empty($model)){//Проверяем сушествует ли эти данные в БД
+                $id_position = Yii::$app->request->post('User')['id_position'];//Помешаем в переменную id должности преслонную от пользователя
+                if($id_position != $model->id_position){//Сравнивваем присланный id c тем который в БД если разные
+                    $old_id_position = $model->id_position;//помешаем в переменную тот каторый в БД
+                    $model->id_position = $id_position;//Изменяем занчение id должности в модели из БД на то что прислали
+                    $buferRole++;//увеличаваем на 1 с 0 тем самым закладываем изменение роли у сотрудника из ходя от его должности
+                }
+                //загружаем в модель с данными из БД данные пришедшие от пользователя и сохраняем их в бд и если все ок
                 if ($model->load(Yii::$app->request->post()) && $model->save()){
-                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                    if($buferRole == 1){//проверяем изменялась ли у нас должность 
+                        $arrayIdpositionRole = array(1=>'admin',2=>'manager',3=>'engineer');//Массив сопоставления id должности и роли
+                        //Удаляем роль у сотрудника
+                        $userDeleteRole = Yii::$app->authManager->getRole($arrayIdpositionRole[$old_id_position]);
+                        Yii::$app->authManager->revoke($userDeleteRole, $model->id);
+                        //Добовляем роль сотруднику
+                        $userAddRole = Yii::$app->authManager->getRole($arrayIdpositionRole[$model->id_position]);
+                        Yii::$app->authManager->assign($userAddRole, $model->id);
+                    }
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Формируем массив для передачи
                     $items = ['1','msg'=>"Модель загрузилась и сахранилась",
                             'model'=>[
                                 'employeename'=>$model->employeename,
@@ -135,6 +156,7 @@ class UserController extends Controller
                                 'name_position'=>$model->position->name_position
                             ]
                     ];
+                    //Передаем данные в фармате json пользователю
                     return $items;
                 }else{
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
