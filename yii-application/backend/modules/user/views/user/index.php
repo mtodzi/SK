@@ -16,6 +16,10 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
+            <!--кнопка добавить сотрудника-->
+            <a  id = 'add_new_user' class="nav-link btn btn-dark mx-1 mr-auto" href="#" data-toggle="tooltip" data-placement="right" title="Добавить">
+                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить">
+            </a>
             <form class='form-inline'>
                 <input class='form-control mr-2' type='search' placeholder='Поиск' aria-label='Search'>
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
@@ -24,6 +28,63 @@ $this->title = Yii::t('app', 'Персонал');
     </div>
     <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
     <div class='my_content_bloc col-10'>
+        <!-- пустая карточка --> 
+        <div id='Block_add_user' class="row" style='display: none;'>
+            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1">
+                <div class="my_box">
+                    <div class = "my_box_heder">
+                        <nav class="navbar navbar-light bg-dark rounded-top">
+                            <span class="navbar-brand text-light">Карточка сотрудника</span>
+                            
+                            <!--группировка кнопок в navbar с выравниванием вправо-->
+                                <div class="btn-group ml-auto"> 
+                                <!--кнопка отменить изменения и вернуться-->
+                                    <a id='cancel_add_new_user-0' class="nav-link btn btn-light mx-1" data-toggle="tooltip" data-placement="left" title="Отмена">
+                                        <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/abort.svg'])?>' alt="Отмена">
+                                    </a>
+                                <!--кнопка применить изменения-->
+                                    <a  id='apply_add_new_user-0' class="nav-link btn btn-light user_apply_button" data-toggle="tooltip" data-placement="right" title="Применить">
+                                        <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/accept.svg'])?>' alt="Применить">
+                                    </a>
+                                </div>
+                        
+                        </nav>
+                    </div>             
+                    <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
+                        <div class="row py-2">
+                            <div class="col-10 col-xl-2 col-md-2">
+                                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                            </div>
+                                <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+                                    <form id='form_to_add_user'>
+                                        <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
+                                    </form>
+                                    <h5><p class="form-row my-2 mx-2"> 
+                                        <input id='input_user_employeename-0' name='User[employeename]'  form='form_to_add_user' class="form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12" type="text" placeholder="Введите ФИО нового сотрудника"> - 
+                                            <select id='input_user_id_position-0' form='form_to_add_user' name='User[id_position]' class="form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"> 
+                                                <option selected value='0'>выберите должность</option>
+                                                <option value='3'>инженер</option>
+                                                <option value='2'>менеджер</option>
+                                                <option value='1'>директор</option>
+                                            </select>
+                                    </p>
+                                    </h5>    
+                                    <p id = 'error_user_employeename-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    <p id = 'error_user_id_position-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> <input id='input_user_email-0' name='User[email]' form='form_to_add_user' class="form-control col-10" type="mail" placeholder="Введите адрес электронной почты"> </p>
+                                    <p id = 'error_user_email-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>"> <input id='input_user_phone-0' name='User[phone]'  form='form_to_add_user' class="form-control col-10 phone" type="text"> </p>
+                                    <p id = 'error_user_phone-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>"> <input id='input_user_address-0' name='User[address]' form='form_to_add_user' class="form-control col-10" type="text" placeholder="Введите домашний адрес"> </p>
+                                    <p id = 'error_user_address-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                </div>
+                        
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
@@ -53,22 +114,22 @@ $this->title = Yii::t('app', 'Персонал');
                                         "<span class='navbar-brand text-light'>Карточка сотрудника</span>".
                                         "<div id='user_card_button_edit_archive-".$model->id."' class='btn-group ml-auto'>". 
                                             "<!--кнопка добавить в архив сотрудника-->".
-                                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1' href='".Url::to(['/user/user'])."' data-toggle='tooltip' data-placement='left' title='В архив'>".
+                                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1' data-toggle='tooltip' data-placement='left' title='В архив'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='В архив'>".
                                             "</a>".
                                             "<!--кнопка редактировать сотрудника-->".
-                                            "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' href='".Url::to(['/user/user'])."' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
+                                            "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Применить'>".
                                             "</a>".
                                         "</div>".
                                         "<!--группировка кнопок в navbar с выравниванием вправо-->".
                                         "<div id='user_cancel_button_card_apply-".$model->id."' class='btn-group ml-auto' style='display: none;'>". 
                                             "<!--кнопка отменить изменения и вернуться-->".
-                                            "<a id='user_cancel_button-".$model->id."' class='nav-link btn btn-light mx-1 user_cancel_button' href='".Url::to(['/user/user'])."' data-toggle='tooltip' data-placement='left' title='Отмена'>".
+                                            "<a id='user_cancel_button-".$model->id."' class='nav-link btn btn-light mx-1 user_cancel_button' data-toggle='tooltip' data-placement='left' title='Отмена'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".
                                             "</a>".
                                             "<!--кнопка применить изменения-->".
-                                            "<a id='user_apply_button-".$model->id."' class='nav-link btn btn-light user_apply_button' href='".Url::to(['/user/user'])."' dataser_butt-toggle='tooltip' data-placement='right' title='Применить'>".
+                                            "<a id='user_apply_button-".$model->id."' class='nav-link btn btn-light user_apply_button' dataser_butt-toggle='tooltip' data-placement='right' title='Применить'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
                                             "</a>".
                                         "</div>".

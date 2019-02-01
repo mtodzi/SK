@@ -69,8 +69,8 @@ $('#buttonMenu').click(function(){
             return false;
         }    
     });
-    //Обработчик нажатия кнопки применить в userbox
-    $('.userbox').on('click', '.user_apply_button', function(){
+    //Обработка нажатия кнопки применить в userbox
+    $('.my_content_bloc').on('click', '.user_apply_button', function(){
         console.log(this);
         var status_card = Number($('#status_card').val());
         console.log(status_card);
@@ -82,41 +82,61 @@ $('#buttonMenu').click(function(){
             console.log($('#input_user_employeename-'+id).val());
             $('#span_user_alert_server-'+id).text('');
             $('#user_alert_server-'+id).css('display', 'none');
-            if(true/*validationUser(id)*/){
+            if(validationUser(id)){
                 var data = $('#form-update_user-'+id).serialize();
                 console.log(data);
                 сleanErrorServerTreatment(id)
-                $.ajax({
-                    url: '/yii-application/backend/web/user/user/update',
-                    type: 'POST',
-                    data: data,
-                    success: function(res){
-                        if(res[0]!=0){
-                            console.log(res);
-                            addUserCardDataServer(res['model'],id)
-                            $('#user_card_button_edit_archive-'+id).css('display', 'flex');//Показываем группу кнопок редактировать в архив
-                            $('#user_data-'+id).css('display', 'block');//
-                            $('#user_cancel_button_card_apply-'+id).css('display', 'none');// 
-                            $('#user_data_edit-'+id).css('display', 'none');
-                            $('#status_card').val(0);
-                            $('#status_card').attr('data-user-card', '');
-                            return false;
-                        }else{
-                            console.log(res);
-                            $('#span_user_alert_server-'+id).text(res['msg']);
-                            $('#user_alert_server-'+id).css('display', 'block');
-                            errorServerTreatment(res['model'],id);
-                            return false;
-                        }    
-                    },
-                    error: function(){
-                        alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                    }
-                });
-                
-                
-                return false;
-                
+                if(id==0){
+                    alert("Отправил на создание");
+                    /*
+                     $.ajax({
+                        url: '#',//'/yii-application/backend/web/user/user/update',
+                        type: 'POST',
+                        data: data,
+                        success: function(res){
+                            if(res[0]!=0){
+                                
+                            }else{
+                                
+                            }    
+                        },
+                        error: function(){
+                            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                        }
+                    });
+                     * 
+                     */
+                    return false;
+                }else{
+                    $.ajax({
+                        url: '/yii-application/backend/web/user/user/update',
+                        type: 'POST',
+                        data: data,
+                        success: function(res){
+                            if(res[0]!=0){
+                                console.log(res);
+                                addUserCardDataServer(res['model'],id)
+                                $('#user_card_button_edit_archive-'+id).css('display', 'flex');//Показываем группу кнопок редактировать в архив
+                                $('#user_data-'+id).css('display', 'block');//
+                                $('#user_cancel_button_card_apply-'+id).css('display', 'none');// 
+                                $('#user_data_edit-'+id).css('display', 'none');
+                                $('#status_card').val(0);
+                                $('#status_card').attr('data-user-card', '');
+                                return false;
+                            }else{
+                                console.log(res);
+                                $('#span_user_alert_server-'+id).text(res['msg']);
+                                $('#user_alert_server-'+id).css('display', 'block');
+                                errorServerTreatment(res['model'],id);
+                                return false;
+                            }    
+                        },
+                        error: function(){
+                            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                        }
+                    });
+                    return false;
+                }
             }else{
                 return false;
             } 
@@ -150,11 +170,27 @@ $('#buttonMenu').click(function(){
         //Сбрасываем ошибку к полю адрес
         $('#error_user_address-'+id).text('');
         $('#error_user_address-'+id).css('display', 'none');
-        //Начинаем Проверки полей
-        //Проеверяет сушествует ли значение в поле ФИО
+        if(id==0){
+            //Сбрасываем ошибку к полю должность
+            $('#error_user_id_position-'+id).text('');
+            $('#error_user_id_position-'+id).css('display', 'none');
+        }
+        //Начинаем проверки полей
+        //Проеверяем существует ли значение в поле ФИО
         if(!empty($('#input_user_employeename-'+id).val())){
             $('#input_user_employeename-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
-            //Проверяем сушествует ли значение в поле email
+            //Проверям добавление нового сатрудника или редактирование старого
+            if(id==0){
+                if(empty($('#input_user_id_position-'+id).val())){
+                    console.log($('#input_user_id_position-'+id).val());
+                    //если поле должность пустое
+                    $('#error_user_id_position-'+id).text('Вы не выбрали должность! Выберете!');//Добавляем текст ошибки
+                    $('#error_user_id_position-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                    $('#input_user_id_position-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                    return false;
+                }
+            }
+            //Проверяем существует ли значение в поле email
             if(!empty($('#input_user_email-'+id).val())){
                 $('#input_user_employeename-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
                 console.log($('#input_user_email-'+id).val());
@@ -162,43 +198,43 @@ $('#buttonMenu').click(function(){
                 if(!emailEmpty($('#input_user_email-'+id).val())){
                     $('#input_user_employeename-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
                     console.log("Значение инпута телефон:"+$('#input_user_phone-'+id).val());
-                    //Проверяем сушествуетли значение в поле телефон
+                    //Проверяем существует ли значение в поле телефон
                     if(!empty($('#input_user_phone-'+id).val())){
                         $('#input_user_phone-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
-                        //Проверяем сушествуетли значение в поле Адрес
+                        //Проверяем существует ли значение в поле адрес
                         if(!empty($('#input_user_address-'+id).val())){
                             $('#input_user_address-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
-                            return true;//Возврашаем правду если все проверки пройденны
+                            return true;//Возврашаем true если все проверки пройденны
                         }else{
-                            //если адресс пуст
+                            //если поле адресс пустое
                             $('#error_user_address-'+id).text('Вы не заполнили поле адреса! Заполните!');//Добавляем текст ошибки
                             $('#error_user_address-'+id).css('display', 'block');//Блок ошибки показываем пользователю
                             $('#input_user_address-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                             return false;
                         }
                     }else{
-                        //если поле телефон пуст
+                        //если поле телефон пустое
                         $('#error_user_phone-'+id).text('Вы не заполнили поле телефон! Заполните!');//Добавляем текст ошибки
                         $('#error_user_phone-'+id).css('display', 'block');//Блок ошибки показываем пользователю
                         $('#input_user_phone-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                         return false;
                     }                    
                 }else{
-                    //если email не провильно введен
+                    //если email не правильно введен
                     $('#error_user_email-'+id).text('Вы неправильно ввели почту!');//Добавляем текст ошибки
                     $('#error_user_email-'+id).css('display', 'block');//Блок ошибки показываем пользователю
                     $('#input_user_email-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                     return false;
                 }    
             }else{
-                //если поле email пуст
+                //если поле email пустое
                 $('#error_user_email-'+id).text('Вы оставили пустым поле Почты! Заполните.');//Добавляем текст ошибки
                 $('#error_user_email-'+id).css('display', 'block');//Блок ошибки показываем пользователю
                 $('#input_user_email-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                 return false;
             }    
         }else{
-            //если поле ФИО пуст
+            //если поле ФИО пустое
             $('#error_user_employeename-'+id).text('Вы оставили пустым поле ФИО! Заполните.');//Добавляем текст ошибки
             $('#error_user_employeename-'+id).css('display', 'block');//Блок ошибки показываем пользователю
             $('#input_user_employeename-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
@@ -212,7 +248,7 @@ $('#buttonMenu').click(function(){
     }
     //Функция обработки полученных ошибок с сервера
     function errorServerTreatment(res,id){
-        //переберает поля с данными присланные с сервера
+        //перебирает поля с данными, присланные с сервера
         $.each(res,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
             $('#error_user_'+index.toString()+'-'+id).text(value.toString());//Добавляем текст ошибки
@@ -221,25 +257,45 @@ $('#buttonMenu').click(function(){
         });
         return false;
     }
-    //Функция которае очишает и убирает поля ошибок перед повторной отправкой на сервер
+    //Функция которая очишает и убирает поля ошибок перед повторной отправкой на сервер
     function сleanErrorServerTreatment(id){
         var res = ['employeename','email','phone','address'];
         //переберает поля с данными присланные с сервера
         $.each(res,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
             $('#error_user_'+value.toString()+'-'+id).text('');//Убирает текст ошибки
-            $('#error_user_'+value.toString()+'-'+id).css('display', 'none');//Блок ошибки скрываем от  пользователю
+            $('#error_user_'+value.toString()+'-'+id).css('display', 'none');//Блок ошибки скрываем от  пользователя
             $('#input_user_'+value.toString()+'-'+id).removeClass('is-invalid');//Убираем окрашивание у поля где ошибка была
         });
         return false;
     }
-    //Функция применяет полученные данные с сервера о обаляет карточку
+    //Функция применяет полученные данные с сервера о обновляет карточку
     function addUserCardDataServer(res,id){
-        //переберает поля с данными присланные с сервера
+        //перебирает поля с данными присланные с сервера
         $.each(res,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
             $('#span_user_'+index.toString()+'-'+id).text(value.toString());//Заменяем текст в карточке на текст присланный с сервера
         });
         return false;
     }
+    // Обработчик нажатия кнопки добавить нового сотрудника
+    $('.my_heders_bloc').on('click', '#add_new_user', function(){
+         var status_card = Number($('#status_card').val());
+        console.log(status_card);
+        if(status_card == 0){
+            $('#Block_add_user').css('display', 'flex'); 
+            var employeename = 'нового сотрудника'
+            $('#status_card').val(1);
+            $('#status_card').attr('data-user-card', employeename);
+         return false;
+        }
+        
+        else{
+            var employeename = $('#status_card').attr('data-user-card');
+            console.log(employeename);
+            alert('Вы уже редактируете '+employeename);
+            return false;
+        }
+    });
+    
 //конец обработки данных модуля user
