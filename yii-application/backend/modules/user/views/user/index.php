@@ -93,7 +93,7 @@ $this->title = Yii::t('app', 'Персонал');
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
                     $position = backend\modules\user\models\Position::find()->all();
-                    $select = "<select name='User[id_position]' form='form-update_user-".$model->id."' class='form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12'>";
+                    $select = "<select name='UserEdit[id_position]' form='form-update_user-".$model->id."' class='form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12'>";
                     foreach ($position as $data){
                         if($data->id != $model->id_position){
                             $select = $select."<option value = '".$data->id."'>".$data->name_position."</option>";  
@@ -106,7 +106,7 @@ $this->title = Yii::t('app', 'Персонал');
                         "<div class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1'>".
                             "<form id='form-update_user-".$model->id."'>".
                             Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
-                            Html :: hiddenInput('User[id]', $model->id, []).
+                            Html :: hiddenInput('UserEdit[id]', $model->id, []).
                             "</form>".
                             "<div id='user_box-".$model->id."' class='my_box userbox'>".
                                 "<div class = 'my_box_heder'>".
@@ -151,17 +151,28 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "<span id='span_user_alert_server-".$model->id."'>Ошибка<span>".
                
                                             "</div>".
-                                            "<h5><p class='form-row my-2 mx-2'> <input id='input_user_employeename-".$model->id."' name='User[employeename]' form='form-update_user-".$model->id."' class='form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12' type='text' value='".$model->employeename."'> - ".
+                                            "<h5><p class='form-row my-2 mx-2'> <input id='input_user_employeename-".$model->id."' name='UserEdit[employeename]' form='form-update_user-".$model->id."' class='form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12' type='text' value='".$model->employeename."'> - ".
                                             $select.
                                             "</p>".
                                             "</h5>".
                                             "<p id = 'error_user_employeename-".$model->id."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
-                                            "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/mail.svg'])."'> <input id='input_user_email-".$model->id."' name='User[email]' form='form-update_user-".$model->id."' class='form-control col-10' type='mail' value='".$model->email."'> </p>".
+                                            "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/mail.svg'])."'> <input id='input_user_email-".$model->id."' name='UserEdit[email]' form='form-update_user-".$model->id."' class='form-control col-10' type='mail' value='".$model->email."'> </p>".
                                             "<p id = 'error_user_email-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
-                                            "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'> <input id='input_user_phone-".$model->id."' name='User[phone]' form='form-update_user-".$model->id."' class='form-control col-10  phone' type='text' value='".$model->phone."'></p>".
+                                            "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'> <input id='input_user_phone-".$model->id."' name='UserEdit[phone]' form='form-update_user-".$model->id."' class='form-control col-10  phone' type='text' value='".$model->phone."'></p>".
                                             "<p id = 'error_user_phone-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
-                                            "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/home.svg'])."'> <input id='input_user_address-".$model->id."' name='User[address]' form='form-update_user-".$model->id."' class='form-control col-10' type='text' value='".$model->address."'> </p>".
+                                            "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/home.svg'])."'> <input id='input_user_address-".$model->id."' name='UserEdit[address]' form='form-update_user-".$model->id."' class='form-control col-10' type='text' value='".$model->address."'> </p>".
                                             "<p id = 'error_user_address-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
+                                            "<div class='form-check mx-4'> ".
+                                                    "<input class='form-check-input'  type='checkbox' id='check_user_pass_change-".$model->id."'>".
+                                                    "<input class='form-check-input' name='check_user_pass_change' form='form-update_user-".$model->id."' value='0' type='hidden' id='check_user_pass_change_hidden-".$model->id."'>".
+                                                    "<label class='form-check-label' for='defaultCheck1'> сменить пароль </label> ".
+                                            "</div>".
+                                            "<div class='mx-4' id='user_change_pass_block-".$model->id."' style='display: none;'>".
+                                                "<p class='form-row my-2'> <input id='input_user_pass-".$model->id."' name='UserEdit[password]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='задайте пароль'> </p>".
+                                                "<p id = 'error_user_pass-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
+                                                "<p class='form-row my-2'> <input id='input_user_prePass-".$model->id."' name='UserEdit[prePassword]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='подтверждение пароля'> </p>".
+                                                "<p id = 'error_user_prePass-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
+                                            "</div>".
                                         "</div>".
                                     "</div>".    
                                 "</div>".

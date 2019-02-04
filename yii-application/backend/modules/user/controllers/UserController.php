@@ -124,7 +124,42 @@ class UserController extends Controller
     {
         //Проверяе пришедший запрос AJAX
         if(\Yii::$app->request->isAjax){
-            $model = new UserEdit(['scenario' => UserEdit::SCENARIO_PASSWORD]);
+            if(Yii::$app->request->post('check_user_pass_change')==0){
+                $model = new UserEdit(['scenario' => UserEdit::SCENARIO_NO_PASSWORD]);                
+            }else{
+                $model = new UserEdit(['scenario' => UserEdit::SCENARIO_PASSWORD]);    
+            }
+            if ($model->load(Yii::$app->request->post()) && $model->validate()){
+                    $model = $model->update();
+                    if(!empty($model)){
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Формируем массив для передачи
+                        $items = ['1','msg'=>"Модель загрузилась и сахранилась",
+                            'model'=>[
+                                'employeename'=>$model->employeename,
+                                'email'=>$model->email,
+                                'phone'=>$model->phone,
+                                'address'=>$model->address,
+                                'name_position'=>$model->position->name_position
+                            ]
+                        ];
+                        //Передаем данные в фармате json пользователю
+                        return $items;                     
+                    }else{
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                        $items = ['0','msg'=>"Пользователь отсутствует в базе данных." ];
+                        return $items;
+                    }
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                    $items = ['0','msg'=>"Не пароль", 'modeltest'=>$model];
+                    return $items;
+                }else{
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                    $items = ['0','msg'=>"Модель не загрузилась и не сахранилась", 'model'=>$model->getErrors()];
+                    return $items;
+                }
+            
             /*
             $buferRole=0;//Переменная которая указывает нужно ли менять роль  сотрудника 0-нет 1-да
             $old_id_position=0;//переменная хранит id должности сотрудника до изменения 0 если измененй небыло

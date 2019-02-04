@@ -82,7 +82,7 @@ $('#buttonMenu').click(function(){
             console.log($('#input_user_employeename-'+id).val());
             $('#span_user_alert_server-'+id).text('');
             $('#user_alert_server-'+id).css('display', 'none');
-            if(validationUser(id)){
+            if(true/*validationUser(id)*/){
                 var data = $('#form-update_user-'+id).serialize();
                 console.log(data);
                 сleanErrorServerTreatment(id)
@@ -128,6 +128,7 @@ $('#buttonMenu').click(function(){
                                 $('#span_user_alert_server-'+id).text(res['msg']);
                                 $('#user_alert_server-'+id).css('display', 'block');
                                 errorServerTreatment(res['model'],id);
+                                console.log(res['modeltest']);
                                 return false;
                             }    
                         },
@@ -170,6 +171,12 @@ $('#buttonMenu').click(function(){
         //Сбрасываем ошибку к полю адрес
         $('#error_user_address-'+id).text('');
         $('#error_user_address-'+id).css('display', 'none');
+        //Сбрасываем ошибку к полю пароль
+        $('#error_user_pass-'+id).text('');
+        $('#error_user_pass-'+id).css('display', 'none');
+        //Сбрасываем ошибку к полю повторный ввод пароля
+        $('#error_user_prePass-'+id).text('');
+        $('#error_user_prePass-'+id).css('display', 'none');
         if(id==0){
             //Сбрасываем ошибку к полю должность
             $('#error_user_id_position-'+id).text('');
@@ -203,8 +210,39 @@ $('#buttonMenu').click(function(){
                         $('#input_user_phone-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
                         //Проверяем существует ли значение в поле адрес
                         if(!empty($('#input_user_address-'+id).val())){
-                            $('#input_user_address-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
-                            return true;//Возврашаем true если все проверки пройденны
+                            $('#input_user_address-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный                        
+                            if($('#check_user_pass_change-'+id).is(':checked')){
+                                $('#input_user_pass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
+                                if(!empty($('#input_user_pass-'+id).val())){
+                                   $('#input_user_prePass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
+                                   if(!empty($('#input_user_prePass-'+id).val())){
+                                        if(($('#input_user_pass-'+id).val()).localeCompare($('#input_user_prePass-'+id).val())==0){  
+                                            return true; //Возврашаем true если все проверки пройденны
+                                        }else{
+                                            //если поле смены пароля пустое
+                                            $('#error_user_prePass-'+id).text('Введеные пароли не совпадают. Повторите ввод!');//Добавляем текст ошибки
+                                            $('#error_user_prePass-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                                            $('#input_user_prePass-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                                            return false;
+                                        }
+                                   }else{
+                                        //если поле смены пароля пустое
+                                        $('#error_user_prePass-'+id).text('Вы не заполнили поле повторного ввода! Заполните!');//Добавляем текст ошибки
+                                        $('#error_user_prePass-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                                        $('#input_user_prePass-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                                        return false;
+                                   }    
+                                }else{
+                                    //если поле смены пароля пустое
+                                    $('#error_user_pass-'+id).text('Вы не заполнили поле пароль! Заполните!');//Добавляем текст ошибки
+                                    $('#error_user_pass-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                                    $('#input_user_pass-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                                    return false;
+                                    
+                                }
+                            }else{
+                                return true; //Возврашаем true если все проверки пройденны
+                            }
                         }else{
                             //если поле адресс пустое
                             $('#error_user_address-'+id).text('Вы не заполнили поле адреса! Заполните!');//Добавляем текст ошибки
@@ -288,14 +326,40 @@ $('#buttonMenu').click(function(){
             $('#status_card').val(1);
             $('#status_card').attr('data-user-card', employeename);
          return false;
-        }
-        
-        else{
+        }else{
             var employeename = $('#status_card').attr('data-user-card');
             console.log(employeename);
             alert('Вы уже редактируете '+employeename);
             return false;
         }
     });
+    
+   $('.my_box_content').on('click', '.form-check-input', function(){ 
+       var buffer = this.id.split('-');
+       console.log(buffer);
+       var id = buffer[1];
+       console.log(id); 
+      if ($('#check_user_pass_change-'+id).is(':checked')){
+            //alert('Включен');
+            $('#check_user_pass_change_hidden-'+id).val(1); 
+            $('#user_change_pass_block-'+id).css('display', 'block'); 
+        }else{
+           //alert('Выключен');
+           $('#check_user_pass_change_hidden-'+id).val(0);
+           $('#user_change_pass_block-'+id).css('display', 'none');
+           //console.log( $('#input_user_pass-'+id));
+           $('#input_user_pass-'+id).val('');
+           $('#input_user_prePass-'+id).val('');
+           //Сбрасываем ошибку к полю пароль
+            $('#error_user_pass-'+id).text('');
+            $('#error_user_pass-'+id).css('display', 'none');
+            $('#input_user_pass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
+            //Сбрасываем ошибку к полю повторный ввод пароля
+            $('#error_user_prePass-'+id).text('');
+            $('#error_user_prePass-'+id).css('display', 'none');
+            $('#input_user_prePass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный        
+        }
+      
+   });
     
 //конец обработки данных модуля user
