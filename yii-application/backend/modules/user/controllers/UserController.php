@@ -5,6 +5,7 @@ namespace app\modules\user\controllers;
 use Yii;
 use common\models\User;
 use backend\modules\user\models\SignupForm;
+use backend\modules\user\models\UserEdit;
 use backend\modules\user\models\Changepassword;
 use backend\modules\user\models\AsktheEmployeeRole;
 use backend\models\AddRole;
@@ -123,6 +124,8 @@ class UserController extends Controller
     {
         //Проверяе пришедший запрос AJAX
         if(\Yii::$app->request->isAjax){
+            $model = new UserEdit(['scenario' => UserEdit::SCENARIO_PASSWORD]);
+            /*
             $buferRole=0;//Переменная которая указывает нужно ли менять роль  сотрудника 0-нет 1-да
             $old_id_position=0;//переменная хранит id должности сотрудника до изменения 0 если измененй небыло
             $model = $this->findModelAJAX(Yii::$app->request->post('User')['id']);//вытаскиваем из базы данные сотрудника
@@ -168,6 +171,8 @@ class UserController extends Controller
                 $items = [0,'msg'=>"Данные не обнаружены на сервере. Попробуйте заново."];
                 return $items;
             }
+             * 
+             */
         }else{
             return $this->redirect(['index']);
         }

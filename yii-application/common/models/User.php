@@ -54,23 +54,6 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот адрес электронной почты уже занят.'],
-            
-            ['employeename', 'filter', 'filter' => 'trim'],
-            ['employeename', 'required'],
-            ['employeename', 'string', 'max' => 255],
-            
-            
-            ['phone', 'required'],
-            ['phone', 'string', 'max' => 255],
-            
-            ['address', 'filter', 'filter' => 'trim'],
-            ['address', 'required'],
-            ['address', 'string', 'max' => 255],
         ];
     }
 
@@ -227,18 +210,5 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(\backend\modules\user\models\Position::className(), ['id' => 'id_position']);
     }
     
-    public function attributeLabels() {
-        return
-        [
-            'email' => 'Почта',
-            'employeename'=>'ФИО',
-            'phone'=>'Телефон',
-            'address' =>'Адрес',
-            'created_at' => 'Дата создания',
-            'updated_at' => 'Дата редоктирования',
-            'password'=>'Пароль',
-            'prePassword'=>'Проверочный пароль'
-        ];
-    }
     
 }

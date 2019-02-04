@@ -9,8 +9,12 @@ use backend\modules\user\models\Position;
 /**
  * Signup form
  */
-class SignupForm extends Model
+class UserEdit extends Model
 {
+    const SCENARIO_PASSWORD = 'password';
+    const SCENARIO_NO_PASSWORD = 'nopassword';
+    
+    public $id;
     public $email;
     public $employeename;
     public $phone;
@@ -22,6 +26,14 @@ class SignupForm extends Model
     /**
      * @inheritdoc
      */
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_PASSWORD => ['email','employeename','phone','address','password','prePassword','id_position'],
+            self::SCENARIO_NO_PASSWORD => ['email','employeename','phone','address','id_position'],
+        ];
+    }
+    
     public function rules()
     {
         return [
