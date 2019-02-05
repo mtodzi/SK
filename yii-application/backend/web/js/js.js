@@ -82,7 +82,7 @@ $('#buttonMenu').click(function(){
             console.log($('#input_user_employeename-'+id).val());
             $('#span_user_alert_server-'+id).text('');
             $('#user_alert_server-'+id).css('display', 'none');
-            if(true/*validationUser(id)*/){
+            if(validationUser(id)){
                 var data = $('#form-update_user-'+id).serialize();
                 console.log(data);
                 сleanErrorServerTreatment(id)
@@ -172,11 +172,11 @@ $('#buttonMenu').click(function(){
         $('#error_user_address-'+id).text('');
         $('#error_user_address-'+id).css('display', 'none');
         //Сбрасываем ошибку к полю пароль
-        $('#error_user_pass-'+id).text('');
-        $('#error_user_pass-'+id).css('display', 'none');
+        $('#error_user_password-'+id).text('');
+        $('#error_user_password-'+id).css('display', 'none');
         //Сбрасываем ошибку к полю повторный ввод пароля
-        $('#error_user_prePass-'+id).text('');
-        $('#error_user_prePass-'+id).css('display', 'none');
+        $('#error_user_prePassword-'+id).text('');
+        $('#error_user_prePassword-'+id).css('display', 'none');
         if(id==0){
             //Сбрасываем ошибку к полю должность
             $('#error_user_id_position-'+id).text('');
@@ -212,31 +212,31 @@ $('#buttonMenu').click(function(){
                         if(!empty($('#input_user_address-'+id).val())){
                             $('#input_user_address-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный                        
                             if($('#check_user_pass_change-'+id).is(':checked')){
-                                $('#input_user_pass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
-                                if(!empty($('#input_user_pass-'+id).val())){
+                                $('#input_user_password-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
+                                if(!empty($('#input_user_password-'+id).val())){
                                    $('#input_user_prePass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
-                                   if(!empty($('#input_user_prePass-'+id).val())){
-                                        if(($('#input_user_pass-'+id).val()).localeCompare($('#input_user_prePass-'+id).val())==0){  
+                                   if(!empty($('#input_user_prePassword-'+id).val())){
+                                        if(($('#input_user_password-'+id).val()).localeCompare($('#input_user_prePassword-'+id).val())==0){  
                                             return true; //Возврашаем true если все проверки пройденны
                                         }else{
                                             //если поле смены пароля пустое
-                                            $('#error_user_prePass-'+id).text('Введеные пароли не совпадают. Повторите ввод!');//Добавляем текст ошибки
-                                            $('#error_user_prePass-'+id).css('display', 'block');//Блок ошибки показываем пользователю
-                                            $('#input_user_prePass-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                                            $('#error_user_prePassword-'+id).text('Введеные пароли не совпадают. Повторите ввод!');//Добавляем текст ошибки
+                                            $('#error_user_prePassword-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                                            $('#input_user_prePassword-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                                             return false;
                                         }
                                    }else{
                                         //если поле смены пароля пустое
-                                        $('#error_user_prePass-'+id).text('Вы не заполнили поле повторного ввода! Заполните!');//Добавляем текст ошибки
-                                        $('#error_user_prePass-'+id).css('display', 'block');//Блок ошибки показываем пользователю
-                                        $('#input_user_prePass-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                                        $('#error_user_prePassword-'+id).text('Вы не заполнили поле повторного ввода! Заполните!');//Добавляем текст ошибки
+                                        $('#error_user_prePassword-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                                        $('#input_user_prePassword-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                                         return false;
                                    }    
                                 }else{
                                     //если поле смены пароля пустое
-                                    $('#error_user_pass-'+id).text('Вы не заполнили поле пароль! Заполните!');//Добавляем текст ошибки
-                                    $('#error_user_pass-'+id).css('display', 'block');//Блок ошибки показываем пользователю
-                                    $('#input_user_pass-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+                                    $('#error_user_password-'+id).text('Вы не заполнили поле пароль! Заполните!');//Добавляем текст ошибки
+                                    $('#error_user_password-'+id).css('display', 'block');//Блок ошибки показываем пользователю
+                                    $('#input_user_password-'+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
                                     return false;
                                     
                                 }
@@ -297,7 +297,7 @@ $('#buttonMenu').click(function(){
     }
     //Функция которая очишает и убирает поля ошибок перед повторной отправкой на сервер
     function сleanErrorServerTreatment(id){
-        var res = ['employeename','email','phone','address'];
+        var res = ['employeename','email','phone','address','password','prePassword'];
         //переберает поля с данными присланные с сервера
         $.each(res,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
@@ -348,16 +348,16 @@ $('#buttonMenu').click(function(){
            $('#check_user_pass_change_hidden-'+id).val(0);
            $('#user_change_pass_block-'+id).css('display', 'none');
            //console.log( $('#input_user_pass-'+id));
-           $('#input_user_pass-'+id).val('');
-           $('#input_user_prePass-'+id).val('');
+           $('#input_user_password-'+id).val('');
+           $('#input_user_prePassword-'+id).val('');
            //Сбрасываем ошибку к полю пароль
-            $('#error_user_pass-'+id).text('');
-            $('#error_user_pass-'+id).css('display', 'none');
-            $('#input_user_pass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
+            $('#error_user_password-'+id).text('');
+            $('#error_user_password-'+id).css('display', 'none');
+            $('#input_user_password-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
             //Сбрасываем ошибку к полю повторный ввод пароля
-            $('#error_user_prePass-'+id).text('');
-            $('#error_user_prePass-'+id).css('display', 'none');
-            $('#input_user_prePass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный        
+            $('#error_user_prePassword-'+id).text('');
+            $('#error_user_prePassword-'+id).css('display', 'none');
+            $('#input_user_prePassword-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный        
         }
       
    });
