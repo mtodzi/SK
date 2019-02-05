@@ -115,103 +115,65 @@ class UserController extends Controller
     }
 
     /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * Метод редактирует Сотрудника в БД
      */
-    public function actionUpdate()
-    {
+    public function actionUpdate(){
         //Проверяе пришедший запрос AJAX
         if(\Yii::$app->request->isAjax){
+            //Проверяем была ли активирована смена пороля
             if(Yii::$app->request->post('check_user_pass_change')==0){
+                //Если да то выбераем сценарий без ролверки полей пороля
                 $model = new UserEdit(['scenario' => UserEdit::SCENARIO_NO_PASSWORD]);                
             }else{
+                //Если нет то модели выбераем сценарий с проверкой поролей
                 $model = new UserEdit(['scenario' => UserEdit::SCENARIO_PASSWORD]);    
             }
+            //Загружаем данные в обьект и проводим и валидацию
             if ($model->load(Yii::$app->request->post()) && $model->validate()){
-                    $model = $model->update();
-                    if(!empty($model)){
-                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
-                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                        //Формируем массив для передачи
-                        $items = ['1','msg'=>"Модель загрузилась и сахранилась",
-                            'model'=>[
-                                'employeename'=>$model->employeename,
-                                'email'=>$model->email,
-                                'phone'=>$model->phone,
-                                'address'=>$model->address,
-                                'name_position'=>$model->position->name_position
-                            ]
-                        ];
+                //если проверка и загрузка проошла успешно обнавляем наш обьект и ложим туда обьект User
+                //если изменения не применили возвратиться false
+                $model = $model->update();
+                //Проверяем вернулся ли нам обьект
+                if(!empty($model)){
+                    //Если да
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Формируем массив для передачи
+                    $items = ['1','msg'=>"Модель загрузилась и сахранилась",
+                        'model'=>[
+                            'employeename'=>$model->employeename,
+                            'email'=>$model->email,
+                            'phone'=>$model->phone,
+                            'address'=>$model->address,
+                            'name_position'=>$model->position->name_position
+                        ]
+                    ];
                         //Передаем данные в фармате json пользователю
                         return $items;                     
                     }else{
-                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
+                        //если у нас был false 
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
                         $items = ['0','msg'=>"Пользователь отсутствует в базе данных." ];
+                        //Передаем данные в фармате json пользователю
                         return $items;
                     }
-                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
-                    $items = ['0','msg'=>"Не пароль", 'modeltest'=>$model];
-                    return $items;
                 }else{
-                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
-                    $items = ['0','msg'=>"Модель не загрузилась и не сахранилась", 'model'=>$model->getErrors()];
-                    return $items;
-                }
-            
-            /*
-            $buferRole=0;//Переменная которая указывает нужно ли менять роль  сотрудника 0-нет 1-да
-            $old_id_position=0;//переменная хранит id должности сотрудника до изменения 0 если измененй небыло
-            $model = $this->findModelAJAX(Yii::$app->request->post('User')['id']);//вытаскиваем из базы данные сотрудника
-            if(!empty($model)){//Проверяем сушествует ли эти данные в БД
-                $id_position = Yii::$app->request->post('User')['id_position'];//Помешаем в переменную id должности преслонную от пользователя
-                if($id_position != $model->id_position){//Сравнивваем присланный id c тем который в БД если разные
-                    $old_id_position = $model->id_position;//помешаем в переменную тот каторый в БД
-                    $model->id_position = $id_position;//Изменяем занчение id должности в модели из БД на то что прислали
-                    $buferRole++;//увеличаваем на 1 с 0 тем самым закладываем изменение роли у сотрудника из ходя от его должности
-                }
-                //загружаем в модель с данными из БД данные пришедшие от пользователя и сохраняем их в бд и если все ок
-                if ($model->load(Yii::$app->request->post()) && $model->save()){
-                    if($buferRole == 1){//проверяем изменялась ли у нас должность 
-                        $arrayIdpositionRole = array(1=>'admin',2=>'manager',3=>'engineer');//Массив сопоставления id должности и роли
-                        //Удаляем роль у сотрудника
-                        $userDeleteRole = Yii::$app->authManager->getRole($arrayIdpositionRole[$old_id_position]);
-                        Yii::$app->authManager->revoke($userDeleteRole, $model->id);
-                        //Добовляем роль сотруднику
-                        $userAddRole = Yii::$app->authManager->getRole($arrayIdpositionRole[$model->id_position]);
-                        Yii::$app->authManager->assign($userAddRole, $model->id);
-                    }
+                    //Если данные на загрузились в обьект и не прошли валидацию
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
-                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                    //Формируем массив для передачи
-                    $items = ['1','msg'=>"Модель загрузилась и сахранилась",
-                            'model'=>[
-                                'employeename'=>$model->employeename,
-                                'email'=>$model->email,
-                                'phone'=>$model->phone,
-                                'address'=>$model->address,
-                                'name_position'=>$model->position->name_position
-                            ]
-                    ];
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>"У вас ошибка в заполненных полях", 'model'=>$model->getErrors()];
                     //Передаем данные в фармате json пользователю
                     return $items;
-                }else{
-                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;                
-                    $items = ['0','msg'=>"Модель не загрузилась и не сахранилась", 'model'=>$model->getErrors()];
-                    return $items;
-                }                     
-            }else{
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;            
-                $items = [0,'msg'=>"Данные не обнаружены на сервере. Попробуйте заново."];
-                return $items;
-            }
-             * 
-             */
+                }
         }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
             return $this->redirect(['index']);
         }
     }
+    
     protected function findModelAJAX($id)
     {   
         if (($model = User::findOne($id)) !== null) {

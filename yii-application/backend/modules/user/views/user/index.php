@@ -168,10 +168,10 @@ $this->title = Yii::t('app', 'Персонал');
                                                     "<label class='form-check-label' for='defaultCheck1'> сменить пароль </label> ".
                                             "</div>".
                                             "<div class='mx-4' id='user_change_pass_block-".$model->id."' style='display: none;'>".
-                                                "<p class='form-row my-2'> <input id='input_user_pass-".$model->id."' name='UserEdit[password]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='задайте пароль'> </p>".
-                                                "<p id = 'error_user_pass-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
-                                                "<p class='form-row my-2'> <input id='input_user_prePass-".$model->id."' name='UserEdit[prePassword]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='подтверждение пароля'> </p>".
-                                                "<p id = 'error_user_prePass-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
+                                                "<p class='form-row my-2'> <input id='input_user_password-".$model->id."' name='UserEdit[password]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='задайте пароль'> </p>".
+                                                "<p id = 'error_user_password-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
+                                                "<p class='form-row my-2'> <input id='input_user_prePassword-".$model->id."' name='UserEdit[prePassword]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='подтверждение пароля'> </p>".
+                                                "<p id = 'error_user_prePassword-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
                                             "</div>".
                                         "</div>".
                                     "</div>".    
