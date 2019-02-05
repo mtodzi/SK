@@ -16,7 +16,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
-            <!--кнопка добавить сотрудника-->
+            кнопка добавить сотрудника
             <a  id = 'add_new_user' class="nav-link btn btn-dark mx-1 mr-auto" href="#" data-toggle="tooltip" data-placement="right" title="Добавить">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить">
             </a>
