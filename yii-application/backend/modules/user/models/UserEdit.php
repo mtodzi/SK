@@ -6,9 +6,7 @@ use yii\base\Model;
 use Yii;
 use backend\modules\user\models\Position;
 
-/**
- * Signup form
- */
+
 class UserEdit extends Model
 {
     const SCENARIO_PASSWORD = 'password';
@@ -46,6 +44,7 @@ class UserEdit extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот адрес электронной почты уже занят.'],
             
             ['employeename', 'filter', 'filter' => 'trim'],
             ['employeename', 'required'],
@@ -72,9 +71,7 @@ class UserEdit extends Model
     }
 
     /**
-     * Signs user up.
-     *
-     * @return User|null the saved model or null if saving fails
+     * Метод добавляет нового соьрудника в БД
      */
     public function create_new_user()
     {
@@ -94,6 +91,9 @@ class UserEdit extends Model
         }
         return false;
     }
+    /*
+     * Метод редоктирует сотрудника
+     */
     public function update(){
         if (($user = User::findOne($this->id)) !== null) {
             $buferRole=0;//Переменная которая указывает нужно ли менять роль  сотрудника 0-нет 1-да
@@ -135,8 +135,8 @@ class UserEdit extends Model
         return
         [
             'username'=>'Логин',
-            'email'=>'Почта Работника',
-            'employeename'=>'ФИО Работника',
+            'email'=>'Почта',
+            'employeename'=>'ФИО',
             'phone'=>'Телефон',
             'password'=>'Пароль',
             'address'=>'Адрес',

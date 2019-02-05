@@ -39,7 +39,7 @@ $this->title = Yii::t('app', 'Персонал');
                             <!--группировка кнопок в navbar с выравниванием вправо-->
                                 <div class="btn-group ml-auto"> 
                                 <!--кнопка отменить изменения и вернуться-->
-                                    <a id='cancel_add_new_user-0' class="nav-link btn btn-light mx-1" data-toggle="tooltip" data-placement="left" title="Отмена">
+                                    <a id='user_cancel_button-0' class="nav-link btn btn-light mx-1 user_cancel_button" data-toggle="tooltip" data-placement="left" title="Отмена">
                                         <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/abort.svg'])?>' alt="Отмена">
                                     </a>
                                 <!--кнопка применить изменения-->
@@ -103,9 +103,9 @@ $this->title = Yii::t('app', 'Персонал');
                     $select = "<select name='UserEdit[id_position]' form='form-update_user-".$model->id."' class='form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12'>";
                     foreach ($position as $data){
                         if($data->id != $model->id_position){
-                            $select = $select."<option value = '".$data->id."'>".$data->name_position."</option>";  
+                            $select = $select."<option id='option_select_".$data->name_position."-".$model->id."' value = '".$data->id."'>".$data->name_position."</option>";  
                         }else{
-                            $select = $select."<option selected value = '".$data->id."'>".$data->name_position."</option>";
+                            $select = $select."<option selected id='option_select_".$data->name_position."-".$model->id."' value = '".$data->id."'>".$data->name_position."</option>";
                         }
                     }
                     $select = $select."</select>";  

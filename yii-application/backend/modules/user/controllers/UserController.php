@@ -58,10 +58,7 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
-     * @return mixed
-     * 'view','create','update','delete','changepassword',
-                            'createrole','asktheemployeerole','deletingauserrole'
+     * Метод выводить все карточки сотрудников из БД
      */
     public function actionIndex()
     {
@@ -75,40 +72,31 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * Метод создает нового сотрудника в БД
      */
     public function actionCreate()
     {
+        //Проверяе пришедший запрос AJAX
         if(\Yii::$app->request->isAjax){
-            $model = new UserEdit(['scenario' => UserEdit::SCENARIO_CREATE_NEW_USER]);   
+            //Если создаем обьект UserEdit со сценарием SCENARIO_CREATE_NEW_USER
+            $model = new UserEdit(['scenario' => UserEdit::SCENARIO_CREATE_NEW_USER]);
+            //Проверяем загрузились ли данные в модель и проводим их валидацию
             if ($model->load(Yii::$app->request->post()) && $model->validate()){
-            $model = $model->create_new_user();
+                //Если дда то вызываем метод модели по созданию нового сотрудника в бд
+                $model = $model->create_new_user();
                 //Проверяем вернулся ли нам обьект
                 if(!empty($model)){
+                    //если модель сушествуем формируем карточку в HTML и передаем пользователю
                     return $this->renderAjax('create',['model'=>$model]);          
-                    }else{
-                        //если у нас был false 
-                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
-                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                        //Фармируем массив с ошибкой
-                        $items = ['0','msg'=>"Пользователь не сохранен по неизвестной причине." ];
-                        //Передаем данные в фармате json пользователю
-                        return $items;
-                    }    
+                }else{
+                    //если у нас был false 
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>"Пользователь не сохранен по неизвестной причине." ];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }    
             }else{
                 //Если данные на загрузились в обьект и не прошли валидацию
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
@@ -119,6 +107,7 @@ class UserController extends Controller
                 return $items;
             }
         }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
             return $this->redirect(['index']);  
         }
         
@@ -193,89 +182,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-    
-    public function actionChangepassword($id){
-        $modelUser = new Changepassword();
-        $model= $this->findModel($id);
-        if($modelUser->load(Yii::$app->request->post())){
-           $model = $modelUser->signup();
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-        return $this->render('changepassword', [
-            'model' => $model, 'modelUser'=>$modelUser   
-            ]);
-    }
-
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    
-    public function actionCreaterole(){
-        $role = new AddRole();
-        
-        if($role->load(Yii::$app->request->post()) && $role->validate()){
-            
-            $role->roleSave();
-            Yii::$app->session->setFlash('success', 'Роль была добавлена');
-            return $this->refresh();
-              
-        }
-        
-        return $this->render('addFormRole',['role'=>$role]);
-    }
-    
-    public function actionCreatepermission(){
-        $permission = new AddPermission();
-        
-        if($permission->load(Yii::$app->request->post()) && $permission->validate()){
-            
-            $permission->permissionSave();
-            Yii::$app->session->setFlash('success', 'Разрешение была добавлена');
-            return $this->refresh();
-              
-        }
-        
-        return $this->render('addFormPermission',['permission'=>$permission]);
-    }
-    
-    public function actionAsktheemployeerole($id){
-        $modelUser = $this->findModel($id);
-        $model = new AsktheEmployeeRole();
-        if($model->load(Yii::$app->request->post())){
-            $modelUser = $model->employeeRole();
-            //$modelUser = $this->findModel($id);
-            return $this->redirect(['view', 'id' => $modelUser->id]);
-        }
-        return $this->render('asktheemployeerole',
-                                ['modelUser'=>$modelUser, 'model'=>$model]);
-    }
-    public function  actionDeletingauserrole($id){
-        $modelUser = $this->findModel($id);
-        $model = new AsktheEmployeeRole();
-        if($model->load(Yii::$app->request->post())){
-            $modelUser = $model->deleteRole();
-            //$modelUser = $this->findModel($id);
-            return $this->redirect(['view', 'id' => $modelUser->id]);
-        }
-        return $this->render('deletingauserrole',
-                                ['modelUser'=>$modelUser, 'model'=>$model]);   
-    }
     public function actionFoto($id){
         $model = $this->findModel($id);
         return $this->render('foto',['model'=>$model]);

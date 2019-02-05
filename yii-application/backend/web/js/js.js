@@ -51,7 +51,7 @@ $('#buttonMenu').click(function(){
         
     });
     //Обработчик нажатия кнопки отмена в userbox
-    $('.userbox').on('click', '.user_cancel_button', function(){
+    $('.my_content_bloc').on('click', '.user_cancel_button', function(){
         console.log(this);
         var status_card = Number($('#status_card').val());
         console.log(status_card);
@@ -60,17 +60,26 @@ $('#buttonMenu').click(function(){
             console.log(buffer);
             var id = buffer[1];
             console.log(id);
-            $('#user_card_button_edit_archive-'+id).css('display', 'flex');
-            $('#user_data-'+id).css('display', 'block');
-            $('#user_cancel_button_card_apply-'+id).css('display', 'none');
-            $('#user_data_edit-'+id).css('display', 'none');
-            $('#status_card').val(0);
-            $('#status_card').attr('data-user-card', '');            
-            return false;
+            if(id==0){
+                //alert("Работаю");
+                сleanFieldsAdded(id);
+                $('#Block_add_user').css('display', 'none'); 
+                $('#status_card').val(0);
+                $('#status_card').attr('data-user-card', '');
+            }else{
+                GetDataFromSpan(id);
+                $('#user_card_button_edit_archive-'+id).css('display', 'flex');
+                $('#user_data-'+id).css('display', 'block');
+                $('#user_cancel_button_card_apply-'+id).css('display', 'none');
+                $('#user_data_edit-'+id).css('display', 'none');
+                $('#status_card').val(0);
+                $('#status_card').attr('data-user-card', '');            
+                return false;
+            }
         }    
-    });
+     });
     //Обработка нажатия кнопки применить в userbox
-    $('body').on('click', '.user_apply_button', function(){
+    $('.my_content_bloc').on('click', '.user_apply_button', function(){
         console.log(this);
         var status_card = Number($('#status_card').val());
         console.log(status_card);
@@ -82,7 +91,7 @@ $('#buttonMenu').click(function(){
             console.log($('#input_user_employeename-'+id).val());
             $('#span_user_alert_server-'+id).text('');
             $('#user_alert_server-'+id).css('display', 'none');
-            if(/*validationUser(id)*/true){
+            if(validationUser(id)){
                 var data = $('#form-update_user-'+id).serialize();
                 console.log(data);
                 сleanErrorServerTreatment(id)
@@ -358,8 +367,8 @@ $('#buttonMenu').click(function(){
             return false;
         }
     });
-    
-   $('.my_content_bloc').on('click', '.form-check-input', function(){ 
+   //Обрабатуем нажатие на чекбокс редоктировать пороль или нет добовляем поля в форму 
+    $('.my_content_bloc').on('click', '.form-check-input', function(){ 
        var buffer = this.id.split('-');
        console.log(buffer);
        var id = buffer[1];
@@ -386,5 +395,26 @@ $('#buttonMenu').click(function(){
         }
       
    });
-    
+    //Возврашаяем поля в исходное положение
+    function GetDataFromSpan(id){
+        var res = ['employeename','email','phone','address','name_position'];
+        $.each(res,function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            console.log($('#span_user_'+value.toString()+'-'+id));
+            if(index!=4){
+                $('#input_user_'+value.toString()+'-'+id).val($('#span_user_'+value.toString()+'-'+id).text());
+            }else{
+                $('#option_select_'+$('#span_user_'+value.toString()+'-'+id).text()+'-'+id).prop('selected', true);
+            }    
+        });
+        сleanErrorServerTreatment(id);
+        $('#input_user_password-'+id).val('');
+        $('#input_user_prePassword-'+id).val('');
+        $('#check_user_pass_change-'+id).prop('checked', false);
+        $('#user_change_pass_block-'+id).css('display', 'none');
+        $('#check_user_pass_change_hidden-'+id).val(0);
+        $('#span_user_alert_server-'+id).text('');
+        $('#user_alert_server-'+id).css('display', 'none');
+        return false;
+    }
 //конец обработки данных модуля user
