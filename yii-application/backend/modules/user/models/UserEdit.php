@@ -13,6 +13,7 @@ class UserEdit extends Model
 {
     const SCENARIO_PASSWORD = 'password';
     const SCENARIO_NO_PASSWORD = 'nopassword';
+    const SCENARIO_CREATE_NEW_USER = 'create_new_user';
     
     public $id;
     public $email;
@@ -31,6 +32,7 @@ class UserEdit extends Model
         return [
             self::SCENARIO_PASSWORD => ['id','email','employeename','phone','address','password','prePassword','id_position'],
             self::SCENARIO_NO_PASSWORD => ['id','email','employeename','phone','address','id_position'],
+            self::SCENARIO_CREATE_NEW_USER => ['email','employeename','phone','address','password','prePassword','id_position'],
         ];
     }
     
@@ -74,23 +76,23 @@ class UserEdit extends Model
      *
      * @return User|null the saved model or null if saving fails
      */
-    public function signup()
+    public function create_new_user()
     {
-        if ($this->validate()) {
-            $user = new User();
-            $user->email = $this->email;
-            $user->employeename = $this->employeename;
-            $user->phone = $this->phone;
-            $user->address = $this->address;
-            $user->id_position = $this->id_position;
-            $user->setPassword($this->password);
-            $user->generateAuthKey();
-            if ($user->save()) {
-                return $user;
-            }
+        $user = new User();
+        $user->email = $this->email;
+        $user->employeename = $this->employeename;
+        $user->phone = $this->phone;
+        $user->address = $this->address;
+        $user->id_position = $this->id_position;
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        if ($user->save()) {
+            $arrayIdpositionRole = array(1=>'admin',2=>'manager',3=>'engineer');//Массив сопоставления id должности и роли
+            $userAddRole = Yii::$app->authManager->getRole($arrayIdpositionRole[$this->id_position]);
+            Yii::$app->authManager->assign($userAddRole, $user->id);
+            return $user;
         }
-
-        return null;
+        return false;
     }
     public function update(){
         if (($user = User::findOne($this->id)) !== null) {

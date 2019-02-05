@@ -25,7 +25,7 @@ $('#buttonMenu').click(function(){
     //Задаем масску ввода для клсса phone
     $(".phone").mask("8(999)-999-99-99");
     //Обработчик нажатия кнопки редактировать в userbox
-    $('.userbox').on('click', '.user_edit_button', function(){
+    $('.my_content_bloc').on('click', '.user_edit_button', function(){
         var status_card = Number($('#status_card').val());
         console.log(status_card);
         if(status_card == 0){
@@ -70,7 +70,7 @@ $('#buttonMenu').click(function(){
         }    
     });
     //Обработка нажатия кнопки применить в userbox
-    $('.my_content_bloc').on('click', '.user_apply_button', function(){
+    $('body').on('click', '.user_apply_button', function(){
         console.log(this);
         var status_card = Number($('#status_card').val());
         console.log(status_card);
@@ -82,30 +82,40 @@ $('#buttonMenu').click(function(){
             console.log($('#input_user_employeename-'+id).val());
             $('#span_user_alert_server-'+id).text('');
             $('#user_alert_server-'+id).css('display', 'none');
-            if(validationUser(id)){
+            if(/*validationUser(id)*/true){
                 var data = $('#form-update_user-'+id).serialize();
                 console.log(data);
                 сleanErrorServerTreatment(id)
                 if(id==0){
-                    alert("Отправил на создание");
-                    /*
                      $.ajax({
-                        url: '#',//'/yii-application/backend/web/user/user/update',
+                        url: '/yii-application/backend/web/user/user/create',
                         type: 'POST',
                         data: data,
                         success: function(res){
                             if(res[0]!=0){
-                                
+                                console.log(res); 
+                                $("#w0").prepend(res);
+                                сleanFieldsAdded(id);
+                                $('#Block_add_user').css('display', 'none'); 
+                                $('#status_card').val(0);
+                                $('#status_card').attr('data-user-card', '');
+                                $('[data-toggle="tooltip"]').tooltip();
+                                return false;
                             }else{
-                                
+                                console.log(res);
+                                $('#span_user_alert_server-'+id).text(res['msg']);
+                                $('#user_alert_server-'+id).css('display', 'block');
+                                errorServerTreatment(res['model'],id);
+                                console.log(res['modeltest']);
+                                return false;    
                             }    
                         },
                         error: function(){
                             alert('По неизвестной причине сервер не ответил обратитесь к админу.');
                         }
                     });
-                     * 
-                     */
+                      
+                     
                     return false;
                 }else{
                     $.ajax({
@@ -211,7 +221,7 @@ $('#buttonMenu').click(function(){
                         //Проверяем существует ли значение в поле адрес
                         if(!empty($('#input_user_address-'+id).val())){
                             $('#input_user_address-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный                        
-                            if($('#check_user_pass_change-'+id).is(':checked')){
+                            if($('#check_user_pass_change-'+id).is(':checked') || id==0){
                                 $('#input_user_password-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
                                 if(!empty($('#input_user_password-'+id).val())){
                                    $('#input_user_prePass-'+id).removeClass('is-invalid');//Удаляем класс у инпута который подкрашивает его в красный
@@ -307,6 +317,21 @@ $('#buttonMenu').click(function(){
         });
         return false;
     }
+    //функция очистки полей после завершения добавления пользователя
+    function сleanFieldsAdded(id){
+        var res = ['employeename','email','phone','address','password','prePassword','id_position'];
+        //переберает поля с данными присланные с сервера
+        $.each(res,function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            if(index == 6){
+                $('#input_user_'+value.toString()+'-'+id).val(0);//убирает значение поля
+            }else{
+                $('#input_user_'+value.toString()+'-'+id).val('');//убирает значение поля
+            }
+            
+        });
+        return false;
+    }
     //Функция применяет полученные данные с сервера о обновляет карточку
     function addUserCardDataServer(res,id){
         //перебирает поля с данными присланные с сервера
@@ -334,7 +359,7 @@ $('#buttonMenu').click(function(){
         }
     });
     
-   $('.my_box_content').on('click', '.form-check-input', function(){ 
+   $('.my_content_bloc').on('click', '.form-check-input', function(){ 
        var buffer = this.id.split('-');
        console.log(buffer);
        var id = buffer[1];

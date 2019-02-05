@@ -93,25 +93,35 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new SignupForm();
-        //$modelUser = new User;
-
-        if ($model->load(Yii::$app->request->post())) {
-            $modelUser = $model->signup();
-            if($modelUser !== null){
-                return $this->render('foto',['model'=>$modelUser]); 
+        if(\Yii::$app->request->isAjax){
+            $model = new UserEdit(['scenario' => UserEdit::SCENARIO_CREATE_NEW_USER]);   
+            if ($model->load(Yii::$app->request->post()) && $model->validate()){
+            $model = $model->create_new_user();
+                //Проверяем вернулся ли нам обьект
+                if(!empty($model)){
+                    return $this->renderAjax('create',['model'=>$model]);          
+                    }else{
+                        //если у нас был false 
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['0','msg'=>"Пользователь не сохранен по неизвестной причине." ];
+                        //Передаем данные в фармате json пользователю
+                        return $items;
+                    }    
             }else{
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
+                //Если данные на загрузились в обьект и не прошли валидацию
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>"Ошибка в заполненных полях", 'model'=>$model->getErrors()];
+                //Передаем данные в фармате json пользователю
+                return $items;
             }
-            
-            //return $this->redirect(['view', 'id' => $modelUser->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        }else{
+            return $this->redirect(['index']);  
         }
+        
     }
 
     /**
@@ -164,7 +174,7 @@ class UserController extends Controller
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     //Фармируем массив с ошибкой
-                    $items = ['0','msg'=>"У вас ошибка в заполненных полях", 'model'=>$model->getErrors()];
+                    $items = ['0','msg'=>"Ошибка в заполненных полях", 'model'=>$model->getErrors()];
                     //Передаем данные в фармате json пользователю
                     return $items;
                 }

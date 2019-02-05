@@ -16,7 +16,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
-            кнопка добавить сотрудника
+<!--            кнопка добавить сотрудника-->
             <a  id = 'add_new_user' class="nav-link btn btn-dark mx-1 mr-auto" href="#" data-toggle="tooltip" data-placement="right" title="Добавить">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить">
             </a>
@@ -56,12 +56,15 @@ $this->title = Yii::t('app', 'Персонал');
                                 <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
                             </div>
                                 <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
-                                    <form id='form_to_add_user'>
+                                    <form id='form-update_user-0'>
                                         <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                     </form>
+                                    <div id='user_alert_server-0' class='alert alert-danger' role='alert' style='display: none;'>
+                                        <span id='span_user_alert_server-0'>Ошибка</span>
+                                    </div>
                                     <h5><p class="form-row my-2 mx-2"> 
-                                        <input id='input_user_employeename-0' name='User[employeename]'  form='form_to_add_user' class="form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12" type="text" placeholder="Введите ФИО нового сотрудника"> - 
-                                            <select id='input_user_id_position-0' form='form_to_add_user' name='User[id_position]' class="form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"> 
+                                        <input id='input_user_employeename-0' name='UserEdit[employeename]'  form='form-update_user-0' class="form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12" type="text" placeholder="Введите ФИО нового сотрудника"> - 
+                                            <select id='input_user_id_position-0' form='form-update_user-0' name='UserEdit[id_position]' class="form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"> 
                                                 <option selected value='0'>выберите должность</option>
                                                 <option value='3'>инженер</option>
                                                 <option value='2'>менеджер</option>
@@ -72,12 +75,16 @@ $this->title = Yii::t('app', 'Персонал');
                                     <p id = 'error_user_employeename-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                                     <p id = 'error_user_id_position-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                                     
-                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> <input id='input_user_email-0' name='User[email]' form='form_to_add_user' class="form-control col-10" type="mail" placeholder="Введите адрес электронной почты"> </p>
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> <input id='input_user_email-0' name='UserEdit[email]' form='form-update_user-0' class="form-control col-10" type="mail" placeholder="Введите адрес электронной почты"> </p>
                                     <p id = 'error_user_email-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>"> <input id='input_user_phone-0' name='User[phone]'  form='form_to_add_user' class="form-control col-10 phone" type="text"> </p>
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>"> <input id='input_user_phone-0' name='UserEdit[phone]'  form='form-update_user-0' class="form-control col-10 phone" type="text" placeholder="Введите номер телефона"></p>
                                     <p id = 'error_user_phone-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>"> <input id='input_user_address-0' name='User[address]' form='form_to_add_user' class="form-control col-10" type="text" placeholder="Введите домашний адрес"> </p>
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>"> <input id='input_user_address-0' name='UserEdit[address]' form='form-update_user-0' class="form-control col-10" type="text" placeholder="Введите домашний адрес"> </p>
                                     <p id = 'error_user_address-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    <p class='form-row my-2 mx-4'> <input id='input_user_password-0' name='UserEdit[password]' form='form-update_user-0' class='form-control col-6' type='password' placeholder='Задайте пароль'> </p>
+                                    <p id = 'error_user_password-0' class='text-danger my-2' style='display: none;'>Ошибка</p>
+                                    <p class='form-row my-2 mx-4'> <input id='input_user_prePassword-0' name='UserEdit[prePassword]' form='form-update_user-0' class='form-control col-6' type='password' placeholder='Введите пароль повторно'> </p>
+                                    <p id = 'error_user_prePassword-0' class='text-danger my-2' style='display: none;'>Ошибка</p>
                                 </div>
                         
                         </div>    
@@ -148,7 +155,7 @@ $this->title = Yii::t('app', 'Персонал');
                                         "</div>".                                   
                                         "<div id='user_data_edit-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' style='display: none;'>".
                                             "<div id='user_alert_server-".$model->id."' class='alert alert-danger' role='alert' style='display: none;'>".
-                                                "<span id='span_user_alert_server-".$model->id."'>Ошибка<span>".
+                                                "<span id='span_user_alert_server-".$model->id."'>Ошибка</span>".
                
                                             "</div>".
                                             "<h5><p class='form-row my-2 mx-2'> <input id='input_user_employeename-".$model->id."' name='UserEdit[employeename]' form='form-update_user-".$model->id."' class='form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12' type='text' value='".$model->employeename."'> - ".
@@ -168,9 +175,9 @@ $this->title = Yii::t('app', 'Персонал');
                                                     "<label class='form-check-label' for='defaultCheck1'> сменить пароль </label> ".
                                             "</div>".
                                             "<div class='mx-4' id='user_change_pass_block-".$model->id."' style='display: none;'>".
-                                                "<p class='form-row my-2'> <input id='input_user_password-".$model->id."' name='UserEdit[password]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='задайте пароль'> </p>".
+                                                "<p class='form-row my-2'> <input id='input_user_password-".$model->id."' name='UserEdit[password]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='Задайте пароль'> </p>".
                                                 "<p id = 'error_user_password-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
-                                                "<p class='form-row my-2'> <input id='input_user_prePassword-".$model->id."' name='UserEdit[prePassword]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='подтверждение пароля'> </p>".
+                                                "<p class='form-row my-2'> <input id='input_user_prePassword-".$model->id."' name='UserEdit[prePassword]' form='form-update_user-".$model->id."' class='form-control col-6' type='password' placeholder='Введите пароль повторно'> </p>".
                                                 "<p id = 'error_user_prePassword-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
                                             "</div>".
                                         "</div>".
