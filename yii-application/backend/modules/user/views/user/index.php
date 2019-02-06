@@ -16,12 +16,23 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
-<!--            кнопка добавить сотрудника-->
-            <a  id = 'add_new_user' class="nav-link btn btn-dark mx-1 mr-auto" href="#" data-toggle="tooltip" data-placement="right" title="Добавить">
-                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить">
-            </a>
+            <div class="d-flex justify-content-start col-xl-6 col-lg-4 col-md-4 col-sm-9 col-10"> 
+                <div>
+                <!--            кнопка архив сотрудников-->            
+                <a  id = 'browse_archive' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Смотреть архив сотрудников">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив сотрудников">
+                </a>
+                </div>
+                <!--            кнопка добавить сотрудника-->
+                <div class="ml-auto">
+                <a  id = 'add_new_user' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Добавить сотрудника">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить">
+                </a>
+                </div>
+                    
+            </div>
             <form class='form-inline'>
-                <input class='form-control mr-2' type='search' placeholder='Поиск' aria-label='Search'>
+                <input class='form-control mr-2 my-2' type='search' placeholder='Поиск' aria-label='Search'>
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
             </form>
         </nav>
@@ -139,7 +150,7 @@ $this->title = Yii::t('app', 'Персонал');
                                 "<div class = 'my_box_heder'>".
                                     "<nav class='navbar navbar-light bg-dark rounded-top'>".
                                         "<span class='navbar-brand text-light'>Карточка сотрудника</span>".
-                                        "<div id='user_card_button_edit_archive-".$model->id."' class='btn-group ml-auto'>". 
+                                        "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
                                             "<!--кнопка добавить в архив сотрудника-->".
                                             "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1' data-toggle='tooltip' data-placement='left' title='В архив'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='В архив'>".
@@ -150,7 +161,7 @@ $this->title = Yii::t('app', 'Персонал');
                                             "</a>".
                                         "</div>".
                                         "<!--группировка кнопок в navbar с выравниванием вправо-->".
-                                        "<div id='user_cancel_button_card_apply-".$model->id."' class='btn-group ml-auto' style='display: none;'>". 
+                                        "<div id='user_cancel_button_card_apply-".$model->id."' class='flex-box ml-auto' style='display: none;'>". 
                                             "<!--кнопка отменить изменения и вернуться-->".
                                             "<a id='user_cancel_button-".$model->id."' class='nav-link btn btn-light mx-1 user_cancel_button' data-toggle='tooltip' data-placement='left' title='Отмена'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".

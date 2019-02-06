@@ -91,6 +91,12 @@ html {
 .edit_button{
     height:15px;
   }
+  
+.flex-box {
+  display:flex;
+  justify-content:space-between;
+}
+
 /*блок замещения цвета и размера подсказок*/ 
 .bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
     border-top-color: #17a2b8; /* цвет стрелочки (по умолчанию #000)*/
