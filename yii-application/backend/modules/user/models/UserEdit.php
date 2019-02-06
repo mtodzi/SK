@@ -44,7 +44,8 @@ class UserEdit extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот адрес электронной почты уже занят.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот адрес электронной почты уже занят.', 'on' => self::SCENARIO_CREATE_NEW_USER],
+            ['email','validateEmailUpdate', 'on' => self::SCENARIO_NO_PASSWORD],
             
             ['employeename', 'filter', 'filter' => 'trim'],
             ['employeename', 'required'],
@@ -68,6 +69,17 @@ class UserEdit extends Model
             [['id_position'], 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['id_position' => 'id']],
             [['id_position'], 'integer'],
         ];
+    }
+    
+     public function validateEmailUpdate($attribute, $params)
+    {
+        $model = User::findOne($this->id);
+        if($this->email != $model->email){
+            $userEmail = User::findOne(['email'=>$this->$attribute]);
+            if($userEmail != null){
+                $this->addError($attribute, 'Этот адрес электронной почты уже занят.');
+            }
+        }
     }
 
     /**
