@@ -156,7 +156,7 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".
                                             "</a>".
                                             "<!--кнопка применить изменения-->".
-                                            "<a id='user_apply_button-".$model->id."' class='nav-link btn btn-light user_apply_button' dataser_butt-toggle='tooltip' data-placement='right' title='Применить'>".
+                                            "<a id='user_apply_button-".$model->id."' class='nav-link btn btn-light user_apply_button' data-toggle='tooltip' data-placement='right' title='Применить'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
                                             "</a>".
                                         "</div>".
@@ -165,7 +165,14 @@ $this->title = Yii::t('app', 'Персонал');
                                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
                                     "<div class='row py-2'>".                                       
                                         "<div class='col-10 col-xl-2 col-md-2'>".
-                                            "<img class='user_photo bg-secondary mx-2' src='".Url::to(['/img/6170248_xlarge.jpg'])."' class='align-self-start mr-3' alt='...'>".
+                                            "<!--фото сотрудника-->".
+                                            "<img class='user_photo bg-secondary mx-2' src='".Url::to(['/img/1434588.jpg'])."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                                            "<div class='col-10 col-xl-2 col-md-2'>".
+                                                "<!--кнопка редактировать фото-->".
+                                                "<a id='user_photo_edit-button-".$model->id."' class='btn btn-dark mx-3 my-1 ' data-toggle='tooltip' data-placement='bottom' title='Изменить фото'>".
+                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/change_photo.svg'])."' alt='Изменить фото'>".
+                                                "</a>". 
+                                            "</div>".
                                         "</div>".
                                         "<div id='user_data-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' >".                
                                             "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
