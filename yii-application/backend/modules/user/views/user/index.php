@@ -95,6 +95,26 @@ $this->title = Yii::t('app', 'Персонал');
         <?php
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
+                'pager' => [
+                    'maxButtonCount' => 3,
+                    // Customzing options for pager container tag
+                    'options' => [
+                        'tag' => 'ul',
+                        'class'=>'pagination my-2'   
+                    ],
+                    // Customzing CSS class for pager link
+                    'linkContainerOptions'=>[
+                        'class'=>'page-item'
+                    ],
+                    'linkOptions' => [
+                        'class' => 'page-link'
+                    ],
+                    
+                    'activePageCssClass' => 'active',
+                    'disabledPageCssClass' => 'disable disabled page-link',
+                    
+                     
+                ],
                 'options'=> ['class' => ''],
                 'itemOptions' => ['class' => 'row'],
                 'summary'=>FALSE,

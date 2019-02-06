@@ -110,3 +110,15 @@ html {
     background-color: #2893ed; /* цвет фона (по умолчанию #000) */
     border-radius: 0.25rem; /* радиус скругдения углов */
 }
+
+.disable{
+    background-color:#e9ecef;
+}
+
+.disable :hover{
+    cursor: default;
+}
+
+.disable span{
+    color:grey;
+}
