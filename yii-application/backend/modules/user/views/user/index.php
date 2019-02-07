@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
-
+print_r($model);
 $this->title = Yii::t('app', 'Персонал');
 
 ?>
@@ -206,6 +206,7 @@ $this->title = Yii::t('app', 'Персонал');
                                             "</p>".
                                             "</h5>".
                                             "<p id = 'error_user_employeename-".$model->id."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
+                                            "<p id = 'error_user_id_position-".$model->id."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
                                             "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/mail.svg'])."'> <input id='input_user_email-".$model->id."' name='UserEdit[email]' form='form-update_user-".$model->id."' class='form-control col-10' type='mail' value='".$model->email."'> </p>".
                                             "<p id = 'error_user_email-".$model->id."' class='text-danger my-2' style='display: none;'>Ошибка</p>".
                                             "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'> <input id='input_user_phone-".$model->id."' name='UserEdit[phone]' form='form-update_user-".$model->id."' class='form-control col-10  phone' type='text' value='".$model->phone."'></p>".

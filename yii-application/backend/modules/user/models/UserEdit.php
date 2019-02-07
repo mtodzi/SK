@@ -46,6 +46,7 @@ class UserEdit extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот адрес электронной почты уже занят.', 'on' => self::SCENARIO_CREATE_NEW_USER],
             ['email','validateEmailUpdate', 'on' => self::SCENARIO_NO_PASSWORD],
+            ['email','validateEmailUpdate', 'on' => self::SCENARIO_PASSWORD],
             
             ['employeename', 'filter', 'filter' => 'trim'],
             ['employeename', 'required'],
@@ -68,6 +69,9 @@ class UserEdit extends Model
             
             [['id_position'], 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['id_position' => 'id']],
             [['id_position'], 'integer'],
+            
+            ['id_position','validateDirectorChange', 'on' => self::SCENARIO_NO_PASSWORD],
+            ['id_position','validateDirectorChange', 'on' => self::SCENARIO_PASSWORD],
         ];
     }
     
@@ -80,6 +84,18 @@ class UserEdit extends Model
                 $this->addError($attribute, 'Этот адрес электронной почты уже занят.');
             }
         }
+    }
+     public function validateDirectorChange($attribute, $params)
+    {
+        $User = User::findOne($this->id);
+        if($User->id_position!= $this->id_position){
+            if($User->id_position==1){
+                $model = User::find()->where(['id_position'=> 1])->count();
+                if($model<=1){                
+                    $this->addError($attribute, 'Должен быть хотя бы один директор!');
+                }
+            }
+        }    
     }
 
     /**
