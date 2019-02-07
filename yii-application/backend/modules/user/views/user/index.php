@@ -25,7 +25,7 @@ $this->title = Yii::t('app', 'Персонал');
                 <!--кнопка добавить сотрудника-->
                 <div class="ml-auto">
                 <a  id = 'add_new_user' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Добавить сотрудника">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить сотрудника">
                 </a>
                 </div>
                     
@@ -158,8 +158,8 @@ $this->title = Yii::t('app', 'Персонал');
                                         "<span class='navbar-brand text-light'>Карточка сотрудника</span>".
                                         "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
                                             "<!--кнопка добавить в архив сотрудника-->".
-                                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1 user_archive_button' data-toggle='tooltip' data-placement='left' title='В архив'>".
-                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='В архив'>".
+                                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1 user_archive_button' data-toggle='tooltip' data-placement='left' title='Отправить в архив'>".
+                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='Отправить в архив'>".
                                             "</a>".
                                             "<!--кнопка редактировать сотрудника-->".
                                             "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
