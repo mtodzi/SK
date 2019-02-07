@@ -15,7 +15,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
-            <div class="d-flex justify-content-start col-xl-6 col-lg-4 col-md-4 col-sm-9 col-10"> 
+            <div class="d-flex justify-content-start col-xl-5 col-lg-4 col-md-4 col-sm-9 col-10"> 
                 <div>
                 <!--кнопка архив сотрудников-->            
                 <a  id = 'browse_archive' class="btn btn-dark mx-1" href="<?=Url::to(['/user/user/indexarchive'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив сотрудников">
