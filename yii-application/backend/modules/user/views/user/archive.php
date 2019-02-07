@@ -15,8 +15,8 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал в архиве</a>
-            <form class='form-inline'>
-                <input class='form-control mr-2 my-2' type='search' placeholder='Поиск' aria-label='Search'>
+            <form class='form-inline' post="GET" action="<?=Url::to(['/user/user/indexarchive'])?>">
+                <input name="UserSearch[search]" value="<?=$searchModel->search?>" class='form-control mr-2 my-2' type='search' placeholder='Поиск' aria-label='Search'>
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
             </form>
         </nav>
