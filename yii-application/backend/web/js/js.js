@@ -172,8 +172,14 @@ $('#buttonMenu').click(function(){
         console.log(buffer);
         var id = buffer[1];
         console.log(id);
-        var employeename = $('#span_user_employeename-'+id).text(); 
-        var isArhive = confirm("Вы точно хотите переместить в архив - "+employeename);
+        var employeename = $('#span_user_employeename-'+id).text();
+        var addArhive = "Перемещаем в архив сотрудника - ";
+        var deleteArhive = "Перемещаем из архива сотрудника - ";
+        if(Number($("#user_archive_val-"+id).val())==0){
+            var isArhive = confirm(addArhive+employeename);
+        }else{
+            var isArhive = confirm(deleteArhive+employeename);
+        }
         if(isArhive){
             var data = $('#form_archive_user-'+id).serialize();
             console.log(data);
@@ -199,7 +205,6 @@ $('#buttonMenu').click(function(){
             });
             return false;
         }
-          
      });
     //Функция создает сообшение об ошибке или об успехе
     function postCreation(id,str,result){

@@ -145,7 +145,7 @@ $this->title = Yii::t('app', 'Персонал');
                             "<form id='form_archive_user-".$model->id."'>".
                                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                                 Html :: hiddenInput('UserArchive[id]', $model->id, []).
-                                Html :: hiddenInput('UserArchive[archive]', $model->archive, []).
+                                Html :: hiddenInput('UserArchive[archive]', $model->archive, ['id'=>'user_archive_val-'.$model->id]).
                             "</form>".
                             "<!--Конец формы для отправки пользователя в Архив-->". 
                             "<form id='form-update_user-".$model->id."'>".
