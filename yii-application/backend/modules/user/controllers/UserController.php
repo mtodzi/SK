@@ -4,18 +4,13 @@ namespace app\modules\user\controllers;
 
 use Yii;
 use common\models\User;
-use backend\modules\user\models\SignupForm;
 use backend\modules\user\models\UserEdit;
-use backend\modules\user\models\Changepassword;
-use backend\modules\user\models\AsktheEmployeeRole;
-use backend\models\AddRole;
 use backend\modules\user\models\UserSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use backend\models\AddPermission;
 use common\models\AcsessCo;
+use backend\modules\user\models\UserArchive;
 
 
 
@@ -58,7 +53,7 @@ class UserController extends Controller
     }
 
     /**
-     * Метод выводить все карточки сотрудников из БД
+     * Метод выводить все карточки сотрудников из БД которые не в архиве
      */
     public function actionIndex()
     {
@@ -66,6 +61,19 @@ class UserController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    /**
+     * Метод выводить все карточки сотрудников из БД которые в архиве
+     */
+    public function actionIndexarchive()
+    {
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->searchArchive(Yii::$app->request->queryParams);
+
+        return $this->render('archive', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -112,7 +120,56 @@ class UserController extends Controller
         }
         
     }
-
+    /*
+        Метод добавляет в архив и удаляет из архива сотрудника
+    */
+    public function actionArchive(){
+        //Проверяе пришедший запрос AJAX
+        if(\Yii::$app->request->isAjax){
+            $modelArhive = new UserArchive();
+            //Проверяем загрузились ли данные в модель и проводим их валидацию
+            if ($modelArhive->load(Yii::$app->request->post()) && $modelArhive->validate()){
+                $buffer = $modelArhive->archive;
+                if($modelArhive->archive()){
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    if($buffer == 0){
+                        $items = ['1','msg'=>"сотрудник был добавлен в архив"];
+                    }    
+                    else{
+                        $items = ['1','msg'=>"сотрудник был убран из архив"];
+                    }
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    if($buffer == 0){
+                        $items = ['0','msg'=>"сотрудник не был добавлен в архив"];
+                    }    
+                    else{
+                        $items = ['0','msg'=>"сотрудник не был удален из архива"];
+                    }                   
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                //Если данные на загрузились в обьект и не прошли валидацию
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>"Ошибка в отправленных полях на сервер", 'model'=>$modelArhive->getErrors()];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }            
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']); 
+        }
+    }
+    
     /**
      * Метод редактирует Сотрудника в БД
      */

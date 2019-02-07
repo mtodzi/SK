@@ -37,6 +37,7 @@ $('#buttonMenu').click(function(){
             $('#user_data-'+id).css('display', 'none');
             $('#user_cancel_button_card_apply-'+id).css('display', 'flex');
             $('#user_data_edit-'+id).css('display', 'block');
+            $('#block_button_photo_edit-'+id).css('display', 'block');
             var employeename = $('#span_user_employeename-'+id).text();
             console.log(employeename);
             $('#status_card').val(1);
@@ -72,6 +73,7 @@ $('#buttonMenu').click(function(){
                 $('#user_data-'+id).css('display', 'block');
                 $('#user_cancel_button_card_apply-'+id).css('display', 'none');
                 $('#user_data_edit-'+id).css('display', 'none');
+                $('#block_button_photo_edit-'+id).css('display', 'none');
                 $('#status_card').val(0);
                 $('#status_card').attr('data-user-card', '');            
                 return false;
@@ -139,6 +141,7 @@ $('#buttonMenu').click(function(){
                                 $('#user_data-'+id).css('display', 'block');//
                                 $('#user_cancel_button_card_apply-'+id).css('display', 'none');// 
                                 $('#user_data_edit-'+id).css('display', 'none');
+                                $('#block_button_photo_edit-'+id).css('display', 'none');
                                 $('#status_card').val(0);
                                 $('#status_card').attr('data-user-card', '');
                                 return false;
@@ -162,6 +165,66 @@ $('#buttonMenu').click(function(){
             } 
         }    
     });
+    //Обработчик нажатия кнопки в архив userbox
+    $('.my_content_bloc').on('click', '.user_archive_button', function(){        
+        console.log(this);
+        var buffer = this.id.split('-');
+        console.log(buffer);
+        var id = buffer[1];
+        console.log(id);
+        var employeename = $('#span_user_employeename-'+id).text(); 
+        var isArhive = confirm("Вы точно хотите переместить в архив - "+employeename);
+        if(isArhive){
+            var data = $('#form_archive_user-'+id).serialize();
+            console.log(data);
+            $.ajax({
+                url: '/yii-application/backend/web/user/user/archive',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]==0){
+                        var namePost = postCreation(id,res['msg'],false);
+                        setTimeout(postDelete, 5000,namePost);
+                    }else{
+                        var namePost = postCreation(id,res['msg'],true);
+                        setTimeout(postDelete, 5000,namePost);
+                        console.log($("#user_bloc_kard-"+id));
+                        $("#user_bloc_kard-"+id).remove();    
+                    }    
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+            return false;
+        }
+          
+     });
+    //Функция создает сообшение об ошибке или об успехе
+    function postCreation(id,str,result){
+        if(!result){
+            var text = ""+
+                "<div id='users_alert_server_block-"+id+"' class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1 alert alert-danger' role='alert'>"+
+                    "<span id='span_users_alert_server-"+id+"'>"+str+" - "+$('#span_user_employeename-'+id).text()+"</span>"               
+                "</div>";
+                console.log(text);
+                $(".my_content_bloc").prepend(text);
+                return "#users_alert_server_block-"+id; 
+        }else{
+            var text = ""+
+                "<div id='users_alert_server_block-"+id+"' class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1 alert alert-success' role='alert'>"+
+                    "<span id='span_users_alert_server-"+id+"'>"+str+" - "+$('#span_user_employeename-'+id).text()+"</span>"               
+                "</div>";
+                console.log(text);
+                $(".my_content_bloc").prepend(text);
+                return "#users_alert_server_block-"+id;
+        }   
+    }
+    //Функция удаляет созданую ошибку 
+    function postDelete(str){
+        $(str).remove();    
+    }
     //Функция проверяет сушествует ли переменная
     function empty(e) {
         switch (e) {
