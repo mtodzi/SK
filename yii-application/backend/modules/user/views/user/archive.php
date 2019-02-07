@@ -14,7 +14,7 @@ $this->title = Yii::t('app', 'Персонал');
 <div class='index_user_bloc row'>
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
-            <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал в архиве</a>
+            <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Архив персонала </a> <!-- папка какая?????? клик по архиву???-->
             <form class='form-inline'>
                 <input class='form-control mr-2 my-2' type='search' placeholder='Поиск' aria-label='Search'>
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
@@ -74,8 +74,8 @@ $this->title = Yii::t('app', 'Персонал');
                                         "<span class='navbar-brand text-light'>Карточка сотрудника</span>".
                                         "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
                                             "<!--кнопка вернуть из архива в сотрудники-->".
-                                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1 user_archive_button' data-toggle='tooltip' data-placement='left' title='Из архива'>".
-                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='Из архива'>".
+                                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1 user_archive_button' data-toggle='tooltip' data-placement='left' title='Восстановить из архива'>".
+                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/recover_arch.svg'])."' alt='Восстановить из архива'>".
                                             "</a>".
                                         "</div>".
                                     "</nav>".
