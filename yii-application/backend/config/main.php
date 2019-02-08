@@ -24,6 +24,11 @@ return [
         'developer' => [
             'class' => 'app\modules\developer\Developer',
         ],
+        'orders' => [
+
+            'class' => 'backend\modules\orders\Orders',
+
+        ],
     ],
     'components' => [
         'request' => [
