@@ -45,7 +45,10 @@ MyAppAssetLayouteSite::register($this);
                 </a>
                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Сотрудники">
-                </a>               
+                </a>
+                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Заказы">
+                </a>
             </nav>
             <nav class="navbar exit">
             <?php    
