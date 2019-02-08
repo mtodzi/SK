@@ -15,7 +15,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
         <nav class='navbar navbar-light bg-light'>
 
-            <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Архив персонала</a>
+            <a class='navbar-brand' href='<?=Url::to(['/user/user/indexarchive'])?>'>Архив персонала</a>
             <form class='form-inline' post="GET" action="<?=Url::to(['/user/user/indexarchive'])?>">
                 <input name="UserSearch[search]" value="<?=$searchModel->search?>" class='form-control mr-2 my-2' type='search' placeholder='Поиск' aria-label='Search'>            
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
@@ -85,7 +85,7 @@ $this->title = Yii::t('app', 'Персонал');
                                     "<div class='row py-2'>".                                       
                                         "<div class='col-10 col-xl-2 col-md-2'>".
                                             "<!--фото сотрудника-->".
-                                            "<img class='user_photo bg-secondary mx-2' src='".Url::to(['/img/1434588.jpg'])."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                                            "<img class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start mr-3' alt='фото сотрудника'>".
                                         "</div>".
                                         "<div id='user_data-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' >".                
                                             "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".

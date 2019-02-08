@@ -3,10 +3,12 @@
 use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use backend\assets\AssetKartikFileInput;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
+AssetKartikFileInput::register($this);
 $this->title = Yii::t('app', 'Персонал');
 
 
@@ -183,10 +185,31 @@ $this->title = Yii::t('app', 'Персонал');
                                     "<div class='row py-2'>".                                       
                                         "<div class='col-10 col-xl-2 col-md-2'>".
                                             "<!--фото сотрудника-->".
-                                            "<img class='user_photo bg-secondary mx-2' src='".Url::to(['/img/1434588.jpg'])."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                                            "<img id='user_img_photo-".$model->id."' class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                                            "<!--Начало модального окна-->".
+                                            "<div class='modal' id='modal_update_photo_user-".$model->id."' tabindex='-1' role='dialog'>".
+                                                "<div class='modal-dialog' role='document'>".
+                                                    "<div class='modal-content'>".
+                                                        "<div class='modal-header'>".
+                                                            "<h5 class='modal-title'>Фото сотрудника  - ".$model->employeename."</h5>".
+                                                            "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>".
+                                                                "<span aria-hidden='true'>&times;</span>".
+                                                            "</button>".
+                                                        "</div>".
+                                                        "<div class='modal-body'>".
+                                                            "<p>Хотите изменит фото</p>".
+                                                            "<input id='input_photo_update-".$model->id."' type='file'>".
+                                                        "</div>".
+                                                        "<div class='modal-footer'>".
+                                                            "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Закрыть</button>".                   
+                                                        "</div>".
+                                                    "</div>".
+                                                "</div>".
+                                            "</div>".
+                                            "<!--Конец модального окна-->".
                                             "<div id='block_button_photo_edit-".$model->id."' class='col-10 col-xl-2 col-md-2' style='display: none;'>".
                                                 "<!--кнопка редактировать фото-->".
-                                                "<a id='user_photo_edit_button-".$model->id."' class='btn btn-dark mx-3 my-1 ' data-toggle='tooltip' data-placement='bottom' title='Изменить фото'>".
+                                                "<a id='user_photo_edit_button-".$model->id."' class='btn btn-dark mx-3 my-1 btn-update-photo' data-toggle='tooltip' data-placement='bottom' title='Изменить фото'>".
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/change_photo.svg'])."' alt='Изменить фото'>".
                                                 "</a>". 
                                             "</div>".

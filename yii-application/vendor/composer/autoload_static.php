@@ -32,6 +32,10 @@ class ComposerStaticInit06982a89921e72300bdafb3c2c867ed7
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'k' => 
+        array (
+            'kartik\\plugins\\fileinput\\' => 25,
+        ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
@@ -117,6 +121,10 @@ class ComposerStaticInit06982a89921e72300bdafb3c2c867ed7
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'kartik\\plugins\\fileinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
         ),
         'cebe\\markdown\\' => 
         array (

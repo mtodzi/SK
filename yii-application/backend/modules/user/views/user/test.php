@@ -6,15 +6,20 @@ use yii\widgets\ListView;
 use yii\helpers\Url;
 use yiister\gentelella\widgets\Accordion;
 use yiister\gentelella\widgets\Panel;
+use backend\assets\AssetKartikFileInput;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
-
+AssetKartikFileInput::register($this);
 $this->title = Yii::t('app', 'Персонал');
 
 ?>
+
+
+
 <div class='index_user_bloc row'>
+    
     <div class="my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8">
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="<?=Url::to(['/user/user'])?>">Персонал</a>
@@ -33,6 +38,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class="my_content_bloc col-10">
         <div class="row">
             <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1">
+                <input id="input-id" type="file">
                 <div class="my_box">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">

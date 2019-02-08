@@ -206,6 +206,72 @@ $('#buttonMenu').click(function(){
             return false;
         }
      });
+    //Обработчик нажатия кнопки изменения фото userbox
+    $('.my_content_bloc').on('click', '.btn-update-photo', function(){
+        var buffer = this.id.split('-');
+        console.log(buffer);
+        var id = buffer[1];
+        console.log(id);
+        console.log($('#input_photo_update-'+id));
+        $('#input_photo_update-'+id).fileinput({
+            language: 'ru',
+            theme: 'fas',
+            required: true,
+            uploadUrl: "/ajaxupdateworkerphoto",
+            minFileCount: 1,
+            maxFileCount: 1,
+            showRemove: false,
+            showCancel: false,
+            fileActionSettings:{
+                showUpload: false,
+            },
+            initialPreview:getImgPreviewAjax(id),
+            initialPreviewConfig: getImgPreviewConfigAjax(id),
+            initialPreviewShowDelete: false,
+            uploadExtraData: {
+                id:id,
+                '_token':$('input[name="_csrf-backend"]').val(),
+            },
+        });
+        $('#modal_update_photo_user-'+id).modal();
+        return false;
+    });
+    function getImgPreviewAjax(id){
+        //console.log($('#img_photo-'+id).attr('src'));
+        var src = $('#user_img_photo-'+id).attr('src').split('/');
+        console.log(src);
+        if(src[6].localeCompare('default')==0){
+            //console.log('Сработал по умолчанию');
+            return '';
+        }else{
+            //console.log('Сработал не по умолчанию');
+            //console.log("<img id='img_photo'  src='"+$('#img_photo-'+id).attr('src')+"' style=' width: 200px; height: 200px;'>");
+            return "<img id='modal_user_img_photo-"+id+"' class='file-preview-image' src='"+$('#user_img_photo-'+id).attr('src')+"' style=' width: 100px; height: 120px;'>";
+        }
+    }
+    function getImgPreviewConfigAjax(id){
+        //console.log($('#img_photo-'+id).attr('src'));
+        var src = $('#user_img_photo-'+id).attr('src').split('/');
+        //console.log(src);
+        if(src[6].localeCompare('default')==0){
+            //console.log('Сработал по умолчанию');
+            return '';
+        }else{
+            //console.log('Сработал не по умолчанию');
+            return [
+                {
+                caption: src[7], 
+                width: '120px', 
+                url: '/ajaxdeleteworkerphoto', 
+                key: 100, 
+                extra: {
+                    id: id,
+                    '_token':$('input[name="_csrf-backend"]').val(),
+                }
+            }
+        ];
+        }
+    }
     //Функция создает сообшение об ошибке или об успехе
     function postCreation(id,str,result){
         if(!result){
