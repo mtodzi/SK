@@ -43,11 +43,20 @@ MyAppAssetLayouteSite::register($this);
                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/home_1.svg'])?>' alt="Меню">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Сотрудники">
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/orders.svg'])?>' alt="Заказы">
                 </a>
-                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user_elow.svg'])?>' alt="Заказы">
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Клиенты">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/clients.svg'])?>' alt="Клиенты">
+                </a>
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Витрина">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/showcase.svg'])?>' alt="Витрина">
+                </a>
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Склад">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/stock.svg'])?>' alt="Склад">
+                </a>
+                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user.svg'])?>' alt="Сотрудники">
                 </a>
             </nav>
             <nav class="navbar exit">
