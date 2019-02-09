@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yiister\gentelella\widgets\Accordion;
 use yiister\gentelella\widgets\Panel;
 use backend\assets\AssetKartikFileInput;
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

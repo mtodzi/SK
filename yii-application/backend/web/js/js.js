@@ -22,6 +22,7 @@ $('#buttonMenu').click(function(){
 });
 
 //начало оброботки данных модуля user
+    var DOMEN = "sv";
     //Задаем масску ввода для клсса phone
     $(".phone").mask("8(999)-999-99-99");
     //Обработчик нажатия кнопки редактировать в userbox
@@ -218,7 +219,7 @@ $('#buttonMenu').click(function(){
             language: 'ru',
             theme: 'fas',
             required: true,
-            uploadUrl: "/ajaxupdateworkerphoto",
+            uploadUrl: "/yii-application/backend/web/user/user/updatephoto",
             minFileCount: 1,
             maxFileCount: 1,
             showRemove: false,
@@ -230,12 +231,28 @@ $('#buttonMenu').click(function(){
             initialPreviewConfig: getImgPreviewConfigAjax(id),
             initialPreviewShowDelete: false,
             uploadExtraData: {
-                id:id,
-                '_token':$('input[name="_csrf-backend"]').val(),
+                'UserPhoto[id]':id,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val(),
             },
         });
         $('#modal_update_photo_user-'+id).modal();
         return false;
+    });
+    $('.my_content_bloc').on('hidden.bs.modal', '.modal', function () {
+        //alert('вы закрыли модальное окно');
+        var buffer = this.id.split('-');
+        console.log(buffer);
+        var id = buffer[1];
+        console.log(id);
+        if($('#modal_user_img_photo-'+id).is('#modal_user_img_photo-'+id)){
+            console.log('есть фото');
+            console.log($('#img_photo_preview-'+id));
+            $('#user_img_photo-'+id).attr('src',$('#modal_user_img_photo-'+id).attr('src'));
+        }else{
+            console.log('Элемент не найден');
+            console.log($('#img_photo_preview-'+id));
+            $('#user_img_photo-'+id).attr('src',"http://"+DOMEN+"/yii-application/backend/web/img/users/default/default.svg");
+        }
     });
     function getImgPreviewAjax(id){
         //console.log($('#img_photo-'+id).attr('src'));
@@ -263,11 +280,11 @@ $('#buttonMenu').click(function(){
                 {
                 caption: src[7], 
                 width: '120px', 
-                url: '/ajaxdeleteworkerphoto', 
+                url: '/yii-application/backend/web/user/user/filedeletegeneral', 
                 key: 100, 
                 extra: {
-                    id: id,
-                    '_token':$('input[name="_csrf-backend"]').val(),
+                    'UserPhoto[id]':id,
+                    '_csrf-backend':$('input[name="_csrf-backend"]').val(),
                 }
             }
         ];

@@ -6,11 +6,13 @@ use Yii;
 use common\models\User;
 use backend\modules\user\models\UserEdit;
 use backend\modules\user\models\UserSearch;
+use backend\modules\user\models\UserPhoto;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\AcsessCo;
 use backend\modules\user\models\UserArchive;
+use yii\web\UploadedFile;
 
 
 
@@ -238,34 +240,93 @@ class UserController extends Controller
         }
     }
 
+    public function actionUpdatephoto(){
+        //Проверяе пришедший запрос AJAX
+        if(\Yii::$app->request->isAjax){
+            $modelPhoto = new UserPhoto(['scenario' => UserPhoto::SCENARIO_UPDATEPHOTO]);
+            $modelPhoto->photo = UploadedFile::getInstance($modelPhoto, 'photo');
+            $str = 'При загрузке файла возникли следующие ошибки: ';
+            if ($modelPhoto->load(Yii::$app->request->post()) && $modelPhoto->validate()){
+                $result = $modelPhoto->upload(Yii::$app->request->post('_csrf-backend'));
+                if($result['reselt']!==0){
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем положительный ответ
+                    $items = $result['msg'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['error'=>$result['msg']];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                $errors = $modelPhoto->getErrors();
+                foreach ($modelPhoto->getErrors() as $key => $value) {
+                    foreach ($value as $data){
+                        $str = $str." ".$data;
+                    }
+                }
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['error'=>$str];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }           
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }
+    }
+    
     public function actionFoto($id){
         $model = $this->findModel($id);
         return $this->render('foto',['model'=>$model]);
     }
     
     public function actionFiledeletegeneral(){
-        if(Yii::$app->request->isPost){            
-            $id = Yii::$app->request->post("id");
-            $pash = Yii::getAlias("@backend/web/fuser/user/".$id);
-            if(file_exists($pash)){
-                $arrayImg = scandir($pash);
-                $arrayImg = array_diff($arrayImg, array('..', '.'));
-                $cont = count($arrayImg);    
-                if($cont == 0){
-                  return $this->redirect(['view','id'=>$id]);
+        if(\Yii::$app->request->isAjax){            
+            $modelPhoto = new UserPhoto(['scenario' => UserPhoto::SCENARIO_FILEDELETEGENERAL]);
+            $str = 'При удалении файла возникли следующие ошибки: ';//Проверить!!
+            if ($modelPhoto->load(Yii::$app->request->post()) && $modelPhoto->validate()){
+                $result = $modelPhoto->delete(Yii::$app->request->post('_csrf-backend'));
+                if($result['reselt']!==0){
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем положительный ответ
+                    $items = $result['msg'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
                 }else{
-                    foreach ($arrayImg as $value){
-                        $img = $pash.DIRECTORY_SEPARATOR.$value;
-                        unlink($img);
-                    }
-                    return $this->redirect(['view','id'=>$id]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['error'=>$result['msg']];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
                 }
-               
-           }else{                
-                return $this->redirect(['view','id'=>$id]);
-           } 
-        }
-        
+            }else{
+                $errors = $modelPhoto->getErrors();
+                foreach ($modelPhoto->getErrors() as $key => $value) {
+                    foreach ($value as $data){
+                        $str = $str." ".$data;
+                    }
+                }
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['error'=>$str];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }  
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }  
     }
     
     public function actionMytest(){

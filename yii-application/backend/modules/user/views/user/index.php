@@ -198,7 +198,7 @@ $this->title = Yii::t('app', 'Персонал');
                                                         "</div>".
                                                         "<div class='modal-body'>".
                                                             "<p>Хотите изменит фото</p>".
-                                                            "<input id='input_photo_update-".$model->id."' type='file'>".
+                                                            "<input name='UserPhoto[photo]' id='input_photo_update-".$model->id."' type='file'>".
                                                         "</div>".
                                                         "<div class='modal-footer'>".
                                                             "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Закрыть</button>".                   
