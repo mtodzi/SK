@@ -7,13 +7,13 @@ $('#buttonMenu').click(function(){
     var data_menu = Number($('#buttonMenu').attr('data-menu'));
     if(data_menu == 0){
         console.log($('#buttonMenu').attr('data-menu'));
-        $('#aside_left').css('display', 'none');
+        $('#aside_left').hide()//css('display', 'none');
         $('#main').css('margin-left', '10px');
         $('#footer').css('padding-left', '0');
         $('#buttonMenu').attr('data-menu','1')
     }else{
         console.log($('#buttonMenu').attr('data-menu'));
-        $('#aside_left').css('display', 'block');
+        $('#aside_left').show()//css('display', 'block');
         $('#main').css('margin-left', '100px');
         $('#footer').css('padding-left', '85px');
         $('#buttonMenu').attr('data-menu','0')
@@ -64,6 +64,7 @@ $('#buttonMenu').click(function(){
             if(id==0){
                 //alert("Работаю");
                 сleanFieldsAdded(id);
+                сleanErrorServerTreatment(id);
                 $('#Block_add_user').css('display', 'none'); 
                 $('#status_card').val(0);
                 $('#status_card').attr('data-user-card', '');
@@ -450,7 +451,7 @@ $('#buttonMenu').click(function(){
     }
     //Функция которая очишает и убирает поля ошибок перед повторной отправкой на сервер
     function сleanErrorServerTreatment(id){
-        var res = ['employeename','email','phone','address','password','prePassword'];
+        var res = ['employeename','email','phone','address','password','prePassword','id_position'];
         //переберает поля с данными присланные с сервера
         $.each(res,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
