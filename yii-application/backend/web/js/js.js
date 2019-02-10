@@ -66,9 +66,22 @@ $('#buttonMenu').click(function(){
                 //alert("Работаю");
                 сleanFieldsAdded(id);
                 сleanErrorServerTreatment(id);
-                $('#Block_add_user').css('display', 'none'); 
-                $('#status_card').val(0);
-                $('#status_card').attr('data-user-card', '');
+                var data = {'UserPhoto[id]':id,'_csrf-backend':$('input[name="_csrf-backend"]').val()};
+                $.ajax({
+                        url: '/yii-application/backend/web/user/user/filedeletegeneral',
+                        type: 'POST',
+                        data: data,
+                        success: function(res){
+                            $('#user_img_photo-'+id).attr('src',"http://"+DOMEN+"/yii-application/backend/web/img/users/default/default.svg");
+                            $('#input_photo_update-'+id).fileinput('clear');
+                            $('#Block_add_user').css('display', 'none'); 
+                            $('#status_card').val(0);
+                            $('#status_card').attr('data-user-card', '');
+                        },
+                        error: function(){
+                            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                        }
+                    });                
             }else{
                 GetDataFromSpan(id);
                 $('#user_card_button_edit_archive-'+id).css('display', 'flex');
@@ -234,7 +247,7 @@ $('#buttonMenu').click(function(){
                 'UserPhoto[id]':id,
                 '_csrf-backend':$('input[name="_csrf-backend"]').val(),
             },
-        });
+        });   
         $('#modal_update_photo_user-'+id).modal();
         return false;
     });

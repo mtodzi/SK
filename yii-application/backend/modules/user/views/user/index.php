@@ -65,7 +65,34 @@ $this->title = Yii::t('app', 'Персонал');
                     <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
                         <div class="row py-2">
                             <div class="col-10 col-xl-2 col-md-2">
-                                <img class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/6170248_xlarge.jpg'])?>" class="align-self-start mr-3" alt="...">
+                                <img id='user_img_photo-0' class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/users/default/default.svg'])?>" class="align-self-start mr-3" alt="...">
+                                <!--Начало модального окна-->
+                                <div class='modal' id='modal_update_photo_user-0' tabindex='-1' role='dialog'>
+                                    <div class='modal-dialog' role='document'>
+                                        <div class='modal-content'>
+                                            <div class='modal-header'>
+                                                <h5 class='modal-title'>Фото сотрудника</h5>
+                                                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                                    <span aria-hidden='true'>&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class='modal-body'>
+                                                <p>Хотите добавить фото</p>
+                                                <input name='UserPhoto[photo]' id='input_photo_update-0' type='file' form='form-update_user-0'>
+                                            </div>
+                                            <div class='modal-footer'>
+                                                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Закрыть</button>                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Конец модального окна-->
+                                <div id='block_button_photo_edit-0' class='col-10 col-xl-2 col-md-2'>
+                                <!--кнопка редактировать фото-->
+                                <a id='user_photo_edit_button-0' class='btn btn-dark mx-3 my-1 btn-update-photo' data-toggle='tooltip' data-placement='bottom' title='Добавить фото'>
+                                    <img id ='menu_navbar_top' class='' src='<?=Url::to(['/img/change_photo.svg'])?>' alt='Добавить фото'>
+                                </a> 
+                                </div>
                             </div>
                                 <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
                                     <form id='form-update_user-0'>
