@@ -95,6 +95,9 @@ class UserController extends Controller
                 $model = $model->create_new_user();
                 //Проверяем вернулся ли нам обьект
                 if(!empty($model)){
+                    $modelPhoto = new UserPhoto();
+                    $modelPhoto->id = $model->id;
+                    $modelPhoto->uploadNewUser();
                     //если модель сушествуем формируем карточку в HTML и передаем пользователю
                     return $this->renderAjax('create',['model'=>$model]);          
                 }else{
