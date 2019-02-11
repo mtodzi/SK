@@ -29,6 +29,21 @@ return [
             'class' => 'backend\modules\orders\Orders',
 
         ],
+        'clients' => [
+
+            'class' => 'backend\modules\clients\Clients',
+
+        ],
+        'showcase' => [
+
+            'class' => 'backend\modules\showcase\Showcase',
+
+        ],
+        'stock' => [
+
+            'class' => 'backend\modules\stock\Stock',
+
+        ],
     ],
     'components' => [
         'request' => [
