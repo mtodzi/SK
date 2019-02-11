@@ -211,21 +211,21 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(\backend\modules\user\models\Position::className(), ['id' => 'id_position']);
     }
      public function getUrlMiniature(){
-            $pash = Yii::getAlias("@backend/web/img/users/". $this->id);
+            $pash = Yii::getAlias("@backend/web/users/img/users/". $this->id);
             if(file_exists($pash)){
                 $arrayImg = scandir($pash);
                 $arrayImg = array_diff($arrayImg, array('..', '.'));
                 $cont = count($arrayImg);    
                 if($cont == 0){
-                    $url = Url::to(['/img/users/default/default.svg']);
+                    $url = Url::to(['/users/img/users/default/default.svg']);
                     //$url = Yii::getAlias("@backend/web/fuser/user/defult/user.png");
                     return $url;   
                 }else{
-                    $url = Url::to(['/img/users/'.$this->id.'/'.$arrayImg[2]]);                       
+                    $url = Url::to(['/users/img/users/'.$this->id.'/'.$arrayImg[2]]);                       
                     return $url;
                 }
             }else{
-                $url = Url::to(['/img/users/default/default.svg']);
+                $url = Url::to(['/users/img/users/default/default.svg']);
                 //$url = Yii::getAlias("@backend/web/fuser/user/defult/user.png");
                 return $url;
             }    

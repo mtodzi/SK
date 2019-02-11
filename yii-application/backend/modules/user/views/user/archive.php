@@ -3,11 +3,15 @@
 use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use backend\modules\user\assets\MyUsersAsset;
+use backend\modules\user\assets\AssetKartikFileInput;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
-
+AssetKartikFileInput::register($this);
+MyUsersAsset::register($this);
 $this->title = Yii::t('app', 'Персонал');
 
 ?>

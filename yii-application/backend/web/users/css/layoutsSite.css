@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+.header{
+    position: fixed;
+    top:0;
+    width: 100%;
+    z-index: 2;
+}    
+.container {
+    /*margin: 0;*/
+    margin-left: 85px;
+    margin-top: 65px;
+    margin-bottom: 65px;
+}
+.footer {
+    position: fixed;
+    padding-left: 85px;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
+    z-index: 0;
+}
+.aside_left{
+    position: fixed;
+    top: 0;
+    bottom:0;
+    height: 100%;
+    padding-top: 65px;
+    width: 85px;
+    z-index: 1;
+    
+}
+.my_heders_bloc{
+    /*background-color: #f5f5a5;
+    z-index: 1;*/
+    position: fixed-top;    
+}
+#logo_aside_top{
+    width: 50px;
+    height: 25px;
+    background-color: red;
+}
+#menu_navbar_top{
+    width: 25px;
+    height: 25px;
+}
+.exit{
+    position: absolute;
+    bottom: 5px;
+}
+.exit_img{
+    background-image: url(../img/exit.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px 30px; 
+    height: 50px;
+    width: 50px;
+}
+.menu_left{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.right_text_brend{
+    text-align: right;
+    margin-right: 100px;
+    margin-top: 20px;
+}
+.main_content{
+    position: relative;
+}
+/*.my_content_bloc{
+    margin-top: 65px;
+}*/
+.user_photo{
+    width: 100px;
+    height: 120px;
+}
+.my_icon{
+    height: 22px;
+}
+.p_margin0{
+    margin-bottom:0;
+}
+.edit_button{
+    height:15px;
+  }
+  
+.flex-box {
+  display:flex;
+  justify-content:space-between;
+}
+
+/*блок замещения цвета и размера подсказок*/ 
+.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
+    border-top-color: #17a2b8; /* цвет стрелочки (по умолчанию #000)*/
+}
+.bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+    border-bottom-color: #17a2b8; /* цвет стрелочки (по умолчанию #000) */
+}
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    border-right-color: #2893ed; /* цвет стрелочки (по умолчанию #000)*/
+}
+.bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
+    border-left-color: #2893ed; /* цвет стрелочки (по умолчанию #000) */
+}
+.tooltip-inner {
+    max-width: 250px; /* максимальная ширина подсказки (по умолчанию 200px) */
+    color: #fff; /* цвет шрифта */
+    background-color: #2893ed; /* цвет фона (по умолчанию #000) */
+    border-radius: 0.25rem; /* радиус скругдения углов */
+}
+
+.disable{
+    background-color:#e9ecef;
+}
+
+.disable :hover{
+    cursor: default;
+}
+
+.disable span{
+    color:grey;
+}

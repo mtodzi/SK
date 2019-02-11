@@ -38,7 +38,7 @@ class UserPhoto extends Model
     */
     public function upload($token)
     {   //Задаем путь к нашей папке где будет храниться фото сатрудника
-        $path = Yii::getAlias("@backend/web/img/users/".$this->id);
+        $path = Yii::getAlias("@backend/web/users/img/users/".$this->id);
         $User = User::findOne($this->id);//находим в базе сотрудника которому добовляем или меняем фото
         if($User!==null){//Проверяем есть ли с базе такойсотрудник
             //если да то используем метод который загружает переданный файл 
@@ -50,7 +50,7 @@ class UserPhoto extends Model
             if($this->id == 0){//если да 
                 $id = Yii::$app->user->identity->id;//берем id сотрудника который послал фото 
                 $User = User::findOne($id);//Находим этого сатрудника в БД
-                $path = Yii::getAlias("@backend/web/img/users/newphoto/".$id);//Формируем другой путь где и временно сохраним файл
+                $path = Yii::getAlias("@backend/web/users/img/users/newphoto/".$id);//Формируем другой путь где и временно сохраним файл
                 return $this->uplodeFile($path,$User,$namefale,$token,1);//Сахроняем этот файл во временной директории
             }else{
                 //Если сотрудника нет возврашаем сообшениие об ошибке 
@@ -59,67 +59,102 @@ class UserPhoto extends Model
         }    
     }
     /*
-       Метод загружает фото нового сотрудника из временной папки
+     * Метод загружает фото нового сотрудника из временной папки
+     * сотрудника который добовляет нового пользователя 
     */
     public function uploadNewUser(){
-        $id = Yii::$app->user->identity->id;
-        $path = Yii::getAlias("@backend/web/img/users/".$this->id);
-        $pathNewPhoto = Yii::getAlias("@backend/web/img/users/newphoto/".$id);
+        $id = Yii::$app->user->identity->id;//ложим в переменную id сотрудника который сделал запрос на сервер
+        $path = Yii::getAlias("@backend/web/users/img/users/".$this->id);//Формруем путь в папку нового сотрудника где будем хранить его фото
+        $pathNewPhoto = Yii::getAlias("@backend/web/users/img/users/newphoto/".$id);//Формируем путь в паку где храниться времеено загруженное фото сотрудника
+        /*
+         *Так как сотрудник может создаваться и без личного фото проверям
+         * есть ли временный файл в папке создаюшего нового пользователя                    
+         */
         if($this->isThereAPhoto($pathNewPhoto)){
-            BaseFileHelper::createDirectory($path);
-            $newFileName = $this->getNameFiles($pathNewPhoto);
-            copy($pathNewPhoto.DIRECTORY_SEPARATOR.$newFileName, $path.DIRECTORY_SEPARATOR.$newFileName);
-            $this->deleteFileInDirectories($pathNewPhoto);    
+            //если да 
+            BaseFileHelper::createDirectory($path);//Создаем новую директорию для нового сотрудника под его id
+            $newFileName = $this->getNameFiles($pathNewPhoto);//вызываем метод котрый вернет нам имя файла в временном хранилище
+            copy($pathNewPhoto.DIRECTORY_SEPARATOR.$newFileName, $path.DIRECTORY_SEPARATOR.$newFileName);//Копируем этот файл из временной папки в папку сотрудника
+            $this->deleteFileInDirectories($pathNewPhoto);//Удаляем временный файл    
         }
         return TRUE;
     }
-
+    /*
+     * Метод удаляет фото сотрудника из его папки $token - _csrf 
+    */
     public function delete($token)
     {
+        //Проверяем от кокого действие пришел запрос на удаления файла от формы создания или
+        // от формы редактирования сотрудника
         if($this->id !=0){
-            $path = Yii::getAlias("@backend/web/img/users/".$this->id);
-            $User = User::findOne($this->id);
+            //Редактирование сотрудника
+            $path = Yii::getAlias("@backend/web/users/img/users/".$this->id);//Формируем путь к папке где храняться фото сотрудника
+            $User = User::findOne($this->id);//Находим сотрудника в БД
         }else{
-            $id = Yii::$app->user->identity->id;
-            $path = Yii::getAlias("@backend/web/img/users/newphoto/".$id);
-            $User = User::findOne($id);
-        }    
+            //Создание сотрудника
+            $id = Yii::$app->user->identity->id;//узнаем id сотрудника который добавляет сотрудника
+            $path = Yii::getAlias("@backend/web/users/img/users/".$id);//Формируем путь где храниться временный файл сртрудника
+            $User = User::findOne($id);//Находим сотрудника в БД который добавляет нового сотрудника
+        }
+        //Проверяем нашли ли мы сотрудника в БД
         if($User!==null){
+            //Если да
+            //Проверяем сушествует ли деректория кв который необходимо удалить файл
             if(file_exists($path)){
+                //если да проверяем есть ли фото в нашей директории испльзуя метод isThereAPhoto($path)
                 if($this->isThereAPhoto($path)){
-                    if($this->deleteFileInDirectories($path)){ 
+                    //Удаляем файл в директории и проверяем удалился ли он
+                    if($this->deleteFileInDirectories($path)){
+                        //Если да отправляем ответ об удачном удалении
                         return ['reselt'=>1,'msg'=>array('append' => FALSE,)];
                     }else{
+                        //Если нет отправляем ответ с ошибкой
                         return ['reselt'=>0,'msg'=>'Не все заменяемые фото были удалены'];//Проверить!!
                     }
                 }else{
+                    //Если нет отправляем ответ об удачном удалении
                     return ['reselt'=>1,'msg'=>array('append' => FALSE,)];
                 }
             }else{
+                //Если нет отправляем ответ об удачном удалении
                 return ['reselt'=>1,'msg'=>array('append' => FALSE,)];                
             }
         }else{
+            //Если нет отправляем ответ с ошибкой
             return ['reselt'=>0,'msg'=>'Сотрудник которому вы хотите удалить фото не найден в БД'];//Проверить!!
         }    
     }
     
-    
-    
+    /*
+     * Метод проверяет есть ли фото в дриктории
+     * $path - путь к этой директории 
+    */    
     private function isThereAPhoto($path){
-        $arrayImg = scandir($path);
-        $arrayImg = array_diff($arrayImg, array('..', '.'));
-        $cont = count($arrayImg);    
+        $arrayImg = scandir($path);//Выбераем в массив все файлы в директории
+        $arrayImg = array_diff($arrayImg, array('..', '.'));//очишаем массв от точки и двух точек
+        $cont = count($arrayImg);//Подсчитываем количество элементов в массиве
+        //Если в массиве 0 значит и файлов 0
         if($cont == 0){
+            //Возврашаем ложь
             return FALSE;
         }else{
+            //Возврашаем правду
             return TRUE;
         }
     }
     
-    
+    /*
+     * Метод формирует ответ от сервера к клиенту при успешном сохранения файла не сервер
+     * $User - обьект USER
+     * $namefale - название файла
+     * $token - _csrf
+     * $newfile - указтель на то что файл загружается при редактировании сотрудника это 0 и 1 если сотрудника создают 
+    */
     private function viewMinatureParameters(User $User,$namefale,$token,$newfile){
-        $id = ($newfile == 0)?$User->id:0;
-        $url = ($newfile == 0)?$User->getUrlMiniature():$this->getUrlMiniature($User->id);
+        //Создаем маасив с параметрами миниатюры файла который загрузили
+        $id = ($newfile == 0)?$User->id:0;//Проверяем для редоктировани или создания сотрудника происходит формирование
+        $url = ($newfile == 0)?$User->getUrlMiniature():$this->getUrlMiniature($User->id);//Проверяем для редоктировани или создания сотрудника происходит формирование
+        //Формируем массив
         $items = [
             'initialPreview'=>"<img class='file-preview-image' id='modal_user_img_photo-".$id."' src='".$url."'  style=' width: 100px; height: 120px;'>",
             'initialPreviewConfig' => array(
@@ -134,81 +169,112 @@ class UserPhoto extends Model
                 ),
                 'append' => FALSE,
         ];
+        //Возврашаем массив
         return $items;
     }
-    
+    /*
+     * Метод возврашает последнее имя файла в дериктории
+     * $path - путь к этой директории 
+    */
     private function getNameFiles($path){
-        $arrayImg = scandir($path);
-        $arrayImg = array_diff($arrayImg, array('..', '.'));
-        $countPhoto = count($arrayImg);
+        $img = NULL;
+        $arrayImg = scandir($path);//Выбераем в массив все файлы в директории
+        $arrayImg = array_diff($arrayImg, array('..', '.'));//очишаем массв от точки и двух точек
+        $countPhoto = count($arrayImg);//Подсчитываем количество элементов в массиве
+        //Перебераем все имена файлов в масиве
         foreach ($arrayImg as $value){
             $img = $value;            
         }
+        //Возврашаем имя файла
         return $img;
     }
-    
+    /*
+     * Метод удаляет все файлы в директории
+     * $path - путь к этой директории 
+    */
     private function deleteFileInDirectories($path){
-        $arrayImg = scandir($path);
-        $arrayImg = array_diff($arrayImg, array('..', '.'));
-        $countPhoto = count($arrayImg);
-        $i = 0;
-        foreach ($arrayImg as $value){
-            $img = $path.DIRECTORY_SEPARATOR.$value;
-            if(unlink($img)){
-                $i++;
+        $arrayImg = scandir($path);//Выбераем в массив все файлы в директории
+        $arrayImg = array_diff($arrayImg, array('..', '.'));//очишаем массв от точки и двух точек
+        $countPhoto = count($arrayImg);//Подсчитываем количество элементов в массиве
+        $i = 0;//Добавляем счетчик удаленных файлов
+        foreach ($arrayImg as $value){//Пербераем все имена файлов
+            $img = $path.DIRECTORY_SEPARATOR.$value;//формируем полный путь к файлу
+            if(unlink($img)){//Удаляем файл и проверяем был ли он удален
+                $i++;//если да увеличиваем счетчик
             }            
         }
+        //Сравниваем счетчик удаленных файлов с количеством файлов в папке до удаленни
         if($countPhoto==$i){
-            return TRUE;
+            return TRUE;//если да то возврашаем правду
         }else{
-            return FALSE;
+            return FALSE;//если нет возврашаем ложь
         }
     }
-    
+    /*
+     * Метод загружает файл на сервер 
+     * $User - обьект USER
+     * $namefale - название файла
+     * $token - _csrf
+     * $newfile - указтель на то что файл загружается при редактировании сотрудника это 0 и 1 если сотрудника создают
+     *  
+    */
     private function uplodeFile($path,User $User,$namefale,$token,$newfile){
-        if(file_exists($path)){
-            if($this->isThereAPhoto($path)){
-                if($this->deleteFileInDirectories($path)){
-                    $namefale = $this->photo->baseName . '.' . $this->photo->extension;
-                    $this->photo->saveAs($path.DIRECTORY_SEPARATOR.$namefale);
-                    $items = $this->viewMinatureParameters($User,$namefale,$token,$newfile);
-                    return ['reselt'=>1,'msg'=>$items];
+        if(file_exists($path)){//Проверяем есть ли директория
+            if($this->isThereAPhoto($path)){//если да то проверям есть ли там файл
+                if($this->deleteFileInDirectories($path)){//если да то удаляем этот файл и проверяем удалился ли он
+                    //если да
+                    $namefale = $this->photo->baseName . '.' . $this->photo->extension;//Формируем имя файла
+                    $this->photo->saveAs($path.DIRECTORY_SEPARATOR.$namefale);//Сохраняем файл
+                    $items = $this->viewMinatureParameters($User,$namefale,$token,$newfile);//Формируем ответ пользователю
+                    return ['reselt'=>1,'msg'=>$items];//возврашаем ответ об успешности
                 }else{
+                    //если нет возврашаем ответ с ошибкой
                     return ['reselt'=>0,'msg'=>'Не все заменяемые фото были удалены'];//Проверить!!
                 }
             }else{
-                $namefale = $this->photo->baseName . '.' . $this->photo->extension;
-                $this->photo->saveAs($path.DIRECTORY_SEPARATOR.$namefale);
-                $items = $this->viewMinatureParameters($User,$namefale,$token,$newfile);
-                return ['reselt'=>1,'msg'=>$items];
+                //если нет файла в директории
+                $namefale = $this->photo->baseName . '.' . $this->photo->extension;//Формируем имя файла
+                $this->photo->saveAs($path.DIRECTORY_SEPARATOR.$namefale);//Сохраняем файл
+                $items = $this->viewMinatureParameters($User,$namefale,$token,$newfile);//Формируем ответ пользователю
+                return ['reselt'=>1,'msg'=>$items];//возврашаем ответ об успешности
             }
         }else{
-            BaseFileHelper::createDirectory($path);
-            $namefale = $this->photo->baseName . '.' . $this->photo->extension;
-            $this->photo->saveAs($path.DIRECTORY_SEPARATOR.$namefale);
-            $items = $this->viewMinatureParameters($User,$namefale,$token,$newfile);
-            return ['reselt'=>1,'msg'=>$items];
+            //Если нет директории с фото у сотрудника
+            BaseFileHelper::createDirectory($path);//Создаем директорию
+            $namefale = $this->photo->baseName . '.' . $this->photo->extension;//Формируем имя файла
+            $this->photo->saveAs($path.DIRECTORY_SEPARATOR.$namefale);//Сохраняем файл
+            $items = $this->viewMinatureParameters($User,$namefale,$token,$newfile);//Формируем ответ пользователю
+            return ['reselt'=>1,'msg'=>$items];//возврашаем ответ об успешности
         }
     }
     
+    /*
+     * Метод возврашает путь к временному файлу при добавлении нового сотрудника 
+     * $id - id сотрудника добавляюшего нового сотрудика
+     *  
+    */
     private function getUrlMiniature($id){
-            $pash = Yii::getAlias("@backend/web/img/users/newphoto/".$id);
-            if(file_exists($pash)){
-                $arrayImg = scandir($pash);
-                $arrayImg = array_diff($arrayImg, array('..', '.'));
-                $cont = count($arrayImg);    
-                if($cont == 0){
-                    $url = Url::to(['/img/users/default/default.svg']);
+            $pash = Yii::getAlias("@backend/web/users/img/users/newphoto/".$id);//Путь в дерикторию с временным файлом
+            if(file_exists($pash)){//Проверяем есть ли директория
+                $arrayImg = scandir($pash);//если да то сканирум директорию на наличие файло
+                $arrayImg = array_diff($arrayImg, array('..', '.'));//очишаем массв от точки и двух точек
+                $cont = count($arrayImg);//Подсчитываем количество элементов в массиве  
+                if($cont == 0){//Проверям их количество ли равно 0
+                    //Формируем путь к файлу по умолчанию
+                    $url = Url::to(['/users/img/users/default/default.svg']);
                     //$url = Yii::getAlias("@backend/web/fuser/user/defult/user.png");
-                    return $url;   
+                    return $url;//Возврашаем путь   
                 }else{
-                    $url = Url::to(['/img/users/newphoto/'.$id.'/'.$arrayImg[2]]);                       
-                    return $url;
+                    //Если файл есть
+                    //Формируем путь к временному файлу нового сотрудника 
+                    $url = Url::to(['/users/img/users/newphoto/'.$id.'/'.$arrayImg[2]]);                       
+                    return $url;//Возврашаем путь
                 }
             }else{
-                $url = Url::to(['/img/users/default/default.svg']);
-                //$url = Yii::getAlias("@backend/web/fuser/user/defult/user.png");
-                return $url;
+                //Если нет директории
+                //Формируем путь к файлу по умолчанию
+                $url = Url::to(['/users/img/users/default/default.svg']);
+                return $url;//Возврашаем путь
             }    
         
     }

@@ -3,12 +3,15 @@
 use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use backend\assets\AssetKartikFileInput;
+use backend\modules\user\assets\MyUsersAsset;
+use backend\modules\user\assets\AssetKartikFileInput;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
 AssetKartikFileInput::register($this);
+MyUsersAsset::register($this);
+
 $this->title = Yii::t('app', 'Персонал');
 
 
@@ -65,7 +68,7 @@ $this->title = Yii::t('app', 'Персонал');
                     <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
                         <div class="row py-2">
                             <div class="col-10 col-xl-2 col-md-2">
-                                <img id='user_img_photo-0' class="user_photo bg-secondary mx-2" src="<?=Url::to(['/img/users/default/default.svg'])?>" class="align-self-start mr-3" alt="...">
+                                <img id='user_img_photo-0' class="user_photo bg-secondary mx-2" src="<?=Url::to(['/users/img/users/default/default.svg'])?>" class="align-self-start mr-3" alt="...">
                                 <!--Начало модального окна-->
                                 <div class='modal' id='modal_update_photo_user-0' tabindex='-1' role='dialog'>
                                     <div class='modal-dialog' role='document'>
