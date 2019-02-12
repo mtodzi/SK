@@ -33,7 +33,7 @@ $this->title = Yii::t('app', 'Заказы');
                     
             </div>
             <form class='form-inline' post="GET" action="<?=Url::to(['/orders'])?>">
-                <input name="UserSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="<?=$searchModel->search?>" aria-label='Search'>
+                <input name="UserSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="" aria-label='Search'>
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
             </form>
         </nav>
