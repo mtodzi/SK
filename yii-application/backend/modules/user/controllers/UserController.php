@@ -45,13 +45,6 @@ class UserController extends Controller
     
     public function actions()
     {
-        return [
-            'uploadPhoto' => [
-                'class' => 'budyaga\cropper\actions\UploadAction',
-                'url' => '/advanced/backend/web/fuser/user',
-                'path' => '@backend/web/fuser/user',
-            ]
-        ];
     }
 
     /**
@@ -234,15 +227,6 @@ class UserController extends Controller
         }
     }
     
-    protected function findModelAJAX($id)
-    {   
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        } else {
-            return FALSE;  
-        }
-    }
-
     public function actionUpdatephoto(){
         //Проверяе пришедший запрос AJAX
         if(\Yii::$app->request->isAjax){
@@ -286,11 +270,6 @@ class UserController extends Controller
         }
     }
     
-    public function actionFoto($id){
-        $model = $this->findModel($id);
-        return $this->render('foto',['model'=>$model]);
-    }
-    
     public function actionFiledeletegeneral(){
         if(\Yii::$app->request->isAjax){            
             $modelPhoto = new UserPhoto(['scenario' => UserPhoto::SCENARIO_FILEDELETEGENERAL]);
@@ -331,9 +310,5 @@ class UserController extends Controller
             return $this->redirect(['index']);
         }  
     }
-    
-    public function actionMytest(){
-        return $this->render('test'); 
-    }
-    
+     
 }

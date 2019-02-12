@@ -80,7 +80,7 @@ class m190212_142905_orders extends Migration
                                    'repair_type' => random_int(0,2),
                                    'urgency' => random_int(0,1),
                                    'claimed_malfunction_id' => random_int(1,29),
-                                   'user_engener_id' => 27,
+                                   'user_engener_id' => 30,
                                    'user_manager_id' => 29,
                                    'archive' => 0,
                                    'appearance' => 'Внешний вид-'.$i,
