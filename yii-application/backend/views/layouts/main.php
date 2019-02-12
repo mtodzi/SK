@@ -31,7 +31,7 @@ MyAppAssetLayouteSite::register($this);
 <?php $this->beginBody() ?>
     
     <header class="header">
-        <nav class="navbar ">
+        <nav class="navbar fixed-top">
             <a id ="buttonMenu" class="navbar-brand btn btn-light" href="#" data-menu="0">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/menu.svg'])?>' alt="Меню">
             </a>

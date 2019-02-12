@@ -15,7 +15,7 @@ foreach ($position as $data){
 $select = $select."</select>";  
 $bloc = "".
     "<div class='row' data-key = ".$model->id.">".
-        "<div class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1'>".
+        "<div class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 my-1'>".
             "<form id='form-update_user-".$model->id."'>".
                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                 Html :: hiddenInput('UserEdit[id]', $model->id, []).

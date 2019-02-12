@@ -17,6 +17,7 @@ html {
     margin-left: 85px;
     margin-top: 65px;
     margin-bottom: 65px;
+    width: 100%;
 }
 .footer {
     position: fixed;
@@ -38,9 +39,13 @@ html {
     
 }
 .my_heders_bloc{
-    /*background-color: #f5f5a5;
-    z-index: 1;*/
-    position: fixed-top;    
+    /*background-color:background;
+    z-index: 1;
+    position: fixed-top;   */
+}
+.my_usercard_content_block{
+    position: relative;
+    width: 100%;
 }
 #logo_aside_top{
     width: 50px;

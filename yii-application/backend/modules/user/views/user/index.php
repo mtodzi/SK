@@ -17,8 +17,8 @@ $this->title = Yii::t('app', 'Персонал');
 
 ?>
 <div class='index_user_bloc row'>
-    <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
-        <nav class='navbar navbar-light bg-light'>
+    <div class='my_heders_bloc sticky-top mx-auto col-12'>
+        <nav class='navbar navbar-light bg-light border rounded'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
             <div class="d-flex justify-content-start col-xl-5 col-lg-4 col-md-4 col-sm-9 col-10"> 
                 <div>
@@ -45,7 +45,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_content_bloc col-10'>        
         <!-- пустая карточка --> 
         <div id='Block_add_user' class="row" style='display: none;'>
-            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1">
+            <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
                 <div class="my_box">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">
@@ -142,7 +142,7 @@ $this->title = Yii::t('app', 'Персонал');
                     // Customzing options for pager container tag
                     'options' => [
                         'tag' => 'ul',
-                        'class'=>'pagination my-2'   
+                        'class'=>'pagination my-2 justify-content-center'   
                     ],
                     // Customzing CSS class for pager link
                     'linkContainerOptions'=>[
@@ -172,7 +172,7 @@ $this->title = Yii::t('app', 'Персонал');
                     }
                     $select = $select."</select>";  
                     $bloc = "".                           
-                        "<div class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1' id='user_bloc_kard-".$model->id."'>".
+                        "<div class='my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto' id='user_bloc_kard-".$model->id."'>".
                             "<!--Форма для отправки пользователя в Архив-->".
                             "<form id='form_archive_user-".$model->id."'>".
                                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).

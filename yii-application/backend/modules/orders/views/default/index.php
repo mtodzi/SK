@@ -9,13 +9,13 @@ use backend\assets\AssetKartikFileInput;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 //$this->registerCssFile('@web/fuser/css/user.css');
 AssetKartikFileInput::register($this);
-$this->title = Yii::t('app', 'Персонал');
+$this->title = Yii::t('app', 'Заказы');
 
 
 ?>
 <div class='index_orders_bloc row'>
-    <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
-        <nav class='navbar navbar-light bg-light'>
+    <div class='my_heders_bloc sticky-top mx-auto col-12'>
+        <nav class='navbar navbar-light bg-light border rounded'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Заказы</a>
             <div class="d-flex justify-content-start col-xl-5 col-lg-4 col-md-4 col-sm-9 col-10"> 
                 <div>
@@ -42,7 +42,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_content_bloc col-10'>        
         <!-- пустая карточка заказа --> 
         <div id='Block_add_orders' class="row" style='display: block;'>
-            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1">
+            <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
                 <div class="my_box">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">
@@ -118,7 +118,7 @@ $this->title = Yii::t('app', 'Персонал');
                                     <input class='form-check-input'  type='checkbox' id='check_urgency-' value='option3'>
                                     <label class='form-check-label' for='check_urgency-'> срочно! </label>
                                 </div>
-                                <p class='form-row my-2 mx-2'> <textarea style='resize: none;' rows="3" cols="70" autofocus maxlength="300" placeholder="Особые заметки при приёме"></textarea></p>
+                                <p class='form-row my-2 mx-2'> <textarea style='resize: none;' rows="3" cols="70" maxlength="300" placeholder="Особые заметки при приёме"></textarea></p>
                                 <p id = 'error_device_type-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                             </div>
                         </div>    
@@ -129,7 +129,7 @@ $this->title = Yii::t('app', 'Персонал');
  
                 <!-- пустая карточка заказа сформированная--> 
         <div id='Block_add_orders' class="row" style='display: block;'>
-            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1">
+            <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
                 <div class="my_box">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">
