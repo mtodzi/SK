@@ -14,7 +14,7 @@
 }
 header {
     height: 235px;
-    background: #f0f2f5;
+   /* background: #f0f2f5;*/
 }
 .img_header{
     height: 225px;
@@ -22,6 +22,7 @@ header {
 }
 #main {
     padding-top:70px;
+    padding-bottom:70px;
 }
 
 .navbar {
@@ -45,10 +46,30 @@ header {
 .affix.navbar .navbar-brand {
     color: #fff;
 }
-.letter { 
-     /*color: red; /* Красный цвет символов */ 
+.letter_red { 
+     color: red; /* Красный цвет символов */ 
      /*font-size: 200%; /* Размер шрифта в процентах */ 
      /*font-family: serif; /* Шрифт с засечками */ 
      position: relative; /* Относительное позиционирование */ 
      top: 5px; /* Сдвиг сверху */ 
+}
+.letter_info { 
+     color: cornflowerblue; /* Синий цвет символов */ 
+     /*font-size: 200%; /* Размер шрифта в процентах */ 
+     /*font-family: serif; /* Шрифт с засечками */ 
+     position: relative; /* Относительное позиционирование */ 
+     bottom: 5px; /* Сдвиг сверху */ 
+}
+/* navbar collapsing */
+@media(max-width:34em) {
+    .navbar .navbar-nav>.nav-item {
+        float: none;
+        margin-left: .1rem;
     }
+    .navbar .navbar-nav {
+        float:none !important;
+    }
+    .navbar .collapse.in, .navbar .collapsing  {
+        clear:both;
+    }
+}
