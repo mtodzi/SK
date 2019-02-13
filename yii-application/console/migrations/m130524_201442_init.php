@@ -376,44 +376,39 @@ class m130524_201442_init extends Migration
                                         'id_controler' => '5']);
          $this->insert('{{%action_ct}}',['id' => '22',
                                         'action_name' => 'index',
-                                        'alias_action' => 'Просмотр рабочих',
-                                        'description' => 'Действие отвечает за вывод всех рабочих  на экран для возможности поиска редактирования и назначения и удаления роли.',
+                                        'alias_action' => 'Сотрудники',
+                                        'description' => 'Запрос выводит всех сотрудников которые не в архиве ',
                                         'id_controler' => '6']);
          $this->insert('{{%action_ct}}',['id' => '23',
-                                        'action_name' => 'view',
-                                        'alias_action' => 'Просмотр конкретного рабочего',
-                                        'description' => 'Действие отвечает за просмотр информации о пользователе - рабочем.',
+                                        'action_name' => 'indexarchive',
+                                        'alias_action' => 'Смотреть архив сотрудников',
+                                        'description' => 'Запрос выводит всех сотрудников которые в архиве',
                                         'id_controler' => '6']);
          $this->insert('{{%action_ct}}',['id' => '24',
                                         'action_name' => 'create',
-                                        'alias_action' => 'Добавить нового рабочего',
-                                        'description' => 'Действие которое создает нового пользователя.',
+                                        'alias_action' => 'Добавить сотрудника',
+                                        'description' => 'Запрос который добавляет нового сотрудника',
                                         'id_controler' => '6']);
          $this->insert('{{%action_ct}}',['id' => '25',
-                                        'action_name' => 'update',
-                                        'alias_action' => 'Обновить данные о рабочем',
-                                        'description' => 'Действие которое поваляет отредактировать информацию о пользователе.',
+                                        'action_name' => 'archive',
+                                        'alias_action' => 'Отправить в архив',
+                                        'description' => 'Запрос который добавить сотрудника в архив',
                                         'id_controler' => '6']);
          $this->insert('{{%action_ct}}',['id' => '26',
-                                        'action_name' => 'delete',
-                                        'alias_action' => 'Удалить данные о рабочем',
-                                        'description' => 'Действие позволяет удалить пользователя-рабочего.',
+                                        'action_name' => 'update',
+                                        'alias_action' => 'Редактировать',
+                                        'description' => 'Запрос который редактирует сотрудника',
                                         'id_controler' => '6']);
          $this->insert('{{%action_ct}}',['id' => '27',
-                                        'action_name' => 'changepassword',
-                                        'alias_action' => 'Изменить пароль',
-                                        'description' => 'Действие позволяет сменить пароль для входа в систему для пользователя-рабочего.',
+                                        'action_name' => 'updatephoto',
+                                        'alias_action' => 'Обновить фото',
+                                        'description' => 'Запрос обновляет фото сотрудника и добавляет фото сотрудника',
                                         'id_controler' => '6']);
          $this->insert('{{%action_ct}}',['id' => '28',
-                                        'action_name' => 'asktheemployeerole',
-                                        'alias_action' => 'Просмотр и добавление новой роли',
-                                        'description' => 'Действие позволяет просмотреть и добавить новую роль пользователю - рабочему.',
-                                        'id_controler' => '6']);
-         $this->insert('{{%action_ct}}',['id' => '29',
-                                        'action_name' => 'deletingauserrole',
-                                        'alias_action' => 'Удаление роли у рабочего',
-                                        'description' => 'Действие позволяет удалить роль у пользователя-рабочего',
-                                        'id_controler' => '6']);
+                                        'action_name' => 'filedeletegeneral',
+                                        'alias_action' => 'Удалить фото',
+                                        'description' => 'Запрос удаляет фото сотрудника',
+                                        'id_controler' => '6']);         
         $this->createTable('{{%acsess}}', [
                                             'id' => $this->primaryKey(),
                                             'item_name' => $this->string(64)->notNull(),
@@ -453,7 +448,6 @@ class m130524_201442_init extends Migration
         $this->insert('{{%acsess}}',['id' => '26', 'item_name' => 'admin', 'id_action_ct' => '26','rows' => 1]);
         $this->insert('{{%acsess}}',['id' => '27', 'item_name' => 'admin', 'id_action_ct' => '27','rows' => 1]);
         $this->insert('{{%acsess}}',['id' => '28', 'item_name' => 'admin', 'id_action_ct' => '28','rows' => 1]);
-        $this->insert('{{%acsess}}',['id' => '29', 'item_name' => 'admin', 'id_action_ct' => '29','rows' => 1]);
         
         $this->insert('{{%acsess}}',['id' => '30', 'item_name' => 'manager', 'id_action_ct' => '1','rows' => 0]);
         $this->insert('{{%acsess}}',['id' => '31', 'item_name' => 'manager', 'id_action_ct' => '2','rows' => 0]);
@@ -483,7 +477,6 @@ class m130524_201442_init extends Migration
         $this->insert('{{%acsess}}',['id' => '55', 'item_name' => 'manager', 'id_action_ct' => '26','rows' => 0]);
         $this->insert('{{%acsess}}',['id' => '56', 'item_name' => 'manager', 'id_action_ct' => '27','rows' => 0]);
         $this->insert('{{%acsess}}',['id' => '57', 'item_name' => 'manager', 'id_action_ct' => '28','rows' => 0]);
-        $this->insert('{{%acsess}}',['id' => '58', 'item_name' => 'manager', 'id_action_ct' => '29','rows' => 0]);
         
         $this->insert('{{%acsess}}',['id' => '59', 'item_name' => 'engineer', 'id_action_ct' => '1','rows' => 0]);
         $this->insert('{{%acsess}}',['id' => '60', 'item_name' => 'engineer', 'id_action_ct' => '2','rows' => 0]);
@@ -513,9 +506,7 @@ class m130524_201442_init extends Migration
         $this->insert('{{%acsess}}',['id' => '84', 'item_name' => 'engineer', 'id_action_ct' => '26','rows' => 0]);
         $this->insert('{{%acsess}}',['id' => '85', 'item_name' => 'engineer', 'id_action_ct' => '27','rows' => 0]);
         $this->insert('{{%acsess}}',['id' => '86', 'item_name' => 'engineer', 'id_action_ct' => '28','rows' => 0]);
-        $this->insert('{{%acsess}}',['id' => '87', 'item_name' => 'engineer', 'id_action_ct' => '29','rows' => 0]);
-        
-        
+   
     }
 
     public function down()

@@ -17,6 +17,7 @@ class Position extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
+     * Задаем имя таблица в БД
      */
     public static function tableName()
     {
@@ -25,6 +26,7 @@ class Position extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     * Задаем проверки полям
      */
     public function rules()
     {
@@ -37,6 +39,7 @@ class Position extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     * Задаем русски лейбы полям
      */
     public function attributeLabels()
     {
@@ -49,6 +52,7 @@ class Position extends \yii\db\ActiveRecord
 
     /**
      * @return \yii\db\ActiveQuery
+     * связуем таблицу User c Position по ключу 
      */
     public function getUsers()
     {

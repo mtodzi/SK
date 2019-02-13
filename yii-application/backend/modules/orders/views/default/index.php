@@ -126,58 +126,84 @@ $this->title = Yii::t('app', 'Заказы');
                 </div>
             </div>
         </div>
- 
-                <!-- пустая карточка заказа сформированная--> 
-        <div id='Block_add_orders' class="row" style='display: block;'>
-            <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
-                <div class="my_box">
-                    <div class = "my_box_heder">
-                        <nav class="navbar navbar-light bg-dark rounded-top">
-                            <span class="navbar-brand text-light">Заказ № __ от __ __ ____</span>
-                            
-                            <!--группировка кнопок в navbar с выравниванием вправо-->
-                                <div class="flex-box ml-auto"> 
-                                <!--кнопка распечатать заказ-->
-                                    <a id='orders_print_button' class="nav-link btn btn-light mx-1 orders_print_button" data-toggle="tooltip" data-placement="left" title="Печать">
-                                        <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/print.svg'])?>' alt="Печать">
-                                    </a>
-                                <!--кнопка редактировать заказ-->
-                                    <a  id='edit_orders' class="nav-link btn btn-light orders_edit_button" data-toggle="tooltip" data-placement="right" title="Редактировать">
-                                        <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/edit.svg'])?>' alt="Редактировать">
-                                    </a>
-                                </div>
-                        
-                        </nav>
-                    </div>             
-                    <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
-                        <div class="row py-2">
-                            <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
-                                <form id='form-update_orders-0'>
-                                    <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
-                                </form>
-                                <div id='user_alert_server-0' class='alert alert-danger' role='alert' style='display: none;'>
-                                    <span id='span_user_alert_server-0'>Ошибка</span>
-                                </div>
-                                <h5>
-                                    <p class="form-row mx-4 my-1">Клиентов Клиент Клиентович // тел: 8(111)-111-11-11</p>
-                                    <p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                </h5>    
-                                <p id = 'error_user_employeename-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p id = 'error_user_id_position-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p class="form-row mx-4 my-1">Диагностика, ремонт</p>
-                                <p id = 'error_brand-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p class="form-row mx-4 my-1">Apple смартфон I-phone 6S S/N:3213213213</p>
-                                <p id = 'error_device_type-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p class="form-row mx-4 my-1">Не раб. кнопка вкл. тел. и выкл. громк. после попадания влаги</p>
-                                <p id = 'error_device_type-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                            </div>
-                        </div>    
-                    </div>
-                </div>
-            </div>
-        </div>
+<?php
+        echo ListView::widget([
+                'dataProvider' => $dataProvider,
+                'pager' => [
+                    'maxButtonCount' => 3,
+                    // Customzing options for pager container tag
+                    'options' => [
+                        'tag' => 'ul',
+                        'class'=>'pagination my-2 justify-content-center'   
+                    ],
+                    // Customzing CSS class for pager link
+                    'linkContainerOptions'=>[
+                        'class'=>'page-item'
+                    ],
+                    'linkOptions' => [
+                        'class' => 'page-link'
+                    ],
+                    
+                    'activePageCssClass' => 'active',
+                    'disabledPageCssClass' => 'disable disabled page-link',
+                    
+                     
+                ],
+                'options'=> ['class' => ''],
+                'itemOptions' => ['class' => ''],
+                'summary'=>FALSE,
+                'itemView' => function ($model, $key, $index, $widget) {
+                $bloc = "".
+                    "<!-- пустая карточка заказа сформированная-->". 
+                    "<div id='Block_add_orders' class='row'>".
+                        "<div class='my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto'>".
+                            "<div class='my_box'>".
+                                "<div class = 'my_box_heder'>".
+                                    "<nav class='navbar navbar-light bg-dark rounded-top'>".
+                                        "<span class='navbar-brand text-light'>".$model->getOrderNumberText()."</span>".                            
+                                        "<!--группировка кнопок в navbar с выравниванием вправо-->".
+                                        "<div class='flex-box ml-auto'>". 
+                                            "<!--кнопка распечатать заказ-->".
+                                            "<a id='orders_print_button' class='nav-link btn btn-light mx-1 orders_print_button' data-toggle='tooltip' data-placement='left' title='Печать'>".
+                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/print.svg'])."' alt='Печать'>".
+                                            "</a>".
+                                            "<!--кнопка редактировать заказ-->".
+                                            "<a  id='edit_orders' class='nav-link btn btn-light orders_edit_button' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
+                                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Редактировать'>".
+                                            "</a>".
+                                        "</div>".                        
+                                    "</nav>".
+                                "</div>".             
+                                "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
+                                    "<div class='row py-2'>".
+                                        "<div class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12'>".
+                                            "<form id='form-update_orders-0'>".
+                                                Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
+                                            "</form>".
+                                            "<div id='user_alert_server-0' class='alert alert-danger' role='alert' style='display: none;'>".
+                                                "<span id='span_user_alert_server-0'>Ошибка</span>".
+                                            "</div>".
+                                            "<h5>".
+                                                "<p class='form-row mx-4 my-1'>".$model->clients->clients_name." // тел: ".$model->getOnePhoneClient()."</p>".
+                                            "</h5>".
+                                            "<p class='form-row mx-4 my-1'>".$model->getRepairTypeString()."</p>".
+                                            "<p class='form-row mx-4 my-1'>".$model->getDevicesText()."</p>".
+                                            "<p class='form-row mx-4 my-1'>".$model->claimedMalfunction->claimed_malfunction_name."</p>".
+                                        "</div>".
+                                    "</div>".    
+                                "</div>".
+                            "</div>".
+                        "</div>".
+                    "</div>".
+                    "<!--Конец карточки-->";    
+                return $bloc;
+            },
+        ]);
+     ?>    
+        
     </div>
     <div class='my_footer_bloc co-12'>
     </div>
 </div>
+
         
