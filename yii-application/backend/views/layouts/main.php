@@ -31,10 +31,13 @@ MyAppAssetLayouteSite::register($this);
 <?php $this->beginBody() ?>
     
     <header class="header">
-        <nav class="navbar fixed-top">
+        <nav class="navbar">
             <a id ="buttonMenu" class="navbar-brand btn btn-light" href="#" data-menu="0">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/menu.svg'])?>' alt="Меню">
             </a>
+            <p id ="currentUser" class="navbar_inner_content navbar-text mr-auto mx-4">
+                Выполнен вход: <?=Yii::$app->user->identity->employeename?>
+            </p>
         </nav>
     </header>
     
