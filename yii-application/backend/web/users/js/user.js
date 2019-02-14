@@ -497,9 +497,10 @@
     }
     // Обработчик нажатия кнопки добавить нового сотрудника
     $('.my_heders_bloc').on('click', '#add_new_user', function(){
-         var status_card = Number($('#status_card').val());
+        var status_card = Number($('#status_card').val());
         console.log(status_card);
         if(status_card == 0){
+            $(window).scrollTop(0);
             $('#Block_add_user').css('display', 'flex'); 
             var employeename = 'нового сотрудника'
             $('#status_card').val(1);
@@ -509,6 +510,7 @@
             var employeename = $('#status_card').attr('data-user-card');
             console.log(employeename);
             alert('Вы уже редактируете '+employeename);
+            $(window).scrollTop(0);
             return false;
         }
     });
