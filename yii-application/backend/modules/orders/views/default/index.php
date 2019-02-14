@@ -211,6 +211,8 @@ $this->title = Yii::t('app', 'Заказы');
                                         "<div id='orders_alert_server-".$model->id_orders."' class='alert alert-danger' role='alert' style='display: none;'>".
                                             "<span id='span_user_alert_server-".$model->id_orders."'>Ошибка</span>".
                                         "</div>".
+                                        "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_client-0' name='' form='form-create_orders-0' class='form-control col-10' type='name' placeholder='*Введите ФИО клиента'> </p>".
+                                        "<p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
                                     "</div>".
                                 "</div>".
                             "</div>".
