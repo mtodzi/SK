@@ -1,9 +1,9 @@
 <?php
-print_r($model_clients) ;
+//print_r($model_clients) ;
 
-$select = "<select name='' form='' class='form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12'>";
+$select = "<select id='search_input_clients_name-".$id_orders."' size=3 name='' form='' class='form-control col-10' style='margin-left: 30px;'>";
     foreach ($model_clients as $data){        
-        $select = $select."<option id='' value = ''>".$data->clients_name."</option>";   
+        $select = $select."<option class='option_clients_name' id='option_clients_name-".$data->id_clients."' value = '".$data->id_clients."'>".$data->clients_name."</option>";   
     }
 $select = $select."</select>";
 echo $select;

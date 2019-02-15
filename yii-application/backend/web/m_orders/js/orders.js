@@ -1,6 +1,6 @@
     //Обработчик нажатия кнопки редактировать в userbox
     $('.my_content_bloc').on('click', '.orders_edit_button', function(){
-        var id = GetId(this,1);
+        var id = GetId($(this),1);
         if(GetStatusCard(id)){
             SetStatusCard(id,"#span_orders_id_orders_text-");
             $('#user_card_button_edit_print-'+id).hide();
@@ -15,7 +15,7 @@
     //Обработчик нажатия кнопки Применить в userbox
     $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
-        var id = GetId(this,1);
+        var id = GetId($(this),1);
         var arrayFieldsChecked = ['clients_name-']; 
         if(formFieldCheck(id,arrayFieldsChecked)){
             alert("Проверка Проверка прошла успешно");
@@ -24,24 +24,40 @@
         }
     });
     //Обработчик ввода текста в input_clients_name
-    $('.my_content_bloc').on('keypress', '.input_clients_name', function(eventObject){
-        var id = GetId(this,1);
+    $('.my_content_bloc').on('keyup', '.input_clients_name', function(eventObject){
+        var id = GetId($(this),1);
+        var data={};
         console.log($("#input_orders_clients_name-"+id).val());
-        var data={  'id_client':id,
-                    'name':$("#input_orders_clients_name-"+id).val()+String.fromCharCode(eventObject.which),
-                    '_csrf-backend':$('input[name="_csrf-backend"]').val()
-                };
+        data={  'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[clients_name]':$("#input_orders_clients_name-"+id).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
         $.ajax({
                 url: '/yii-application/backend/web/orders/default/takenameclient',
                 type: 'POST',
                 data: data,
                 success: function(res){
-                    console.log(res);   
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_clients_name-"+id).remove();
+                        $("#input_orders_clients_name-"+id).after(res['msg']);
+                    }else{
+                        $("#search_input_clients_name-"+id).remove();
+                    }    
                 },
                 error: function(){
                     alert('По неизвестной причине сервер не ответил обратитесь к админу.');
                 }
             });
+    });
+    
+     //Обработчик нажатия на option в подсказке clients_name в userbox
+    $('.my_content_bloc').on('click', '.option_clients_name', function(){
+        var id_orders = GetId($(this).parent(),1);
+        var id_clients = GetId($(this),1);
+        console.log(id_orders);
+        console.log(id_clients);
     });
     
     /** 
@@ -50,7 +66,8 @@
      * @returns Возврашаем id передоваемого елемента
      */
     function GetId(obg,number){
-        var buffer = obg.id.split('-');
+        obg = obg.first();
+        var buffer = (obg.attr('id')).split('-');
         console.log(buffer);
         var id = buffer[number];
         console.log(id);

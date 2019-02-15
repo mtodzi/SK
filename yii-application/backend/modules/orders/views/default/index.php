@@ -117,7 +117,7 @@ $this->title = Yii::t('app', 'Заказы');
                                     <input class='form-check-input'  type='checkbox' id='check_urgency-' value='option3'>
                                     <label class='form-check-label' for='check_urgency-'> срочно! </label>
                                 </div>
-                                <p class='form-row my-2 mx-2'> <textarea style='resize: none;' rows="3" cols="70" maxlength="300" placeholder="Особые заметки при приёме"></textarea></p>
+                                <p class='form-row my-2 mx-2'> <textarea style='resize: none; ' rows="3" cols="70" maxlength="300" placeholder="Особые заметки при приёме"></textarea></p>
                                 <p id = 'error_device_type-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                             </div>
                         </div>    
@@ -204,15 +204,6 @@ $this->title = Yii::t('app', 'Заказы');
                                         "</div>".
                                     "</div>".
                                     "<div id = 'orders_form-".$model->id_orders."' style='display: none;'>".
-                                        "<form id='form-update_orders-".$model->id_orders."'>".
-                                            Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
-                                            Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
-                                        "</form>".
-                                        "<div id='orders_alert_server-".$model->id_orders."' class='alert alert-danger' role='alert' style='display: none;'>".
-                                            "<span id='span_user_alert_server-".$model->id_orders."'>Ошибка</span>".
-                                        "</div>".
-                                        "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_client-0' name='' form='form-create_orders-0' class='form-control col-10' type='name' placeholder='*Введите ФИО клиента'> </p>".
-                                        "<p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
                                         "<div class='row py-2'>".
                                             "<div class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12'>".
                                                 "<form id='form-update_orders-".$model->id_orders."'>".
@@ -227,6 +218,7 @@ $this->title = Yii::t('app', 'Заказы');
                                                 "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
                                             "</div>".
                                         "</div>".        
+
                                     "</div>".
                                 "</div>".
                             "</div>".
