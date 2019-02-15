@@ -13,7 +13,7 @@ $this->title = Yii::t('app', 'Персонал');
 
 
 ?>
-<div class='index_user_bloc row'>
+<div class='index_user_bloc row center-block'>
     <div class='my_heders_bloc sticky-top mx-auto col-12'>
         <nav class='navbar navbar-light bg-light border rounded'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>

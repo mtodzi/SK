@@ -9,16 +9,22 @@ html {
 .header{
     position: fixed;
     top:0;
-    /*line-height: 1;*/
     width: 100%;
+    border-bottom: 1px solid #e5e5e5;
     z-index: 2;
-}    
+}  
 .container {
     /*margin: 0;*/
-    margin-left: 85px;
-    margin-top: 65px;
+    /*@extend .container;*/
+    padding-left: 85px;
+    margin-top: 75px;
     margin-bottom: 65px;
     width: 100%;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .index_user_bloc{
     width: 100%
@@ -87,9 +93,11 @@ html {
 .main_content{
     position: relative;
 }
+
 /*.my_content_bloc{
     margin-top: 65px;
 }*/
+
 .user_photo{
     width: 100px;
     height: 120px;
