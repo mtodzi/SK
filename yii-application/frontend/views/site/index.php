@@ -20,9 +20,9 @@ $this->title = 'Service Keeper';
     </button>
     <div class="collapse navbar-collapse" id="collapsingNavbar">
 
-        <ul class="nav navbar-nav ml-auto hov_color_blue">
+        <ul class="nav navbar-nav ml-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id='menu_link' data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     Меню сайта
                 </a>
                 <div class="dropdown-menu" aria-labelledby="Preview">
@@ -31,16 +31,16 @@ $this->title = 'Service Keeper';
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Витрина</a>
+                <a class="nav-link" id='showcase_link' href="#">Витрина</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Услуги</a>
+                <a class="nav-link" id='services_link' href="#">Услуги</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Заказы</a>
+                <a class="nav-link" id='orders_link' href="#">Заказы</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Контакты</a>
+                <a class="nav-link" id='contacts_link' href="#">Контакты</a>
             </li>
         </ul>
     </div>

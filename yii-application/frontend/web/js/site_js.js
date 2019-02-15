@@ -13,10 +13,12 @@ $(document).ready(function() {
     if (scrollElement.scrollTop() >= top){
         wrapper.height(height);
         affixElement.addClass("affix");
+        affixElement.addClass("navbar-dark");
     $('.img_nav').show();    
     }
     else {
         affixElement.removeClass("affix");
+        affixElement.removeClass("navbar-dark");
         wrapper.height('auto');
         $('.img_nav').hide(); 
     }
