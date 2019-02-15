@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use yii\widgets\ListView;
 use yii\helpers\Url;
@@ -203,16 +203,21 @@ $this->title = Yii::t('app', 'Заказы');
                                             "</div>".
                                         "</div>".
                                     "</div>".
-                                    "<div id = 'orders_form-".$model->id_orders."'>".
-                                        "<form id='form-update_orders-".$model->id_orders."'>".
-                                            Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
-                                            Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
-                                        "</form>".
-                                        "<div id='orders_alert_server-".$model->id_orders."' class='alert alert-danger' role='alert' style='display: none;'>".
-                                            "<span id='span_user_alert_server-".$model->id_orders."'>Ошибка</span>".
-                                        "</div>".
-                                        "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_client-0' name='' form='form-create_orders-0' class='form-control col-10' type='name' placeholder='*Введите ФИО клиента'> </p>".
-                                        "<p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
+                                    "<div id = 'orders_form-".$model->id_orders."' style='display: none;'>".
+                                        "<div class='row py-2'>".
+                                            "<div class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12'>".
+                                                "<form id='form-update_orders-".$model->id_orders."'>".
+                                                    Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
+                                                    Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
+                                                "</form>".
+                                                "<div id='orders_alert_server-".$model->id_orders."' class='alert alert-danger' role='alert' style='display: none;'>".
+                                                    "<span id='span_user_alert_server-".$model->id_orders."'>Ошибка</span>".
+                                                "</div>".
+                                                "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_clients_name-".$model->id_orders."' name='ClientsEdit[clients_name]' value='".$model->clients->clients_name."' form='form-create_orders-0' class='form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'> </p>".
+                                                Html :: hiddenInput('OrdersEdit[clients_id]', $model->clients_id, []).
+                                                "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
+                                            "</div>".
+                                        "</div>".        
                                     "</div>".
                                 "</div>".
                             "</div>".

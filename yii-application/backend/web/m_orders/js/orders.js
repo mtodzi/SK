@@ -6,11 +6,44 @@
             $('#user_card_button_edit_print-'+id).hide();
             $('#orders_content-'+id).hide();        
             $('#orders_cancel_button_card_apply-'+id).show();
+            $('#orders_form-'+id).show();
         }else{
             return false;
         }
        
     });
+    //Обработчик нажатия кнопки Применить в userbox
+    $('.my_content_bloc').on('click', '.orders_apply_button', function(){
+        //alert("Вы нажали кнопку пременить");
+        var id = GetId(this,1);
+        var arrayFieldsChecked = ['clients_name-']; 
+        if(formFieldCheck(id,arrayFieldsChecked)){
+            alert("Проверка Проверка прошла успешно");
+        }else{
+            alert("Проверка Проверка прошла не успешно");
+        }
+    });
+    //Обработчик ввода текста в input_clients_name
+    $('.my_content_bloc').on('keypress', '.input_clients_name', function(eventObject){
+        var id = GetId(this,1);
+        console.log($("#input_orders_clients_name-"+id).val());
+        var data={  'id_client':id,
+                    'name':$("#input_orders_clients_name-"+id).val()+String.fromCharCode(eventObject.which),
+                    '_csrf-backend':$('input[name="_csrf-backend"]').val()
+                };
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takenameclient',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);   
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+    });
+    
     /** 
      * @param {dom element} obg дом элемент
      * @param {int} number число которое характерезует в каком мести мтроки обозначен id
@@ -56,6 +89,57 @@
             var employeename = $('#status_card').attr('data-user-card');
             console.log(employeename);
             alert('Вы уже редактируете '+employeename);
+            return false;
+        }
+    }
+    /**
+     * Функция проверяет поля редактируемого пользователя
+     * */
+    function formFieldCheck(id,arrayFieldsChecked){
+        var arrayError={};
+        var countError = 0;
+        $.each(arrayFieldsChecked, function(i, val) {
+            console.log(i+" - "+val);
+            switch ("input_orders_"+val) {
+                case "input_orders_clients_name-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['clients_name-']='Заполните ФИО клиента';
+                    }    
+
+            }            
+        });
+        if(countError == 0){
+            return true
+        }else{
+            errorServerTreatment(arrayError,id);
+            return false
+        }
+    }
+    //Функция обработки полученных ошибок с сервера
+    function errorServerTreatment(arrayError,id){
+        //перебирает поля с данными, присланные с сервера
+        $.each(arrayError,function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            $('#error_orders_'+index.toString()+id).text(value.toString());//Добавляем текст ошибки
+            $('#error_orders_'+index.toString()+id).show();//Блок ошибки показываем пользователю
+            console.log($('#error_orders_'+index.toString()+id));
+            $('#input_orders_'+index.toString()+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+            console.log($('#input_orders_'+index.toString()+id));
+        });
+        return false;
+    }
+    //Функция проверяет сушествует ли переменная
+    function empty(e) {
+        switch (e) {
+            case "":
+            case 0:
+            case "0":
+            case null:
+            case false:
+            case typeof this == "undefined":    
+            return true;
+        default:
             return false;
         }
     }
