@@ -73,3 +73,14 @@ header {
         clear:both;
     }
 }
+/*a.nav-item:hover{
+    color: white;
+}*/
+a:hover {
+    color: #800000; /* Цвет ссылки при наведении на нее курсора мыши */  
+    text-decoration: underline; /* Добавляем подчеркивание */
+   }
+.hov_color_blue:hover {
+    /*background: #0078BF; */
+    color:red
+}

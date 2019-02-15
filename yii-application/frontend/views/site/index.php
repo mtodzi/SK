@@ -20,7 +20,7 @@ $this->title = 'Service Keeper';
     </button>
     <div class="collapse navbar-collapse" id="collapsingNavbar">
 
-        <ul class="nav navbar-nav ml-auto">
+        <ul class="nav navbar-nav ml-auto hov_color_blue">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     Меню сайта
