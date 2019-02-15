@@ -203,7 +203,7 @@ $this->title = Yii::t('app', 'Заказы');
                                             "</div>".
                                         "</div>".
                                     "</div>".
-                                    "<div id = 'orders_form-".$model->id_orders."'>".
+                                    "<div id = 'orders_form-".$model->id_orders."' style='display: none;'>".
                                         "<form id='form-update_orders-".$model->id_orders."'>".
                                             Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                                             Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
