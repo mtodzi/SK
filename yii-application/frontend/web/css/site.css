@@ -28,6 +28,7 @@ header {
 .navbar {
   border-radius: 0;
   transition: all 0.3s ease-out;
+  
 }
 
 .affix {
@@ -44,7 +45,9 @@ header {
 }
 .affix.navbar .nav-item>a, 
 .affix.navbar .navbar-brand {
+    
     color: #fff;
+    text-transform:
 }
 .letter_red { 
      color: red; /* Красный цвет символов */ 
@@ -73,3 +76,19 @@ header {
         clear:both;
     }
 }
+/*#menu_link:hover{
+    color: red;
+}
+#showcase_link:hover{
+    color: cornflowerblue;
+}
+#services_link:hover{
+    color: cornflowerblue;
+}
+#orders_link:hover{
+    color: cornflowerblue;
+}
+#contacts_link:hover{
+    color: cornflowerblue;
+}
+*/
