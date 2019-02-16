@@ -58,7 +58,51 @@
         var id_clients = GetId($(this),1);
         console.log(id_orders);
         console.log(id_clients);
+        var data={};
+        data={  'SearchClientsSubstitution[id_orders]':id_orders,
+                'SearchClientsSubstitution[id_clients]':id_clients,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        $.ajax({
+            url: '/yii-application/backend/web/orders/default/takeclient',
+            type: 'POST',
+            data: data,
+            success: function(res){
+                console.log(res);
+                if(res[0]!=0){
+                    $("#search_input_clients_name-"+id_orders).remove();
+                    $("#orders_clients_form-"+id_orders).remove();
+                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
+                }else{
+                    var numberAlert = getRandomArbitary(1, 50);
+                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
+                    setTimeout(postDelete, 3000,namePost);
+                }    
+            },
+            error: function(){
+                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            }
+        });        
     });
+    //ССылка создае ошибку в карточке заказа
+    function CreateErrorCards(msg,id_orders,numberAlert){
+    var result = ""+    
+        "<div id='orders_alert_server-"+id_orders+"-"+numberAlert+"' class='alert alert-danger' role='alert'>"+
+            "<span id='span_user_alert_server'>"+msg+"</span>"+
+        "</div>";
+        $("#orders_form-"+id_orders).prepend(result);
+        return "#orders_alert_server-"+id_orders+"-"+numberAlert;
+    }
+    //Функция удаляет созданую ошибку 
+    function postDelete(str){
+        $(str).remove();    
+    }
+    //Функция случайного числа
+    function getRandomArbitary(min, max)
+    {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
     
     /** 
      * @param {dom element} obg дом элемент

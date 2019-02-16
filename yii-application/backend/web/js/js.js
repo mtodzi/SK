@@ -8,13 +8,13 @@ $('#buttonMenu').click(function(){
     if(data_menu == 0){
         console.log($('#buttonMenu').attr('data-menu'));
         $('#aside_left').hide()//css('display', 'none');
-        $('#main').css('margin-left', '10px');
+        //$('#main').css('margin-left', '10px');
         $('#footer').css('padding-left', '0');
         $('#buttonMenu').attr('data-menu','1')
     }else{
         console.log($('#buttonMenu').attr('data-menu'));
         $('#aside_left').show()//css('display', 'block');
-        $('#main').css('margin-left', '100px');
+        //$('#main').css('margin-left', '100px');
         $('#footer').css('padding-left', '85px');
         $('#buttonMenu').attr('data-menu','0')
     }

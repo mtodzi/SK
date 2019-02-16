@@ -209,13 +209,14 @@ $this->title = Yii::t('app', 'Заказы');
                                                 "<form id='form-update_orders-".$model->id_orders."'>".
                                                     Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                                                     Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
-                                                "</form>".
-                                                "<div id='orders_alert_server-".$model->id_orders."' class='alert alert-danger' role='alert' style='display: none;'>".
-                                                    "<span id='span_user_alert_server-".$model->id_orders."'>Ошибка</span>".
+                                                "</form>".                                               
+                                                "<!--div групирует элементы для более удобной подстановки данных на визуализацию не влияет-->".
+                                                "<div id='orders_clients_form-".$model->id_orders."'>".    
+                                                    "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_clients_name-".$model->id_orders."' name='ClientsEdit[clients_name]' value='".$model->clients->clients_name."' form='form-create_orders-0' class='form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'> </p>".
+                                                    Html :: hiddenInput('OrdersEdit[clients_id]', $model->clients_id, []).
+                                                    "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
                                                 "</div>".
-                                                "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_clients_name-".$model->id_orders."' name='ClientsEdit[clients_name]' value='".$model->clients->clients_name."' form='form-create_orders-0' class='form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'> </p>".
-                                                Html :: hiddenInput('OrdersEdit[clients_id]', $model->clients_id, []).
-                                                "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
+                                                "<!--Конец div id='orders_alert_server-".$model->id_orders." -->".    
                                             "</div>".
                                         "</div>".        
 
