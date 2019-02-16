@@ -37,7 +37,7 @@ $this->title = Yii::t('app', 'Персонал');
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
             </form>
         </nav>
-    </div>
+    </div> <!-- /.my_heders_bloc-->
     <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
     <div class='my_content_bloc col-10'>        
         <!-- пустая карточка --> 
@@ -126,11 +126,11 @@ $this->title = Yii::t('app', 'Персонал');
                                     <p id = 'error_user_prePassword-0' class='text-danger my-2' style='display: none;'>Ошибка</p>
                                 </div>
                         
-                        </div>    
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </div>   <!-- /.row--> 
+                    </div> <!-- /.my_box_content-->
+                </div> <!-- /.my_box-->
+            </div> <!-- /.my_usercard_content_block-->
+        </div> <!-- /.Block_add_user-->
         <?php
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
@@ -283,8 +283,8 @@ $this->title = Yii::t('app', 'Персонал');
             },
         ]);
      ?>       
-    </div>
+    </div> <!-- /.my_content_bloc-->
     <div class='my_footer_bloc co-12'>
     </div>
-</div>
+</div> <!-- /.index_user_bloc-->
         
