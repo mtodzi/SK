@@ -78,7 +78,7 @@ class DefaultController extends Controller
             if($SearchClientsSubstitution->load(Yii::$app->request->post()) && $SearchClientsSubstitution->validate()){
                 $modelOrders = $SearchClientsSubstitution->SearchOrders();
                 $modelClients = $SearchClientsSubstitution->SearchClients();
-                if($modelOrders && $modelClients){
+                if(($modelOrders || $SearchClientsSubstitution->id_orders==0) && $modelClients){
                     $viewclientform = $this->renderAjax('viewclientform', ['modelOrders'=>$modelOrders,'modelClients'=>$modelClients]);
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
