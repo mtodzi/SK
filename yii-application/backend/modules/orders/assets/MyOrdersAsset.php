@@ -17,6 +17,7 @@ class MyOrdersAsset extends AssetBundle
         'm_orders/css/orders.css',
     ];
     public $js = [
+        'm_orders/js/jquery.maskedinput.min.js',
         'm_orders/js/orders.js',
     ];
     public $depends = [

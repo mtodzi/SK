@@ -4,6 +4,7 @@ use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use backend\modules\orders\assets\MyOrdersAsset;
+use backend\modules\orders\models\ClientsPhones;
 
 MyOrdersAsset::register($this);
 
@@ -42,7 +43,7 @@ $this->title = Yii::t('app', 'Заказы');
    
     <div class='my_content_bloc col-10'>        
         <!-- пустая карточка заказа --> 
-        <div id='Block_add_orders' class="row" style='display: block;'>
+        <div id='Block_add_orders-0' class="row" style='display: none;'>
             <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
                 <div class="my_box">
                     <div class = "my_box_heder">
@@ -69,19 +70,35 @@ $this->title = Yii::t('app', 'Заказы');
                                 <form id='form-update_orders-0'>
                                     <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                 </form>
-                                <div id='user_alert_server-0' class='alert alert-danger' role='alert' style='display: none;'>
-                                    <span id='span_user_alert_server-0'>Ошибка</span>
+                                <!--div групирует элементы для более удобной подстановки данных на визуализацию не влияет-->
+                                <div id='orders_clients_form-0'>
+                                    <!--Имя клиента-->
+                                    <p class="form-row my-2">
+                                        <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/orders/thumb/client.svg'])?>">
+                                        <input id='input_orders_clients_name-0' name='ClientsEdit[clients_name]' form='form-create_orders-0' class="form-control col-10 input_clients_name" type="name" placeholder="*Введите ФИО клиента">
+                                        <?=Html :: hiddenInput('OrdersEdit[clients_id]', $model->clients_id, [])?>
+                                    </p>
+                                    <p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    <!--Конец Имя клиента-->
+                                    
+                                    <!--Телефон клиента-->
+                                    <p id='p_orders_clients_phone-0-1' class="form-row my-2">
+                                        <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>">
+                                        <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-1]'  form='' class="form-control col-10 phone" type="text" placeholder="*Введите номер телефона">
+                                        <p id = 'error_orders_phone-0-1' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    </p>
+                                    <p class="form-row my-2">
+                                        <a  id = 'add_another_phone-0' class="btn btn-dark add_another_phone mx-1" href="#" data-count-phone='1' data-toggle="tooltip" data-placement="right" title="Добавить еще телефон">
+                                            <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить еще телефон">
+                                        </a>
+                                    </p>    
+                                    <!--Телефон клиента-->
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> <input id='input_user_email-0' name='' form='' class="form-control col-10" type="mail" placeholder="Введите адрес электронной почты"> </p>
+                                    <p id = 'error_user_email-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                    <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>"> <input id='input_user_address-0' name='' form='' class="form-control col-10" type="text" placeholder="Введите домашний адрес"> </p>
+                                    <p id = 'error_user_address-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                                 </div>
-                                <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/orders/thumb/client.svg'])?>"> <input id='input_orders_client-0' name='' form='form-create_orders-0' class="form-control col-10" type="name" placeholder="*Введите ФИО клиента"> </p>
-                                <p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>   
-                                <p id = 'error_user_employeename-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p id = 'error_user_id_position-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>"> <input id='input_user_phone-0' name=''  form='' class="form-control col-10 phone" type="text" placeholder="*Введите номер телефона"></p>
-                                <p id = 'error_user_phone-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> <input id='input_user_email-0' name='' form='' class="form-control col-10" type="mail" placeholder="Введите адрес электронной почты"> </p>
-                                <p id = 'error_user_email-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
-                                <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>"> <input id='input_user_address-0' name='' form='' class="form-control col-10" type="text" placeholder="Введите домашний адрес"> </p>
-                                <p id = 'error_user_address-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                <!--Конец Div id='orders_clients_form-0'-->
                                 <h5>
                                     Принимаемое устройство:
                                 </h5> 
@@ -152,9 +169,22 @@ $this->title = Yii::t('app', 'Заказы');
                 'itemOptions' => ['class' => ''],
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
+                //Начало формирования телефонов клиентов для редактирования
+                    $ClientsPhones = ClientsPhones::findAll(['clients_id'=>$model->clients_id]);
+                    $phonestr = "";
+                    $i=1;
+                    foreach ($ClientsPhones as $phone){
+                        $phonestr = $phonestr."".
+                            "<p id='p_orders_clients_phone-0-1' class='form-row my-2'>".
+                                "<img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>".
+                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-10 phone' type='text' placeholder='*Введите номер телефона'>".
+                                "<p id = 'error_orders_phone-".$model->id_orders."-".$i."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
+                            "</p>";
+                    }
+                //Конец формирования телефонов клиентов для редактирования
                 $bloc = "".
                     "<!-- пустая карточка заказа сформированная-->". 
-                    "<div id='Block_add_orders' class='row'>".
+                    "<div id='Block_add_orders-".$model->id_orders."' class='row'>".
                         "<div class='my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto'>".
                             "<div class='my_box'>".
                                 "<div class = 'my_box_heder'>".
@@ -209,14 +239,26 @@ $this->title = Yii::t('app', 'Заказы');
                                                 "<form id='form-update_orders-".$model->id_orders."'>".
                                                     Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                                                     Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
-                                                "</form>".                                               
+                                                "</form>".
+                        
                                                 "<!--div групирует элементы для более удобной подстановки данных на визуализацию не влияет-->".
                                                 "<div id='orders_clients_form-".$model->id_orders."'>".    
                                                     "<p class='form-row my-2'><img class='my_icon mx-1 my-2' src='".Url::to(['/img/orders/thumb/client.svg'])."'> <input id='input_orders_clients_name-".$model->id_orders."' name='ClientsEdit[clients_name]' value='".$model->clients->clients_name."' form='form-create_orders-0' class='form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'> </p>".
                                                     Html :: hiddenInput('OrdersEdit[clients_id]', $model->clients_id, []).
-                                                    "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>". 
+                                                    "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
+                                                    
+                                                    "<!--Телефон клиента-->".
+                                                    $phonestr.
+                                                    "<p class='form-row my-2'>".
+                                                        "<a  id = 'add_another_phone-0' class='btn btn-dark add_another_phone mx-1' href='#' data-count-phone='1' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>".
+                                                            "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще телефон'>".
+                                                        "</a>".
+                                                    "</p>".    
+                                                    "<!--Телефон клиента-->".
+                        
                                                 "</div>".
-                                                "<!--Конец div id='orders_alert_server-".$model->id_orders." -->".    
+                                                "<!--Конец div id='orders_alert_server-".$model->id_orders." -->".
+                        
                                             "</div>".
                                         "</div>".        
 

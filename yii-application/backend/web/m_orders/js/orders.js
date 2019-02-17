@@ -1,7 +1,86 @@
+    //Задаем масску ввода для клсса phone
+    $(".phone").mask("8(999)-999-99-99");
+    //Обработчик нажатия кнопки добавить новый заказ
+    $('.my_heders_bloc').on('click', '#add_new_orders', function(){
+        if(GetStatusCard()){
+            SetStatusCard(0,"");
+            $('#Block_add_orders-0').show();
+            $(window).scrollTop(0);
+            $(this).tooltip('hide');
+            $(this).blur();
+        }else{
+            $(this).tooltip('hide');
+            $(this).blur();
+            return false;
+        }
+    });
+    //Обработчик нажатия кнопки добавить еше один телефон
+    $('.my_box_content').on('click', '.add_another_phone', function(){
+        var id_orders = GetId($(this),1);
+        var count_phone = Number($(this).attr('data-count-phone'));
+        console.log('id_orders-'+id_orders+" count_phone-"+count_phone);
+        addInputPhone(id_orders,count_phone);
+        $(this).tooltip('update');
+        $(this).tooltip('hide');
+        $(this).blur();
+    });
+    //Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
+    function addInputPhone(id_orders,count_phone){
+        if(count_phone<=2){
+            var next = count_phone+1;
+            var buttondelete=""+
+                    "<a  id = 'delete_another_phone-0' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='left' title='Удалить телефон'>"+
+                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/img/add.svg' alt='Удалить телефон'>"+
+                    "</a>";
+            var input =''+
+                    "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2'>"+
+                        "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone' type='text' placeholder='*Введите номер телефона'>"+
+                        "<p id = 'error_orders_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>"+
+                    "</p>";
+            $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
+            $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
+            $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).after(input);            
+            $(".phone").mask("8(999)-999-99-99");
+            if(count_phone==1){
+                $("#add_another_phone-"+id_orders).before(buttondelete);
+                $('[data-toggle="tooltip"]').tooltip();
+            }    
+            console.log(count_phone);
+            console.log(input);
+            return true;
+        }else{
+            alert("Больше трех телефонов клиенту добавлять нельзя");
+            return true;
+        }    
+    }
+    //Обработчик нажатия кнопки добавить еше один телефон
+    $('.my_box_content').on('click', '.delete_another_phone', function(){
+        var id_orders = GetId($(this),1);
+        var count_phone = Number($(this).attr('data-count-phone'));
+        console.log('id_orders-'+id_orders+" count_phone-"+count_phone);
+        $(this).tooltip('update');
+        $(this).tooltip('hide');
+        $(this).blur();
+        deleteInputPhone(id_orders,count_phone);        
+    });
+    function deleteInputPhone(id_orders,count_phone){
+        var next = count_phone-1
+        if(count_phone>1 && count_phone<=3){
+            $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).remove();
+            $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
+            $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
+            if(count_phone==2){
+                //$("#delete_another_phone-"+id_orders).tooltip('disable');
+                $("#delete_another_phone-"+id_orders).remove();
+            } 
+        }
+    }
+    
     //Обработчик нажатия кнопки редактировать в userbox
     $('.my_content_bloc').on('click', '.orders_edit_button', function(){
         var id = GetId($(this),1);
-        if(GetStatusCard(id)){
+        if(GetStatusCard()){
             SetStatusCard(id,"#span_orders_id_orders_text-");
             $('#user_card_button_edit_print-'+id).hide();
             $('#orders_content-'+id).hide();        
@@ -126,7 +205,11 @@
         var status_card = Number($('#status_card').val());
         console.log(status_card);
         if(status_card == 0){
-            var employeename = $(StartSelector+id).text();
+            if(id!=0){
+                var employeename ='Вы уже редактируете '+$(StartSelector+id).text();
+            }else{
+                var employeename = "Вы добавляете новый заказ";
+            }    
             console.log(employeename);
             $('#status_card').val(1);
             $('#status_card').attr('data-user-card', employeename);
@@ -141,7 +224,7 @@
      * открыта выводит сообшени какая карточка открыта
      * и возврашает ложь
      */
-    function GetStatusCard(id){
+    function GetStatusCard(){
         var status_card = Number($('#status_card').val());
         console.log(status_card);
         if(status_card == 0){
@@ -149,7 +232,7 @@
         }else{
             var employeename = $('#status_card').attr('data-user-card');
             console.log(employeename);
-            alert('Вы уже редактируете '+employeename);
+            alert(employeename);
             return false;
         }
     }
