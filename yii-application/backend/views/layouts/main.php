@@ -74,7 +74,7 @@ MyAppAssetLayouteSite::register($this);
             </nav>      
     </aside>
     
-    <main id="main" role="main" class="main_content container"> 
+    <main id="main" role="main" class="main_content container-fluid"> 
         
            <?= $content ?>   
           

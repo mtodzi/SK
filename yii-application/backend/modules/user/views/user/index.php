@@ -11,45 +11,48 @@ MyUsersAsset::register($this);
 
 $this->title = Yii::t('app', 'Персонал');
 
-
 ?>
-<div class='index_user_bloc row center-block'>
-    <div class='my_heders_bloc sticky-top mx-auto col-12'>
+<div class='my_heders_bloc row-flex sticky-top'>
         <nav class='navbar navbar-light bg-light border rounded'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
-            <div class="d-flex justify-content-start col-xl-5 col-lg-4 col-md-4 col-sm-9 col-10"> 
-                <div>
+            
+            <div class='btn-group'>
+                <div class=''>
                 <!--кнопка архив сотрудников-->            
-                <a  id = 'browse_archive' class="btn btn-dark mx-1" href="<?=Url::to(['/user/user/indexarchive'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив сотрудников">
+                <a  id = 'browse_archive' class="btn btn-dark" href="<?=Url::to(['/user/user/indexarchive'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив сотрудников">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив сотрудников">
                 </a>
+                
                 </div>
                 <!--кнопка добавить сотрудника-->
-                <div class="ml-auto">
-                <a  id = 'add_new_user' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Добавить сотрудника">
+                <div class='mx-1'>
+                <a  id = 'add_new_user' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить сотрудника">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить сотрудника">
                 </a>
                 </div>
-                    
-            </div>
+            </div>        
+            
             <form class='form-inline' post="GET" action="<?=Url::to(['/user/user/index'])?>">
                 <input name="UserSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="<?=$searchModel->search?>" aria-label='Search'>
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
             </form>
         </nav>
-    </div> <!-- /.my_heders_bloc-->
+</div> <!-- /.my_heders_bloc-->
+
+<div class='index_user_bloc'>
     <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
-    <div class='my_content_bloc col-10'>        
+    <div class='my_content_bloc'>        
+        
         <!-- пустая карточка --> 
-        <div id='Block_add_user' class="row" style='display: none;'>
-            <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
-                <div class="my_box">
+        <div id='Block_add_user' class="row-flex col-lg-6 offset-lg-3" style='display: none;'>
+            <div class="my_usercard_content_block my-1 mx-1">
+                <div class="my_box my-1">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">
                             <span class="navbar-brand text-light">Карточка сотрудника</span>
                             
                             <!--группировка кнопок в navbar с выравниванием вправо-->
-                                <div class="btn-group ml-auto"> 
+                                <div class="flex-box ml-auto"> 
                                 <!--кнопка отменить изменения и вернуться-->
                                     <a id='user_cancel_button-0' class="nav-link btn btn-light mx-1 user_cancel_button" data-toggle="tooltip" data-placement="left" title="Отмена">
                                         <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/abort.svg'])?>' alt="Отмена">
@@ -66,6 +69,7 @@ $this->title = Yii::t('app', 'Персонал');
                         <div class="row py-2">
                             <div class="col-10 col-xl-2 col-md-2">
                                 <img id='user_img_photo-0' class="user_photo bg-secondary mx-2" src="<?=Url::to(['/users/img/users/default/default.svg'])?>" class="align-self-start mr-3" alt="...">
+                                
                                 <!--Начало модального окна-->
                                 <div class='modal' id='modal_update_photo_user-0' tabindex='-1' role='dialog'>
                                     <div class='modal-dialog' role='document'>
@@ -87,12 +91,14 @@ $this->title = Yii::t('app', 'Персонал');
                                     </div>
                                 </div>
                                 <!--Конец модального окна-->
+                                
                                 <div id='block_button_photo_edit-0' class='col-10 col-xl-2 col-md-2'>
                                 <!--кнопка редактировать фото-->
                                 <a id='user_photo_edit_button-0' class='btn btn-dark mx-3 my-1 btn-update-photo' data-toggle='tooltip' data-placement='bottom' title='Добавить фото'>
                                     <img id ='menu_navbar_top' class='' src='<?=Url::to(['/img/change_photo.svg'])?>' alt='Добавить фото'>
                                 </a> 
                                 </div>
+                            
                             </div>
                                 <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
                                     <form id='form-update_user-0'>
@@ -131,6 +137,7 @@ $this->title = Yii::t('app', 'Персонал');
                 </div> <!-- /.my_box-->
             </div> <!-- /.my_usercard_content_block-->
         </div> <!-- /.Block_add_user-->
+        
         <?php
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
@@ -154,8 +161,8 @@ $this->title = Yii::t('app', 'Персонал');
                     
                      
                 ],
-                'options'=> ['class' => ''],
-                'itemOptions' => ['class' => 'row'],
+                'options'=> ['class' => 'wrapper'],
+                'itemOptions' => ['class' => 'row-flex col-lg-6 offset-lg-3'],
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
                     $position = backend\modules\user\models\Position::find()->all();
@@ -169,7 +176,7 @@ $this->title = Yii::t('app', 'Персонал');
                     }
                     $select = $select."</select>";  
                     $bloc = "".                           
-                        "<div class='my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto' id='user_bloc_kard-".$model->id."'>".
+                        "<div class='my_usercard_content_block my-1 mx-1' id='user_bloc_kard-".$model->id."'>".
                             "<!--Форма для отправки пользователя в Архив-->".
                             "<form id='form_archive_user-".$model->id."'>".
                                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
@@ -195,6 +202,7 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Применить'>".
                                             "</a>".
                                         "</div>".
+                                        
                                         "<!--группировка кнопок в navbar с выравниванием вправо-->".
                                         "<div id='user_cancel_button_card_apply-".$model->id."' class='flex-box ml-auto' style='display: none;'>". 
                                             "<!--кнопка отменить изменения и вернуться-->".
@@ -206,13 +214,15 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
                                             "</a>".
                                         "</div>".
+                            
                                     "</nav>".
                                 "</div>".             
                                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
                                     "<div class='row py-2'>".                                       
-                                        "<div class='col-10 col-xl-2 col-md-2'>".
+                                        "<div class='col-3'>".
                                             "<!--фото сотрудника-->".
-                                            "<img id='user_img_photo-".$model->id."' class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                                            "<img id='user_img_photo-".$model->id."' class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start' alt='фото сотрудника'>".
+                                            
                                             "<!--Начало модального окна-->".
                                             "<div class='modal' id='modal_update_photo_user-".$model->id."' tabindex='-1' role='dialog'>".
                                                 "<div class='modal-dialog' role='document'>".
@@ -224,7 +234,7 @@ $this->title = Yii::t('app', 'Персонал');
                                                             "</button>".
                                                         "</div>".
                                                         "<div class='modal-body'>".
-                                                            "<p>Хотите изменит фото</p>".
+                                                            "<p>Чтобы изменить фото</p>".
                                                             "<input name='UserPhoto[photo]' id='input_photo_update-".$model->id."' type='file'>".
                                                         "</div>".
                                                         "<div class='modal-footer'>".
@@ -234,6 +244,7 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "</div>".
                                             "</div>".
                                             "<!--Конец модального окна-->".
+                                            
                                             "<div id='block_button_photo_edit-".$model->id."' class='col-10 col-xl-2 col-md-2' style='display: none;'>".
                                                 "<!--кнопка редактировать фото-->".
                                                 "<a id='user_photo_edit_button-".$model->id."' class='btn btn-dark mx-3 my-1 btn-update-photo' data-toggle='tooltip' data-placement='bottom' title='Изменить фото'>".
@@ -241,17 +252,17 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "</a>". 
                                             "</div>".
                                         "</div>".
-                                        "<div id='user_data-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' >".                
+                                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' >".                
                                             "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
                                         "</div>".                                   
-                                        "<div id='user_data_edit-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' style='display: none;'>".
+                                        "<div id='user_data_edit-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' style='display: none;'>".
                                             "<div id='user_alert_server-".$model->id."' class='alert alert-danger' role='alert' style='display: none;'>".
                                                 "<span id='span_user_alert_server-".$model->id."'>Ошибка</span>".               
                                             "</div>".
-                                            "<h5><p class='form-row my-2 mx-2'> <input id='input_user_employeename-".$model->id."' name='UserEdit[employeename]' form='form-update_user-".$model->id."' class='form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12' type='text' value='".$model->employeename."'> - ".
+                                            "<h5><p class='form-row my-2'> <input id='input_user_employeename-".$model->id."' name='UserEdit[employeename]' form='form-update_user-".$model->id."' class='form-control col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12' type='text' value='".$model->employeename."'> - ".
                                             $select.
                                             "</p>".
                                             "</h5>".

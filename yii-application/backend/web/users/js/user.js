@@ -501,7 +501,7 @@
         console.log(status_card);
         if(status_card == 0){
             $(window).scrollTop(0);
-            $('#Block_add_user').css('display', 'flex'); 
+            $('#Block_add_user').css('display', 'block'); 
             var employeename = 'нового сотрудника'
             $('#status_card').val(1);
             $('#status_card').attr('data-user-card', employeename);
