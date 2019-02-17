@@ -26,24 +26,31 @@
     });
     //Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
     function addInputPhone(id_orders,count_phone){
-        if(count_phone<=2){
+        var count = $('.orders_phone-'+id_orders).length;
+        if(count<=2){
             var next = count_phone+1;
             var buttondelete=""+
-                    "<a  id = 'delete_another_phone-0' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='left' title='Удалить телефон'>"+
-                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/img/add.svg' alt='Удалить телефон'>"+
+                    "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
+                    "</a>";
+            var buttondeleteFirst=""+
+                    "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var input =''+
-                    "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2'>"+
+                    "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
                         "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone' type='text' placeholder='*Введите номер телефона'>"+
-                        "<p id = 'error_orders_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>"+
+                        "<p id = 'error_orders_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>";
             $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
             $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
-            $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).after(input);            
+            $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).after(input); 
+            $(("#input_orders_clients_phone-"+id_orders+"-"+next)).after(buttondelete);
+            $('[data-toggle="tooltip"]').tooltip();
             $(".phone").mask("8(999)-999-99-99");
             if(count_phone==1){
-                $("#add_another_phone-"+id_orders).before(buttondelete);
+                $(("#input_orders_clients_phone-"+id_orders+"-1")).after(buttondeleteFirst);
                 $('[data-toggle="tooltip"]').tooltip();
             }    
             console.log(count_phone);
@@ -54,27 +61,57 @@
             return true;
         }    
     }
-    //Обработчик нажатия кнопки добавить еше один телефон
+    //Обработчик нажатия кнопки Удалить еше один телефон
     $('.my_box_content').on('click', '.delete_another_phone', function(){
         var id_orders = GetId($(this),1);
+        var id_delete = GetId($(this),2);
         var count_phone = Number($(this).attr('data-count-phone'));
-        console.log('id_orders-'+id_orders+" count_phone-"+count_phone);
+        console.log('id_orders-'+id_orders+" id_delete-"+id_delete);
         $(this).tooltip('update');
         $(this).tooltip('hide');
         $(this).blur();
-        deleteInputPhone(id_orders,count_phone);        
+        deleteInputPhone(id_orders,id_delete,count_phone);        
     });
-    function deleteInputPhone(id_orders,count_phone){
-        var next = count_phone-1
-        if(count_phone>1 && count_phone<=3){
-            $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).remove();
+    function deleteInputPhone(id_orders,id_delete,count_phone){
+        var next = count_phone-1;
+        var count = $('.orders_phone-'+id_orders).length;
+        console.log(count);
+        if(count==3){
+            $("#p_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
+            $("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
+            $('.orders_phone-'+id_orders).each(function( index ) {
+                $(this).attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number-"+(index+1)+"]"));
+                $(this).find("a").attr('id',("delete_another_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("p").attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
+                console.log( index + ": ");
+            });
+            $('.error_orders_phone-'+id_orders).each(function( index ) {
+                $(this).attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
+            });
+        }
+        if(count==2){
+            $("#p_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
+            $("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
+            $('.orders_phone-'+id_orders).each(function( index ) {
+                $(this).attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number-"+(index+1)+"]"));                
+                $(this).find("a").remove();
+                console.log( index + ": ");
+            });
+            $('.error_orders_phone-'+id_orders).each(function( index ) {
+                $(this).attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
+            });
+        }
+        $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
+        /*
             $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
             $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
-            if(count_phone==2){
                 //$("#delete_another_phone-"+id_orders).tooltip('disable');
                 $("#delete_another_phone-"+id_orders).remove();
-            } 
-        }
+        */
     }
     
     //Обработчик нажатия кнопки редактировать в userbox

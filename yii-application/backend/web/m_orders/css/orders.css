@@ -1,3 +1,7 @@
 .option_clients_name:hover{
     background-color: silver;
 }
+
+.orders_phone{
+    flex-wrap: nowrap;
+}
