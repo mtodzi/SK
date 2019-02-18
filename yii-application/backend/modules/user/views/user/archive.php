@@ -11,19 +11,32 @@ MyUsersAsset::register($this);
 $this->title = Yii::t('app', 'Персонал');
 
 ?>
-<div class='index_user_bloc row'>
-    <div class='my_heders_bloc col-xl-9 col-lg-9 col-md-11 col-sm-11 col-8'>
-        <nav class='navbar navbar-light bg-light'>
-
+<div class='my_heders_bloc row-flex sticky-top'>
+        <nav class='navbar navbar-light bg-light border rounded'>
             <a class='navbar-brand' href='<?=Url::to(['/user/user/indexarchive'])?>'>Архив персонала</a>
+            
+            <div class='btn-group'>
+                <div class='scroll_to_up'>
+                <!--кнопка вверх scrollspy-->            
+                <a  id = '' class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="В начало">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/arrow-up.svg'])?>' alt="В начало">
+                </a>
+                </div>
+            </div>      
+            
             <form class='form-inline' post="GET" action="<?=Url::to(['/user/user/indexarchive'])?>">
                 <input name="UserSearch[search]" value="<?=$searchModel->search?>" class='form-control mr-2 my-2' type='search' placeholder='Поиск' aria-label='Search'>            
                 <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
             </form>
+        
         </nav>
-    </div>
-    <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
-    <div class='my_content_bloc col-10'>        
+</div> <!-- /.my_heders_bloc-->
+<!-- скрытая переменная открытой карточки -->
+<input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
+<!-- конец скрытой переменной открытой карточки -->
+
+<div class='index_user_bloc'>
+    <div class='my_content_bloc'>        
         <?php
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
@@ -46,8 +59,8 @@ $this->title = Yii::t('app', 'Персонал');
                     'disabledPageCssClass' => 'disable disabled page-link',
     
                 ],
-                'options'=> ['class' => ''],
-                'itemOptions' => ['class' => 'row'],
+                'options'=> ['class' => 'wrapper'],
+                'itemOptions' => ['class' => 'row-flex col-lg-6 offset-lg-3'],
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
                     $position = backend\modules\user\models\Position::find()->all();
@@ -61,7 +74,7 @@ $this->title = Yii::t('app', 'Персонал');
                     }
                     $select = $select."</select>";  
                     $bloc = "".                           
-                        "<div class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12  my-1' id='user_bloc_kard-".$model->id."'>".
+                        "<div class='my_usercard_content_block my-1 mx-1' id='user_bloc_kard-".$model->id."'>".
                             "<!--Форма для отправки пользователя в Архив-->".
                             "<form id='form_archive_user-".$model->id."'>".
                                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
@@ -83,11 +96,11 @@ $this->title = Yii::t('app', 'Персонал');
                                 "</div>".             
                                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
                                     "<div class='row py-2'>".                                       
-                                        "<div class='col-10 col-xl-2 col-md-2'>".
+                                        "<div class='col-3'>".
                                             "<!--фото сотрудника-->".
-                                            "<img class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                                            "<img class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start' alt='фото сотрудника'>".
                                         "</div>".
-                                        "<div id='user_data-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' >".                
+                                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' >".                
                                             "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".

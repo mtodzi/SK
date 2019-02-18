@@ -44,14 +44,16 @@ $this->title = Yii::t('app', 'Персонал');
         </nav>
 </div> <!-- /.my_heders_bloc-->
 
+<!-- скрытая переменная открытой карточки -->
+<input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
+<!-- конец скрытой переменной открытой карточки -->
+
 <div class='index_user_bloc'>
-    <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
     <div class='my_content_bloc'>        
-        
-        <!-- пустая карточка --> 
-        <div id='Block_add_user' class="row-flex col-lg-6 offset-lg-3" style='display: none;'>
+        <!-- пустая карточка пользователя--> 
+        <div id='Block_add_user' class="row-flex col-lg-6 offset-lg-3" style='display: none;'> <!-- ???почему не Block_add_user-0 ?????-->
             <div class="my_usercard_content_block my-1 mx-1">
-                <div class="my_box my-1">
+                <div class="my_box">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">
                             <span class="navbar-brand text-light">Карточка сотрудника</span>

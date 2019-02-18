@@ -44,11 +44,12 @@ $this->title = Yii::t('app','Заказы');
 <!-- скрытая переменная открытой карточки -->
 <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
 <!-- конец скрытой переменной открытой карточки -->
-<div class='index_orders_bloc row'>
-    <div class='my_content_bloc col-10'>        
+
+<div class='index_orders_bloc'>
+    <div class='my_content_bloc'>        
         <!-- пустая карточка заказа --> 
-        <div id='Block_add_orders-0' class="row" style='display: none;'>
-            <div class="my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto">
+        <div id='Block_add_orders-0' class="row-flex col-lg-6 offset-lg-3" style='display: none;'>
+            <div class="my_usercard_content_block my-1 mx-1">
                 <div class="my_box">
                     <div class = "my_box_heder">
                         <nav class="navbar navbar-light bg-dark rounded-top">
@@ -70,7 +71,7 @@ $this->title = Yii::t('app','Заказы');
                     </div>             
                     <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
                         <div class="row py-2">
-                            <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+                            <div class="col-10 col-xl-2 col-md-2">
                                 <form id='form-update_orders-0'>
                                     <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                 </form>
@@ -142,9 +143,9 @@ $this->title = Yii::t('app','Заказы');
                                 <p id = 'error_device_type-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                             </div>
                         </div>    
-                    </div>
-                </div>
-            </div>
+                    </div> <!--/.my_box_content -->
+                </div> <!--/.my_box -->
+            </div> <!--my_usercard_content_block -->
         </div>
 <?php
         echo ListView::widget([
@@ -169,8 +170,8 @@ $this->title = Yii::t('app','Заказы');
                     
                      
                 ],
-                'options'=> ['class' => ''],
-                'itemOptions' => ['class' => ''],
+                'options'=> ['class' => 'wrapper'],
+                'itemOptions' => ['class' => 'row-flex col-lg-6 offset-lg-3'],
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
                 //Начало формирования телефонов клиентов для редактирования
@@ -203,8 +204,8 @@ $this->title = Yii::t('app','Заказы');
                 //Конец формирования телефонов клиентов для редактирования
                 $bloc = "".
                     "<!-- пустая карточка заказа сформированная-->". 
-                    "<div id='Block_add_orders-".$model->id_orders."' class='row'>".
-                        "<div class='my_usercard_content_block col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12  my-1 mx-auto'>".
+                    "<div id='Block_add_orders-".$model->id_orders."' class=''>".
+                        "<div class='my_usercard_content_block my-1 mx-1'>".
                             "<div class='my_box'>".
                                 "<div class = 'my_box_heder'>".
                                     "<nav class='navbar navbar-light bg-dark rounded-top'>".
