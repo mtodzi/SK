@@ -84,7 +84,7 @@ $this->title = Yii::t('app', 'Заказы');
                                     <!--Телефон клиента-->
                                     <p id='p_orders_clients_phone-0-1' class="form-row my-2 orders_phone-0 orders_phone">
                                         <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>">
-                                        <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-1]'  form='' class="form-control col-10 phone" type="text" placeholder="*Введите номер телефона">
+                                        <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-1]'  form='' class="form-control col-10 phone phone_input" type="text" placeholder="*Введите номер телефона">
                                         <p id = 'error_orders_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone-0' style='display: none;'>Ошибка</p>
                                     </p>
                                     <p class="form-row my-2">
@@ -178,7 +178,7 @@ $this->title = Yii::t('app', 'Заказы');
                         $phonestr = $phonestr."".
                             "<p id='p_orders_clients_phone-".$model->id_orders."-".$i."' class='form-row my-2 orders_phone-".$model->id_orders." orders_phone'>".
                                 "<img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>".
-                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-10 phone' type='text' placeholder='*Введите номер телефона'>";
+                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-10 phone phone_input' type='text' placeholder='*Введите номер телефона'>";
                                 if($count>1){
                                 $phonestr = $phonestr."".
                                     "<a  id = 'delete_another_phone-".$model->id_orders."-".$i."' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>".

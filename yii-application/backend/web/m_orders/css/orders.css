@@ -5,3 +5,17 @@
 .orders_phone{
     flex-wrap: nowrap;
 }
+
+.select_phone{
+    position: relative;
+    top:-8px;
+    bottom: 0px;
+    right:0px; 
+    width: 469px;
+    z-index: 1;
+}
+.select_clients_name{
+    position: relative;
+    width: 469px;
+    z-index: 1;
+}

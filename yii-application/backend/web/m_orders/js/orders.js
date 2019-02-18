@@ -30,19 +30,20 @@
         if(count<=2){
             var next = count_phone+1;
             var buttondelete=""+
-                    "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                    "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var buttondeleteFirst=""+
-                    "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                    "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var input =''+
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
-                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone' type='text' placeholder='*Введите номер телефона'>"+
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone phone_input' type='text' placeholder='*Введите номер телефона'>"+
                         "<p id = 'error_orders_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>";
+            $("#search_input_phone_number-"+id_orders).remove();
             $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
             $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
             $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).after(input); 
@@ -72,10 +73,12 @@
         $(this).blur();
         deleteInputPhone(id_orders,id_delete,count_phone);        
     });
+    //Функция инпут телефона 
     function deleteInputPhone(id_orders,id_delete,count_phone){
         var next = count_phone-1;
         var count = $('.orders_phone-'+id_orders).length;
         console.log(count);
+        $("#search_input_phone_number-"+id_orders).remove();
         if(count==3){
             $("#p_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
             $("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
@@ -106,12 +109,6 @@
             });
         }
         $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
-        /*
-            $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
-            $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
-                //$("#delete_another_phone-"+id_orders).tooltip('disable');
-                $("#delete_another_phone-"+id_orders).remove();
-        */
     }
     
     //Обработчик нажатия кнопки редактировать в userbox
@@ -140,9 +137,10 @@
         }
     });
     //Обработчик ввода текста в input_clients_name
-    $('.my_content_bloc').on('keyup', '.input_clients_name', function(eventObject){
+    $('.my_box_content').on('keyup', '.input_clients_name', function(eventObject){
         var id = GetId($(this),1);
         var data={};
+        if(eventObject.which != 27){
         console.log($("#input_orders_clients_name-"+id).val());
         data={  'SearchInputOrders[id_orders]':id,
                 'SearchInputOrders[clients_name]':$("#input_orders_clients_name-"+id).val(),
@@ -166,10 +164,13 @@
                     alert('По неизвестной причине сервер не ответил обратитесь к админу.');
                 }
             });
+        }else{
+             $("#search_input_clients_name-"+id).remove();
+        }    
     });
     
-     //Обработчик нажатия на option в подсказке clients_name в userbox
-    $('.my_content_bloc').on('click', '.option_clients_name', function(){
+    //Обработчик нажатия на option в подсказке clients_name в userbox
+    $('.my_box_content').on('click', '.option_clients_name', function(){
         var id_orders = GetId($(this).parent(),1);
         var id_clients = GetId($(this),1);
         console.log(id_orders);
@@ -200,6 +201,42 @@
                 alert('По неизвестной причине сервер не ответил обратитесь к админу.');
             }
         });        
+    });
+    //Обработчик ввода текста в input_phone
+    $('.my_box_content').on('keyup', '.phone_input', function(eventObject){        
+        var id_orders = GetId($(this),1);
+        var id_phone = GetId($(this),2);
+        if(eventObject.which != 27){
+        console.log("id_phone="+id_phone);
+        console.log($(this).val());
+        var data={};
+        data={  'SearchInputOrders[id_orders]':id_orders,
+                'SearchInputOrders[phone_number]':$(this).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takephonenumber',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_phone_number-"+id_orders).remove();
+                        console.log($("#input_orders_clients_phone-"+id_orders+"-"+id_phone));
+                        $("#p_orders_clients_phone-"+id_orders+"-"+id_phone).after(res['msg']);                        
+                    }else{
+                        $("#search_input_phone_number-"+id_orders).remove();
+                    }    
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+        }else{
+            $("#search_input_phone_number-"+id_orders).remove();
+        }    
+
     });
     //ССылка создае ошибку в карточке заказа
     function CreateErrorCards(msg,id_orders,numberAlert){

@@ -69,6 +69,48 @@ class DefaultController extends Controller
     }
     
     /*
+     *Метод возврашает Список Имен клиентов при наборе в поле     
+     * 
+     */
+    public function actionTakephonenumber(){
+        if(\Yii::$app->request->isAjax){
+            $modelSearchInputOrders =  new SearchInputOrders(['scenario' => SearchInputOrders::SCENARIO_PHONE]);
+            if($modelSearchInputOrders->load(Yii::$app->request->post()) && $modelSearchInputOrders->validate()){
+                $id_orders = $modelSearchInputOrders->id_orders;
+                $model_phone = $modelSearchInputOrders->SearchPhoneNumber();
+                if($model_phone){
+                    $select = $this->renderAjax('selectphone', ['model_phone'=>$model_phone,'id_orders'=>$id_orders]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$select,'id_orders'=>$id_orders];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'В БД ничего не было найдено'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }    
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Передаваемые данные не прошли проверку'];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+            
+           
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
+    }
+    
+    /*
      *Метод возврашает выбранного клиента из списка пользователя 
      * 
      */
