@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use yii\widgets\ListView;
 use yii\helpers\Url;
@@ -21,15 +21,15 @@ $this->title = Yii::t('app','Заказы');
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/arrow-up.svg'])?>' alt="В начало">
                 </a>
             </div>
-            <div>
+            <div class="mx-1">
                 <!--кнопка архив заказов-->            
-                <a  id = 'browse_archive_orders' class="btn btn-dark mx-1" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив заказов">
+                <a  id = 'browse_archive_orders' class="btn btn-dark" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив заказов">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив заказов">
                 </a>
             </div>
             <!--кнопка добавить новый заказ-->
-            <div class="mx-1">
-                <a  id = 'add_new_orders' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Добавить заказ">
+            <div class="">
+                <a  id = 'add_new_orders' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить заказ">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить заказ">
                 </a>
             </div>
