@@ -17,15 +17,20 @@ $this->title = Yii::t('app', 'Персонал');
             <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Персонал</a>
             
             <div class='btn-group'>
-                <div class=''>
+                <div class='scroll_to_up'>
+                <!--кнопка вверх scrollspy-->            
+                <a  id = '' class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="В начало">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/arrow-up.svg'])?>' alt="В начало">
+                </a>
+                </div>
+                <div class='mx-1'>
                 <!--кнопка архив сотрудников-->            
                 <a  id = 'browse_archive' class="btn btn-dark" href="<?=Url::to(['/user/user/indexarchive'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив сотрудников">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив сотрудников">
                 </a>
-                
                 </div>
                 <!--кнопка добавить сотрудника-->
-                <div class='mx-1'>
+                <div class=''>
                 <a  id = 'add_new_user' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить сотрудника">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить сотрудника">
                 </a>

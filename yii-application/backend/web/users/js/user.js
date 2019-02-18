@@ -564,4 +564,28 @@
         $('#user_alert_server-'+id).css('display', 'none');
         return false;
     }
+//Функция  кнопки прокрутки        
+$(function() {
+    // при нажатии на кнопку scrollup
+    $('.scroll_to_up').click(function() {
+    // переместиться в верхнюю часть страницы
+    $("html, body").animate({
+      scrollTop:0
+    },1000);
+  })
+})
+// при прокрутке окна (window)
+$(window).scroll(function() {
+  // если пользователь прокрутил страницу более чем на 200px
+  if ($(this).scrollTop()>200) {
+    // то сделать кнопку scrollup видимой
+    $('.scroll_to_up').fadeIn();
+  }
+  // иначе скрыть кнопку scrollup
+  else {
+    $('.scroll_to_up').fadeOut();
+  }
+});
+
+
 //конец обработки данных модуля user

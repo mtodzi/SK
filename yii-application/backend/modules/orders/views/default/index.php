@@ -8,39 +8,43 @@ use backend\modules\orders\models\ClientsPhones;
 
 MyOrdersAsset::register($this);
 
-$this->title = Yii::t('app', 'Заказы');
-
-
+$this->title = Yii::t('app','Заказы');
 ?>
+
+<div class='my_heders_bloc row-flex sticky-top'>
+    <nav class='navbar navbar-light bg-light border rounded'>
+        <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Заказы</a>
+        <div class='btn-group'>
+            <div class='scroll_to_up'>
+                <!--кнопка вверх scrollspy-->            
+                <a  id = '' class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="В начало">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/arrow-up.svg'])?>' alt="В начало">
+                </a>
+            </div>
+            <div>
+                <!--кнопка архив заказов-->            
+                <a  id = 'browse_archive_orders' class="btn btn-dark mx-1" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив заказов">
+                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив заказов">
+                </a>
+            </div>
+            <!--кнопка добавить новый заказ-->
+            <div class="mx-1">
+                <a  id = 'add_new_orders' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Добавить заказ">
+                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить заказ">
+                </a>
+            </div>
+        </div>
+        <form class='form-inline' post="GET" action="<?=Url::to(['/orders'])?>">
+            <input name="UserSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="" aria-label='Search'>
+            <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
+        </form>
+    </nav>
+</div> <!-- ./my_heders_bloc -->
+
 <!-- скрытая переменная открытой карточки -->
 <input type="hidden" id="status_card" data-user-card="" name="status_card" value="0">
 <!-- конец скрытой переменной открытой карточки -->
 <div class='index_orders_bloc row'>
-    <div class='my_heders_bloc sticky-top mx-auto col-12'>
-        <nav class='navbar navbar-light bg-light border rounded'>
-            <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Заказы</a>
-            <div class="d-flex justify-content-start col-xl-5 col-lg-4 col-md-4 col-sm-9 col-10"> 
-                <div>
-                <!--кнопка архив заказов-->            
-                <a  id = 'browse_archive_orders' class="btn btn-dark mx-1" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив заказов">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив заказов">
-                </a>
-                </div>
-                <!--кнопка добавить новый заказ-->
-                <div class="ml-auto">
-                <a  id = 'add_new_orders' class="btn btn-dark mx-1" href="#" data-toggle="tooltip" data-placement="top" title="Добавить заказ">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить заказ">
-                </a>
-                </div>
-                    
-            </div>
-            <form class='form-inline' post="GET" action="<?=Url::to(['/orders'])?>">
-                <input name="UserSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="" aria-label='Search'>
-                <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
-            </form>
-        </nav>
-    </div>
-   
     <div class='my_content_bloc col-10'>        
         <!-- пустая карточка заказа --> 
         <div id='Block_add_orders-0' class="row" style='display: none;'>

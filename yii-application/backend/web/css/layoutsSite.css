@@ -10,10 +10,10 @@ html {
     position: fixed;
     top:0;
     width: 100%;
-    border-bottom: 1px solid #e5e5e5;
+    /*border-bottom: 1px solid #e5e5e5;*/
     z-index: 2;
 }  
-.container-fluid {
+.container-fluid{
     margin: 0;
     /*@extend .container;*/
     padding-left: 100px;
@@ -21,11 +21,11 @@ html {
     margin-bottom: 65px;
     width: 100%;
 }
-.wrapper {
+.wrapper{
     margin: 0 auto;
     justify-content: center;
 }
-.center-block {
+.center-block{
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -42,7 +42,6 @@ html {
 .my_content_bloc{
    
 }
-
 .footer {
     position: fixed;
     padding-left: 85px;
@@ -75,8 +74,7 @@ html {
     height: 25px;
 }
 .navbar_inner_content{
-    padding-left:85px;
-    top: 0;
+
 }
 .exit{
     position: absolute;
@@ -102,8 +100,6 @@ html {
 .main_content{
     position: relative;
 }
-
-
 .user_photo{
     width: 100px;
     height: 120px;
@@ -116,13 +112,11 @@ html {
 }
 .edit_button{
     height:15px;
-  }
-  
+}
 .flex-box {
   display:flex;
   justify-content:space-between;
 }
-
 /*блок замещения цвета и размера подсказок*/ 
 .bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
     border-top-color: #17a2b8; /* цвет стрелочки (по умолчанию #000)*/
@@ -142,15 +136,15 @@ html {
     background-color: #2893ed; /* цвет фона (по умолчанию #000) */
     border-radius: 0.25rem; /* радиус скругдения углов */
 }
-
 .disable{
     background-color:#e9ecef;
 }
-
 .disable :hover{
     cursor: default;
 }
-
 .disable span{
     color:grey;
+}
+.scroll_to_up{
+    display: none;
 }
