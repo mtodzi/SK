@@ -51,7 +51,7 @@ $this->title = Yii::t('app', 'Персонал');
 <div class='index_user_bloc'>
     <div class='my_content_bloc'>        
         <!-- пустая карточка пользователя--> 
-        <div id='Block_add_user' class="row-flex col-lg-6 offset-lg-3" style='display: none;'> <!-- ???почему не Block_add_user-0 ?????-->
+        <div id='Block_add_user' class="row-flex col-lg-6 offset-lg-3" style='display: none;'> <!-- ???почему не Block_add_user-0?????-->
             <div class="my_usercard_content_block my-1 mx-1">
                 <div class="my_box">
                     <div class = "my_box_heder">
@@ -74,7 +74,7 @@ $this->title = Yii::t('app', 'Персонал');
                     </div>             
                     <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
                         <div class="row py-2">
-                            <div class="col-10 col-xl-2 col-md-2">
+                            <div class="col-3">
                                 <img id='user_img_photo-0' class="user_photo bg-secondary mx-2" src="<?=Url::to(['/users/img/users/default/default.svg'])?>" class="align-self-start mr-3" alt="...">
                                 
                                 <!--Начало модального окна-->
@@ -107,7 +107,7 @@ $this->title = Yii::t('app', 'Персонал');
                                 </div>
                             
                             </div>
-                                <div class="px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12">
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
                                     <form id='form-update_user-0'>
                                         <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                     </form>
@@ -173,7 +173,7 @@ $this->title = Yii::t('app', 'Персонал');
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
                     $position = backend\modules\user\models\Position::find()->all();
-                    $select = "<select name='UserEdit[id_position]' form='form-update_user-".$model->id."' class='form-control col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12'>";
+                    $select = "<select name='UserEdit[id_position]' form='form-update_user-".$model->id."' class='form-control col-xl-4 col-lg-4 col-md-4 col-sm-11 col-11'>";
                     foreach ($position as $data){
                         if($data->id != $model->id_position){
                             $select = $select."<option id='option_select_".$data->name_position."-".$model->id."' value = '".$data->id."'>".$data->name_position."</option>";  
@@ -225,7 +225,7 @@ $this->title = Yii::t('app', 'Персонал');
                                     "</nav>".
                                 "</div>".             
                                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
-                                    "<div class='row py-2'>".                                       
+                                    "<div class='row py-2 align-items-start'>".                                       
                                         "<div class='col-3'>".
                                             "<!--фото сотрудника-->".
                                             "<img id='user_img_photo-".$model->id."' class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start' alt='фото сотрудника'>".
@@ -259,13 +259,13 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "</a>". 
                                             "</div>".
                                         "</div>".
-                                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' >".                
+                                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12' >".                
                                             "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
                                             "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
                                         "</div>".                                   
-                                        "<div id='user_data_edit-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' style='display: none;'>".
+                                        "<div id='user_data_edit-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-11 col-11' style='display: none;'>".
                                             "<div id='user_alert_server-".$model->id."' class='alert alert-danger' role='alert' style='display: none;'>".
                                                 "<span id='span_user_alert_server-".$model->id."'>Ошибка</span>".               
                                             "</div>".

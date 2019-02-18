@@ -70,8 +70,8 @@ $this->title = Yii::t('app','Заказы');
                         </nav>
                     </div>             
                     <div class="my_box_content rounded-bottom bg-light border border-top-0 border-dark">
-                        <div class="row py-2">
-                            <div class="col-10 col-xl-2 col-md-2">
+                        <div class="col py-2">
+                            <div class="">
                                 <form id='form-update_orders-0'>
                                     <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                 </form>
@@ -236,8 +236,8 @@ $this->title = Yii::t('app','Заказы');
                                 "</div>".             
                                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
                                     "<div id = 'orders_content-".$model->id_orders."'>".
-                                        "<div class='row py-2'>".
-                                            "<div class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12'>".
+                                        "<div class='col py-2'>".
+                                            "<div class=''>".
                                                 "<form id='form-update_orders-0'>".
                                                     Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                                                 "</form>".
@@ -245,17 +245,17 @@ $this->title = Yii::t('app','Заказы');
                                                     "<span id='span_user_alert_server-0'>Ошибка</span>".
                                                 "</div>".
                                                 "<h5>".
-                                                    "<p class='form-row mx-4 my-1'>".$model->clients->clients_name." // тел: ".$model->getOnePhoneClient()."</p>".
+                                                    "<p class='form-row my-1'>".$model->clients->clients_name." // тел: ".$model->getOnePhoneClient()."</p>".
                                                 "</h5>".
-                                                "<p class='form-row mx-4 my-1'>".$model->getRepairTypeString()."</p>".
-                                                "<p class='form-row mx-4 my-1'>".$model->getDevicesText()."</p>".
-                                                "<p class='form-row mx-4 my-1'>".$model->claimedMalfunction->claimed_malfunction_name."</p>".
+                                                "<p class='form-row my-1'>".$model->getRepairTypeString()."</p>".
+                                                "<p class='form-row my-1'>".$model->getDevicesText()."</p>".
+                                                "<p class='form-row my-1'>".$model->claimedMalfunction->claimed_malfunction_name."</p>".
                                             "</div>".
                                         "</div>".
                                     "</div>".
                                     "<div id = 'orders_form-".$model->id_orders."' style='display: none;'>".
-                                        "<div class='row py-2'>".
-                                            "<div class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12'>".
+                                        "<div class='col py-2'>".
+                                            "<div class=''>".
                                                 "<form id='form-update_orders-".$model->id_orders."'>".
                                                     Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                                                     Html :: hiddenInput('OrdersEdit[id_orders]', $model->id_orders, []).
