@@ -80,23 +80,23 @@ $this->title = Yii::t('app','Заказы');
                                     <p class="form-row my-2">
                                         <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/orders/thumb/client.svg'])?>">
                                         <input id='input_orders_clients_name-0' name='ClientsEdit[clients_name]' form='form-create_orders-0' class="form-control col-10 input_clients_name" type="name" placeholder="*Введите ФИО клиента">
-                                        <?=Html :: hiddenInput('OrdersEdit[clients_id]', $model->clients_id, [])?>
+                                        <?=Html :: hiddenInput('OrdersEdit[clients_id]', 0, [])?>
                                     </p>
                                     <p id = 'error_orders_client-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                                     <!--Конец Имя клиента-->
                                     
                                     <!--Телефон клиента-->
-                                    <p id='p_orders_clients_phone-0-1' class="form-row my-2">
+                                    <p id='p_orders_clients_phone-0-1' class="form-row my-2 orders_phone-0 orders_phone">
                                         <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/smartphone-call.svg'])?>">
-                                        <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-1]'  form='' class="form-control col-10 phone" type="text" placeholder="*Введите номер телефона">
-                                        <p id = 'error_orders_phone-0-1' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                                        <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-1]'  form='' class="form-control col-10 phone phone_input" type="text" placeholder="*Введите номер телефона">
+                                        <p id = 'error_orders_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone-0' style='display: none;'>Ошибка</p>
                                     </p>
                                     <p class="form-row my-2">
                                         <a  id = 'add_another_phone-0' class="btn btn-dark add_another_phone mx-1" href="#" data-count-phone='1' data-toggle="tooltip" data-placement="right" title="Добавить еще телефон">
                                             <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить еще телефон">
                                         </a>
                                     </p>    
-                                    <!--Телефон клиента-->
+                                    <!--Конец Телефон клиента-->
                                     <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> <input id='input_user_email-0' name='' form='' class="form-control col-10" type="mail" placeholder="Введите адрес электронной почты"> </p>
                                     <p id = 'error_user_email-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                                     <p class="form-row my-2"><img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>"> <input id='input_user_address-0' name='' form='' class="form-control col-10" type="text" placeholder="Введите домашний адрес"> </p>
@@ -175,16 +175,31 @@ $this->title = Yii::t('app','Заказы');
                 'itemView' => function ($model, $key, $index, $widget) {
                 //Начало формирования телефонов клиентов для редактирования
                     $ClientsPhones = ClientsPhones::findAll(['clients_id'=>$model->clients_id]);
+                    $count = count($ClientsPhones);
                     $phonestr = "";
                     $i=1;
                     foreach ($ClientsPhones as $phone){
                         $phonestr = $phonestr."".
-                            "<p id='p_orders_clients_phone-0-1' class='form-row my-2'>".
+                            "<p id='p_orders_clients_phone-".$model->id_orders."-".$i."' class='form-row my-2 orders_phone-".$model->id_orders." orders_phone'>".
                                 "<img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>".
-                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-10 phone' type='text' placeholder='*Введите номер телефона'>".
-                                "<p id = 'error_orders_phone-".$model->id_orders."-".$i."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
+                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-10 phone phone_input' type='text' placeholder='*Введите номер телефона'>";
+                                if($count>1){
+                                $phonestr = $phonestr."".
+                                    "<a  id = 'delete_another_phone-".$model->id_orders."-".$i."' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>".
+                                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>".
+                                    "</a>";
+                                }
+                                $phonestr = $phonestr."".        
+                                "<p id = 'error_orders_phone-".$model->id_orders."-".$i."' class='text-danger my-2 mx-2 error_orders_phone-".$model->id_orders."' style='display: none;'>Ошибка</p>".                             
                             "</p>";
+                        $i++;
                     }
+                    $phonestr = $phonestr."".
+                    "<p class='form-row my-2'>".
+                        "<a  id = 'add_another_phone-".$model->id_orders."' class='btn btn-dark add_another_phone mx-1' href='#' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>".
+                            "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще телефон'>".
+                        "</a>".
+                    "</p>";
                 //Конец формирования телефонов клиентов для редактирования
                 $bloc = "".
                     "<!-- пустая карточка заказа сформированная-->". 
@@ -252,12 +267,7 @@ $this->title = Yii::t('app','Заказы');
                                                     "<p id = 'error_orders_clients_name-".$model->id_orders."' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>".
                                                     
                                                     "<!--Телефон клиента-->".
-                                                    $phonestr.
-                                                    "<p class='form-row my-2'>".
-                                                        "<a  id = 'add_another_phone-0' class='btn btn-dark add_another_phone mx-1' href='#' data-count-phone='1' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>".
-                                                            "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще телефон'>".
-                                                        "</a>".
-                                                    "</p>".    
+                                                    $phonestr.                                                        
                                                     "<!--Телефон клиента-->".
                         
                                                 "</div>".
