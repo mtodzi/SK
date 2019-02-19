@@ -35,7 +35,7 @@ p {
     margin-right: auto;
 }
 .my_heders_bloc{
-   
+ min-width: 300px;   
 }
 .index_user_bloc{
  
@@ -48,7 +48,7 @@ p {
     position:relative;
 }
 .my_content_bloc{
-min-width: 300px;   
+min-width: 300px;  
 }
 .footer {
     position: fixed;
