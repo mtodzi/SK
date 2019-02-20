@@ -38,7 +38,7 @@
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var input =''+
-                "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"'>"+     
+                "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"' class='div_orders_phone-"+id_orders+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
                         "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-8 phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
@@ -65,7 +65,7 @@
         }    
     }
     //Обработчик нажатия кнопки Удалить еше один телефон
-    $('.my_box_content').on('click', '.delete_another_phone', function(){
+    $('.my_content_bloc').on('click', '.delete_another_phone', function(){
         var id_orders = GetId($(this),1);
         var id_delete = GetId($(this),2);
         var count_phone = Number($(this).attr('data-count-phone'));
@@ -77,40 +77,26 @@
     });
     //Функция инпут телефона 
     function deleteInputPhone(id_orders,id_delete,count_phone){
-        var next = count_phone-1;
         var count = $('.orders_phone-'+id_orders).length;
         console.log(count);
         $("#search_input_phone_number-"+id_orders).remove();
-        if(count==3){
+        if(count>1){
             $("#div_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
-            //$("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
-            $('.orders_phone-'+id_orders).each(function( index ) {
-                $(this).attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
+            $('.div_orders_phone-'+id_orders).each(function(index){
+                console.log($(this));
+                $(this).attr('id',("div_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number-"+(index+1)+"]"));
-                $(this).find("a").attr('id',("delete_another_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("a").attr('id',("delete_another_phone-"+id_orders+"-"+(index+1))); 
                 $(this).find("p").attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
                 console.log( index + ": ");
             });
-            $('.error_orders_phone-'+id_orders).each(function( index ) {
-                $(this).attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
-            });
+            $('#add_another_phone-'+id_orders).attr('data-count-phone',(count-1));
+            if(count==2){
+                $("#delete_another_phone-"+id_orders+"-1").remove();
+            }
         }
-        if(count==2){
-            $("#div_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
-            //$("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
-            $('.orders_phone-'+id_orders).each(function( index ) {
-                $(this).attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
-                $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
-                $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number-"+(index+1)+"]"));                
-                $(this).find("a").remove();
-                console.log( index + ": ");
-            });
-            $('.error_orders_phone-'+id_orders).each(function( index ) {
-                $(this).attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
-            });
-        }
-        $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
+        
     }
     
     //Обработчик нажатия кнопки редактировать в userbox

@@ -89,7 +89,7 @@ $this->title = Yii::t('app','Заказы');
                                     <!--Конец Имя клиента-->
                                     
                                     <!--Телефон клиента-->
-                                    <div id = 'div_orders_clients_phone-0-1'>        
+                                    <div id = 'div_orders_clients_phone-0-1'class='div_orders_phone-0'>        
                                         <p id='p_orders_clients_phone-0-1' class='form-row my-2 orders_phone-0 orders_phone'>
                                             <img class='my_icon mx-1 my-2' src='<?=Url::to(['/img/smartphone-call.svg'])?>'>
                                             <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-0]' value=''  form='' class='form-control col-8 phone phone_input phone_input-0' type='text' placeholder='*Введите номер телефона'>       
@@ -185,7 +185,7 @@ $this->title = Yii::t('app','Заказы');
                     $i=1;
                     foreach ($ClientsPhones as $phone){
                         $phonestr = $phonestr."".
-                        "<div id = 'div_orders_clients_phone-".$model->id_orders."-".$i."'>".        
+                        "<div id = 'div_orders_clients_phone-".$model->id_orders."-".$i."' class='div_orders_phone-".$model->id_orders."'>".        
                             "<p id='p_orders_clients_phone-".$model->id_orders."-".$i."' class='form-row my-2 orders_phone-".$model->id_orders." orders_phone'>".
                                 "<img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>".
                                 "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-8 phone phone_input phone_input-".$model->id_orders."' type='text' placeholder='*Введите номер телефона'>";
