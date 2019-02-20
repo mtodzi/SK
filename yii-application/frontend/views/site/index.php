@@ -6,9 +6,15 @@ use yii\helpers\Url;
 $this->title = 'Service Keeper';
 ?>
 <body>
-<header class="text-start p-1">
-    <img id ='header_logo_small' class='img-fluid img_header' src='<?=Url::to(['/img/Logo_SK_small.svg'])?>' alt='Лого'
+<header">
+    <div class="jumbotron jumbotron-fluid">
+        <video autoplay muted loop src="/vidz/background_video.webm"> </video>
+            <div class="container">
+            <img id ='header_logo_small' class='img-fluid img_header' src='<?=Url::to(['/img/Logo_SK_small.svg'])?>' alt='Лого'>
+            </div><!-- /.container -->
+    </div> <!-- /.jumbotron -->
 </header>
+    
 <nav class="navbar navbar-expand-sm navbar-light" data-toggle="affix">
     <a class="navbar-brand img_nav" href="#" style='display: none;' >
         <img src="/img/Logo_SK_white.svg" width="45" height="45" class="d-inline-block align-top" alt="" >
@@ -53,7 +59,7 @@ $this->title = 'Service Keeper';
             <p align="justify">Система разработана для использования в небольших сервисных мастерских и предназначена для упрощения 
                решения рутинных задач по автоматизации товарно-кадрового учета, хранения, архивирования и удобного поиска необходимой информации.
                Система реализована при помощи объектно-ориентированного компонентного фреймворка Yii 2 и предусматривает возможности расширения до полноценной CMS.
-               При реализации системы использованы технологии адаптивной верстки, Bootstrap 4, HTML 5, AJAX...
+               При реализации системы использованы технологии адаптивной верстки, Bootstrap 4, HTML 5, CSS3, AJAX, PHP-7, JScript, JQerry...
             </p>
             <hr>
             <p>
