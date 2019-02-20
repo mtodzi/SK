@@ -38,15 +38,17 @@
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var input =''+
+                "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
-                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone phone_input' type='text' placeholder='*Введите номер телефона'>"+
-                        "<p id = 'error_orders_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
-                    "</p>";
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
+                        "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
+                    "</p>"+
+                "</div>";
             $("#search_input_phone_number-"+id_orders).remove();
             $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
             $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
-            $("#p_orders_clients_phone-"+id_orders+"-"+count_phone).after(input); 
+            $("#div_orders_clients_phone-"+id_orders+"-"+count_phone).after(input); 
             $(("#input_orders_clients_phone-"+id_orders+"-"+next)).after(buttondelete);
             $('[data-toggle="tooltip"]').tooltip();
             $(".phone").mask("8(999)-999-99-99");
@@ -80,8 +82,8 @@
         console.log(count);
         $("#search_input_phone_number-"+id_orders).remove();
         if(count==3){
-            $("#p_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
-            $("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
+            $("#div_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
+            //$("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
             $('.orders_phone-'+id_orders).each(function( index ) {
                 $(this).attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
@@ -95,8 +97,8 @@
             });
         }
         if(count==2){
-            $("#p_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
-            $("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
+            $("#div_orders_clients_phone-"+id_orders+"-"+id_delete).remove();
+            //$("#error_orders_phone-"+id_orders+"-"+id_delete).remove();
             $('.orders_phone-'+id_orders).each(function( index ) {
                 $(this).attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
@@ -125,11 +127,12 @@
         }
        
     });
+    
     //Обработчик нажатия кнопки Применить в userbox
     $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
-        var arrayFieldsChecked = ['clients_name-']; 
+        var arrayFieldsChecked = ['clients_name-','clients_phone-']; 
         if(formFieldCheck(id,arrayFieldsChecked)){
             alert("Проверка Проверка прошла успешно");
         }else{
@@ -168,7 +171,16 @@
              $("#search_input_clients_name-"+id).remove();
         }    
     });
-    
+    //Обработчик отслеживает получение фокуса input_clients_name
+    $('.my_box_content').on('focusin', '.input_clients_name', function(e){
+        var id_orders = GetId($(this),1);
+        console.log($("#search_input_clients_name-"+id_orders));
+         if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
+            $("#search_input_phone_number-"+id_orders).remove();
+        }
+        
+        
+    });
     //Обработчик нажатия на option в подсказке clients_name в userbox
     $('.my_box_content').on('click', '.option_clients_name', function(){
         var id_orders = GetId($(this).parent(),1);
@@ -200,7 +212,7 @@
             error: function(){
                 alert('По неизвестной причине сервер не ответил обратитесь к админу.');
             }
-        });        
+        });
     });
     //Обработчик ввода текста в input_phone
     $('.my_box_content').on('keyup', '.phone_input', function(eventObject){        
@@ -238,6 +250,16 @@
         }    
 
     });
+    //Обработчик отслеживает потерю фокуса input_clients_name
+    $('.my_box_content').on('focusin', '.phone_input', function(){
+        var id_orders = GetId($(this),1);
+        console.log($("#search_input_phone_number-"+id_orders));
+        if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
+            $("#search_input_clients_name-"+id_orders).remove();
+        }
+        
+    });
+    
     //ССылка создае ошибку в карточке заказа
     function CreateErrorCards(msg,id_orders,numberAlert){
     var result = ""+    
@@ -316,15 +338,23 @@
     function formFieldCheck(id,arrayFieldsChecked){
         var arrayError={};
         var countError = 0;
-        $.each(arrayFieldsChecked, function(i, val) {
+        $.each(arrayFieldsChecked, function(i, val) {            
             console.log(i+" - "+val);
             switch ("input_orders_"+val) {
                 case "input_orders_clients_name-":
                     if(empty($('#input_orders_'+val+id).val())){
                         countError++;
-                        arrayError['clients_name-']='Заполните ФИО клиента';
-                    }    
-
+                        arrayError['clients_name-'+id]='Заполните ФИО клиента';
+                    }
+                    break;
+                case "input_orders_clients_phone-":
+                    $(".phone_input-"+id).each(function(index){
+                        if(empty($('#input_orders_'+val+id+"-"+(index+1)).val())){
+                            countError++;
+                            arrayError['clients_phone-'+id+"-"+(index+1)]='Заполните телефон клиента';
+                        }
+                    });
+                    break;
             }            
         });
         if(countError == 0){
@@ -335,15 +365,15 @@
         }
     }
     //Функция обработки полученных ошибок с сервера
-    function errorServerTreatment(arrayError,id){
+    function errorServerTreatment(arrayError){
         //перебирает поля с данными, присланные с сервера
         $.each(arrayError,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
-            $('#error_orders_'+index.toString()+id).text(value.toString());//Добавляем текст ошибки
-            $('#error_orders_'+index.toString()+id).show();//Блок ошибки показываем пользователю
-            console.log($('#error_orders_'+index.toString()+id));
-            $('#input_orders_'+index.toString()+id).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
-            console.log($('#input_orders_'+index.toString()+id));
+            $('#error_orders_'+index.toString()).text(value.toString());//Добавляем текст ошибки
+            $('#error_orders_'+index.toString()).show();//Блок ошибки показываем пользователю
+            console.log($('#error_orders_'+index.toString()));
+            $('#input_orders_'+index.toString()).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+            console.log($('#input_orders_'+index.toString()));
         });
         return false;
     }

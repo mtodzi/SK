@@ -125,7 +125,7 @@ class DefaultController extends Controller
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     //Фармируем массив с ошибкой
-                    $items = ['200','msg'=>$viewclientform,'id_orders'=>$modelOrders->id_orders];
+                    $items = ['200','msg'=>$viewclientform,'id_orders'=>(($modelOrders)?$modelOrders->id_orders:"0")];
                     //Передаем данные в фармате json пользователю
                     return $items;
                 }else{
