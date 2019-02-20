@@ -43,7 +43,7 @@ class UserPhoto extends Model
         if($User!==null){//Проверяем есть ли с базе такойсотрудник
             //если да то используем метод который загружает переданный файл 
             //он возврашает массив который необходимо вернуть пользователю
-            return $this->uplodeFile($path,$User,$namefale,$token,0);
+            return $this->uplodeFile($path,$User,$token,0);
         }else{
             //Ели нет сотрудника проверяем может фото 
             //пришло из формы создания нового сотрудника
@@ -51,7 +51,7 @@ class UserPhoto extends Model
                 $id = Yii::$app->user->identity->id;//берем id сотрудника который послал фото 
                 $User = User::findOne($id);//Находим этого сатрудника в БД
                 $path = Yii::getAlias("@backend/web/users/img/users/newphoto/".$id);//Формируем другой путь где и временно сохраним файл
-                return $this->uplodeFile($path,$User,$namefale,$token,1);//Сахроняем этот файл во временной директории
+                return $this->uplodeFile($path,$User,$token,1);//Сахроняем этот файл во временной директории
             }else{
                 //Если сотрудника нет возврашаем сообшениие об ошибке 
                 return ['reselt'=>0,'msg'=>'Сотрудник которому вы хотите добавить фото не найден в БД'];//Проверить!!
@@ -218,7 +218,7 @@ class UserPhoto extends Model
      * $newfile - указтель на то что файл загружается при редактировании сотрудника это 0 и 1 если сотрудника создают
      *  
     */
-    private function uplodeFile($path,User $User,$namefale,$token,$newfile){
+    private function uplodeFile($path,User $User,$token,$newfile){
         if(file_exists($path)){//Проверяем есть ли директория
             if($this->isThereAPhoto($path)){//если да то проверям есть ли там файл
                 if($this->deleteFileInDirectories($path)){//если да то удаляем этот файл и проверяем удалился ли он
