@@ -14,8 +14,8 @@ foreach ($position as $data){
 }
 $select = $select."</select>";  
 $bloc = "".
-    "<div class='row' data-key = ".$model->id.">".
-        "<div class='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 my-1'>".
+    "<div class='row-flex col-lg-6 offset-lg-3' data-key = ".$model->id.">".
+        "<div class='mx-1'>".
             "<form id='form-update_user-".$model->id."'>".
                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                 Html :: hiddenInput('UserEdit[id]', $model->id, []).
@@ -24,18 +24,19 @@ $bloc = "".
                 "<div class = 'my_box_heder'>".
                     "<nav class='navbar navbar-light bg-dark rounded-top'>".
                         "<span class='navbar-brand text-light'>Карточка сотрудника</span>".
-                        "<div id='user_card_button_edit_archive-".$model->id."' class='btn-group ml-auto'>". 
+                        "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
                         "<!--кнопка добавить в архив сотрудника-->".
-                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1' data-toggle='tooltip' data-placement='left' title='В архив'>".
-                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='В архив'>".
+                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1' data-toggle='tooltip' data-placement='left' title='Отправить в архив'>".
+                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='Отправить в архив'>".
                             "</a>".
                         "<!--кнопка редактировать сотрудника-->".
                             "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Применить'>".
                             "</a>".
                         "</div>".
+                        
                         "<!--группировка кнопок в navbar с выравниванием вправо-->".
-                        "<div id='user_cancel_button_card_apply-".$model->id."' class='btn-group ml-auto' style='display: none;'>". 
+                        "<div id='user_cancel_button_card_apply-".$model->id."' class='flex-box ml-auto' style='display: none;'>". 
                         "<!--кнопка отменить изменения и вернуться-->".
                             "<a id='user_cancel_button-".$model->id."' class='nav-link btn btn-light mx-1 user_cancel_button' data-toggle='tooltip' data-placement='left' title='Отмена'>".
                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".
@@ -45,13 +46,15 @@ $bloc = "".
                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
                             "</a>".
                         "</div>".
+                    
                     "</nav>".
                 "</div>".             
                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
-                    "<div class='row py-2'>".                                       
-                        "<div class='col-10 col-xl-2 col-md-2'>".
+                    "<div class='row py-2 align-items-start'>".                                       
+                        "<div class='col-3'>".
                             "<!--фото сотрудника-->".
-                            "<img id='user_img_photo-".$model->id."' class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start mr-3' alt='фото сотрудника'>".
+                            "<img id='user_img_photo-".$model->id."' class='user_photo bg-secondary mx-2' src='".$model->getUrlMiniature()."'class='align-self-start' alt='фото сотрудника'>".
+                            
                             "<!--Начало модального окна-->".
                             "<div class='modal' id='modal_update_photo_user-".$model->id."' tabindex='-1' role='dialog'>".
                                 "<div class='modal-dialog' role='document'>".
@@ -73,6 +76,7 @@ $bloc = "".
                             "</div>".
                     "</div>".
                     "<!--Конец модального окна-->".
+                    
                     "<div id='block_button_photo_edit-".$model->id."' class='col-10 col-xl-2 col-md-2' style='display: none;'>".
                     "<!--кнопка редактировать фото-->".
                         "<a id='user_photo_edit_button-".$model->id."' class='btn btn-dark mx-3 my-1 btn-update-photo' data-toggle='tooltip' data-placement='bottom' title='Изменить фото'>".
@@ -80,13 +84,13 @@ $bloc = "".
                         "</a>". 
                     "</div>".
                         "</div>".
-                        "<div id='user_data-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' >".                
-                            "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
-                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
-                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
-                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
+                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' >".                
+                            "<h5 class='mt-0 mx-2'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
+                            "<p class='p_margin0 mx-2'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
+                            "<p class='p_margin0 mx-2'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
+                            "<p class='p_margin0 mx-2'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
                         "</div>".                                   
-                        "<div id='user_data_edit-".$model->id."' class='px-4 col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12' style='display: none;'>".
+                        "<div id='user_data_edit-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-11 col-11 m-auto' style='display: none;'>".
                             "<div id='user_alert_server-".$model->id."' class='alert alert-danger' role='alert' style='display: none;'>".
                                 "<span id='span_user_alert_server-".$model->id."'>Ошибка</span>".
                         "</div>".
