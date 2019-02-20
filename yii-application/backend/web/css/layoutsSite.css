@@ -24,6 +24,10 @@ html {
 .wrapper{
     margin: 0 auto;
     justify-content: center;
+    min-width: 300px;
+}
+p {
+/*font-size: 5vw;*/ /* 5% от viewport */
 }
 .center-block{
     display: block;
@@ -31,7 +35,7 @@ html {
     margin-right: auto;
 }
 .my_heders_bloc{
-   
+ min-width: 300px;   
 }
 .index_user_bloc{
  
@@ -39,8 +43,12 @@ html {
 .my_box_heder{
     
 }
+.my_box_content{
+    display:block;
+    position:relative;
+}
 .my_content_bloc{
-   
+min-width: 300px;  
 }
 .footer {
     position: fixed;

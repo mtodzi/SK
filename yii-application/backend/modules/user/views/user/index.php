@@ -107,7 +107,7 @@ $this->title = Yii::t('app', 'Персонал');
                                 </div>
                             
                             </div>
-                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
                                     <form id='form-update_user-0'>
                                         <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                     </form>
@@ -259,13 +259,13 @@ $this->title = Yii::t('app', 'Персонал');
                                                 "</a>". 
                                             "</div>".
                                         "</div>".
-                                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12' >".                
-                                            "<h5 class='mt-0'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
-                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
-                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
-                                            "<p class='p_margin0'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
+                                        "<div id='user_data-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12' >".                
+                                            "<h5 class='mt-0 mx-2'><span id='span_user_employeename-".$model->id."' >".$model->employeename."</span> - <span id='span_user_name_position-".$model->id."'>".$model->position->name_position."</span></h5>".
+                                            "<p class='p_margin0 mx-2'><img class='my_icon' src='".Url::to(['/img/mail.svg'])."'><span id='span_user_email-".$model->id."'>".$model->email."</span></p>".
+                                            "<p class='p_margin0 mx-2'><img class='my_icon' src='".Url::to(['/img/smartphone-call.svg'])."'><span id='span_user_phone-".$model->id."'>".$model->phone."</span></p>".
+                                            "<p class='p_margin0 mx-2'><img class='my_icon' src='".Url::to(['/img/home.svg'])."'><span id='span_user_address-".$model->id."'>".$model->address."</span></p>".
                                         "</div>".                                   
-                                        "<div id='user_data_edit-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-11 col-11' style='display: none;'>".
+                                        "<div id='user_data_edit-".$model->id."' class='col-xl-9 col-lg-9 col-md-9 col-sm-11 col-11 m-auto' style='display: none;'>".
                                             "<div id='user_alert_server-".$model->id."' class='alert alert-danger' role='alert' style='display: none;'>".
                                                 "<span id='span_user_alert_server-".$model->id."'>Ошибка</span>".               
                                             "</div>".

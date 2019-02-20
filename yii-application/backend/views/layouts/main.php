@@ -42,11 +42,11 @@ MyAppAssetLayouteSite::register($this);
     </header>
     
     <aside id="aside_left" class="bg-dark aside_left">
-            <nav class="navbar">
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
+            <nav id='leftmen' class="navbar">
+                <a  id='' class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/home_1.svg'])?>' alt="Меню">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
+                <a  id='ordersB' class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/orders.svg'])?>' alt="Заказы">
                 </a>
                 <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/clients'])?>" data-toggle="tooltip" data-placement="right" title="Клиенты">
