@@ -1,4 +1,5 @@
 //начало оброботки данных модуля user
+$( document ).ready(function() {
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
@@ -52,7 +53,7 @@
                         type: 'POST',
                         data: data,
                         success: function(res){
-                            $('#user_img_photo-'+id).attr('src',"http://"+DOMEN+"/yii-application/backend/web/img/users/default/default.svg");
+                            $('#user_img_photo-'+id).attr('src',"http://"+DOMEN+"/yii-application/backend/web/users/img/users/default/default.svg");//
                             $('#input_photo_update-'+id).fileinput('clear');
                             $('#Block_add_user').css('display', 'none'); 
                             $('#status_card').val(0);
@@ -102,6 +103,7 @@
                                 console.log(res); 
                                 $("#w0").prepend(res);
                                 сleanFieldsAdded(id);
+                                $('#user_img_photo-'+id).attr('src',"http://"+DOMEN+"/yii-application/backend/web/users/img/users/default/default.svg");
                                 $('#Block_add_user').css('display', 'none'); 
                                 $('#status_card').val(0);
                                 $('#status_card').attr('data-user-card', '');
@@ -587,5 +589,12 @@ $(window).scroll(function() {
   }
 });
 
+//чтобы tooltip пропадал
+$('[data-toggle="tooltip"]').on("click", function() {
+    $(this).tooltip('hide');
+    $(this).blur();
+});
 
+
+});
 //конец обработки данных модуля user

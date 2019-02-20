@@ -399,3 +399,9 @@ $(window).scroll(function() {
     $('.scroll_to_up').fadeOut();
   }
 });
+
+//чтобы tooltip пропадал
+$('[data-toggle="tooltip"]').on("click", function() {
+    $(this).tooltip('hide');
+    $(this).blur();
+});
