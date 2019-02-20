@@ -92,13 +92,13 @@ $this->title = Yii::t('app','Заказы');
                                     <div id = 'div_orders_clients_phone-0-1'>        
                                         <p id='p_orders_clients_phone-0-1' class='form-row my-2 orders_phone-0 orders_phone'>
                                             <img class='my_icon mx-1 my-2' src='<?=Url::to(['/img/smartphone-call.svg'])?>'>
-                                            <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-0]' value=''  form='' class='form-control col-10 phone phone_input phone_input-0' type='text' placeholder='*Введите номер телефона'>       
+                                            <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-0]' value=''  form='' class='form-control col-8 phone phone_input phone_input-0' type='text' placeholder='*Введите номер телефона'>       
                                             <p id = 'error_orders_clients_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone-0' style='display: none;'>Ошибка</p>                             
                                         </p>
                                     </div>                       
                                     <p class='form-row my-2'>
                                         <a  id = 'add_another_phone-0' class='btn btn-dark add_another_phone mx-1' href='#' data-count-phone='1' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>
-                                            <img id ='menu_navbar_top' class='' src='<?=Url::to(['/img/add.svg'])?>' alt='Добавить еще телефон'
+                                            <img id ='menu_navbar_top' class='' src='<?=Url::to(['/img/add.svg'])?>' alt='Добавить еще телефон'>
                                         </a>
                                     </p>
                                     <!--Конец Телефон клиента-->
@@ -188,7 +188,7 @@ $this->title = Yii::t('app','Заказы');
                         "<div id = 'div_orders_clients_phone-".$model->id_orders."-".$i."'>".        
                             "<p id='p_orders_clients_phone-".$model->id_orders."-".$i."' class='form-row my-2 orders_phone-".$model->id_orders." orders_phone'>".
                                 "<img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>".
-                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-10 phone phone_input phone_input-".$model->id_orders."' type='text' placeholder='*Введите номер телефона'>";
+                                "<input id='input_orders_clients_phone-".$model->id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-8 phone phone_input phone_input-".$model->id_orders."' type='text' placeholder='*Введите номер телефона'>";
                                 if($count>1){
                                 $phonestr = $phonestr."".
                                     "<a  id = 'delete_another_phone-".$model->id_orders."-".$i."' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>".
