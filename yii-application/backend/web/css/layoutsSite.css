@@ -48,7 +48,7 @@ p {
     position:relative;
 }
 .my_content_bloc{
-min-width: 300px;  
+    min-width: 300px;  
 }
 .footer {
     position: fixed;

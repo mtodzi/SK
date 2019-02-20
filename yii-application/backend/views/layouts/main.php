@@ -11,7 +11,6 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use yii\helpers\Url;
-
 AppAsset::register($this);
 MyAppAssetLayouteSite::register($this);
 ?>
@@ -43,22 +42,22 @@ MyAppAssetLayouteSite::register($this);
     
     <aside id="aside_left" class="bg-dark aside_left">
             <nav id='leftmen' class="navbar">
-                <a  id='' class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
+                <a  id='menuB' class="navbar-brand btn btn-light menu_left <?=(Yii::$app->request->pathInfo=='')?'active focus':''?>" href="<?=Url::to(['/'])?>" data-toggle="tooltip" data-placement="right" title="Главная">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/home_1.svg'])?>' alt="Меню">
                 </a>
-                <a  id='ordersB' class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
+                <a  id='ordersB' class="navbar-brand btn btn-light menu_left <?=(Yii::$app->request->pathInfo=='orders')?'active focus':''?>" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="right" title="Заказы">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/orders.svg'])?>' alt="Заказы">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/clients'])?>" data-toggle="tooltip" data-placement="right" title="Клиенты">
+                <a  class="navbar-brand btn btn-light menu_left <?=(Yii::$app->request->pathInfo=='clients')?'active focus':''?>" href="<?=Url::to(['/clients'])?>" data-toggle="tooltip" data-placement="right" title="Клиенты">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/clients.svg'])?>' alt="Клиенты">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/showcase'])?>" data-toggle="tooltip" data-placement="right" title="Витрина">
+                <a  class="navbar-brand btn btn-light menu_left <?=(Yii::$app->request->pathInfo=='showcase')?'active focus':''?>" href="<?=Url::to(['/showcase'])?>" data-toggle="tooltip" data-placement="right" title="Витрина">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/showcase.svg'])?>' alt="Витрина">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/stock'])?>" data-toggle="tooltip" data-placement="right" title="Склад">
+                <a  class="navbar-brand btn btn-light menu_left <?=(Yii::$app->request->pathInfo=='stock')?'active focus':''?>" href="<?=Url::to(['/stock'])?>" data-toggle="tooltip" data-placement="right" title="Склад">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/stock.svg'])?>' alt="Склад">
                 </a>
-                <a  class="navbar-brand btn btn-light menu_left" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
+                <a  class="navbar-brand btn btn-light menu_left <?=(Yii::$app->request->pathInfo=='user/user')?'active focus':''?>" href="<?=Url::to(['/user/user'])?>" data-toggle="tooltip" data-placement="right" title="Сотрудники">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/user.svg'])?>' alt="Сотрудники">
                 </a>
             </nav>
@@ -74,7 +73,7 @@ MyAppAssetLayouteSite::register($this);
             </nav>      
     </aside>
     
-    <main id="main" role="main" class="main_content container-fluid"> 
+    <main id="main" role="main" class="main_content container-fluid">
         
            <?= $content ?>   
           

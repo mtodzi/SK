@@ -41,7 +41,7 @@
                 "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
-                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-10 phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-8 phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
                         "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>"+
                 "</div>";
