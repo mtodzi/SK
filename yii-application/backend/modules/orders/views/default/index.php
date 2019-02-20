@@ -97,7 +97,7 @@ $this->title = Yii::t('app','Заказы');
                                         </p>
                                     </div>                       
                                     <p class='form-row my-2'>
-                                        <a  id = 'add_another_phone-0' class='btn btn-dark add_another_phone mx-1' href='#' data-count-phone='1' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>
+                                        <a id ='add_another_phone-0' class='btn btn-dark add_another_phone mx-1' data-count-phone='1' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>
                                             <img id ='menu_navbar_top' class='' src='<?=Url::to(['/img/add.svg'])?>' alt='Добавить еще телефон'>
                                         </a>
                                     </p>
