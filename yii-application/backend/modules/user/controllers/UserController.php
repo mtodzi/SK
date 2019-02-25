@@ -132,10 +132,10 @@ class UserController extends Controller
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     //Фармируем массив с ошибкой
                     if($buffer == 0){
-                        $items = ['1','msg'=>"сотрудник был добавлен в архив"];
+                        $items = ['1','msg'=>"Сотрудник был добавлен в архив"];
                     }    
                     else{
-                        $items = ['1','msg'=>"сотрудник был убран из архив"];
+                        $items = ['1','msg'=>"Сотрудник был убран из архив"];
                     }
                     //Передаем данные в фармате json пользователю
                     return $items;
@@ -144,10 +144,10 @@ class UserController extends Controller
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     //Фармируем массив с ошибкой
                     if($buffer == 0){
-                        $items = ['0','msg'=>"сотрудник не был добавлен в архив"];
+                        $items = ['0','msg'=>"Сотрудник не был добавлен в архив"];
                     }    
                     else{
-                        $items = ['0','msg'=>"сотрудник не был удален из архива"];
+                        $items = ['0','msg'=>"Сотрудник не был удален из архива"];
                     }                   
                     //Передаем данные в фармате json пользователю
                     return $items;

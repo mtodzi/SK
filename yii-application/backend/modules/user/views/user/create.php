@@ -17,7 +17,7 @@ foreach ($position as $data){
 }
 $select = $select."</select>";  
 $bloc = "".
-        "<div class='my_usercard_content_block my-1 mx-1'>".
+        "<div id='user_bloc_kard-".(($model!=null)?$model->id:0)."' class='my_usercard_content_block my-1 mx-1'>".
             "<form id='form-update_user-".(($model!=null)?$model->id:0)."'>".
                 Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
                 Html :: hiddenInput('UserEdit[id]', (($model!=null)?$model->id:0), []).
@@ -27,30 +27,72 @@ $bloc = "".
                     "<nav class='navbar navbar-light bg-dark rounded-top'>".
                         "<span class='navbar-brand text-light'>Карточка сотрудника</span>";
                         if($model!=null){
-                        $bloc = $bloc.    
-                        "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
-                        "<!--кнопка добавить в архив сотрудника-->".
-                            "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1' data-toggle='tooltip' data-placement='left' title='Отправить в архив'>".
-                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='Отправить в архив'>".
-                            "</a>".
-                        "<!--кнопка редактировать сотрудника-->".
-                            "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
-                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Применить'>".
-                            "</a>".
-                        "</div>";
+                            if($model->archive==0){
+                                $bloc = $bloc.
+                                "<!--Форма для отправки пользователя в Архив-->".
+                                "<form id='form_archive_user-".$model->id."'>".
+                                    Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
+                                    Html :: hiddenInput('UserArchive[id]', $model->id, []).
+                                    Html :: hiddenInput('UserArchive[archive]', $model->archive, ['id'=>'user_archive_val-'.$model->id]).
+                                "</form>".
+                                "<!--Конец формы для отправки пользователя в Архив-->".        
+                                "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
+                                "<!--кнопка добавить в архив сотрудника-->".
+                                "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light user_archive_button mx-1' data-toggle='tooltip' data-placement='left' title='Отправить в архив'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/addarch.svg'])."' alt='Отправить в архив'>".
+                                "</a>".
+                                "<!--кнопка редактировать сотрудника-->".
+                                "<a id='user_edit_button-".$model->id."' class='nav-link btn btn-light user_edit_button' data-toggle='tooltip' data-placement='right' title='Редактировать'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Применить'>".
+                                "</a>".
+                                "</div>";
+                            }
                         }
-                        $bloc = $bloc.
-                        "<!--группировка кнопок в navbar с выравниванием вправо-->".
-                        "<div id='user_cancel_button_card_apply-".(($model!=null)?$model->id:0)."' class='flex-box ml-auto' ".(($model!=null)?("style='display: none;'"):'').">". 
-                        "<!--кнопка отменить изменения и вернуться-->".
-                            "<a id='user_cancel_button-".(($model!=null)?$model->id:0)."' class='nav-link btn btn-light mx-1 user_cancel_button' data-toggle='tooltip' data-placement='left' title='Отмена'>".
-                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".
-                            "</a>".
-                        "<!--кнопка применить изменения-->".
-                            "<a id='user_apply_button-".(($model!=null)?$model->id:0)."' class='nav-link btn btn-light user_apply_button' dataser_butt-toggle='tooltip' data-placement='right' title='Применить'>".
-                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
-                            "</a>".
-                        "</div>".    
+                        if($model!=null){
+                            if($model->archive==0){
+                            $bloc = $bloc.
+                            "<!--группировка кнопок в navbar с выравниванием вправо-->".
+                            "<div id='user_cancel_button_card_apply-".(($model!=null)?$model->id:0)."' class='flex-box ml-auto' ".(($model!=null)?("style='display: none;'"):'').">". 
+                                "<!--кнопка отменить изменения и вернуться-->".
+                                "<a id='user_cancel_button-".(($model!=null)?$model->id:0)."' class='nav-link btn btn-light mx-1 user_cancel_button' data-toggle='tooltip' data-placement='left' title='Отмена'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".
+                                "</a>".
+                                "<!--кнопка применить изменения-->".
+                                "<a id='user_apply_button-".(($model!=null)?$model->id:0)."' class='nav-link btn btn-light user_apply_button' dataser_butt-toggle='tooltip' data-placement='right' title='Применить'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
+                                "</a>".
+                            "</div>";
+                            }else{
+                            $bloc = $bloc.
+                            "<!--Форма для отправки пользователя в Архив-->".
+                            "<form id='form_archive_user-".$model->id."'>".
+                                Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []).
+                                Html :: hiddenInput('UserArchive[id]', $model->id, []).
+                                Html :: hiddenInput('UserArchive[archive]', $model->archive, ['id'=>'user_archive_val-'.$model->id]).
+                            "</form>".
+                            "<!--Конец формы для отправки пользователя в Архив-->".        
+                            "<div id='user_card_button_edit_archive-".$model->id."' class='flex-box ml-auto'>". 
+                                "<!--кнопка вернуть из архива в сотрудники-->".
+                                "<a id='user_archive_button-".$model->id."' class='nav-link btn btn-light mx-1 user_archive_button' data-toggle='tooltip' data-placement='left' title='Восстановить из архива'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/recover_arch.svg'])."' alt='Восстановить из архива'>".
+                                "</a>".
+                            "</div>";    
+                            }
+                        }else{
+                            $bloc = $bloc.
+                            "<!--группировка кнопок в navbar с выравниванием вправо-->".
+                            "<div id='user_cancel_button_card_apply-".(($model!=null)?$model->id:0)."' class='flex-box ml-auto' ".(($model!=null)?("style='display: none;'"):'').">". 
+                                "<!--кнопка отменить изменения и вернуться-->".
+                                "<a id='user_cancel_button-".(($model!=null)?$model->id:0)."' class='nav-link btn btn-light mx-1 user_cancel_button' data-toggle='tooltip' data-placement='left' title='Отмена'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/abort.svg'])."' alt='Отмена'>".
+                                "</a>".
+                                "<!--кнопка применить изменения-->".
+                                "<a id='user_apply_button-".(($model!=null)?$model->id:0)."' class='nav-link btn btn-light user_apply_button' dataser_butt-toggle='tooltip' data-placement='right' title='Применить'>".
+                                    "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/accept.svg'])."' alt='Применить'>".
+                                "</a>".
+                            "</div>";
+                        }    
+                    $bloc = $bloc.            
                     "</nav>".
                 "</div>".             
                 "<div class='my_box_content rounded-bottom bg-light border border-top-0 border-dark'>".
