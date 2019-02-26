@@ -52,7 +52,7 @@ $this->title = Yii::t('app', 'Персонал');
     <div class='my_content_bloc'>        
         <!-- пустая карточка пользователя--> 
         <div id='Block_add_user' class="row-flex col-lg-6 offset-lg-3" style='display: none;'> <!-- ???почему не Block_add_user-0?????-->
-        <?= $this->render('create', ['model' => null,]);?>    
+            <?= $this->render('create', ['model' => null,]);?>    
         </div> <!-- /.Block_add_user-->
         
         <?php
