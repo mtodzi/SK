@@ -29,14 +29,18 @@ $(document).ready(function() {
   $('[data-toggle="affix"]').each(function() {
     var ele = $(this),
         wrapper = $('<div></div>');
-    
     ele.before(wrapper);
     $(window).on('scroll resize', function() {
         toggleAffix(ele, $(this), wrapper);
     });
-    
     // init
     toggleAffix(ele, $(window), wrapper);
   });
-  
+});
+
+//разворачивание текста в p за span по клику
+$(function() {
+    $('.letter_info').on('click', function() {
+        $(this).next().toggle(1000);
+    });
 });

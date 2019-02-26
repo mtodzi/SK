@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Url;
+/*use frontend\assets\AppAsset;*/
 
 $this->title = 'Service Keeper';
 ?>
@@ -31,8 +32,8 @@ $this->title = 'Service Keeper';
                 <a class="nav-link dropdown-toggle" id='menu_link' data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     Меню сайта
                 </a>
-                <div class="dropdown-menu" aria-labelledby="Preview">
-                    <a class="dropdown-item" href="">Вверх</a>
+                <div class="dropdown-menu" aria-labelledby="Вверх">
+                    <a class="dropdown-item disabled" href="#">Вверх</a>
 
                 </div>
             </li>
@@ -66,20 +67,20 @@ $this->title = 'Service Keeper';
                Является элементом портфолио и продуктом совместной работы Зуева Сергея Павловича и Морозова Андрея Алексеевича.
             </p>
         </div>
-        <div class="col-xs-6 col-md-3">
+        <div class='col-xs-6 col-md-3'>
             <p>Возможности системы:</p>
             <span class='letter_info'>Заказы</span>
-            <p align="justify">Все заказы хранятся в разделе "Заказы", отсортированы по дате поступления. 
+            <p align='justify' class='collapse'>Все заказы хранятся в разделе "Заказы", отсортированы по дате поступления. 
                Доступен быстрый поиск заказов  по номеру заказа, модели устройства, ФИО и телефону клиента.
             </p>
             <hr>
             <span class='letter_info'>Клиенты</span>
-            <p align="justify">Контактные данные клиентов заносятся в раздел "Клиенты". 
+            <p align='justify' class='collapse'>Контактные данные клиентов заносятся в раздел "Клиенты". 
                Предусмотрен удобный поиск по разделу, а также обновление контактных данных клиента.
             </p>
             <hr>
             <span class='letter_info'>Витрина</span>
-            <p align="justify">В разделе "Витрина" есть возможность быстрого добавления товара на главную 
+            <p align='justify' class='collapse'>В разделе "Витрина" есть возможность быстрого добавления товара на главную 
                страницу сайта с возможностью подбора подходящего изобржения прямо из галереи Google или собственных фотографий. 
                Реализован поиск по товарам, предусмотрена возможность архивирования.
             </p>
@@ -87,32 +88,37 @@ $this->title = 'Service Keeper';
     </div>
     <div class="row">
         <div class="col-xs-6 col-sm-4">
-            <div class="card card-outline-primary">
-               <div class="card-block">
-               <h3 class="card-title">Карточка</h3>
-                <p class="card-text">Текстовое поле для дополнительной информации. Пока не используется.</p>
-                    <a href="#" class="btn btn-outline-secondary">Контур кнопка</a>
+            <div class="card">
+                <div class="card-body text-light bg-primary">
+                <h3 class="card-title">Название проекта 1</h3>
+                <hr>
+                <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
+                <a href="#" class="btn btn-light">Смотреть проект</a>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-sm-4">
-            <div class="card card-outline-primary">
-               <div class="card-block">
-               <h3 class="card-title">Карточка</h3>
-                <p class="card-text">Текстовое поле для дополнительной информации. Пока не используется.</p>
-                    <a href="#" class="btn btn-outline-secondary">Контур кнопка</a>
+            <div class="card">
+                <div class="card-body text-light bg-dark">
+                <h3 class="card-title">Название проекта 2</h3>
+                <hr>
+                <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
+                <a href="#" class="btn btn-light">Смотреть проект</a>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-sm-4">
-            <div class="card card-outline-primary">
-               <div class="card-block">
-               <h3 class="card-title">Карточка</h3>
-                <p class="card-text">Текстовое поле для дополнительной информации. Пока не используется.</p>
-                    <a href="#" class="btn btn-outline-secondary">Контур кнопка</a>
+            <div class="card">
+                <div class="card-body text-light bg-success">
+                <h3 class="card-title">Название проекта 3</h3>
+                <hr>
+                <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
+                <a href="#" class="btn btn-light">Смотреть проект</a>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
+    
 </body>
