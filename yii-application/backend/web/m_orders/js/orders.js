@@ -8,6 +8,7 @@
             $(window).scrollTop(0);
             $(this).tooltip('hide');
             $(this).blur();
+            return false;
         }else{
             $(this).tooltip('hide');
             $(this).blur();
@@ -23,6 +24,7 @@
         $(this).tooltip('update');
         $(this).tooltip('hide');
         $(this).blur();
+        return false;
     });
     //Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
     function addInputPhone(id_orders,count_phone){
@@ -30,11 +32,11 @@
         if(count<=2){
             var next = count_phone+1;
             var buttondelete=""+
-                    "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                    "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1'  data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var buttondeleteFirst=""+
-                    "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1' href='#' data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                    "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1'  data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
                     "</a>";
             var input =''+
@@ -73,7 +75,8 @@
         $(this).tooltip('update');
         $(this).tooltip('hide');
         $(this).blur();
-        deleteInputPhone(id_orders,id_delete,count_phone);        
+        deleteInputPhone(id_orders,id_delete,count_phone);
+        return false;
     });
     //Функция инпут телефона 
     function deleteInputPhone(id_orders,id_delete,count_phone){
@@ -108,6 +111,7 @@
             $('#orders_content-'+id).hide();        
             $('#orders_cancel_button_card_apply-'+id).show();
             $('#orders_form-'+id).show();
+            return false;
         }else{
             return false;
         }
@@ -147,6 +151,7 @@
                         $("#input_orders_clients_name-"+id).after(res['msg']);
                     }else{
                         $("#search_input_clients_name-"+id).remove();
+                        return false;
                     }    
                 },
                 error: function(){
@@ -154,7 +159,8 @@
                 }
             });
         }else{
-             $("#search_input_clients_name-"+id).remove();
+            $("#search_input_clients_name-"+id).remove();
+            return false;
         }    
     });
     //Обработчик отслеживает получение фокуса input_clients_name

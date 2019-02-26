@@ -32,7 +32,7 @@ if($clients_id!=0){
                 "<input id='input_orders_clients_phone-".$id_orders."-".$i."' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='form-control col-8 phone phone_input phone_input-".$id_orders."' type='text' placeholder='*Введите номер телефона'>";
                 if($count>1){
                     $phonestr = $phonestr."".
-                    "<a  id = 'delete_another_phone-".$id_orders."-".$i."' class='btn btn-dark delete_another_phone mx-1' href='#' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>".
+                    "<a  id = 'delete_another_phone-".$id_orders."-".$i."' class='btn btn-dark delete_another_phone mx-1'  data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>".
                         "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>".
                     "</a>";
                 }
@@ -44,7 +44,7 @@ if($clients_id!=0){
     }
     $phonestr = $phonestr."".
         "<p class='form-row my-2'>".
-            "<a  id = 'add_another_phone-".$id_orders."' class='btn btn-dark add_another_phone mx-1' href='#' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>".
+            "<a  id = 'add_another_phone-".$id_orders."' class='btn btn-dark add_another_phone mx-1' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>".
                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще телефон'>".
             "</a>".
         "</p>";
