@@ -68,6 +68,7 @@ use yii\helpers\Html;
                             <!--div групирует элементы для более удобной подстановки данных на визуализацию не влияет-->
                                 <?=$this->render('viewclientform', ['modelOrders'=>$model,'modelClients'=>null]);?>
                             <!--Конец div id='orders_alert_server-".$model->id_orders." -->
+                            <h5>Принимаемое устройство:</h5>
                         </div>
                     </div>        
                 </div>

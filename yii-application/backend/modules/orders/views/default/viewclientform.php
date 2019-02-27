@@ -10,15 +10,21 @@ if($modelClients==null){
         $clients_id = $modelOrders->clients_id;
         $id_orders = $modelOrders->id_orders;
         $clients_name = $modelOrders->clients->clients_name;
+        $clients_email = $modelOrders->clients->clients_email;
+        $clients_address = $modelOrders->clients->clients_address;
     }else{
         $clients_id = 0;
         $id_orders = 0;
         $clients_name = '';
+        $clients_email = '';
+        $clients_address = '';
     }    
 }else{
     $clients_id = $modelClients->id_clients;
     $id_orders = 0;
     $clients_name = $modelClients->clients_name;
+    $clients_email = $modelClients->clients_email;
+    $clients_address = $modelClients->clients_address;
 }
 if($clients_id!=0){        
     $ClientsPhones = ClientsPhones::findAll(['clients_id'=>$clients_id]);
@@ -37,7 +43,7 @@ if($clients_id!=0){
                     "</a>";
                 }
                 $phonestr = $phonestr."".        
-                "<p id = 'error_orders_clients_phone-".$id_orders."-".$i."' class='text-danger my-2 mx-2 error_orders_phone-".$id_orders."' style='display: none;'>Ошибка</p>".                             
+                "<p id = 'error_orders_clients_phone-".$id_orders."-".$i."' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-".$id_orders."' style='display: none;'>Ошибка</p>".                             
             "</p>".
         "</div>";
         $i++;
@@ -54,7 +60,7 @@ if($clients_id!=0){
             <p id='p_orders_clients_phone-0-1' class='form-row my-2 orders_phone-0 orders_phone'>
                 <img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>
                 <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-0]' value=''  form='' class='form-control col-8 phone phone_input phone_input-0' type='text' placeholder='*Введите номер телефона'>       
-                <p id = 'error_orders_clients_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone-0' style='display: none;'>Ошибка</p>                             
+                <p id = 'error_orders_clients_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-0' style='display: none;'>Ошибка</p>                             
             </p>
         </div>                       
         <p class='form-row my-2'>
@@ -80,4 +86,22 @@ if($clients_id!=0){
     <!--Телефон клиента-->
         <?=$phonestr?>                                                        
     <!--Телефон клиента-->
+    <!--Email Клиента-->
+    <div id = 'div_input_orders_clients_email-<?=$id_orders?>'>
+        <p class="form-row my-2">
+            <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> 
+            <input id='input_orders_clients_email-<?=$id_orders?>' name='ClientsEdit[clients_email]' value='<?=$clients_email?>' form='' class="form-control col-10 input_clients_email" type="mail" placeholder="Введите адрес электронной почты">
+        </p>
+        <p id = 'error_orders_clients_email-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+    </div>    
+    <!--Конец Email Клиента-->
+    <!--Adress клиента-->
+    <div id = 'div_input_orders_clients_address-<?=$id_orders?>'>
+        <p class="form-row my-2">
+            <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>">
+            <input id='input_orders_clients_address-<?=$id_orders?>' name='ClientsEdit[clients_address]' value='<?=$clients_address?>' form='' class="form-control col-10 input_clients_address" type="text" placeholder="Введите домашний адрес">
+        </p>
+        <p id = 'error_orders_clients_address-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+    </div>
+    <!--Конец Adress клиента-->
 </div>
