@@ -76,7 +76,6 @@
      bottom: 5px; /* Сдвиг сверху */ 
      cursor: pointer;
 }
-
 .jumbotron {
   position: relative;
   overflow: hidden;
@@ -101,19 +100,23 @@
 a:active, a:focus {
     outline: none; 
 }
-/*#menu_link:hover{
-    color: red;
+/*вариант анимации кнопки №1*/
+.btn {
+    box-shadow: 0 0 0 10px rgba(247, 247, 25, 0.5), 0 0 0 10px rgba(247, 247, 25, 0.5);
+    animation: a 1.5s linear infinite;
 }
-#showcase_link:hover{
-    color: cornflowerblue;
+
+@keyframes a {
+    0% {
+	box-shadow: 0 0 0 5px rgba(247, 247, 25, 0.5), 0 0 0 0px rgba(247, 247, 25, 0.5);
+    }
+    50% {
+	box-shadow: 0 0 0 10px rgba(247, 247, 25, 0), 0 0 0 5px rgba(247, 247, 25, 0.5);
+	}
+    50.0001% {
+	box-shadow: 0 0 0 0 rgba(247, 247, 25, 0.5), 0 0 0 5px rgba(247, 247, 25, 0.5);
+	}
+    100% {
+	box-shadow: 0 0 0 5px rgba(247, 247, 25, 0.5), 0 0 0 10px rgba(247, 247, 25, 0);
+	}
 }
-#services_link:hover{
-    color: cornflowerblue;
-}
-#orders_link:hover{
-    color: cornflowerblue;
-}
-#contacts_link:hover{
-    color: cornflowerblue;
-}
-*/
