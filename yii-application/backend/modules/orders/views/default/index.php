@@ -4,7 +4,6 @@ use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use backend\modules\orders\assets\MyOrdersAsset;
-use backend\modules\orders\models\ClientsPhones;
 
 MyOrdersAsset::register($this);
 

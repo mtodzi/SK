@@ -44,7 +44,7 @@
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
                         "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-8 phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
-                        "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
+                        "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>"+
                 "</div>";
             $("#search_input_phone_number-"+id_orders).remove();
@@ -90,8 +90,9 @@
                 $(this).attr('id',("div_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number-"+(index+1)+"]"));
-                $(this).find("a").attr('id',("delete_another_phone-"+id_orders+"-"+(index+1))); 
-                $(this).find("p").attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("a").attr('id',("delete_another_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("p .error_orders_phone").attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
+                $(this).find("p .orders_phone").attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 console.log( index + ": ");
             });
             $('#add_another_phone-'+id_orders).attr('data-count-phone',(count-1));
@@ -122,13 +123,14 @@
     $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
-        var arrayFieldsChecked = ['clients_name-','clients_phone-']; 
+        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-']; 
         if(formFieldCheck(id,arrayFieldsChecked)){
             alert("Проверка Проверка прошла успешно");
         }else{
             alert("Проверка Проверка прошла не успешно");
         }
     });
+    
     //Обработчик ввода текста в input_clients_name
     $('.my_box_content').on('keyup', '.input_clients_name', function(eventObject){
         var id = GetId($(this),1);
@@ -167,14 +169,63 @@
     $('.my_box_content').on('focusin', '.input_clients_name', function(e){
         var id_orders = GetId($(this),1);
         console.log($("#search_input_clients_name-"+id_orders));
-         if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
+        if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
             $("#search_input_phone_number-"+id_orders).remove();
+        }
+        if($("#search_input_clients_email-"+id_orders).is("#search_input_clients_email-"+id_orders)){
+            $("#search_input_clients_email-"+id_orders).remove();
+        }
+        
+        
+    });
+    //Обработчик отслеживает получение фокуса input_clients_email
+    $('.my_box_content').on('focusin', '.input_clients_email', function(e){
+        var id_orders = GetId($(this),1);
+        console.log($("#search_input_clients_name-"+id_orders));
+        if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
+            $("#search_input_phone_number-"+id_orders).remove();
+        }
+        if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
+            $("#search_input_clients_name-"+id_orders).remove();
         }
         
         
     });
     //Обработчик нажатия на option в подсказке clients_name в userbox
     $('.my_box_content').on('click', '.option_clients_name', function(){
+        var id_orders = GetId($(this).parent(),1);
+        var id_clients = GetId($(this),1);
+        console.log(id_orders);
+        console.log(id_clients);
+        var data={};
+        data={  'SearchClientsSubstitution[id_orders]':id_orders,
+                'SearchClientsSubstitution[id_clients]':id_clients,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        $.ajax({
+            url: '/yii-application/backend/web/orders/default/takeclient',
+            type: 'POST',
+            data: data,
+            success: function(res){
+                console.log(res);
+                if(res[0]!=0){
+                    $("#search_input_clients_name-"+id_orders).remove();
+                    $("#orders_clients_form-"+id_orders).remove();
+                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
+                }else{
+                    var numberAlert = getRandomArbitary(1, 50);
+                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
+                    setTimeout(postDelete, 3000,namePost);
+                }    
+            },
+            error: function(){
+                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            }
+        });
+    });
+    //Обработчик нажатия на option в подсказке input_clients_email в userbox
+    $('.my_box_content').on('click', '.option_clients_email', function(){
         var id_orders = GetId($(this).parent(),1);
         var id_clients = GetId($(this),1);
         console.log(id_orders);
@@ -227,7 +278,7 @@
                     console.log(res);
                     if(res[0]!=0){
                         $("#search_input_phone_number-"+id_orders).remove();
-                        console.log($("#input_orders_clients_phone-"+id_orders+"-"+id_phone));
+                        console.log($("#p_orders_clients_phone-"+id_orders+"-"+id_phone));
                         $("#p_orders_clients_phone-"+id_orders+"-"+id_phone).after(res['msg']);                        
                     }else{
                         $("#search_input_phone_number-"+id_orders).remove();
@@ -249,7 +300,49 @@
         if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
             $("#search_input_clients_name-"+id_orders).remove();
         }
+        console.log($("#search_input_clients_email-"+id_orders));
+        if($("#search_input_clients_email-"+id_orders).is("#search_input_clients_email-"+id_orders)){
+            $("#search_input_clients_email-"+id_orders).remove();
+            console.log('Сработал');
+        }
         
+    });
+    //Обработчик ввода текста в input_clients_email
+    $('.my_box_content').on('keyup', '.input_clients_email', function(eventObject){
+        var id = GetId($(this),1);
+        var data={};
+        if(eventObject.which != 27){
+        console.log($("#input_orders_clients_email-"+id).val());
+        data={  'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[clients_email]':$("#input_orders_clients_email-"+id).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takeemailclient',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_clients_email-"+id).remove();
+                        $("#input_orders_clients_email-"+id).after(res['msg']);
+                    }else{
+                        $("#search_input_clients_email-"+id).remove();
+                        return false;
+                    }    
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+      
+        }else{
+            $("#search_input_clients_email-"+id).remove();
+            return false;
+        }
+            
     });
     
     //ССылка создае ошибку в карточке заказа
@@ -347,6 +440,23 @@
                         }
                     });
                     break;
+                case "input_orders_clients_email-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['clients_email-'+id]='Заполните email клиента';
+                    }else{
+                        if(emailEmpty($('#input_orders_'+val+id).val())){
+                            countError++;
+                            arrayError['clients_email-'+id]='Вы неправильно ввели email клиента';
+                        }
+                    }
+                    break;
+                case "input_orders_clients_address-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['clients_address-'+id]='Заполните адрес клиента';
+                    }
+                    break;
             }            
         });
         if(countError == 0){
@@ -383,8 +493,8 @@
             return false;
         }
     }
-//Функция  кнопки прокрутки    
-$(function() {
+    //Функция  кнопки прокрутки    
+    $(function() {
     // при нажатии на кнопку scrollup
     $('.scroll_to_up').click(function() {
     // переместиться в верхнюю часть страницы
@@ -393,8 +503,8 @@ $(function() {
     },1000);
   });
 });
-// при прокрутке окна (window)
-$(window).scroll(function() {
+    // при прокрутке окна (window)
+    $(window).scroll(function() {
   // если пользователь прокрутил страницу более чем на 200px
   if ($(this).scrollTop()>200) {
     // то сделать кнопку scroll_to_up видимой
@@ -406,8 +516,14 @@ $(window).scroll(function() {
   }
 });
 
-//чтобы tooltip пропадал при зажимании кнопок
-$('[data-toggle="tooltip"]').on("click", function() {
+    //чтобы tooltip пропадал при зажимании кнопок
+    $('[data-toggle="tooltip"]').on("click", function() {
     $(this).tooltip('hide');
     $(this).blur();
 });
+
+    //Функция проверки email
+    function emailEmpty(email){
+        var re =  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        return !re.test(email);
+    }

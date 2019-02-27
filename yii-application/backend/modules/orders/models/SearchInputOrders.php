@@ -12,11 +12,13 @@ class SearchInputOrders extends Model
     //Задаем константы сценарияев для обработки форм
     const SCENARIO_CLIENTS_NAME = 'clients_name';//Сценарий обрабатывает поиск clients_name
     const SCENARIO_PHONE = 'phone';//Сценарий обрабатывает поиск телефонам
+    const SCENARIO_EMAIL = 'email';//Сценарий обрабатывает поиск телефонам
     
     //Поля для обработки
     public $id_orders;
     public $clients_name;
     public $phone_number;
+    public $clients_email;
 
 
     /**
@@ -28,6 +30,7 @@ class SearchInputOrders extends Model
         return [
             self::SCENARIO_CLIENTS_NAME => ['id_orders','clients_name'],  
             self::SCENARIO_PHONE => ['id_orders','phone_number'],
+            self::SCENARIO_EMAIL => ['id_orders','clients_email'],
         ];
     }
     
@@ -46,6 +49,8 @@ class SearchInputOrders extends Model
             ['phone_number', 'filter', 'filter' => 'trim'],
             ['phone_number', 'required'],
 
+            ['clients_email', 'filter', 'filter' => 'trim'],
+            ['clients_email', 'required'],
         ];
     }
     
@@ -62,12 +67,24 @@ class SearchInputOrders extends Model
     } 
     
     /*
-     *Метод ишет клиентов по clients_name     
+     *Метод ишет клиентов по телефонному номеру     
      */
     public function SearchPhoneNumber(){
         $model_phones = ClientsPhones::find()->where(['LIKE', 'phone_number',($this->phone_number.'%'),FALSE])->all();
         if($model_phones !== NUll){
             return $model_phones;
+        }else{
+            return false;
+        }
+    }
+    
+    /*
+     *Метод ишет клиентов по clients_email     
+     */
+    public function SearchClientsEmail(){
+        $model_clients = Clients::find()->where(['LIKE', 'clients_email',($this->clients_email.'%'),FALSE])->all();
+        if($model_clients !== NUll){
+            return $model_clients;
         }else{
             return false;
         }
