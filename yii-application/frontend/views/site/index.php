@@ -74,7 +74,7 @@ $this->title = 'Service Keeper';
                Доступен быстрый поиск заказов  по номеру заказа, модели устройства, ФИО и телефону клиента.
             </p>
             <hr>
-            <span class='letter_info'>Клиенты</span>
+            <span class='letter_info rotate'>Клиенты</span>
             <p align='justify' class='collapse'>Контактные данные клиентов заносятся в раздел "Клиенты". 
                Предусмотрен удобный поиск по разделу, а также обновление контактных данных клиента.
             </p>
@@ -113,7 +113,7 @@ $this->title = 'Service Keeper';
                 <h3 class="card-title">Название проекта 3</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
-                <a href="#" class="btn btn-light">Смотреть проект</a>
+                <a href="#" class="btn rotate btn-light">Смотреть проект</a>
                 </div>
             </div>
         </div>
