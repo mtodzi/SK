@@ -69,9 +69,14 @@ use yii\helpers\Html;
                                 <?=$this->render('viewclientform', ['modelOrders'=>$model,'modelClients'=>null]);?>
                             <!--Конец div id='orders_alert_server-".$model->id_orders." -->
                             <h5>Принимаемое устройство:</h5>
+                            <!--Блок с чекбоксами диагностика ремонт-->
                             <div id="orders_repair_type-<?=(($model!=null)?$model->id_orders:0)?>">
                                 <?=$this->render('checkrepairtype', ['model' => $model,])?>
-                            </div>    
+                            </div>
+                            <!--Конец Блок с чекбоксами диагностика ремонт-->
+                            <div id="div_orders_serrial_nambers_id-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('serrialnambersid', ['model' => $model,])?>
+                            </div>
                         </div>
                     </div>        
                 </div>

@@ -527,3 +527,93 @@
         var re =  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return !re.test(email);
     }
+    
+    //Обрабатуем нажатие на чекбокс диагностика и ремонт 
+    $('.my_content_bloc').on('click', '.check_repair_type', function(){
+        //Вытаскиваем id карточки заказа
+        var id = GetId($(this),1);
+        console.log(id);
+        //вытаскиваем имя с которым производились манипуляции
+        var inputChecked = GetId($(this),0);
+        console.log(inputChecked);
+        console.log($("#orders_hidden_repair_type-"+id));
+        //массив для работы с противоположным чекбоксом
+        var arrayInputChecked = {check_diagnostics:'check_repair',check_repair:'check_diagnostics'}
+        console.log("#"+arrayInputChecked[inputChecked]+'-'+id);
+        // 1-1 3 при нажатие на пустой чекбокс
+        if ($(this).is(':checked') && $("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            //alert('Подставим 3');
+            $("#orders_hidden_repair_type-"+id).val(3);
+            return true;
+        }
+        // 1-0 1 или 0-1 2 при нажатие на пустой чекбокс
+        if ($(this).is(':checked') && !$("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            if(inputChecked.localeCompare('check_diagnostics')==0){
+                //alert('Подставим 1');
+                $("#orders_hidden_repair_type-"+id).val(1);
+                return true;
+            }
+            if(inputChecked.localeCompare('check_repair')==0){
+                //alert('Подставим 2');
+                $("#orders_hidden_repair_type-"+id).val(2);
+                return true;
+            }
+        }
+        // 1-0 1 или 0-1 2 при нажатие на не пустой чекбокс
+        if (!$(this).is(':checked') && $("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            if(arrayInputChecked[inputChecked].localeCompare('check_diagnostics')==0){
+                //alert('Подставим 1');
+                $("#orders_hidden_repair_type-"+id).val(1);
+                return true;
+            }
+            if(arrayInputChecked[inputChecked].localeCompare('check_repair')==0){
+                //alert('Подставим 2');
+                $("#orders_hidden_repair_type-"+id).val(2);
+                return true;
+            }
+        }
+        // 0-0 0 при нажатие на не пустой чекбокс
+        if (!$(this).is(':checked') && !$("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            //alert('Подставим 0');
+            $("#orders_hidden_repair_type-"+id).val(0);
+            return true;
+        }
+    });
+    
+    //Обработчик ввода текста в input_clients_name
+    $('.my_box_content').on('keyup', '.input_orders_brand_name', function(eventObject){
+        var id = GetId($(this),1);
+        var data={};
+        if(eventObject.which != 27){
+        console.log($("#input_orders_brand_name-"+id).val());
+        data={  'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[brand_name]':$("#input_orders_brand_name-"+id).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        /*
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takenameclient',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_clients_name-"+id).remove();
+                        $("#input_orders_clients_name-"+id).after(res['msg']);
+                    }else{
+                        $("#search_input_clients_name-"+id).remove();
+                        return false;
+                    }    
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+             * 
+         */
+        }else{
+            $("#search_input_clients_name-"+id).remove();
+            return false;
+        }    
+    });

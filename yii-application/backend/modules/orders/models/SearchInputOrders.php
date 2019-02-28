@@ -12,7 +12,7 @@ class SearchInputOrders extends Model
     //Задаем константы сценарияев для обработки форм
     const SCENARIO_CLIENTS_NAME = 'clients_name';//Сценарий обрабатывает поиск clients_name
     const SCENARIO_PHONE = 'phone';//Сценарий обрабатывает поиск телефонам
-    const SCENARIO_EMAIL = 'email';//Сценарий обрабатывает поиск телефонам
+    const SCENARIO_EMAIL = 'email';//Сценарий обрабатывает поиск email
     
     //Поля для обработки
     public $id_orders;
