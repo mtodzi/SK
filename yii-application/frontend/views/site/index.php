@@ -19,11 +19,10 @@ $this->title = 'Service Keeper';
 <nav class="navbar navbar-expand-sm navbar-light" data-toggle="affix">
     <a class="navbar-brand img_nav" href="#" style='display: none;' >
         <img src="/img/Logo_SK_white.svg" width="45" height="45" class="d-inline-block align-top" alt="" >
-        <span class='letter_red'>Service Keeper</span>
     </a>
      
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-        ☰
+         ☰ 
     </button>
     <div class="collapse navbar-collapse" id="collapsingNavbar">
 
@@ -56,7 +55,7 @@ $this->title = 'Service Keeper';
 <div class="container" id="main">
     <h2>Автоматизированная система Service Keeper v.1.0</h2>
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-9">
+        <div class="col-xs-12 col-sm-8 col-md-9">
             <p align="justify">Система разработана для использования в небольших сервисных мастерских и предназначена для упрощения 
                решения рутинных задач по автоматизации товарно-кадрового учета, хранения, архивирования и удобного поиска необходимой информации.
                Система реализована при помощи объектно-ориентированного компонентного фреймворка Yii 2 и предусматривает возможности расширения до полноценной CMS.
@@ -67,14 +66,14 @@ $this->title = 'Service Keeper';
                Является элементом портфолио и продуктом совместной работы Зуева Сергея Павловича и Морозова Андрея Алексеевича.
             </p>
         </div>
-        <div class='col-xs-6 col-md-3'>
+        <div class='col-xs-12 col-sm-4 col-md-3'>
             <p>Возможности системы:</p>
             <span class='letter_info'>Заказы</span>
             <p align='justify' class='collapse'>Все заказы хранятся в разделе "Заказы", отсортированы по дате поступления. 
                Доступен быстрый поиск заказов  по номеру заказа, модели устройства, ФИО и телефону клиента.
             </p>
             <hr>
-            <span class='letter_info rotate'>Клиенты</span>
+            <span class='letter_info'>Клиенты</span>
             <p align='justify' class='collapse'>Контактные данные клиентов заносятся в раздел "Клиенты". 
                Предусмотрен удобный поиск по разделу, а также обновление контактных данных клиента.
             </p>
@@ -87,33 +86,33 @@ $this->title = 'Service Keeper';
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-6 col-sm-4">
+        <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card">
                 <div class="card-body text-light bg-primary">
                 <h3 class="card-title">Название проекта 1</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
-                <a href="#" class="btn btn-light">Смотреть проект</a>
+                <a href="#" class='btn btn-light border'>Смотреть проект</a>
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 col-sm-4">
+        <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card">
                 <div class="card-body text-light bg-dark">
                 <h3 class="card-title">Название проекта 2</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
-                <a href="#" class="btn btn-light">Смотреть проект</a>
+                <a href="#" class='btn btn-light border'>Смотреть проект</a>
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 col-sm-4">
+        <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card">
                 <div class="card-body text-light bg-success">
                 <h3 class="card-title">Название проекта 3</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
-                <a href="#" class="btn rotate btn-light">Смотреть проект</a>
+                <a href="#" class='btn btn-light border'>Смотреть проект</a>
                 </div>
             </div>
         </div>
