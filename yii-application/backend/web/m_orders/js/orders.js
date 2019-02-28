@@ -591,18 +591,18 @@
                 '_csrf-backend':$('input[name="_csrf-backend"]').val()
             };       
         console.log(data);
-        /*
+        
         $.ajax({
-                url: '/yii-application/backend/web/orders/default/takenameclient',
+                url: '/yii-application/backend/web/orders/default/takenamebrands',
                 type: 'POST',
                 data: data,
                 success: function(res){
                     console.log(res);
                     if(res[0]!=0){
-                        $("#search_input_clients_name-"+id).remove();
-                        $("#input_orders_clients_name-"+id).after(res['msg']);
+                        $("#search_input_brand_name-"+id).remove();
+                        $("#div_orders_brand_name-"+id).after(res['msg']);
                     }else{
-                        $("#search_input_clients_name-"+id).remove();
+                        $("#search_input_brand_name-"+id).remove();
                         return false;
                     }    
                 },
@@ -610,10 +610,8 @@
                     alert('По неизвестной причине сервер не ответил обратитесь к админу.');
                 }
             });
-             * 
-         */
         }else{
-            $("#search_input_clients_name-"+id).remove();
+            $("#search_input_brand_name-"+id).remove();
             return false;
         }    
     });

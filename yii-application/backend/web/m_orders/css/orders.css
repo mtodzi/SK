@@ -19,3 +19,11 @@
     width: 469px;
     z-index: 1;
 }
+
+.select_brand_name{
+    position: relative;
+    width: 184px;
+    z-index: 1;
+    left: 3px;
+    top: -8px;
+}

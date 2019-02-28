@@ -5,6 +5,7 @@ use yii\base\Model;
 use Yii;
 use backend\modules\orders\models\Clients;
 use backend\modules\orders\models\ClientsPhones;
+use backend\modules\orders\models\Brands;
 
 
 class SearchInputOrders extends Model
@@ -13,13 +14,14 @@ class SearchInputOrders extends Model
     const SCENARIO_CLIENTS_NAME = 'clients_name';//Сценарий обрабатывает поиск clients_name
     const SCENARIO_PHONE = 'phone';//Сценарий обрабатывает поиск телефонам
     const SCENARIO_EMAIL = 'email';//Сценарий обрабатывает поиск email
+    const SCENARIO_BREND = 'brend';//Сценарий обрабатывает поиск по brend
     
     //Поля для обработки
     public $id_orders;
     public $clients_name;
     public $phone_number;
     public $clients_email;
-
+    public $brand_name;
 
     /**
      * @inheritdoc
@@ -31,6 +33,7 @@ class SearchInputOrders extends Model
             self::SCENARIO_CLIENTS_NAME => ['id_orders','clients_name'],  
             self::SCENARIO_PHONE => ['id_orders','phone_number'],
             self::SCENARIO_EMAIL => ['id_orders','clients_email'],
+            self::SCENARIO_BREND => ['id_orders','brand_name'],
         ];
     }
     
@@ -51,6 +54,9 @@ class SearchInputOrders extends Model
 
             ['clients_email', 'filter', 'filter' => 'trim'],
             ['clients_email', 'required'],
+            
+            ['brand_name', 'filter', 'filter' => 'trim'],
+            ['brand_name', 'required'],
         ];
     }
     
@@ -88,7 +94,19 @@ class SearchInputOrders extends Model
         }else{
             return false;
         }
-    } 
+    }
+    
+    /*
+     *Метод ишет клиентов по clients_email     
+     */
+    public function SearchBrandName(){
+        $model_brend = Brands::find()->where(['LIKE', 'name_brands',($this->brand_name.'%'),FALSE])->all();
+        if($model_brend !== NUll){
+            return $model_brend;
+        }else{
+            return false;
+        }
+    }
     
 }
 
