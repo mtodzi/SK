@@ -579,3 +579,41 @@
             return true;
         }
     });
+    
+    //Обработчик ввода текста в input_clients_name
+    $('.my_box_content').on('keyup', '.input_orders_brand_name', function(eventObject){
+        var id = GetId($(this),1);
+        var data={};
+        if(eventObject.which != 27){
+        console.log($("#input_orders_brand_name-"+id).val());
+        data={  'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[brand_name]':$("#input_orders_brand_name-"+id).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        /*
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takenameclient',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_clients_name-"+id).remove();
+                        $("#input_orders_clients_name-"+id).after(res['msg']);
+                    }else{
+                        $("#search_input_clients_name-"+id).remove();
+                        return false;
+                    }    
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+             * 
+         */
+        }else{
+            $("#search_input_clients_name-"+id).remove();
+            return false;
+        }    
+    });
