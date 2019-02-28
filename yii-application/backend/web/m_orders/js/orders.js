@@ -527,3 +527,55 @@
         var re =  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return !re.test(email);
     }
+    
+    //Обрабатуем нажатие на чекбокс диагностика и ремонт 
+    $('.my_content_bloc').on('click', '.check_repair_type', function(){
+        //Вытаскиваем id карточки заказа
+        var id = GetId($(this),1);
+        console.log(id);
+        //вытаскиваем имя с которым производились манипуляции
+        var inputChecked = GetId($(this),0);
+        console.log(inputChecked);
+        console.log($("#orders_hidden_repair_type-"+id));
+        //массив для работы с противоположным чекбоксом
+        var arrayInputChecked = {check_diagnostics:'check_repair',check_repair:'check_diagnostics'}
+        console.log("#"+arrayInputChecked[inputChecked]+'-'+id);
+        // 1-1 3 при нажатие на пустой чекбокс
+        if ($(this).is(':checked') && $("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            //alert('Подставим 3');
+            $("#orders_hidden_repair_type-"+id).val(3);
+            return true;
+        }
+        // 1-0 1 или 0-1 2 при нажатие на пустой чекбокс
+        if ($(this).is(':checked') && !$("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            if(inputChecked.localeCompare('check_diagnostics')==0){
+                //alert('Подставим 1');
+                $("#orders_hidden_repair_type-"+id).val(1);
+                return true;
+            }
+            if(inputChecked.localeCompare('check_repair')==0){
+                //alert('Подставим 2');
+                $("#orders_hidden_repair_type-"+id).val(2);
+                return true;
+            }
+        }
+        // 1-0 1 или 0-1 2 при нажатие на не пустой чекбокс
+        if (!$(this).is(':checked') && $("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            if(arrayInputChecked[inputChecked].localeCompare('check_diagnostics')==0){
+                //alert('Подставим 1');
+                $("#orders_hidden_repair_type-"+id).val(1);
+                return true;
+            }
+            if(arrayInputChecked[inputChecked].localeCompare('check_repair')==0){
+                //alert('Подставим 2');
+                $("#orders_hidden_repair_type-"+id).val(2);
+                return true;
+            }
+        }
+        // 0-0 0 при нажатие на не пустой чекбокс
+        if (!$(this).is(':checked') && !$("#"+arrayInputChecked[inputChecked]+'-'+id).is(':checked')){
+            //alert('Подставим 0');
+            $("#orders_hidden_repair_type-"+id).val(0);
+            return true;
+        }
+    });
