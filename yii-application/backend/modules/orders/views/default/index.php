@@ -77,7 +77,7 @@ $this->title = Yii::t('app','Заказы');
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
                     return $this->render('orderscard', ['model' => $model,]);
-            },
+                },
         ]);
      ?>    
         

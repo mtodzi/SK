@@ -69,6 +69,9 @@ use yii\helpers\Html;
                                 <?=$this->render('viewclientform', ['modelOrders'=>$model,'modelClients'=>null]);?>
                             <!--Конец div id='orders_alert_server-".$model->id_orders." -->
                             <h5>Принимаемое устройство:</h5>
+                            <div id="orders_repair_type-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('checkrepairtype', ['model' => $model,])?>
+                            </div>    
                         </div>
                     </div>        
                 </div>
