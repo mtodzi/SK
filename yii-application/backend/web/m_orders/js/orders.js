@@ -200,6 +200,7 @@
             }
         });
     });
+    
     //Обработчик нажатия на option в подсказке input_clients_email в userbox
     $('.my_box_content').on('click', '.option_clients_email', function(){
         var id_orders = GetId($(this).parent(),1);
@@ -233,6 +234,7 @@
             }
         });
     });
+    
     //Обработчик ввода текста в input_phone
     $('.my_box_content').on('keyup', '.phone_input', function(eventObject){        
         var id_orders = GetId($(this),1);
@@ -596,6 +598,43 @@
         if($("#search_input_brand_name-"+id_orders).is("#search_input_brand_name-"+id_orders)){
             $("#search_input_brand_name-"+id_orders).remove();
         }
+    });
+    
+    //Обработчик нажатия на option в подсказке input_clients_email в userbox
+    $('.my_box_content').on('click', '.option_brand_name', function(){
+        var id_orders = GetId($(this).parent(),1);
+        var id_brand = GetId($(this),1);
+        console.log(id_orders);
+        console.log(id_brand);
+        var data={};
+        data={  'SearchBrendSubstitution[id_orders]':id_orders,
+                'SearchBrendSubstitution[id_brand]':id_brand,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        
+        $.ajax({
+            url: '/yii-application/backend/web/orders/default/takebrend',
+            data: data,
+            success: function(res){
+                console.log(res);
+                /*
+                if(res[0]!=0){
+                    $("#search_input_clients_name-"+id_orders).remove();
+                    $("#orders_clients_form-"+id_orders).remove();
+                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
+                }else{
+                    var numberAlert = getRandomArbitary(1, 50);
+                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
+                    setTimeout(postDelete, 3000,namePost);
+                }
+                 * 
+                 */    
+            },
+            error: function(){
+                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            }
+        });
     });
    
     

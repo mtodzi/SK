@@ -7,6 +7,8 @@ use yii\web\Controller;
 use backend\modules\orders\models\OrdersSearch;
 use backend\modules\orders\models\SearchInputOrders;
 use backend\modules\orders\models\SearchClientsSubstitution;
+use backend\modules\orders\models\SearchBrendSubstitution;
+
 /**
  * Default controller for the `orders` module
  */
@@ -209,6 +211,46 @@ class DefaultController extends Controller
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     //Фармируем массив с ошибкой
                     $items = ['200','msg'=>$viewclientform,'id_orders'=>(($modelOrders)?$modelOrders->id_orders:"0")];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'Возможно заказа нет или клиента в БД'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Ошибки в переданных данных на сервер'];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
+    }
+    
+    /*
+     *Метод возврашает выбранный Бренд из списка Брендов 
+     * 
+     */
+    public function actionTakebrend(){
+        if(\Yii::$app->request->isAjax){
+            $SearchBrendSubstitution =  new SearchBrendSubstitution();
+            if($SearchBrendSubstitution->load(Yii::$app->request->post()) && $SearchBrendSubstitution->validate()){
+                $modelOrders = $SearchBrendSubstitution->SearchOrders();
+                $modelBrand = $SearchBrendSubstitution->SearchBrand();
+                if(($modelOrders || $SearchBrendSubstitution->id_orders==0) && $modelClients){
+                    $viewbrandform = $this->renderAjax('brendindex', ['modelOrders'=>$modelOrders,'modelBrend'=>$modelBrand]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$viewbrandform,'id_orders'=>(($modelOrders)?$modelOrders->id_orders:"0")];
                     //Передаем данные в фармате json пользователю
                     return $items;
                 }else{
