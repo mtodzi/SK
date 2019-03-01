@@ -165,32 +165,8 @@
             return false;
         }    
     });
-    //Обработчик отслеживает получение фокуса input_clients_name
-    $('.my_box_content').on('focusin', '.input_clients_name', function(e){
-        var id_orders = GetId($(this),1);
-        console.log($("#search_input_clients_name-"+id_orders));
-        if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
-            $("#search_input_phone_number-"+id_orders).remove();
-        }
-        if($("#search_input_clients_email-"+id_orders).is("#search_input_clients_email-"+id_orders)){
-            $("#search_input_clients_email-"+id_orders).remove();
-        }
-        
-        
-    });
-    //Обработчик отслеживает получение фокуса input_clients_email
-    $('.my_box_content').on('focusin', '.input_clients_email', function(e){
-        var id_orders = GetId($(this),1);
-        console.log($("#search_input_clients_name-"+id_orders));
-        if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
-            $("#search_input_phone_number-"+id_orders).remove();
-        }
-        if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
-            $("#search_input_clients_name-"+id_orders).remove();
-        }
-        
-        
-    });
+    
+    
     //Обработчик нажатия на option в подсказке clients_name в userbox
     $('.my_box_content').on('click', '.option_clients_name', function(){
         var id_orders = GetId($(this).parent(),1);
@@ -293,20 +269,7 @@
         }    
 
     });
-    //Обработчик отслеживает потерю фокуса input_clients_name
-    $('.my_box_content').on('focusin', '.phone_input', function(){
-        var id_orders = GetId($(this),1);
-        console.log($("#search_input_phone_number-"+id_orders));
-        if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
-            $("#search_input_clients_name-"+id_orders).remove();
-        }
-        console.log($("#search_input_clients_email-"+id_orders));
-        if($("#search_input_clients_email-"+id_orders).is("#search_input_clients_email-"+id_orders)){
-            $("#search_input_clients_email-"+id_orders).remove();
-            console.log('Сработал');
-        }
-        
-    });
+    
     //Обработчик ввода текста в input_clients_email
     $('.my_box_content').on('keyup', '.input_clients_email', function(eventObject){
         var id = GetId($(this),1);
@@ -615,3 +578,24 @@
             return false;
         }    
     });
+    
+    
+    //Обработчик отслеживает получение фокуса input_clients_name
+    $('.my_box_content').on('focusin', '.input_orders', function(e){
+        var id_orders = GetId($(this),1);
+        console.log($("#search_input_clients_name-"+id_orders));
+        if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
+            $("#search_input_phone_number-"+id_orders).remove();
+        }
+        if($("#search_input_clients_email-"+id_orders).is("#search_input_clients_email-"+id_orders)){
+            $("#search_input_clients_email-"+id_orders).remove();
+        }
+        if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
+            $("#search_input_clients_name-"+id_orders).remove();
+        }
+        if($("#search_input_brand_name-"+id_orders).is("#search_input_brand_name-"+id_orders)){
+            $("#search_input_brand_name-"+id_orders).remove();
+        }
+    });
+   
+    
