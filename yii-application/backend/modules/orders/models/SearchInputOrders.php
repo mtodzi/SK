@@ -6,6 +6,7 @@ use Yii;
 use backend\modules\orders\models\Clients;
 use backend\modules\orders\models\ClientsPhones;
 use backend\modules\orders\models\Brands;
+use backend\modules\orders\models\DeviceType;
 
 
 class SearchInputOrders extends Model
@@ -15,6 +16,7 @@ class SearchInputOrders extends Model
     const SCENARIO_PHONE = 'phone';//Сценарий обрабатывает поиск телефонам
     const SCENARIO_EMAIL = 'email';//Сценарий обрабатывает поиск email
     const SCENARIO_BREND = 'brend';//Сценарий обрабатывает поиск по brend
+    const SCENARIO_DEVICE_TYPE = 'device_type';//Сценарий обрабатывает поиск по device_type
     
     //Поля для обработки
     public $id_orders;
@@ -22,6 +24,7 @@ class SearchInputOrders extends Model
     public $phone_number;
     public $clients_email;
     public $brand_name;
+    public $device_type;
 
     /**
      * @inheritdoc
@@ -34,6 +37,7 @@ class SearchInputOrders extends Model
             self::SCENARIO_PHONE => ['id_orders','phone_number'],
             self::SCENARIO_EMAIL => ['id_orders','clients_email'],
             self::SCENARIO_BREND => ['id_orders','brand_name'],
+            self::SCENARIO_DEVICE_TYPE => ['id_orders','device_type'],
         ];
     }
     
@@ -57,6 +61,9 @@ class SearchInputOrders extends Model
             
             ['brand_name', 'filter', 'filter' => 'trim'],
             ['brand_name', 'required'],
+            
+            ['device_type', 'filter', 'filter' => 'trim'],
+            ['device_type', 'required'],
         ];
     }
     
@@ -103,6 +110,18 @@ class SearchInputOrders extends Model
         $model_brend = Brands::find()->where(['LIKE', 'name_brands',($this->brand_name.'%'),FALSE])->all();
         if($model_brend !== NUll){
             return $model_brend;
+        }else{
+            return false;
+        }
+    }
+    
+    /*
+     *Метод ишет клиентов по device_type    
+     */
+    public function SearchDeviceType(){
+        $model_device_type = DeviceType::find()->where(['LIKE', 'device_type_name',($this->device_type.'%'),FALSE])->all();
+        if($model_device_type !== NUll){
+            return $model_device_type;
         }else{
             return false;
         }

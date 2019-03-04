@@ -123,7 +123,7 @@
     $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
-        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-']; 
+        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type-']; 
         if(formFieldCheck(id,arrayFieldsChecked)){
             alert("Проверка Проверка прошла успешно");
         }else{
@@ -422,6 +422,18 @@
                         arrayError['clients_address-'+id]='Заполните адрес клиента';
                     }
                     break;
+                case "input_orders_brand_name-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['brand_name-'+id]='Заполните поле Бренд';
+                    }
+                    break;
+                case "input_orders_device_type-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['device_type-'+id]='Заполните поле тип устройства';
+                    }
+                    break;
             }            
         });
         if(countError == 0){
@@ -462,30 +474,30 @@
     $(function() {
     // при нажатии на кнопку scrollup
     $('.scroll_to_up').click(function() {
-    // переместиться в верхнюю часть страницы
-    $("html, body").animate({
-      scrollTop:0
-    },1000);
-  });
-});
-    // при прокрутке окна (window)
+        // переместиться в верхнюю часть страницы
+        $("html, body").animate({
+          scrollTop:0
+        },1000);
+    });
+    });
     $(window).scroll(function() {
-  // если пользователь прокрутил страницу более чем на 200px
-  if ($(this).scrollTop()>200) {
-    // то сделать кнопку scroll_to_up видимой
-    $('.scroll_to_up').fadeIn();
-  }
-  // иначе скрыть кнопку scrollup
-  else {
-    $('.scroll_to_up').fadeOut();
-  }
-});
+        // при прокрутке окна (window)
+        // если пользователь прокрутил страницу более чем на 200px
+        if ($(this).scrollTop()>200) {
+            // то сделать кнопку scroll_to_up видимой
+            $('.scroll_to_up').fadeIn();
+        }
+        // иначе скрыть кнопку scrollup
+        else {
+            $('.scroll_to_up').fadeOut();
+        }
+    });
 
     //чтобы tooltip пропадал при зажимании кнопок
     $('[data-toggle="tooltip"]').on("click", function() {
-    $(this).tooltip('hide');
-    $(this).blur();
-});
+        $(this).tooltip('hide');
+        $(this).blur();
+    });
 
     //Функция проверки email
     function emailEmpty(email){
@@ -581,7 +593,6 @@
         }    
     });
     
-    
     //Обработчик отслеживает получение фокуса input_clients_name
     $('.my_box_content').on('focusin', '.input_orders', function(e){
         var id_orders = GetId($(this),1);
@@ -597,6 +608,9 @@
         }
         if($("#search_input_brand_name-"+id_orders).is("#search_input_brand_name-"+id_orders)){
             $("#search_input_brand_name-"+id_orders).remove();
+        }
+        if($("#search_input_device_type-"+id_orders).is("#search_input_device_type-"+id_orders)){
+            $("#search_input_device_type-"+id_orders).remove();
         }
     });
     
@@ -615,21 +629,91 @@
         
         $.ajax({
             url: '/yii-application/backend/web/orders/default/takebrend',
+            type: 'POST',
             data: data,
             success: function(res){
-                console.log(res);
-                /*
+                console.log(res);                
                 if(res[0]!=0){
-                    $("#search_input_clients_name-"+id_orders).remove();
-                    $("#orders_clients_form-"+id_orders).remove();
-                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
+                    console.log($("#div_orders_brand_name-"+id_orders+" p"));
+                    $("#search_input_brand_name-"+id_orders).remove();
+                    $("#div_orders_brand_name-"+id_orders+" p").remove();
+                    $("#div_orders_brand_name-"+id_orders).append(res['msg'])
                 }else{
                     var numberAlert = getRandomArbitary(1, 50);
                     var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
                     setTimeout(postDelete, 3000,namePost);
                 }
-                 * 
-                 */    
+            },
+            error: function(){
+                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            }
+        });
+    });
+    
+    //Обработчик ввода текста в input_device_type_name
+    $('.my_box_content').on('keyup', '.input_device_type_name', function(eventObject){
+        var id = GetId($(this),1);
+        console.log(id);
+        var data={};
+        if(eventObject.which != 27){
+        console.log($("#input_orders_device_type-"+id).val());
+        data={  'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[device_type]':$("#input_orders_device_type-"+id).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);        
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takedevicetype',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_device_type-"+id).remove();
+                        $("#div_orders_device_type_name-"+id).after(res['msg']);
+                    }else{
+                        $("#search_input_device_type-"+id).remove();
+                        return false;
+                    }
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+        }else{
+            $("#search_input_device_type-"+id).remove();
+            return false;
+        }   
+    });
+    
+    //Обработчик нажатия на option в подсказке input_device_type_name в userbox
+    $('.my_box_content').on('click', '.option_device_type', function(){
+        var id_orders = GetId($(this).parent(),1);
+        var id_device_type = GetId($(this),1);
+        console.log(id_orders);
+        console.log(id_device_type);
+        var data={};
+        data={  'SearchDeviceTypeSubstitution[id_orders]':id_orders,
+                'SearchDeviceTypeSubstitution[id_device_type]':id_device_type,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        $.ajax({
+            url: '/yii-application/backend/web/orders/default/takedevicet',
+            type: 'POST',
+            data: data,
+            success: function(res){
+                console.log(res);
+                if(res[0]!=0){
+                    console.log($("#div_orders_device_type_name-"+id_orders+" p"));
+                    $("#search_input_device_type-"+id_orders).remove();
+                    $("#div_orders_device_type_name-"+id_orders+" p").remove();
+                    $("#div_orders_device_type_name-"+id_orders).append(res['msg'])
+                }else{
+                    var numberAlert = getRandomArbitary(1, 50);
+                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
+                    setTimeout(postDelete, 3000,namePost);
+                }
             },
             error: function(){
                 alert('По неизвестной причине сервер не ответил обратитесь к админу.');
