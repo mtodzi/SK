@@ -612,6 +612,9 @@
         if($("#search_input_device_type-"+id_orders).is("#search_input_device_type-"+id_orders)){
             $("#search_input_device_type-"+id_orders).remove();
         }
+        if($("#search_input_devices_model-"+id_orders).is("#search_input_devices_model-"+id_orders)){
+            $("#search_input_devices_model-"+id_orders).remove();
+        }
     });
     
     //Обработчик нажатия на option в подсказке input_clients_email в userbox
@@ -709,6 +712,80 @@
                     $("#search_input_device_type-"+id_orders).remove();
                     $("#div_orders_device_type_name-"+id_orders+" p").remove();
                     $("#div_orders_device_type_name-"+id_orders).append(res['msg'])
+                }else{
+                    var numberAlert = getRandomArbitary(1, 50);
+                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
+                    setTimeout(postDelete, 3000,namePost);
+                }
+            },
+            error: function(){
+                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            }
+        });
+    });
+    
+    //Обработчик ввода текста в input_device_type_name
+    $('.my_box_content').on('keyup', '.input_orders_devices_model', function(eventObject){
+        var id = GetId($(this),1);
+        console.log(id);
+        var data={};
+        if(eventObject.which != 27){
+        console.log($("#input_orders_device_type-"+id).val());
+        data={  'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[devices_model]':$("#input_orders_devices_model-"+id).val(),
+                'SearchInputOrders[brands_id]':$("#orders_id_brands-"+id).val(),
+                'SearchInputOrders[devices_type_id]':$("#orders_id_device_type-"+id).val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);
+        
+        $.ajax({
+                url: '/yii-application/backend/web/orders/default/takedevicemodel',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(res[0]!=0){
+                        $("#search_input_devices_model-"+id).remove();
+                        $("#div_orders_devices_model-"+id).after(res['msg']);
+                    }else{
+                        $("#search_input_devices_model-"+id).remove();
+                        return false;
+                    }
+                },
+                error: function(){
+                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                }
+            });
+        }else{
+            $("#search_input_devices_model-"+id).remove();
+            return false;
+        }   
+    });
+    
+    //Обработчик нажатия на option в подсказке input_device_type_name в userbox
+    $('.my_box_content').on('click', '.option_devices_model', function(){
+        var id_orders = GetId($(this).parent(),1);
+        var id_devices_model = GetId($(this),1);
+        console.log(id_orders);
+        console.log(id_devices_model);
+        var data={};
+        data={  'SearchDeviceSubstitution[id_orders]':id_orders,
+                'SearchDeviceSubstitution[id_devices]':id_devices_model,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };       
+        console.log(data);        
+        $.ajax({
+            url: '/yii-application/backend/web/orders/default/takedevices',
+            type: 'POST',
+            data: data,
+            success: function(res){
+                console.log(res);
+                if(res[0]!=0){
+                    console.log($("#div_orders_devices-"+id_orders+" div"));
+                    $("#search_input_devices_model-"+id_orders).remove();
+                    $("#div_orders_devices-"+id_orders+" div").remove();
+                    $("#div_orders_devices-"+id_orders).append(res['msg'])
                 }else{
                     var numberAlert = getRandomArbitary(1, 50);
                     var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
