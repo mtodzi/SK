@@ -43,7 +43,7 @@
                 "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"' class='div_orders_phone-"+id_orders+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
-                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-8 phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' data-input-name = 'clients_phone' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-8 input_orders phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
                         "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>"+
                 "</div>";
@@ -130,186 +130,19 @@
             alert("Проверка Проверка прошла не успешно");
         }
     });
-    
-    //Обработчик ввода текста в input_clients_name
-    $('.my_box_content').on('keyup', '.input_clients_name', function(eventObject){
-        var id = GetId($(this),1);
-        var data={};
-        if(eventObject.which != 27){
-        console.log($("#input_orders_clients_name-"+id).val());
-        data={  'SearchInputOrders[id_orders]':id,
-                'SearchInputOrders[clients_name]':$("#input_orders_clients_name-"+id).val(),
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        $.ajax({
-                url: '/yii-application/backend/web/orders/default/takenameclient',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    if(res[0]!=0){
-                        $("#search_input_clients_name-"+id).remove();
-                        $("#input_orders_clients_name-"+id).after(res['msg']);
-                    }else{
-                        $("#search_input_clients_name-"+id).remove();
-                        return false;
-                    }    
-                },
-                error: function(){
-                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                }
-            });
-        }else{
-            $("#search_input_clients_name-"+id).remove();
-            return false;
-        }    
-    });
-    
-    
-    //Обработчик нажатия на option в подсказке clients_name в userbox
-    $('.my_box_content').on('click', '.option_clients_name', function(){
-        var id_orders = GetId($(this).parent(),1);
-        var id_clients = GetId($(this),1);
-        console.log(id_orders);
-        console.log(id_clients);
-        var data={};
-        data={  'SearchClientsSubstitution[id_orders]':id_orders,
-                'SearchClientsSubstitution[id_clients]':id_clients,
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        $.ajax({
-            url: '/yii-application/backend/web/orders/default/takeclient',
-            type: 'POST',
-            data: data,
-            success: function(res){
-                console.log(res);
-                if(res[0]!=0){
-                    $("#search_input_clients_name-"+id_orders).remove();
-                    $("#orders_clients_form-"+id_orders).remove();
-                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
-                }else{
-                    var numberAlert = getRandomArbitary(1, 50);
-                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
-                    setTimeout(postDelete, 3000,namePost);
-                }    
-            },
-            error: function(){
-                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-            }
-        });
-    });
-    
-    //Обработчик нажатия на option в подсказке input_clients_email в userbox
-    $('.my_box_content').on('click', '.option_clients_email', function(){
-        var id_orders = GetId($(this).parent(),1);
-        var id_clients = GetId($(this),1);
-        console.log(id_orders);
-        console.log(id_clients);
-        var data={};
-        data={  'SearchClientsSubstitution[id_orders]':id_orders,
-                'SearchClientsSubstitution[id_clients]':id_clients,
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        $.ajax({
-            url: '/yii-application/backend/web/orders/default/takeclient',
-            type: 'POST',
-            data: data,
-            success: function(res){
-                console.log(res);
-                if(res[0]!=0){
-                    $("#search_input_clients_name-"+id_orders).remove();
-                    $("#orders_clients_form-"+id_orders).remove();
-                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
-                }else{
-                    var numberAlert = getRandomArbitary(1, 50);
-                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
-                    setTimeout(postDelete, 3000,namePost);
-                }    
-            },
-            error: function(){
-                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-            }
-        });
-    });
-    
-    //Обработчик ввода текста в input_phone
-    $('.my_box_content').on('keyup', '.phone_input', function(eventObject){        
-        var id_orders = GetId($(this),1);
-        var id_phone = GetId($(this),2);
-        if(eventObject.which != 27){
-        console.log("id_phone="+id_phone);
-        console.log($(this).val());
-        var data={};
-        data={  'SearchInputOrders[id_orders]':id_orders,
-                'SearchInputOrders[phone_number]':$(this).val(),
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        $.ajax({
-                url: '/yii-application/backend/web/orders/default/takephonenumber',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    if(res[0]!=0){
-                        $("#search_input_phone_number-"+id_orders).remove();
-                        console.log($("#p_orders_clients_phone-"+id_orders+"-"+id_phone));
-                        $("#p_orders_clients_phone-"+id_orders+"-"+id_phone).after(res['msg']);                        
-                    }else{
-                        $("#search_input_phone_number-"+id_orders).remove();
-                    }    
-                },
-                error: function(){
-                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                }
-            });
-        }else{
-            $("#search_input_phone_number-"+id_orders).remove();
-        }    
-
-    });
-    
-    //Обработчик ввода текста в input_clients_email
-    $('.my_box_content').on('keyup', '.input_clients_email', function(eventObject){
-        var id = GetId($(this),1);
-        var data={};
-        if(eventObject.which != 27){
-        console.log($("#input_orders_clients_email-"+id).val());
-        data={  'SearchInputOrders[id_orders]':id,
-                'SearchInputOrders[clients_email]':$("#input_orders_clients_email-"+id).val(),
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
         
-        $.ajax({
-                url: '/yii-application/backend/web/orders/default/takeemailclient',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    if(res[0]!=0){
-                        $("#search_input_clients_email-"+id).remove();
-                        $("#input_orders_clients_email-"+id).after(res['msg']);
-                    }else{
-                        $("#search_input_clients_email-"+id).remove();
-                        return false;
-                    }    
-                },
-                error: function(){
-                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                }
-            });
-      
-        }else{
-            $("#search_input_clients_email-"+id).remove();
-            return false;
-        }
-            
+    //Обработчик нажатия на option в подсказке clients_name в userbox для всех option
+    $('.my_box_content').on('click', '.input_orders_option', function(){
+        var id_orders = GetId($(this).parent(),1);
+        var id_clients = GetId($(this),1);
+        console.log("id_orders - "+id_orders);
+        console.log("id_clients - "+id_clients);
+        var data=GetDataOption($(this),id_orders,id_clients);
+        console.log(data);
+        SendToServerOption($(this),data,id_orders);
+        
     });
-    
+ 
     //ССылка создае ошибку в карточке заказа
     function CreateErrorCards(msg,id_orders,numberAlert){
     var result = ""+    
@@ -562,31 +395,31 @@
         var id = GetId($(this),1);
         var data={};
         if(eventObject.which != 27){
-        console.log($("#input_orders_brand_name-"+id).val());
-        data={  'SearchInputOrders[id_orders]':id,
-                'SearchInputOrders[brand_name]':$("#input_orders_brand_name-"+id).val(),
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        
-        $.ajax({
-                url: '/yii-application/backend/web/orders/default/takenamebrands',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    if(res[0]!=0){
-                        $("#search_input_brand_name-"+id).remove();
-                        $("#div_orders_brand_name-"+id).after(res['msg']);
-                    }else{
-                        $("#search_input_brand_name-"+id).remove();
-                        return false;
-                    }    
-                },
-                error: function(){
-                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                }
-            });
+            console.log($("#input_orders_brand_name-"+id).val());
+            data={  'SearchInputOrders[id_orders]':id,
+                    'SearchInputOrders[brand_name]':$("#input_orders_brand_name-"+id).val(),
+                    '_csrf-backend':$('input[name="_csrf-backend"]').val()
+                };       
+            console.log(data);
+
+            $.ajax({
+                    url: '/yii-application/backend/web/orders/default/takenamebrands',
+                    type: 'POST',
+                    data: data,
+                    success: function(res){
+                        console.log(res);
+                        if(res[0]!=0){
+                            $("#search_input_brand_name-"+id).remove();
+                            $("#div_orders_brand_name-"+id).after(res['msg']);
+                        }else{
+                            $("#search_input_brand_name-"+id).remove();
+                            return false;
+                        }    
+                    },
+                    error: function(){
+                        alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                    }
+                });
         }else{
             $("#search_input_brand_name-"+id).remove();
             return false;
@@ -597,8 +430,8 @@
     $('.my_box_content').on('focusin', '.input_orders', function(e){
         var id_orders = GetId($(this),1);
         console.log($("#search_input_clients_name-"+id_orders));
-        if($("#search_input_phone_number-"+id_orders).is("#search_input_phone_number-"+id_orders)){
-            $("#search_input_phone_number-"+id_orders).remove();
+        if($("#search_input_clients_phone-"+id_orders).is("#search_input_clients_phone-"+id_orders)){
+            $("#search_input_clients_phone-"+id_orders).remove();
         }
         if($("#search_input_clients_email-"+id_orders).is("#search_input_clients_email-"+id_orders)){
             $("#search_input_clients_email-"+id_orders).remove();
@@ -797,5 +630,167 @@
             }
         });
     });
-   
     
+    
+$('.my_box_content').on('keyup', '.input_orders', function(eventObject){
+    switch (eventObject.which){
+        case 27:
+            EscInputOrders($(this));
+            break;
+        case 8:
+                
+        default:
+            var id = GetId($(this),1);
+            var data={};
+            data=GetDataKeyUP($(this));      
+            console.log(data);
+            SendToServerSelected($(this),data);  
+            break;
+    }       
+});
+
+//Функция формирует данные для отправки на сервер для формирования списка выбора
+function GetDataKeyUP(setInput){
+    setInput = setInput.first();
+    var id = GetId(setInput,1);
+    var InputName = setInput.attr('data-input-name');
+    var data = {};
+    switch (InputName){
+    case 'clients_name':
+        data={
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[clients_name]':setInput.val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+        return data;
+        break;
+    case 'clients_phone':
+        data={  
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[phone_number]':setInput.val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+        return data;
+        break;
+    case 'clients_email':
+        data={  
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[clients_email]':setInput.val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+        return data;
+        break;
+    }
+}
+//Функция формирует данные для отправки на сервер для получения данных по  заказу
+function GetDataOption(setInput,id_orders,id_clients){
+    setInput = setInput.first();
+    var InputName = setInput.attr('data-input-name');
+    var data = {};
+    switch (InputName){
+        case 'clients_name':
+            data={  
+                'SearchClientsSubstitution[id_orders]':id_orders,
+                'SearchClientsSubstitution[id_clients]':id_clients,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+            return data;
+            break;        
+    }
+}
+//Функция формирует действия при нажатия ESC в поле input
+function EscInputOrders(setInput){
+    setInput = setInput.first();
+    var id = GetId(setInput,1);
+    var InputName = setInput.attr('data-input-name');
+    $("#search_input_"+InputName+"-"+id).remove();
+    return false;
+}
+   
+function SendToServerSelected(setInput,data){
+    setInput = setInput.first();
+    var id = GetId(setInput,1);
+    var InputName = setInput.attr('data-input-name');
+    var urlLast = '';
+    switch (InputName){
+        case 'clients_name':
+            urlLast = 'takenameclient';   
+            break;
+        case 'clients_phone':
+            var id_phone = GetId(setInput,2);
+            urlLast = 'takephonenumber';   
+            break;
+        case 'clients_email':
+            var id_phone = GetId(setInput,2);
+            urlLast = 'takeemailclient';   
+            break;
+    }    
+    $.ajax({
+        url: '/yii-application/backend/web/orders/default/'+urlLast,
+        type: 'POST',
+        data: data,
+        success: function(res){
+            console.log(res);
+            if(res[0]!=0){
+                $("#search_input_"+InputName+"-"+id).remove();
+                switch (InputName){
+                    case 'clients_name':
+                        $("#input_orders_"+InputName+"-"+id).after(res['msg']);
+                        break;
+                    case 'clients_phone':
+                        $("#p_orders_"+InputName+"-"+id+"-"+id_phone).after(res['msg']); 
+                        break;
+                    case 'clients_email':
+                        $("#input_orders_"+InputName+"-"+id).after(res['msg']); 
+                        break;
+                } 
+            }else{
+                $("#search_input_"+InputName+"-"+id).remove();
+                return false;
+            }    
+        },
+        error: function(){
+            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+        }
+    });
+}
+ 
+function SendToServerOption(setInput,data,id_orders){
+    setInput = setInput.first();    
+    var InputName = setInput.attr('data-input-name');
+    var urlLast = '';
+    switch (InputName){
+        case 'clients_name':
+            urlLast = 'takeclient';   
+            break;
+    }
+    $.ajax({
+        url: '/yii-application/backend/web/orders/default/'+urlLast,
+            type: 'POST',
+            data: data,
+            success: function(res){
+                console.log(res);
+                console.log(id_orders);
+                if(res[0]!=0){
+                    $("#search_input_"+InputName+"-"+id_orders).remove();
+                    $("#orders_clients_form-"+id_orders).remove();
+                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
+                }else{
+                    var numberAlert = getRandomArbitary(1, 50);
+                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
+                    setTimeout(postDelete, 3000,namePost);
+                }
+
+            },
+            error: function(){
+                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            }
+    });
+}
+
+function ClearingHiddenField(setInput){
+    setInput = setInput.first();
+    var id = GetId(setInput,1);
+    var InputName = setInput.attr('data-input-name');
+    
+}
