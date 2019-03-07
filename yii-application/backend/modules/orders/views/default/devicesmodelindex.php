@@ -4,7 +4,7 @@
 
 <p class="form-row my-2"> 
     <input id='input_orders_devices_model-<?=(($modelOrders!=null)?$modelOrders->id_orders:0)?>' 
-        name='OrdersEdit[devices_model]'  form='' 
+        name='OrdersEdit[devices_model]' data-input-name = "devices_model"  form='' 
         class="form-control col-4 mx-2 input_orders_devices_model input_orders"
         value="<?=(($modelDevices!=null)?$modelDevices->devices_model:'')?>"
         type="text" placeholder="Модель устройства">

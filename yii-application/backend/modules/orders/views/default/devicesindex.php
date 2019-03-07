@@ -2,7 +2,7 @@
 ?>
 
 
-    <div id = "div_orders_brand_name-<?=(($modelOrders!=null)?$modelOrders->id_orders:0)?>">
+    <div id = "div_orders_name_brands-<?=(($modelOrders!=null)?$modelOrders->id_orders:0)?>">
         <?=$this->render('brendindex', ['modelBrend' => $modelBrend,'modelOrders' =>$modelOrders])?>
     </div>
     <div id = "div_orders_device_type_name-<?=(($modelOrders!=null)?$modelOrders->id_orders:0)?>">
