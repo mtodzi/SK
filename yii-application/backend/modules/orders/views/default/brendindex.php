@@ -4,7 +4,7 @@
 
 <p class="form-row my-2"> 
     <input id='input_orders_brand_name-<?=(($modelOrders!=null)?$modelOrders->id_orders:0)?>' 
-        name='OrdersEdit[name_brands]'  form='' 
+        name='OrdersEdit[name_brands]' data-input-name = "name_brands"  form='' 
         class="form-control col-4 mx-2 input_orders_brand_name input_orders"
         value="<?=(($modelBrend!=null)?$modelBrend->name_brands:'')?>"
         type="text" placeholder="Бренд">

@@ -1,7 +1,8 @@
-    //Задаем масску ввода для клсса phone
-    $(".phone").mask("8(999)-999-99-99");
-    //Обработчик нажатия кнопки добавить новый заказ
-    $('.my_heders_bloc').on('click', '#add_new_orders', function(){
+//Задаем масску ввода для клсса phone
+$(".phone").mask("8(999)-999-99-99");
+
+//Обработчик нажатия кнопки добавить новый заказ
+$('.my_heders_bloc').on('click', '#add_new_orders', function(){
         if(GetStatusCard()){
             SetStatusCard(0,"");
             $('#Block_add_orders-0').show();
@@ -15,8 +16,9 @@
             return false;
         }
     });
-    //Обработчик нажатия кнопки добавить еше один телефон
-    $('.my_box_content').on('click', '.add_another_phone', function(){
+    
+//Обработчик нажатия кнопки добавить еше один телефон
+$('.my_box_content').on('click', '.add_another_phone', function(){
         var id_orders = GetId($(this),1);
         var count_phone = Number($(this).attr('data-count-phone'));
         console.log('id_orders-'+id_orders+" count_phone-"+count_phone);
@@ -26,8 +28,9 @@
         $(this).blur();
         return false;
     });
-    //Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
-    function addInputPhone(id_orders,count_phone){
+    
+//Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
+function addInputPhone(id_orders,count_phone){
         var count = $('.orders_phone-'+id_orders).length;
         if(count<=2){
             var next = count_phone+1;
@@ -66,8 +69,9 @@
             return true;
         }    
     }
-    //Обработчик нажатия кнопки Удалить еше один телефон
-    $('.my_content_bloc').on('click', '.delete_another_phone', function(){
+    
+//Обработчик нажатия кнопки Удалить еше один телефон
+$('.my_content_bloc').on('click', '.delete_another_phone', function(){
         var id_orders = GetId($(this),1);
         var id_delete = GetId($(this),2);
         var count_phone = Number($(this).attr('data-count-phone'));
@@ -78,8 +82,9 @@
         deleteInputPhone(id_orders,id_delete,count_phone);
         return false;
     });
-    //Функция инпут телефона 
-    function deleteInputPhone(id_orders,id_delete,count_phone){
+    
+//Функция инпут телефона 
+function deleteInputPhone(id_orders,id_delete,count_phone){
         var count = $('.orders_phone-'+id_orders).length;
         console.log(count);
         $("#search_input_phone_number-"+id_orders).remove();
@@ -103,8 +108,8 @@
         
     }
     
-    //Обработчик нажатия кнопки редактировать в userbox
-    $('.my_content_bloc').on('click', '.orders_edit_button', function(){
+//Обработчик нажатия кнопки редактировать в userbox
+$('.my_content_bloc').on('click', '.orders_edit_button', function(){
         var id = GetId($(this),1);
         if(GetStatusCard()){
             SetStatusCard(id,"#span_orders_id_orders_text-");
@@ -119,8 +124,8 @@
        
     });
     
-    //Обработчик нажатия кнопки Применить в userbox
-    $('.my_content_bloc').on('click', '.orders_apply_button', function(){
+//Обработчик нажатия кнопки Применить в userbox
+$('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
         var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type-']; 
@@ -131,20 +136,20 @@
         }
     });
         
-    //Обработчик нажатия на option в подсказке clients_name в userbox для всех option
-    $('.my_box_content').on('click', '.input_orders_option', function(){
+//Обработчик нажатия на option в подсказке clients_name в userbox для всех option
+$('.my_box_content').on('click', '.input_orders_option', function(){
         var id_orders = GetId($(this).parent(),1);
-        var id_clients = GetId($(this),1);
+        var id_input = GetId($(this),1);
         console.log("id_orders - "+id_orders);
-        console.log("id_clients - "+id_clients);
-        var data=GetDataOption($(this),id_orders,id_clients);
+        console.log("id_clients - "+id_input);
+        var data=GetDataOption($(this),id_orders,id_input);
         console.log(data);
         SendToServerOption($(this),data,id_orders);
         
     });
- 
-    //ССылка создае ошибку в карточке заказа
-    function CreateErrorCards(msg,id_orders,numberAlert){
+    
+//ССылка создае ошибку в карточке заказа
+function CreateErrorCards(msg,id_orders,numberAlert){
     var result = ""+    
         "<div id='orders_alert_server-"+id_orders+"-"+numberAlert+"' class='alert alert-danger' role='alert'>"+
             "<span id='span_user_alert_server'>"+msg+"</span>"+
@@ -152,22 +157,23 @@
         $("#orders_form-"+id_orders).prepend(result);
         return "#orders_alert_server-"+id_orders+"-"+numberAlert;
     }
-    //Функция удаляет созданую ошибку 
-    function postDelete(str){
+    
+//Функция удаляет созданую ошибку 
+function postDelete(str){
         $(str).remove();    
     }
-    //Функция случайного числа
-    function getRandomArbitary(min, max)
-    {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
     
-    /** 
-     * @param {dom element} obg дом элемент
-     * @param {int} number число которое характерезует в каком мести мтроки обозначен id
-     * @returns Возврашаем id передоваемого елемента
-     */
-    function GetId(obg,number){
+//Функция случайного числа
+function getRandomArbitary(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+    
+/** 
+ * @param {dom element} obg дом элемент
+ * @param {int} number число которое характерезует в каком мести мтроки обозначен id
+ * @returns Возврашаем id передоваемого елемента
+*/
+function GetId(obg,number){
         obg = obg.first();
         var buffer = (obg.attr('id')).split('-');
         console.log(buffer);
@@ -175,12 +181,13 @@
         console.log(id);
         return id;
     }
-    /**
-     * Функция устанавливает значения 
-     * в скрытый статус открытой
-     * либо закрытой карты
-     */
-    function SetStatusCard(id,StartSelector){
+    
+/**
+ * Функция устанавливает значения 
+ * в скрытый статус открытой
+ * либо закрытой карты
+ */
+function SetStatusCard(id,StartSelector){
         var status_card = Number($('#status_card').val());
         console.log(status_card);
         if(status_card == 0){
@@ -198,12 +205,13 @@
         }
         
     }
-    /**
-     * Функция проверяет открыта ли карточка если 
-     * открыта выводит сообшени какая карточка открыта
-     * и возврашает ложь
-     */
-    function GetStatusCard(){
+    
+/**
+ * Функция проверяет открыта ли карточка если 
+ * открыта выводит сообшени какая карточка открыта
+ * и возврашает ложь
+*/
+function GetStatusCard(){
         var status_card = Number($('#status_card').val());
         console.log(status_card);
         if(status_card == 0){
@@ -215,10 +223,11 @@
             return false;
         }
     }
-    /**
-     * Функция проверяет поля редактируемого пользователя
-     * */
-    function formFieldCheck(id,arrayFieldsChecked){
+    
+/**
+ * Функция проверяет поля редактируемого пользователя
+ * */
+function formFieldCheck(id,arrayFieldsChecked){
         var arrayError={};
         var countError = 0;
         $.each(arrayFieldsChecked, function(i, val) {            
@@ -276,8 +285,9 @@
             return false
         }
     }
-    //Функция обработки полученных ошибок с сервера
-    function errorServerTreatment(arrayError){
+    
+//Функция обработки полученных ошибок с сервера
+function errorServerTreatment(arrayError){
         //перебирает поля с данными, присланные с сервера
         $.each(arrayError,function(index,value){
             console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
@@ -289,8 +299,9 @@
         });
         return false;
     }
-    //Функция проверяет сушествует ли переменная
-    function empty(e) {
+    
+//Функция проверяет сушествует ли переменная
+function empty(e) {
         switch (e) {
             case "":
             case 0:
@@ -303,8 +314,9 @@
             return false;
         }
     }
-    //Функция  кнопки прокрутки    
-    $(function() {
+    
+//Функция  кнопки прокрутки    
+$(function() {
     // при нажатии на кнопку scrollup
     $('.scroll_to_up').click(function() {
         // переместиться в верхнюю часть страницы
@@ -313,7 +325,8 @@
         },1000);
     });
     });
-    $(window).scroll(function() {
+    
+$(window).scroll(function() {
         // при прокрутке окна (window)
         // если пользователь прокрутил страницу более чем на 200px
         if ($(this).scrollTop()>200) {
@@ -326,20 +339,20 @@
         }
     });
 
-    //чтобы tooltip пропадал при зажимании кнопок
-    $('[data-toggle="tooltip"]').on("click", function() {
+//чтобы tooltip пропадал при зажимании кнопок
+$('[data-toggle="tooltip"]').on("click", function() {
         $(this).tooltip('hide');
         $(this).blur();
     });
 
-    //Функция проверки email
-    function emailEmpty(email){
+//Функция проверки email
+function emailEmpty(email){
         var re =  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return !re.test(email);
     }
     
-    //Обрабатуем нажатие на чекбокс диагностика и ремонт 
-    $('.my_content_bloc').on('click', '.check_repair_type', function(){
+//Обрабатуем нажатие на чекбокс диагностика и ремонт 
+$('.my_content_bloc').on('click', '.check_repair_type', function(){
         //Вытаскиваем id карточки заказа
         var id = GetId($(this),1);
         console.log(id);
@@ -389,45 +402,9 @@
             return true;
         }
     });
-    
-    //Обработчик ввода текста в input_clients_name
-    $('.my_box_content').on('keyup', '.input_orders_brand_name', function(eventObject){
-        var id = GetId($(this),1);
-        var data={};
-        if(eventObject.which != 27){
-            console.log($("#input_orders_brand_name-"+id).val());
-            data={  'SearchInputOrders[id_orders]':id,
-                    'SearchInputOrders[brand_name]':$("#input_orders_brand_name-"+id).val(),
-                    '_csrf-backend':$('input[name="_csrf-backend"]').val()
-                };       
-            console.log(data);
-
-            $.ajax({
-                    url: '/yii-application/backend/web/orders/default/takenamebrands',
-                    type: 'POST',
-                    data: data,
-                    success: function(res){
-                        console.log(res);
-                        if(res[0]!=0){
-                            $("#search_input_brand_name-"+id).remove();
-                            $("#div_orders_brand_name-"+id).after(res['msg']);
-                        }else{
-                            $("#search_input_brand_name-"+id).remove();
-                            return false;
-                        }    
-                    },
-                    error: function(){
-                        alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                    }
-                });
-        }else{
-            $("#search_input_brand_name-"+id).remove();
-            return false;
-        }    
-    });
-    
-    //Обработчик отслеживает получение фокуса input_clients_name
-    $('.my_box_content').on('focusin', '.input_orders', function(e){
+        
+//Обработчик отслеживает получение фокуса input_clients_name
+$('.my_box_content').on('focusin', '.input_orders', function(e){
         var id_orders = GetId($(this),1);
         console.log($("#search_input_clients_name-"+id_orders));
         if($("#search_input_clients_phone-"+id_orders).is("#search_input_clients_phone-"+id_orders)){
@@ -439,8 +416,8 @@
         if($("#search_input_clients_name-"+id_orders).is("#search_input_clients_name-"+id_orders)){
             $("#search_input_clients_name-"+id_orders).remove();
         }
-        if($("#search_input_brand_name-"+id_orders).is("#search_input_brand_name-"+id_orders)){
-            $("#search_input_brand_name-"+id_orders).remove();
+        if($("#search_input_name_brands-"+id_orders).is("#search_input_name_brands-"+id_orders)){
+            $("#search_input_name_brands-"+id_orders).remove();
         }
         if($("#search_input_device_type-"+id_orders).is("#search_input_device_type-"+id_orders)){
             $("#search_input_device_type-"+id_orders).remove();
@@ -449,196 +426,14 @@
             $("#search_input_devices_model-"+id_orders).remove();
         }
     });
-    
-    //Обработчик нажатия на option в подсказке input_clients_email в userbox
-    $('.my_box_content').on('click', '.option_brand_name', function(){
-        var id_orders = GetId($(this).parent(),1);
-        var id_brand = GetId($(this),1);
-        console.log(id_orders);
-        console.log(id_brand);
-        var data={};
-        data={  'SearchBrendSubstitution[id_orders]':id_orders,
-                'SearchBrendSubstitution[id_brand]':id_brand,
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
         
-        $.ajax({
-            url: '/yii-application/backend/web/orders/default/takebrend',
-            type: 'POST',
-            data: data,
-            success: function(res){
-                console.log(res);                
-                if(res[0]!=0){
-                    console.log($("#div_orders_brand_name-"+id_orders+" p"));
-                    $("#search_input_brand_name-"+id_orders).remove();
-                    $("#div_orders_brand_name-"+id_orders+" p").remove();
-                    $("#div_orders_brand_name-"+id_orders).append(res['msg'])
-                }else{
-                    var numberAlert = getRandomArbitary(1, 50);
-                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
-                    setTimeout(postDelete, 3000,namePost);
-                }
-            },
-            error: function(){
-                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-            }
-        });
-    });
-    
-    //Обработчик ввода текста в input_device_type_name
-    $('.my_box_content').on('keyup', '.input_device_type_name', function(eventObject){
-        var id = GetId($(this),1);
-        console.log(id);
-        var data={};
-        if(eventObject.which != 27){
-        console.log($("#input_orders_device_type-"+id).val());
-        data={  'SearchInputOrders[id_orders]':id,
-                'SearchInputOrders[device_type]':$("#input_orders_device_type-"+id).val(),
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);        
-        $.ajax({
-                url: '/yii-application/backend/web/orders/default/takedevicetype',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    if(res[0]!=0){
-                        $("#search_input_device_type-"+id).remove();
-                        $("#div_orders_device_type_name-"+id).after(res['msg']);
-                    }else{
-                        $("#search_input_device_type-"+id).remove();
-                        return false;
-                    }
-                },
-                error: function(){
-                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                }
-            });
-        }else{
-            $("#search_input_device_type-"+id).remove();
-            return false;
-        }   
-    });
-    
-    //Обработчик нажатия на option в подсказке input_device_type_name в userbox
-    $('.my_box_content').on('click', '.option_device_type', function(){
-        var id_orders = GetId($(this).parent(),1);
-        var id_device_type = GetId($(this),1);
-        console.log(id_orders);
-        console.log(id_device_type);
-        var data={};
-        data={  'SearchDeviceTypeSubstitution[id_orders]':id_orders,
-                'SearchDeviceTypeSubstitution[id_device_type]':id_device_type,
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        $.ajax({
-            url: '/yii-application/backend/web/orders/default/takedevicet',
-            type: 'POST',
-            data: data,
-            success: function(res){
-                console.log(res);
-                if(res[0]!=0){
-                    console.log($("#div_orders_device_type_name-"+id_orders+" p"));
-                    $("#search_input_device_type-"+id_orders).remove();
-                    $("#div_orders_device_type_name-"+id_orders+" p").remove();
-                    $("#div_orders_device_type_name-"+id_orders).append(res['msg'])
-                }else{
-                    var numberAlert = getRandomArbitary(1, 50);
-                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
-                    setTimeout(postDelete, 3000,namePost);
-                }
-            },
-            error: function(){
-                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-            }
-        });
-    });
-    
-    //Обработчик ввода текста в input_device_type_name
-    $('.my_box_content').on('keyup', '.input_orders_devices_model', function(eventObject){
-        var id = GetId($(this),1);
-        console.log(id);
-        var data={};
-        if(eventObject.which != 27){
-        console.log($("#input_orders_device_type-"+id).val());
-        data={  'SearchInputOrders[id_orders]':id,
-                'SearchInputOrders[devices_model]':$("#input_orders_devices_model-"+id).val(),
-                'SearchInputOrders[brands_id]':$("#orders_id_brands-"+id).val(),
-                'SearchInputOrders[devices_type_id]':$("#orders_id_device_type-"+id).val(),
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);
-        
-        $.ajax({
-                url: '/yii-application/backend/web/orders/default/takedevicemodel',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    if(res[0]!=0){
-                        $("#search_input_devices_model-"+id).remove();
-                        $("#div_orders_devices_model-"+id).after(res['msg']);
-                    }else{
-                        $("#search_input_devices_model-"+id).remove();
-                        return false;
-                    }
-                },
-                error: function(){
-                    alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-                }
-            });
-        }else{
-            $("#search_input_devices_model-"+id).remove();
-            return false;
-        }   
-    });
-    
-    //Обработчик нажатия на option в подсказке input_device_type_name в userbox
-    $('.my_box_content').on('click', '.option_devices_model', function(){
-        var id_orders = GetId($(this).parent(),1);
-        var id_devices_model = GetId($(this),1);
-        console.log(id_orders);
-        console.log(id_devices_model);
-        var data={};
-        data={  'SearchDeviceSubstitution[id_orders]':id_orders,
-                'SearchDeviceSubstitution[id_devices]':id_devices_model,
-                '_csrf-backend':$('input[name="_csrf-backend"]').val()
-            };       
-        console.log(data);        
-        $.ajax({
-            url: '/yii-application/backend/web/orders/default/takedevices',
-            type: 'POST',
-            data: data,
-            success: function(res){
-                console.log(res);
-                if(res[0]!=0){
-                    console.log($("#div_orders_devices-"+id_orders+" div"));
-                    $("#search_input_devices_model-"+id_orders).remove();
-                    $("#div_orders_devices-"+id_orders+" div").remove();
-                    $("#div_orders_devices-"+id_orders).append(res['msg'])
-                }else{
-                    var numberAlert = getRandomArbitary(1, 50);
-                    var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
-                    setTimeout(postDelete, 3000,namePost);
-                }
-            },
-            error: function(){
-                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
-            }
-        });
-    });
-    
-    
 $('.my_box_content').on('keyup', '.input_orders', function(eventObject){
     switch (eventObject.which){
         case 27:
             EscInputOrders($(this));
             break;
         case 8:
-                
+            DeleteLetterInput($(this));
         default:
             var id = GetId($(this),1);
             var data={};
@@ -648,6 +443,33 @@ $('.my_box_content').on('keyup', '.input_orders', function(eventObject){
             break;
     }       
 });
+
+//Функциия следить за действиями при удалении в input
+function DeleteLetterInput(setInput){
+    setInput = setInput.first();
+    var id = GetId(setInput,1);
+    var InputName = setInput.attr('data-input-name');
+    switch (InputName){
+    case 'clients_name':
+        break;
+    case 'clients_phone':
+        break;
+    case 'clients_email':
+        break;
+    case 'name_brands':
+        $("#orders_id_brands-"+id).val(0);
+        break;
+    case 'device_type_name':
+        $("#orders_id_device_type-"+id).val(0);
+        break;
+    case 'devices_model':
+        $("#orders_id_brands-"+id).val(0);
+        $("#orders_id_device_type-"+id).val(0);
+        $("#input_orders_brand_name-"+id).val('');
+        $("#input_orders_device_type_name-"+id).val('');
+        break;    
+    }
+}
 
 //Функция формирует данные для отправки на сервер для формирования списка выбора
 function GetDataKeyUP(setInput){
@@ -680,10 +502,36 @@ function GetDataKeyUP(setInput){
         };
         return data;
         break;
+    case 'name_brands':
+        data={  
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[brand_name]':$("#input_orders_brand_name-"+id).val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+        return data;
+        break;
+    case 'device_type_name':
+        data={  
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[device_type]':$("#input_orders_device_type_name-"+id).val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+        return data;
+        break;
+    case 'devices_model':
+        data={  
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[devices_model]':$("#input_orders_devices_model-"+id).val(),
+            'SearchInputOrders[brands_id]':$("#orders_id_brands-"+id).val(),
+            'SearchInputOrders[devices_type_id]':$("#orders_id_device_type-"+id).val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+        return data;
+        break;    
     }
 }
 //Функция формирует данные для отправки на сервер для получения данных по  заказу
-function GetDataOption(setInput,id_orders,id_clients){
+function GetDataOption(setInput,id_orders,id_input){
     setInput = setInput.first();
     var InputName = setInput.attr('data-input-name');
     var data = {};
@@ -691,11 +539,35 @@ function GetDataOption(setInput,id_orders,id_clients){
         case 'clients_name':
             data={  
                 'SearchClientsSubstitution[id_orders]':id_orders,
-                'SearchClientsSubstitution[id_clients]':id_clients,
+                'SearchClientsSubstitution[id_clients]':id_input,
                 '_csrf-backend':$('input[name="_csrf-backend"]').val()
             };
             return data;
-            break;        
+            break;
+        case 'name_brands':
+            data={  
+                'SearchBrendSubstitution[id_orders]':id_orders,
+                'SearchBrendSubstitution[id_brand]':id_input,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+            return data;
+            break;
+        case 'device_type_name':
+            data={  
+                'SearchDeviceTypeSubstitution[id_orders]':id_orders,
+                'SearchDeviceTypeSubstitution[id_device_type]':id_input,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+            return data;
+            break;
+        case 'devices_model':
+            data={  
+                'SearchDeviceSubstitution[id_orders]':id_orders,
+                'SearchDeviceSubstitution[id_devices]':id_input,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+            return data;
+            break;    
     }
 }
 //Функция формирует действия при нажатия ESC в поле input
@@ -721,9 +593,17 @@ function SendToServerSelected(setInput,data){
             urlLast = 'takephonenumber';   
             break;
         case 'clients_email':
-            var id_phone = GetId(setInput,2);
             urlLast = 'takeemailclient';   
             break;
+        case 'name_brands':
+            urlLast = 'takenamebrands';   
+            break;
+        case 'device_type_name':
+            urlLast = 'takedevicetype';   
+            break;
+        case 'devices_model':
+            urlLast = 'takedevicemodel';   
+            break;    
     }    
     $.ajax({
         url: '/yii-application/backend/web/orders/default/'+urlLast,
@@ -743,6 +623,15 @@ function SendToServerSelected(setInput,data){
                     case 'clients_email':
                         $("#input_orders_"+InputName+"-"+id).after(res['msg']); 
                         break;
+                    case 'name_brands':
+                        $("#div_orders_"+InputName+"-"+id).after(res['msg']); 
+                        break;
+                    case 'device_type_name':
+                        $("#div_orders_"+InputName+"-"+id).after(res['msg']); 
+                        break;
+                    case 'devices_model':
+                        $("#div_orders_"+InputName+"-"+id).after(res['msg']);
+                        break;    
                 } 
             }else{
                 $("#search_input_"+InputName+"-"+id).remove();
@@ -754,7 +643,7 @@ function SendToServerSelected(setInput,data){
         }
     });
 }
- 
+
 function SendToServerOption(setInput,data,id_orders){
     setInput = setInput.first();    
     var InputName = setInput.attr('data-input-name');
@@ -763,6 +652,15 @@ function SendToServerOption(setInput,data,id_orders){
         case 'clients_name':
             urlLast = 'takeclient';   
             break;
+        case 'name_brands':
+            urlLast = 'takebrend';   
+            break;
+        case 'device_type_name':
+            urlLast = 'takedevicet';   
+            break;
+        case 'devices_model':
+            urlLast = 'takedevices';   
+            break;    
     }
     $.ajax({
         url: '/yii-application/backend/web/orders/default/'+urlLast,
@@ -773,8 +671,25 @@ function SendToServerOption(setInput,data,id_orders){
                 console.log(id_orders);
                 if(res[0]!=0){
                     $("#search_input_"+InputName+"-"+id_orders).remove();
-                    $("#orders_clients_form-"+id_orders).remove();
-                    $("#form-update_orders-"+id_orders).prepend(res['msg']);
+                    switch (InputName){
+                        case 'clients_name':
+                            $("#orders_clients_form-"+id_orders).remove();
+                            $("#form-update_orders-"+id_orders).prepend(res['msg']);  
+                            break;
+                        case 'name_brands':
+                            $("#div_orders_name_brands-"+id_orders+" p").remove();
+                            $("#div_orders_name_brands-"+id_orders).append(res['msg'])   
+                            break;
+                        case 'device_type_name':
+                            $("#div_orders_device_type_name-"+id_orders+" p").remove();
+                            $("#div_orders_device_type_name-"+id_orders).append(res['msg'])  
+                            break;
+                        case 'devices_model':
+                            $("#div_orders_devices-"+id_orders+" div").remove();
+                            $("#div_orders_devices-"+id_orders).append(res['msg']) 
+                            break;    
+                    }
+                    
                 }else{
                     var numberAlert = getRandomArbitary(1, 50);
                     var namePost = CreateErrorCards(res['msg'],id_orders,numberAlert);
@@ -791,6 +706,5 @@ function SendToServerOption(setInput,data,id_orders){
 function ClearingHiddenField(setInput){
     setInput = setInput.first();
     var id = GetId(setInput,1);
-    var InputName = setInput.attr('data-input-name');
-    
+    var InputName = setInput.attr('data-input-name');    
 }
