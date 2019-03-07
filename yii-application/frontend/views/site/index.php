@@ -40,7 +40,7 @@ $this->title = 'Service Keeper';
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card">
-                <div class="card-body text-light bg-primary">
+                <div class="card-body">
                 <h3 class="card-title">Название проекта 1</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
@@ -50,7 +50,7 @@ $this->title = 'Service Keeper';
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card">
-                <div class="card-body text-light bg-dark">
+                <div class="card-body">
                 <h3 class="card-title">Название проекта 2</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>
@@ -60,7 +60,7 @@ $this->title = 'Service Keeper';
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card">
-                <div class="card-body text-light bg-success">
+                <div class="card-body">
                 <h3 class="card-title">Название проекта 3</h3>
                 <hr>
                 <p class="card-text">Текстовое поле для информации о проекте. Пока не используется.</p>

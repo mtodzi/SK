@@ -52,3 +52,42 @@ $( "a" ).click(function( event ) {
 });
 
 //выбор цвета обводки кнопки
+//var block = document.getElementsByClassName('btn');
+$(".card-body").mouseleave(function() { console.log(this);
+    var currentColor = window.getComputedStyle(this).getPropertyValue('color').replace(/rgb\((.+)\)/g, '$1').split(', ').map(function(e){return parseInt(e);});
+    var nextColor = getRandomColor();
+    var currentStep = 0;
+    var steps = 0.5;
+    currentStep++;
+    var color = 'rgb( ' + currentColor.map(function(e,i){
+    return Math.floor(e + (nextColor[i] - e) * currentStep / steps);
+    }).join(', ') + ')';
+    $(this).css('color', color);
+    this.style.backgroundColor = 'rgb( ' + currentColor.map(function(e,i){
+    return Math.floor(e - (nextColor[i] - e) * currentStep / steps);
+    }).join(', ') + ')';
+    if (currentStep == steps) {
+        currentStep = 0;
+        currentColor = nextColor;
+        nextColor = getRandomColor();
+    }
+})
+
+ 
+function getRandomColor() {
+  var color = [];
+  while (color.length < 3) color.push(Math.floor(Math.random() * 255));
+  return color;
+}
+/* 
+document.getElementsByClassName('btn').onmousemove = function() {
+  currentStep++;
+    this.style.backgroundColor = 'rgb( ' + currentColor.map(function(e,i){
+    return Math.floor(e + (nextColor[i] - e) * currentStep / steps);
+  }).join(', ') + ')';
+  if (currentStep == steps) {
+    currentStep = 0;
+    currentColor = nextColor;
+    nextColor = getRandomColor();
+  }
+}*/

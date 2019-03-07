@@ -87,6 +87,10 @@
   background-color:white;
   min-width: 300px;
 }
+.card-body {
+background-color: black; 
+color:#ffffff;
+}
 .jumbotron video {
   position: absolute;
   z-index: 1;
