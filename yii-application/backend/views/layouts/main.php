@@ -6,10 +6,6 @@
 use backend\assets\AppAsset;
 use backend\assets\MyAppAssetLayouteSite;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use common\widgets\Alert;
 use yii\helpers\Url;
 AppAsset::register($this);
 MyAppAssetLayouteSite::register($this);

@@ -11,14 +11,10 @@ use yii\captcha\Captcha;
 $this->title = 'Contact';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="site-contact inner_content_block">
+    <p>Для вопросов, предложений, пожеланий.</p>
 
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
-
-    <div class="row">
+    <div class="row justify-content-between">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
@@ -40,6 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php ActiveForm::end(); ?>
         </div>
-    </div>
+        <div class="col-lg-5 mw-100">
+            <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ace8e863472f9e20440da8be501bca51e5453d396acd1432b1fe40f839eefda74&amp;width=450&amp;height=350&amp;lang=ru_UA&amp;scroll=true"></script>
+        </div>    
+    </div> <!-- /.row -->
 
 </div>

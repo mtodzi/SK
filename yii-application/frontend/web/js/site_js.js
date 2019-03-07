@@ -47,7 +47,7 @@ $(function() {
 
 //предотвращение перехода по ссылке для проверки
 $( "a" ).click(function( event ) {
-  event.preventDefault();
+  //event.preventDefault();
     /*console.log(event.type);*/
 });
 
