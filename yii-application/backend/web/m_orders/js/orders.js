@@ -434,8 +434,9 @@ $('.my_box_content').on('keyup', '.input_orders', function(eventObject){
             break;
         case 8:
             DeleteLetterInput($(this));
+        case 46:
+            DeleteLetterInput($(this));
         default:
-            var id = GetId($(this),1);
             var data={};
             data=GetDataKeyUP($(this));      
             console.log(data);
@@ -458,9 +459,13 @@ function DeleteLetterInput(setInput){
         break;
     case 'name_brands':
         $("#orders_id_brands-"+id).val(0);
+        $("#orders_id_devices-"+id).val(0);
+        $("#input_orders_devices_model-"+id).val('');
         break;
     case 'device_type_name':
         $("#orders_id_device_type-"+id).val(0);
+        $("#orders_id_devices-"+id).val(0);
+        $("#input_orders_devices_model-"+id).val('');
         break;
     case 'devices_model':
         $("#orders_id_brands-"+id).val(0);
