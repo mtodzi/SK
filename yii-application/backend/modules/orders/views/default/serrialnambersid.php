@@ -5,31 +5,35 @@
     use backend\modules\orders\models\Devices;
     use backend\modules\orders\models\SerialNumbers;
     
-    if($model!=null){
-        if($model->serrialNambers->devise->brands->id_brands!=0 
-                && $model->serrialNambers->devise->devicesType->id_device_type!=0 
-                && $model->serrialNambers->devise->id_devices!=0
-                && $model->serrialNambers->id_serial_numbers!=0
-        ){
-            $modelBrend = Brands::findOne($model->serrialNambers->devise->brands->id_brands);
-            $modelDeviceTypeName = DeviceType::findOne($model->serrialNambers->devise->devicesType->id_device_type);
-            $modelDevices = Devices::findOne($model->serrialNambers->devise->id_devices);
-            $modelSerialNumbers = SerialNumbers::findOne($model->serrialNambers->id_serial_numbers);;
-            $modelOrders = $model;
-        }else{
-            $modelDeviceTypeName = null;
-            $modelBrend = null;
-            $modelDevices = null;
-            $modelSerialNumbers=null;
-            $modelOrders = $model;
-        }
-    }else{
+    if($model == null && $modelSerialNumbers == null){
         $modelDeviceTypeName = null;
         $modelBrend = null;
         $modelDevices = null;
         $modelSerialNumbers=null;
         $modelOrders = $model;
     }
+    if($model != null && $modelSerialNumbers != null){
+        $modelBrend = Brands::findOne($model->serrialNambers->devise->brands->id_brands);
+        $modelDeviceTypeName = DeviceType::findOne($model->serrialNambers->devise->devicesType->id_device_type);
+        $modelDevices = Devices::findOne($model->serrialNambers->devise->id_devices);
+        $modelSerialNumbers = $modelSerialNumbers;
+        $modelOrders = $model;
+    }
+    if($model != null && $modelSerialNumbers == null){
+        $modelBrend = Brands::findOne($model->serrialNambers->devise->brands->id_brands);
+        $modelDeviceTypeName = DeviceType::findOne($model->serrialNambers->devise->devicesType->id_device_type);
+        $modelDevices = Devices::findOne($model->serrialNambers->devise->id_devices);
+        $modelSerialNumbers = SerialNumbers::findOne($model->serrialNambers->id_serial_numbers);
+        $modelOrders = $model;
+    }
+    if($model == null && $modelSerialNumbers != null){
+        $modelDeviceTypeName = DeviceType::findOne($modelSerialNumbers->devise->devicesType->id_device_type);;
+        $modelBrend = Brands::findOne($modelSerialNumbers->devise->brands->id_brands);
+        $modelDevices = Devices::findOne($modelSerialNumbers->devise->id_devices);
+        $modelSerialNumbers=$modelSerialNumbers;
+        $modelOrders = $model;
+    }
+    
 ?>
 <div id = "div_orders_devices-<?=(($model!=null)?$model->id_orders:0)?>">
     <?=$this->render('devicesindex', 

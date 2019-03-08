@@ -404,7 +404,7 @@ $('.my_content_bloc').on('click', '.check_repair_type', function(){
     });
         
 //Обработчик отслеживает получение фокуса input_clients_name
-$('.my_box_content').on('focusin', '.input_orders', function(e){
+$('.my_box_content').on('focusin', '.input_orders', function(){
         var id_orders = GetId($(this),1);
         console.log($("#search_input_clients_name-"+id_orders));
         if($("#search_input_clients_phone-"+id_orders).is("#search_input_clients_phone-"+id_orders)){
@@ -424,6 +424,9 @@ $('.my_box_content').on('focusin', '.input_orders', function(e){
         }
         if($("#search_input_devices_model-"+id_orders).is("#search_input_devices_model-"+id_orders)){
             $("#search_input_devices_model-"+id_orders).remove();
+        }
+        if($("#search_input_serial_numbers_name-"+id_orders).is("#search_input_serial_numbers_name-"+id_orders)){
+            $("#search_input_serial_numbers_name-"+id_orders).remove();
         }
     });
         
@@ -532,7 +535,16 @@ function GetDataKeyUP(setInput){
             '_csrf-backend':$('input[name="_csrf-backend"]').val()
         };
         return data;
-        break;    
+        break;
+    case 'serial_numbers_name':
+        data={  
+            'SearchInputOrders[id_orders]':id,
+            'SearchInputOrders[devise_id]':$("#orders_id_devices-"+id).val(),
+            'SearchInputOrders[serial_numbers_name]':$("#input_serial_numbers_name-"+id).val(),
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+        return data;
+        break;
     }
 }
 //Функция формирует данные для отправки на сервер для получения данных по  заказу
@@ -572,7 +584,15 @@ function GetDataOption(setInput,id_orders,id_input){
                 '_csrf-backend':$('input[name="_csrf-backend"]').val()
             };
             return data;
-            break;    
+            break;
+        case 'serial_numbers_name':
+            data={  
+                'SearchSerialNumbers[id_orders]':id_orders,
+                'SearchSerialNumbers[id_serial_numbers]':id_input,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+            return data;
+            break;
     }
 }
 //Функция формирует действия при нажатия ESC в поле input
@@ -608,7 +628,10 @@ function SendToServerSelected(setInput,data){
             break;
         case 'devices_model':
             urlLast = 'takedevicemodel';   
-            break;    
+            break;
+        case 'serial_numbers_name':
+            urlLast = 'takeserialnumbersname';   
+            break;
     }    
     $.ajax({
         url: '/yii-application/backend/web/orders/default/'+urlLast,
@@ -636,7 +659,10 @@ function SendToServerSelected(setInput,data){
                         break;
                     case 'devices_model':
                         $("#div_orders_"+InputName+"-"+id).after(res['msg']);
-                        break;    
+                        break;
+                    case 'serial_numbers_name':
+                        $("#div_orders_"+InputName+"-"+id).after(res['msg']);
+                        break;
                 } 
             }else{
                 $("#search_input_"+InputName+"-"+id).remove();
@@ -665,7 +691,10 @@ function SendToServerOption(setInput,data,id_orders){
             break;
         case 'devices_model':
             urlLast = 'takedevices';   
-            break;    
+            break;
+        case 'serial_numbers_name':
+            urlLast = 'takeserialnumbers';   
+            break;
     }
     $.ajax({
         url: '/yii-application/backend/web/orders/default/'+urlLast,
@@ -692,7 +721,12 @@ function SendToServerOption(setInput,data,id_orders){
                         case 'devices_model':
                             $("#div_orders_devices-"+id_orders+" div").remove();
                             $("#div_orders_devices-"+id_orders).append(res['msg']) 
-                            break;    
+                            break;
+                        case 'serial_numbers_name':
+                            $("#div_orders_serrial_nambers_id-"+id_orders+" div").remove();
+                            $("#orders_hidden_serrial_nambers_id-"+id_orders).remove();        
+                            $("#div_orders_serrial_nambers_id-"+id_orders).append(res['msg']) 
+                            break; 
                     }
                     
                 }else{
@@ -706,10 +740,4 @@ function SendToServerOption(setInput,data,id_orders){
                 alert('По неизвестной причине сервер не ответил обратитесь к админу.');
             }
     });
-}
-
-function ClearingHiddenField(setInput){
-    setInput = setInput.first();
-    var id = GetId(setInput,1);
-    var InputName = setInput.attr('data-input-name');    
 }

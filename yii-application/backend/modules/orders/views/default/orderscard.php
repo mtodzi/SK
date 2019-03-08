@@ -75,7 +75,7 @@ use yii\helpers\Html;
                             </div>
                             <!--Конец Блок с чекбоксами диагностика ремонт-->
                             <div id="div_orders_serrial_nambers_id-<?=(($model!=null)?$model->id_orders:0)?>">
-                                <?=$this->render('serrialnambersid', ['model' => $model,])?>
+                                <?=$this->render('serrialnambersid', ['model' => $model,'modelSerialNumbers'=>null])?>
                             </div>
                         </div>
                     </div>        

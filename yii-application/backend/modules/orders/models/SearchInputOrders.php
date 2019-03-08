@@ -8,6 +8,7 @@ use backend\modules\orders\models\ClientsPhones;
 use backend\modules\orders\models\Brands;
 use backend\modules\orders\models\DeviceType;
 use backend\modules\orders\models\Devices;
+use backend\modules\orders\models\SerialNumbers;
 
 
 class SearchInputOrders extends Model
@@ -18,7 +19,8 @@ class SearchInputOrders extends Model
     const SCENARIO_EMAIL = 'email';//Сценарий обрабатывает поиск email
     const SCENARIO_BREND = 'brend';//Сценарий обрабатывает поиск по brend
     const SCENARIO_DEVICE_TYPE = 'device_type';//Сценарий обрабатывает поиск по device_type
-    const SCENARIO_DEVICES_MODEL = 'devices_model';//Сценарий обрабатывает поиск по device_type
+    const SCENARIO_DEVICES_MODEL = 'devices_model';//Сценарий обрабатывает поиск по devices_model
+    const SCENARIO_SEREIAL_NUMBERS = 'sereial_numbers';//Сценарий обрабатывает поиск по sereial_numbers
     
     //Поля для обработки
     public $id_orders;
@@ -30,6 +32,8 @@ class SearchInputOrders extends Model
     public $brands_id;
     public $devices_type_id;
     public $devices_model;
+    public $devise_id;
+    public $serial_numbers_name;
 
     /**
      * @inheritdoc
@@ -43,7 +47,7 @@ class SearchInputOrders extends Model
             self::SCENARIO_EMAIL => ['id_orders','clients_email'],
             self::SCENARIO_BREND => ['id_orders','brand_name'],
             self::SCENARIO_DEVICE_TYPE => ['id_orders','device_type'],
-            self::SCENARIO_DEVICES_MODEL => ['id_orders','brands_id','devices_type_id','devices_model'],
+            self::SCENARIO_SEREIAL_NUMBERS => ['id_orders','devise_id','serial_numbers_name'],
         ];
     }
     
@@ -79,6 +83,12 @@ class SearchInputOrders extends Model
             
             ['devices_model', 'filter', 'filter' => 'trim'],
             ['devices_model', 'required'],
+            
+            ['devise_id', 'required'],
+            [['devise_id'], 'integer'],
+            
+            ['serial_numbers_name', 'filter', 'filter' => 'trim'],
+            ['serial_numbers_name', 'required'],
         ];
     }
     
@@ -161,6 +171,22 @@ class SearchInputOrders extends Model
         }
         if($model_devices_model !== NUll){
             return $model_devices_model;
+        }else{
+            return false;
+        }
+    }
+    
+    /*
+     *Метод ишет клиентов по serial_numbers_name   
+     */
+    public function SearchSerialNnumbersName(){
+        if($this->devise_id==0){
+            $model_serial_numbers_name = SerialNumbers::find()->where(['LIKE', 'serial_numbers_name',($this->serial_numbers_name.'%'),FALSE])->all();
+        }else{
+            $model_serial_numbers_name = SerialNumbers::find()->where(['AND',['=','devise_id', $this->devise_id],['LIKE', 'serial_numbers_name',($this->serial_numbers_name.'%'),FALSE]])->all();
+        }        
+        if($model_serial_numbers_name !== NUll){
+            return $model_serial_numbers_name;
         }else{
             return false;
         }

@@ -12,6 +12,7 @@ use backend\modules\orders\models\SearchDeviceTypeSubstitution;
 use backend\modules\orders\models\SearchDeviceSubstitution;
 use backend\modules\orders\models\Brands;
 use backend\modules\orders\models\DeviceType;
+use backend\modules\orders\models\SearchSerialNumbers;
 
 /**
  * Default controller for the `orders` module
@@ -22,8 +23,7 @@ class DefaultController extends Controller
      * Выводит все заказы которые не в архиве
      * @return string
      */
-    public function actionIndex()
-    {
+    public function actionIndex(){
         $searchModel = new OrdersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
@@ -284,6 +284,48 @@ class DefaultController extends Controller
         }    
     }
     
+     /*
+     *Метод возврашает Список Имен клиентов при наборе в поле serial_numbers_name     
+     * 
+     */
+    public function actionTakeserialnumbersname(){
+        if(\Yii::$app->request->isAjax){
+            $modelSearchInputOrders =  new SearchInputOrders(['scenario' => SearchInputOrders::SCENARIO_SEREIAL_NUMBERS]);
+            if($modelSearchInputOrders->load(Yii::$app->request->post()) && $modelSearchInputOrders->validate()){
+                $id_orders = $modelSearchInputOrders->id_orders;
+                $model_serial_numbers_name = $modelSearchInputOrders->SearchSerialNnumbersName();
+                if($model_serial_numbers_name){
+                    $select = $this->renderAjax('selectdserialnumbersname', ['model_serial_numbers_name'=>$model_serial_numbers_name,'id_orders'=>$id_orders]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$select,'id_orders'=>$id_orders];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'В БД ничего не было найдено'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }    
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Передаваемые данные не прошли проверку'];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+            
+           
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
+    }
+    
     /*
      *Метод возврашает выбранного клиента из списка пользователя 
      * 
@@ -438,6 +480,46 @@ class DefaultController extends Controller
                         //Передаем данные в фармате json пользователю
                         return $items;
                     }    
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'Возможно заказа нет или клиента в БД'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Ошибки в переданных данных на сервер','model'=>$SearchDeviceSubstitution->getErrors()];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
+    }
+    
+    /*
+     *Метод возврашает выбранный тип устройства из списка типа устройств 
+     * 
+     */
+    public function actionTakeserialnumbers(){
+        if(\Yii::$app->request->isAjax){
+            $SearchSerialNumbers =  new SearchSerialNumbers();
+            if($SearchSerialNumbers->load(Yii::$app->request->post()) && $SearchSerialNumbers->validate()){
+                $modelOrders = $SearchSerialNumbers->SearchOrders();
+                $modelSerialNumbers = $SearchSerialNumbers->SearchSerialNumbers();
+                if(($modelOrders || $SearchSerialNumbers->id_orders==0) && $modelSerialNumbers){;
+                        $viewserialnumbersform = $this->renderAjax('serrialnambersid', ['model' => $modelOrders,'modelSerialNumbers'=>$modelSerialNumbers]); 
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['200','msg'=>$viewserialnumbersform,'id_orders'=>(($modelOrders)?$modelOrders->id_orders:"0")];
+                        //Передаем данные в фармате json пользователю
+                        return $items;                      
                 }else{
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
