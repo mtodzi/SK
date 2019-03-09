@@ -475,7 +475,10 @@ function DeleteLetterInput(setInput){
         $("#orders_id_device_type-"+id).val(0);
         $("#input_orders_brand_name-"+id).val('');
         $("#input_orders_device_type_name-"+id).val('');
-        break;    
+        break;
+    case 'serial_numbers_name':
+        $("#orders_hidden_serrial_nambers_id-"+id).val(0);
+        break;
     }
 }
 

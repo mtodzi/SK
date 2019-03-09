@@ -74,8 +74,13 @@ use yii\helpers\Html;
                                 <?=$this->render('checkrepairtype', ['model' => $model,])?>
                             </div>
                             <!--Конец Блок с чекбоксами диагностика ремонт-->
+                            <!--Блок c элементами описания техники-->
                             <div id="div_orders_serrial_nambers_id-<?=(($model!=null)?$model->id_orders:0)?>">
                                 <?=$this->render('serrialnambersid', ['model' => $model,'modelSerialNumbers'=>null])?>
+                            </div>
+                            <!--Конец Блок c элементами описания техники-->
+                            <div id="div_orders_claimed_malfunction_id-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('claimedmalfunctionid', ['model' => $model,'modelClaimedMalfunctionId'=>null])?>
                             </div>
                         </div>
                     </div>        

@@ -47,6 +47,7 @@ class SearchInputOrders extends Model
             self::SCENARIO_EMAIL => ['id_orders','clients_email'],
             self::SCENARIO_BREND => ['id_orders','brand_name'],
             self::SCENARIO_DEVICE_TYPE => ['id_orders','device_type'],
+            self::SCENARIO_DEVICES_MODEL => ['id_orders','brands_id','devices_type_id','devices_model'],
             self::SCENARIO_SEREIAL_NUMBERS => ['id_orders','devise_id','serial_numbers_name'],
         ];
     }
