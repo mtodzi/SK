@@ -80,7 +80,7 @@ use yii\helpers\Html;
                             </div>
                             <!--Конец Блок c элементами описания техники-->
                             <div id="div_orders_claimed_malfunction_id-<?=(($model!=null)?$model->id_orders:0)?>">
-                                <?=$this->render('claimedmalfunctionid', ['model' => $model,'modelClaimedMalfunctionId'=>null])?>
+                                <?=$this->render('claimedmalfunctionid', ['model' => $model])?>
                             </div>
                         </div>
                     </div>        

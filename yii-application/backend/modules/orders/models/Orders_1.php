@@ -4,7 +4,6 @@ namespace backend\modules\orders\models;
 
 use Yii;
 use backend\modules\orders\models\ClientsPhones;
-use backend\modules\orders\models\OrdersClamedMalfunction;
 
 /**
  * This is the model class for table "orders".
@@ -22,11 +21,11 @@ use backend\modules\orders\models\OrdersClamedMalfunction;
  * @property int $created_at
  * @property int $updated_at
  *
+ * @property ClaimedMalfunction $claimedMalfunction
  * @property Clients $clients
  * @property SerialNumbers $serrialNambers
  * @property User $userEngener
  * @property User $userManager
- * @property OrdersClamedMalfunction[] $ordersClamedMalfunctions
  */
 class Orders extends \yii\db\ActiveRecord
 {
@@ -44,7 +43,7 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['clients_id', 'serrial_nambers_id', 'repair_type', 'urgency', 'user_engener_id', 'user_manager_id', 'archive', 'created_at', 'updated_at'], 'integer'],
+            [['clients_id', 'serrial_nambers_id', 'repair_type', 'urgency', 'claimed_malfunction_id', 'user_engener_id', 'user_manager_id', 'archive', 'created_at', 'updated_at'], 'integer'],
             [['repair_type', 'urgency', 'archive', 'appearance', 'created_at', 'updated_at'], 'required'],
             [['special_notes'], 'string'],
             [['appearance'], 'string', 'max' => 255],
@@ -75,6 +74,7 @@ class Orders extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -107,15 +107,6 @@ class Orders extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_manager_id']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOrdersClamedMalfunctions()
-    {
-        return $this->hasMany(OrdersClamedMalfunction::className(), ['orders_id' => 'id_orders']);
-    }
-    
     //Метод формирует строку № заказа
     public function getOrderNumberText(){
         return "Заказ № ".$this->id_orders." от ".gmdate("d-m-Y", $this->created_at);;
@@ -139,13 +130,4 @@ class Orders extends \yii\db\ActiveRecord
                "S/N:".$this->serrialNambers->serial_numbers_name;
     }
     
-    //Метод возврашает заявленные неисправности
-    public function getOrdersClamedMalfunction(){
-        $OrdersClamedMalfunction = OrdersClamedMalfunction::findAll(['orders_id'=>$this->id_orders]);
-        $text = "";
-        foreach ($OrdersClamedMalfunction as $data){
-            $text = $text.$data->claimedMalfunction->claimed_malfunction_name." ";
-        }
-        return $text;
-    }
 }

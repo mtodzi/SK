@@ -10,7 +10,7 @@ use Yii;
  * @property int $id_claimed_malfunction
  * @property string $claimed_malfunction_name
  *
- * @property OrdersClamedMalfunction[] $ordersClamedMalfunctions
+ * @property Orders[] $orders
  */
 class ClaimedMalfunction extends \yii\db\ActiveRecord
 {
@@ -47,8 +47,8 @@ class ClaimedMalfunction extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrdersClamedMalfunctions()
+    public function getOrders()
     {
-        return $this->hasMany(OrdersClamedMalfunction::className(), ['claimed_malfunction_id' => 'id_claimed_malfunction']);
+        return $this->hasMany(Orders::className(), ['claimed_malfunction_id' => 'id_claimed_malfunction']);
     }
 }

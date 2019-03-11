@@ -11,7 +11,7 @@ use yii\helpers\Html;
             </h5>
             <p class='form-row my-1'><?=$model->getRepairTypeString()?></p>
             <p class='form-row my-1'><?=$model->getDevicesText()?></p>
-            <p class='form-row my-1'><?=$model->claimedMalfunction->claimed_malfunction_name?></p>
+            <p class='form-row my-1'><?=$model->getOrdersClamedMalfunction()?></p>
         </div>
     </div>
 </div>

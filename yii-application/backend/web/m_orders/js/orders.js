@@ -161,7 +161,7 @@ function CreateErrorCards(msg,id_orders,numberAlert){
 //Функция удаляет созданую ошибку 
 function postDelete(str){
         $(str).remove();    
-    }
+}
     
 //Функция случайного числа
 function getRandomArbitary(min, max){
@@ -744,3 +744,8 @@ function SendToServerOption(setInput,data,id_orders){
             }
     });
 }
+
+//Обработчик нажатия кнопки добавить еше одину заявленную неисправность
+$('.my_box_content').on('click', '.add_another_malfunction', function(){
+    alert("Заявленная неисправность");
+});
