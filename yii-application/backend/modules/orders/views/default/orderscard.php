@@ -79,9 +79,12 @@ use yii\helpers\Html;
                                 <?=$this->render('serrialnambersid', ['model' => $model,'modelSerialNumbers'=>null])?>
                             </div>
                             <!--Конец Блок c элементами описания техники-->
+                            <!--Блок с описанием стандартных неисправностей-->
+                            <h5>Заявленные неисправности:</h5>
                             <div id="div_orders_claimed_malfunction_id-<?=(($model!=null)?$model->id_orders:0)?>">
                                 <?=$this->render('claimedmalfunctionid', ['model' => $model])?>
                             </div>
+                            <!--Конец Блок с описанием стандартных неисправностей-->
                         </div>
                     </div>        
                 </div>

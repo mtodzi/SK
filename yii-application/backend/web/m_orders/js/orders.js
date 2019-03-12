@@ -748,4 +748,66 @@ function SendToServerOption(setInput,data,id_orders){
 //Обработчик нажатия кнопки добавить еше одину заявленную неисправность
 $('.my_box_content').on('click', '.add_another_malfunction', function(){
     alert("Заявленная неисправность");
+    var id_orders = GetId($(this),1);
+    var indexMalfunction = $(this).attr('data-count-malfunction');
+    addNewClaimedMalfunction(id_orders, indexMalfunction);
 });
+
+function addNewClaimedMalfunction(id_orders, indexMalfunction){
+    console.log(id_orders);
+    console.log(indexMalfunction);
+    var next = Number(indexMalfunction) + 1;
+    var buttondelete=""+
+        "<a  id = 'delete_another_malfunction-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_malfunction mx-1'  data-count-malfunction='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить заявленную неисправность'>"+
+            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить заявленную неисправность'>"+
+        "</a>";
+    var buttondeleteFirst=""+
+        "<a  id = 'delete_another_malfunction-"+id_orders+"-1' class='btn btn-dark delete_another_malfunction mx-1'  data-count-malfunction='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить заявленную неисправность'>"+
+            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить заявленную неисправность'>"+
+        "</a>";
+    var input =""+
+        "<div id = 'div_orders_malfunction-"+id_orders+"-"+next+"'class='div_orders_malfunction-"+id_orders+"'>"+        
+            "<p id='p_orders_malfunction-"+id_orders+"-"+next+"' class='form-row my-2 orders_malfunction-"+id_orders+" orders_malfunction'>"+
+                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction-"+next+"]' data-input-name = 'malfunction' value=''  form='' class='input_orders form-control col-8 malfunction_input malfunction_input-0' type='text' placeholder='Заявленная неисправность'>"+       
+                "<p id = 'error_orders_malfunction-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-"+next+"' style='display: none;'>Ошибка</p>"+                             
+            "</p>"+
+            "<input type='hidden' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id-"+next+"]' value='0'>"+
+        "</div>";
+    if(indexMalfunction == 1){
+        $("#input_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(buttondeleteFirst);        
+    }
+    $("#div_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(input);
+    $("#input_orders_malfunction-"+id_orders+"-"+next).after(buttondelete);
+    $("#add_another_malfunction-"+id_orders).attr('data-count-malfunction',next);
+}
+
+//Обработчик нажатия кнопки удалить еше одину заявленную неисправность
+$('.my_box_content').on('click', '.delete_another_malfunction', function(){
+    alert("Удалить завленная неисправность");
+    var id_orders = GetId($(this),1);
+    var id_malfunction = GetId($(this),2);
+    deleteInputClaimedMalfunction(id_orders,id_malfunction);
+});
+
+function deleteInputClaimedMalfunction(id_orders,id_malfunction){
+    console.log(id_orders);
+    console.log(id_malfunction);
+    var count = $('.div_orders_malfunction-'+id_orders).length;
+    console.log(count);
+    if(count>1){
+        $("#div_orders_malfunction-"+id_orders+"-"+id_malfunction).remove();
+        $('.div_orders_malfunction-'+id_orders).each(function(index){
+            console.log($(this));
+            $(this).attr('id',("div_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find("input").attr('id',("input_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find("input").attr('name',("MalfunctionEdit[malfunction-"+(index+1)+"]"));
+            $(this).find("a").attr('id',("delete_another_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find("p .error_orders_malfunction").attr('id',("error_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find("p .orders_malfunction").attr('id',("p_orders_malfunction-"+id_orders+"-"+(index+1)));
+        });
+        $('#add_another_malfunction-'+id_orders).attr('data-count-malfunction',(count-1));
+        if(count==2){
+            $("#delete_another_malfunction-"+id_orders+"-1").remove();
+        }
+    }
+}
