@@ -428,24 +428,33 @@ $('.my_box_content').on('focusin', '.input_orders', function(){
         if($("#search_input_serial_numbers_name-"+id_orders).is("#search_input_serial_numbers_name-"+id_orders)){
             $("#search_input_serial_numbers_name-"+id_orders).remove();
         }
+        if($("#search_input_malfunction-"+id_orders).is("#search_input_malfunction-"+id_orders)){
+            $("#search_input_malfunction-"+id_orders).remove();
+        }
     });
         
 $('.my_box_content').on('keyup', '.input_orders', function(eventObject){
-    switch (eventObject.which){
-        case 27:
-            EscInputOrders($(this));
-            break;
-        case 8:
-            DeleteLetterInput($(this));
-        case 46:
-            DeleteLetterInput($(this));
-        default:
-            var data={};
-            data=GetDataKeyUP($(this));      
-            console.log(data);
-            SendToServerSelected($(this),data);  
-            break;
-    }       
+    var inputName = $(this).attr('data-input-name');
+    var notInput = ['clients_address'];
+    if(notInput.indexOf( inputName ) == -1){
+        switch (eventObject.which){
+            case 27:
+                EscInputOrders($(this));
+                break;
+            case 8:
+                DeleteLetterInput($(this));
+            case 46:
+                DeleteLetterInput($(this));
+            default:
+                var data={};
+                data=GetDataKeyUP($(this)); 
+                if(data){
+                    console.log(data);
+                    SendToServerSelected($(this),data);
+                }    
+                break;
+        }
+    }
 });
 
 //Функциия следить за действиями при удалении в input
@@ -479,6 +488,10 @@ function DeleteLetterInput(setInput){
     case 'serial_numbers_name':
         $("#orders_hidden_serrial_nambers_id-"+id).val(0);
         break;
+    case 'malfunction':
+        var id_malfunction_card = GetId(setInput,2);  
+        $("#orders_claimed_malfunction_id-"+id+"-"+id_malfunction_card).val(0);
+        break;    
     }
 }
 
@@ -548,6 +561,24 @@ function GetDataKeyUP(setInput){
         };
         return data;
         break;
+    case 'malfunction':        
+        var id_malfunction_card = GetId(setInput,2);
+        var valHidden = Number($("#orders_claimed_malfunction_id-"+id+"-"+id_malfunction_card).val());
+        if(valHidden==0){
+            data={
+                'SearchInputOrders[id_orders]':id,
+                'SearchInputOrders[id_malfunction_card]':id_malfunction_card,
+                'SearchInputOrders[claimed_malfunction_name]':setInput.val(),
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            }; 
+            return data;
+        }else{
+            var a = $("#input_orders_malfunction-"+id+"-"+id_malfunction_card).attr('data-input');
+            $("#input_orders_malfunction-"+id+"-"+id_malfunction_card).val(a);
+            alert("В одно поле нельзя добавлять несколько заявленных неисправностей");
+            return false;
+        }   
+        break;
     }
 }
 //Функция формирует данные для отправки на сервер для получения данных по  заказу
@@ -596,6 +627,16 @@ function GetDataOption(setInput,id_orders,id_input){
             };
             return data;
             break;
+        case 'malfunction':
+            var id_malfunction_card = GetId(setInput,2);
+            data={  
+                'SearchСlaimedMalfunction[id_orders]':id_orders,
+                'SearchСlaimedMalfunction[id_malfunction_card]':id_malfunction_card,
+                'SearchСlaimedMalfunction[id_claimed_malfunction]':id_input,
+                '_csrf-backend':$('input[name="_csrf-backend"]').val()
+            };
+            return data;
+            break;    
     }
 }
 //Функция формирует действия при нажатия ESC в поле input
@@ -635,6 +676,10 @@ function SendToServerSelected(setInput,data){
         case 'serial_numbers_name':
             urlLast = 'takeserialnumbersname';   
             break;
+        case 'malfunction':
+            var id_malfunction = GetId(setInput,2);
+            urlLast = 'takeclaimedmalfunctionname';   
+            break;    
     }    
     $.ajax({
         url: '/yii-application/backend/web/orders/default/'+urlLast,
@@ -666,6 +711,9 @@ function SendToServerSelected(setInput,data){
                     case 'serial_numbers_name':
                         $("#div_orders_"+InputName+"-"+id).after(res['msg']);
                         break;
+                    case 'malfunction':
+                        $("#div_orders_"+InputName+"-"+id+"-"+id_malfunction).after(res['msg']);
+                        break;    
                 } 
             }else{
                 $("#search_input_"+InputName+"-"+id).remove();
@@ -679,7 +727,8 @@ function SendToServerSelected(setInput,data){
 }
 
 function SendToServerOption(setInput,data,id_orders){
-    setInput = setInput.first();    
+    setInput = setInput.first();
+    var obg = setInput;
     var InputName = setInput.attr('data-input-name');
     var urlLast = '';
     switch (InputName){
@@ -698,6 +747,9 @@ function SendToServerOption(setInput,data,id_orders){
         case 'serial_numbers_name':
             urlLast = 'takeserialnumbers';   
             break;
+        case 'malfunction':
+            urlLast = 'takeclaimedmalfunction';   
+            break;    
     }
     $.ajax({
         url: '/yii-application/backend/web/orders/default/'+urlLast,
@@ -715,21 +767,26 @@ function SendToServerOption(setInput,data,id_orders){
                             break;
                         case 'name_brands':
                             $("#div_orders_name_brands-"+id_orders+" p").remove();
-                            $("#div_orders_name_brands-"+id_orders).append(res['msg'])   
+                            $("#div_orders_name_brands-"+id_orders).append(res['msg']);   
                             break;
                         case 'device_type_name':
                             $("#div_orders_device_type_name-"+id_orders+" p").remove();
-                            $("#div_orders_device_type_name-"+id_orders).append(res['msg'])  
+                            $("#div_orders_device_type_name-"+id_orders).append(res['msg']) ; 
                             break;
                         case 'devices_model':
                             $("#div_orders_devices-"+id_orders+" div").remove();
-                            $("#div_orders_devices-"+id_orders).append(res['msg']) 
+                            $("#div_orders_devices-"+id_orders).append(res['msg']); 
                             break;
                         case 'serial_numbers_name':
                             $("#div_orders_serrial_nambers_id-"+id_orders+" div").remove();
                             $("#orders_hidden_serrial_nambers_id-"+id_orders).remove();        
-                            $("#div_orders_serrial_nambers_id-"+id_orders).append(res['msg']) 
-                            break; 
+                            $("#div_orders_serrial_nambers_id-"+id_orders).append(res['msg']); 
+                            break;
+                        case 'malfunction':
+                            $("#input_orders_malfunction-"+res['id_orders']+"-"+res['id_malfunction_card']).val(res['claimed_malfunction_name']);
+                            $("#input_orders_malfunction-"+res['id_orders']+"-"+res['id_malfunction_card']).attr('data-input',res['claimed_malfunction_name']);
+                            $("#orders_claimed_malfunction_id-"+res['id_orders']+"-"+res['id_malfunction_card']).val(res['id_claimed_malfunction']);
+                            break;
                     }
                     
                 }else{
@@ -747,8 +804,9 @@ function SendToServerOption(setInput,data,id_orders){
 
 //Обработчик нажатия кнопки добавить еше одину заявленную неисправность
 $('.my_box_content').on('click', '.add_another_malfunction', function(){
-    alert("Заявленная неисправность");
+    alert("Заявленная неисправность");    
     var id_orders = GetId($(this),1);
+    $("#search_input_malfunction-"+id_orders).remove();
     var indexMalfunction = $(this).attr('data-count-malfunction');
     addNewClaimedMalfunction(id_orders, indexMalfunction);
 });
@@ -758,20 +816,20 @@ function addNewClaimedMalfunction(id_orders, indexMalfunction){
     console.log(indexMalfunction);
     var next = Number(indexMalfunction) + 1;
     var buttondelete=""+
-        "<a  id = 'delete_another_malfunction-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_malfunction mx-1'  data-count-malfunction='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить заявленную неисправность'>"+
+        "<a  id = 'delete_another_malfunction-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_malfunction mx-1'   data-toggle='tooltip' data-placement='right' title='Удалить заявленную неисправность'>"+
             "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить заявленную неисправность'>"+
         "</a>";
     var buttondeleteFirst=""+
-        "<a  id = 'delete_another_malfunction-"+id_orders+"-1' class='btn btn-dark delete_another_malfunction mx-1'  data-count-malfunction='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить заявленную неисправность'>"+
+        "<a  id = 'delete_another_malfunction-"+id_orders+"-1' class='btn btn-dark delete_another_malfunction mx-1'   data-toggle='tooltip' data-placement='right' title='Удалить заявленную неисправность'>"+
             "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить заявленную неисправность'>"+
         "</a>";
     var input =""+
         "<div id = 'div_orders_malfunction-"+id_orders+"-"+next+"'class='div_orders_malfunction-"+id_orders+"'>"+        
             "<p id='p_orders_malfunction-"+id_orders+"-"+next+"' class='form-row my-2 orders_malfunction-"+id_orders+" orders_malfunction'>"+
-                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction-"+next+"]' data-input-name = 'malfunction' value=''  form='' class='input_orders form-control col-8 malfunction_input malfunction_input-0' type='text' placeholder='Заявленная неисправность'>"+       
+                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction-"+next+"]' data-input = '' data-input-name = 'malfunction' value=''  form='' class='input_orders form-control col-8 malfunction_input malfunction_input-0' type='text' placeholder='Заявленная неисправность'>"+       
                 "<p id = 'error_orders_malfunction-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-"+next+"' style='display: none;'>Ошибка</p>"+                             
             "</p>"+
-            "<input type='hidden' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id-"+next+"]' value='0'>"+
+            "<input type='hidden' class='hidden_malfunction_input' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id-"+next+"]' value='0'>"+
         "</div>";
     if(indexMalfunction == 1){
         $("#input_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(buttondeleteFirst);        
@@ -799,11 +857,13 @@ function deleteInputClaimedMalfunction(id_orders,id_malfunction){
         $('.div_orders_malfunction-'+id_orders).each(function(index){
             console.log($(this));
             $(this).attr('id',("div_orders_malfunction-"+id_orders+"-"+(index+1)));
-            $(this).find("input").attr('id',("input_orders_malfunction-"+id_orders+"-"+(index+1)));
-            $(this).find("input").attr('name',("MalfunctionEdit[malfunction-"+(index+1)+"]"));
+            $(this).find(".malfunction_input").attr('id',("input_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find(".malfunction_input").attr('name',("MalfunctionEdit[malfunction-"+(index+1)+"]"));
             $(this).find("a").attr('id',("delete_another_malfunction-"+id_orders+"-"+(index+1)));
-            $(this).find("p .error_orders_malfunction").attr('id',("error_orders_malfunction-"+id_orders+"-"+(index+1)));
-            $(this).find("p .orders_malfunction").attr('id',("p_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find(".error_orders_malfunction").attr('id',("error_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find(".orders_malfunction").attr('id',("p_orders_malfunction-"+id_orders+"-"+(index+1)));
+            $(this).find(".hidden_malfunction_input").attr('id',("orders_claimed_malfunction_id-"+id_orders+"-"+(index+1)));
+            $(this).find(".hidden_malfunction_input").attr('name',("MalfunctionEdit[claimed_malfunction_id-"+(index+1)+"]"));
         });
         $('#add_another_malfunction-'+id_orders).attr('data-count-malfunction',(count-1));
         if(count==2){

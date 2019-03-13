@@ -111,7 +111,7 @@ if($clients_id!=0){
     <div id = 'div_input_orders_clients_address-<?=$id_orders?>'>
         <p class="form-row my-2">
             <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>">
-            <input id='input_orders_clients_address-<?=$id_orders?>' name='ClientsEdit[clients_address]' value='<?=$clients_address?>' form='' class="input_orders form-control col-10 input_clients_address" type="text" placeholder="Введите домашний адрес">
+            <input id='input_orders_clients_address-<?=$id_orders?>' name='ClientsEdit[clients_address]' data-input-name = 'clients_address' value='<?=$clients_address?>' form='' class="input_orders form-control col-10 input_clients_address" type="text" placeholder="Введите домашний адрес">
         </p>
         <p id = 'error_orders_clients_address-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
     </div>

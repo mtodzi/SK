@@ -9,6 +9,7 @@ use backend\modules\orders\models\Brands;
 use backend\modules\orders\models\DeviceType;
 use backend\modules\orders\models\Devices;
 use backend\modules\orders\models\SerialNumbers;
+use backend\modules\orders\models\ClaimedMalfunction;
 
 
 class SearchInputOrders extends Model
@@ -21,6 +22,7 @@ class SearchInputOrders extends Model
     const SCENARIO_DEVICE_TYPE = 'device_type';//Сценарий обрабатывает поиск по device_type
     const SCENARIO_DEVICES_MODEL = 'devices_model';//Сценарий обрабатывает поиск по devices_model
     const SCENARIO_SEREIAL_NUMBERS = 'sereial_numbers';//Сценарий обрабатывает поиск по sereial_numbers
+    const SCENARIO_CLAIMED_MALFUNCTION_NAME = 'claimed_malfunction_name';//Сценарий обрабатывает поиск по claimed_malfunction_name
     
     //Поля для обработки
     public $id_orders;
@@ -34,6 +36,8 @@ class SearchInputOrders extends Model
     public $devices_model;
     public $devise_id;
     public $serial_numbers_name;
+    public $claimed_malfunction_name;
+    public $id_malfunction_card;
 
     /**
      * @inheritdoc
@@ -49,6 +53,7 @@ class SearchInputOrders extends Model
             self::SCENARIO_DEVICE_TYPE => ['id_orders','device_type'],
             self::SCENARIO_DEVICES_MODEL => ['id_orders','brands_id','devices_type_id','devices_model'],
             self::SCENARIO_SEREIAL_NUMBERS => ['id_orders','devise_id','serial_numbers_name'],
+            self::SCENARIO_CLAIMED_MALFUNCTION_NAME => ['id_orders','claimed_malfunction_name','id_malfunction_card'],
         ];
     }
     
@@ -90,6 +95,12 @@ class SearchInputOrders extends Model
             
             ['serial_numbers_name', 'filter', 'filter' => 'trim'],
             ['serial_numbers_name', 'required'],
+            
+            ['claimed_malfunction_name', 'filter', 'filter' => 'trim'],
+            ['claimed_malfunction_name', 'required'],
+            
+            ['id_malfunction_card', 'required'],
+            [['id_malfunction_card'], 'integer'],
         ];
     }
     
@@ -188,6 +199,18 @@ class SearchInputOrders extends Model
         }        
         if($model_serial_numbers_name !== NUll){
             return $model_serial_numbers_name;
+        }else{
+            return false;
+        }
+    }
+    
+    /*
+     *Метод ишет клиентов по claimed_malfunction_name    
+     */
+    public function SearchClaimedMalfunctionName(){
+        $model_claimed_malfunction_name = ClaimedMalfunction::find()->where(['LIKE', 'claimed_malfunction_name',($this->claimed_malfunction_name.'%'),FALSE])->all();
+        if($model_claimed_malfunction_name !== NUll){
+            return $model_claimed_malfunction_name;
         }else{
             return false;
         }

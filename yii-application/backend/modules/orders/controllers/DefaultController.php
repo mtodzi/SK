@@ -13,6 +13,7 @@ use backend\modules\orders\models\SearchDeviceSubstitution;
 use backend\modules\orders\models\Brands;
 use backend\modules\orders\models\DeviceType;
 use backend\modules\orders\models\SearchSerialNumbers;
+use backend\modules\orders\models\SearchСlaimedMalfunction;
 
 /**
  * Default controller for the `orders` module
@@ -327,6 +328,48 @@ class DefaultController extends Controller
     }
     
     /*
+     *Метод возврашает Список Имен клиентов при наборе в поле claimed_malfunction_name
+     * 
+     */
+    public function actionTakeclaimedmalfunctionname(){
+        if(\Yii::$app->request->isAjax){
+            $modelSearchInputOrders =  new SearchInputOrders(['scenario' => SearchInputOrders::SCENARIO_CLAIMED_MALFUNCTION_NAME]);
+            if($modelSearchInputOrders->load(Yii::$app->request->post()) && $modelSearchInputOrders->validate()){
+                $id_orders = $modelSearchInputOrders->id_orders;
+                $model_claimed_malfunction_name = $modelSearchInputOrders->SearchClaimedMalfunctionName();
+                if($model_claimed_malfunction_name){
+                    $select = $this->renderAjax('selectdclaimedmalfunctionname', ['model_claimed_malfunction_name'=>$model_claimed_malfunction_name,'id_orders'=>$id_orders ,'id_malfunction_card'=>$modelSearchInputOrders->id_malfunction_card]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$select,'id_orders'=>$id_orders];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'В БД ничего не было найдено'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }    
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Передаваемые данные не прошли проверку'];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+            
+           
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
+    }
+    
+    /*
      *Метод возврашает выбранного клиента из списка пользователя 
      * 
      */
@@ -533,6 +576,49 @@ class DefaultController extends Controller
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 //Фармируем массив с ошибкой
                 $items = ['0','msg'=>'Ошибки в переданных данных на сервер','model'=>$SearchDeviceSubstitution->getErrors()];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
+    }
+    
+    /*
+     *Метод возврашает выбранный тип устройства из списка типа устройств 
+     * 
+     */
+    public function actionTakeclaimedmalfunction(){
+        if(\Yii::$app->request->isAjax){
+            $SearchСlaimedMalfunction =  new SearchСlaimedMalfunction();
+            if($SearchСlaimedMalfunction->load(Yii::$app->request->post()) && $SearchСlaimedMalfunction->validate()){
+                $modelOrders = $SearchСlaimedMalfunction->SearchOrders();
+                $modelСlaimedMalfunction = $SearchСlaimedMalfunction->SearchСlaimedMalfunction();
+                if(($modelOrders || $SearchСlaimedMalfunction->id_orders==0) &&  $modelСlaimedMalfunction){;
+                        //$viewserialnumbersform = $this->renderAjax('serrialnambersid', ['model' => $modelOrders,'modelSerialNumbers'=>$modelSerialNumbers]); 
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['200','id_claimed_malfunction'=>$modelСlaimedMalfunction->id_claimed_malfunction,
+                                'claimed_malfunction_name'=>$modelСlaimedMalfunction->claimed_malfunction_name,
+                                'id_malfunction_card'=>$SearchСlaimedMalfunction->id_malfunction_card,
+                                'id_orders'=>(($modelOrders)?$modelOrders->id_orders:"0")];
+                        //Передаем данные в фармате json пользователю
+                        return $items;                      
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'Возможно заказа нет или клиента в БД'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Ошибки в переданных данных на сервер','model'=>$SearchСlaimedMalfunction->getErrors()];
                 //Передаем данные в фармате json пользователю
                 return $items;
             }
