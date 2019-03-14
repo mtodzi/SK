@@ -85,6 +85,17 @@ use yii\helpers\Html;
                                 <?=$this->render('claimedmalfunctionid', ['model' => $model])?>
                             </div>
                             <!--Конец Блок с описанием стандартных неисправностей-->
+                            <h5>Дополнение к неисправностям:</h5>
+                            <!--Блок с описанием Внешнего вида-->
+                            <div id="div_orders_appearance-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('appearanceid', ['model' => $model])?>
+                            </div>
+                            <!--Конец Блок с описанием Внешнего вида-->
+                            <!--Блок с описанием Особые заметки-->
+                            <div id="div_orders_special_notes-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('specialnotesid', ['model' => $model])?>
+                            </div>
+                            <!--Конец Блок с описанием Особые заметки-->
                         </div>
                     </div>        
                 </div>

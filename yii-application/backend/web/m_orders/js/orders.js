@@ -128,7 +128,7 @@ $('.my_content_bloc').on('click', '.orders_edit_button', function(){
 $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
-        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type-']; 
+        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-']; 
         if(formFieldCheck(id,arrayFieldsChecked)){
             alert("Проверка Проверка прошла успешно");
         }else{
@@ -270,10 +270,36 @@ function formFieldCheck(id,arrayFieldsChecked){
                         arrayError['brand_name-'+id]='Заполните поле Бренд';
                     }
                     break;
-                case "input_orders_device_type-":
+                case "input_orders_device_type_name-":
                     if(empty($('#input_orders_'+val+id).val())){
                         countError++;
-                        arrayError['device_type-'+id]='Заполните поле тип устройства';
+                        arrayError['device_type_name-'+id]='Заполните поле тип устройства';
+                    }
+                    break;
+                case "input_orders_devices_model-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['devices_model-'+id]='Заполните поле модель устройсва';
+                    }
+                    break;
+                case "input_orders_serial_numbers_name-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['serial_numbers_name-'+id]='Заполните поле серийный номер';
+                    }
+                    break;
+                case "input_orders_malfunction-":
+                    $(".malfunction_input-"+id).each(function(index){
+                        if(empty($('#input_orders_'+val+id+"-"+(index+1)).val())){
+                            countError++;
+                            arrayError['malfunction-'+id+"-"+(index+1)]='Заполните поле заявленная неисправность';
+                        }
+                    });
+                    break;
+                case "input_orders_appearance-":
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['appearance-'+id]='Заполните поле внешний вид';
                     }
                     break;
             }            
@@ -435,7 +461,7 @@ $('.my_box_content').on('focusin', '.input_orders', function(){
         
 $('.my_box_content').on('keyup', '.input_orders', function(eventObject){
     var inputName = $(this).attr('data-input-name');
-    var notInput = ['clients_address'];
+    var notInput = ['clients_address','appearance','special_notes'];
     if(notInput.indexOf( inputName ) == -1){
         switch (eventObject.which){
             case 27:
