@@ -7,4 +7,4 @@
              id='input_orders_special_notes-<?=(($model!=null)?$model->id_orders:0)?>' 
              name='OrdersEdit[special_notes]' data-input-name = "special_notes" form=''  
              autofocus maxlength="300" placeholder="Особые заметки"></textarea></p>
-<p id = 'error_device_type-0' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+<p id = 'error_orders_special_notes-<?=(($model!=null)?$model->id_orders:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>

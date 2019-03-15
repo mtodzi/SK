@@ -128,7 +128,7 @@ $('.my_content_bloc').on('click', '.orders_edit_button', function(){
 $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
-        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-']; 
+        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-','user_engener_id-']; 
         if(formFieldCheck(id,arrayFieldsChecked)){
             alert("Проверка Проверка прошла успешно");
         }else{
@@ -302,6 +302,13 @@ function formFieldCheck(id,arrayFieldsChecked){
                         arrayError['appearance-'+id]='Заполните поле внешний вид';
                     }
                     break;
+                case "input_orders_user_engener_id-":
+                    console.log("Проверка user_engener_id- -"+$('#input_orders_'+val+id).val());
+                    if(empty($('#input_orders_'+val+id).val())){
+                        countError++;
+                        arrayError['user_engener_id-'+id]='Вы не выбрали инженера для ремонта';
+                    }
+                    break;    
             }            
         });
         if(countError == 0){
@@ -897,3 +904,15 @@ function deleteInputClaimedMalfunction(id_orders,id_malfunction){
         }
     }
 }
+
+//Обрабатуем нажатие на чекбокс срочно 
+$('.my_content_bloc').on('click', '.check_urgency', function(){
+    //alert("Вы нажали на чекбокс");
+    var id = GetId($(this),1);
+    console.log(id);
+    if ($(this).is(':checked')){
+        $("#orders_urgency-"+id).val(1);
+    }else{
+        $("#orders_urgency-"+id).val(0);
+    }
+});

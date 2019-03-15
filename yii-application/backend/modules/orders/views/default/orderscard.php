@@ -9,7 +9,7 @@ use yii\helpers\Html;
         <div class="my_box">
             <!--Начало Хедера карточки-->
             <div class = "my_box_heder">
-               <nav class="navbar navbar-light bg-dark rounded-top">
+               <nav class="navbar navbar-light <?=(($model!=null && $model->urgency == 1)?'bg-danger':'bg-dark')?>  rounded-top">
                     <span id='span_orders_id_orders_text-<?=(($model!=null)?$model->id_orders:0)?>' class='navbar-brand text-light'><?=(($model!=null)?$model->getOrderNumberText():'Новый заказ')?></span>
                     <?php
                     $buttons_edit_print = "".   
@@ -91,6 +91,16 @@ use yii\helpers\Html;
                                 <?=$this->render('appearanceid', ['model' => $model])?>
                             </div>
                             <!--Конец Блок с описанием Внешнего вида-->
+                            <!--Блок с описанием выбора Инженера-->
+                            <div id="div_orders_user_engener_id-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('userengenerid', ['model' => $model])?>
+                            </div>
+                            <!--Конец Блок с описанием выбора Инженера-->
+                            <!--Блок с описанием выбора Срочности-->
+                            <div id="div_orders_urgency-<?=(($model!=null)?$model->id_orders:0)?>">
+                                <?=$this->render('urgencyid', ['model' => $model])?>
+                            </div>
+                            <!--Конец Блок с описанием выбора срочности-->
                             <!--Блок с описанием Особые заметки-->
                             <div id="div_orders_special_notes-<?=(($model!=null)?$model->id_orders:0)?>">
                                 <?=$this->render('specialnotesid', ['model' => $model])?>
