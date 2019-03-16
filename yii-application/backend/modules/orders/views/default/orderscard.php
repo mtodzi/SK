@@ -61,7 +61,7 @@ use yii\helpers\Html;
                 <div id = 'orders_form-<?=(($model!=null)?$model->id_orders:0)?>' <?=(($model!=null)?("style='display: none;'"):'')?> >
                     <div class='col py-2'>
                         <div class=''>
-                            <form id='form-update_orders-<?=(($model!=null)?$model->id_orders:0)?>'>
+                            <form id='form_orders-<?=(($model!=null)?$model->id_orders:0)?>' name='form_orders-<?=(($model!=null)?$model->id_orders:0)?>'>
                                 <?=Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                 <?=Html :: hiddenInput('OrdersEdit[id_orders]', (($model!=null)?$model->id_orders:0), [])?>
                             </form>

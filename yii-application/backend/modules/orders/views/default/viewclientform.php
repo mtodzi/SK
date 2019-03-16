@@ -12,6 +12,7 @@ if($modelClients==null && $modelOrders==null){
     $clients_name = '';
     $clients_email = '';
     $clients_address = '';
+    $id_clients = 0;
 }
 //Когда в сушествуешем заказе мы меняем клиента который есть в БД
 if($modelClients!=null && $modelOrders!=null){
@@ -20,6 +21,7 @@ if($modelClients!=null && $modelOrders!=null){
     $clients_name = $modelClients->clients_name;
     $clients_email = $modelClients->clients_email;
     $clients_address = $modelClients->clients_address;
+    $id_clients = $modelClients->id_clients;
 }
 //Для формирования редактирования карточки заказа
 if($modelClients==null && $modelOrders!=null){
@@ -28,14 +30,16 @@ if($modelClients==null && $modelOrders!=null){
     $clients_name = $modelOrders->clients->clients_name;
     $clients_email = $modelOrders->clients->clients_email;
     $clients_address = $modelOrders->clients->clients_address;
+    $id_clients =  $modelOrders->clients_id;
 }
 //для подстановки клиента в новый заказ
 if($modelClients!=null && $modelOrders==null){
-     $clients_id = $modelClients->id_clients;
+    $clients_id = $modelClients->id_clients;
     $id_orders = 0;
     $clients_name = $modelClients->clients_name;
     $clients_email = $modelClients->clients_email;
     $clients_address = $modelClients->clients_address;
+    $id_clients = $modelClients->id_clients;
 }
 
 if($clients_id!=0){        
@@ -90,8 +94,9 @@ if($clients_id!=0){
     <div id = 'div_input_orders_clients_name-<?=$id_orders?>'>
         <p id = 'p_input_orders_clients_name-<?=$id_orders?>' class='form-row my-2'>
             <img class='my_icon mx-1 my-2' src='<?=Url::to(['/img/orders/thumb/client.svg'])?>'>
-            <input id='input_orders_clients_name-<?=$id_orders?>' name='ClientsEdit[clients_name]' data-input-name = "clients_name" value='<?=$clients_name?>' form='form-create_orders-0' class='input_orders form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'>
-            <?=Html :: hiddenInput('OrdersEdit[clients_id]',$clients_id, [])?>
+            <input id='input_orders_clients_name-<?=$id_orders?>' name='ClientsEdit[clients_name]' data-input-name = "clients_name" value='<?=$clients_name?>' form='form_orders-<?=$id_orders?>' class='input_orders form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'>
+            <?=Html :: hiddenInput('OrdersEdit[clients_id]',$clients_id, ['form'=>'form_orders-'.$id_orders])?>
+            <?=Html :: hiddenInput('ClientsEdit[id_clients]',$id_clients, ['form'=>'form_orders-'.$id_orders])?>
             <p id = 'error_orders_clients_name-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
         </p>
     </div>    
@@ -102,7 +107,7 @@ if($clients_id!=0){
     <div id = 'div_input_orders_clients_email-<?=$id_orders?>'>
         <p class="form-row my-2">
             <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/mail.svg'])?>"> 
-            <input id='input_orders_clients_email-<?=$id_orders?>' name='ClientsEdit[clients_email]' data-input-name = "clients_email" value='<?=$clients_email?>' form='' class="input_orders form-control col-10 input_clients_email" type="mail" placeholder="Введите адрес электронной почты">
+            <input id='input_orders_clients_email-<?=$id_orders?>' name='ClientsEdit[clients_email]' data-input-name = "clients_email" value='<?=$clients_email?>' form='form_orders-<?=$id_orders?>' class="input_orders form-control col-10 input_clients_email" type="mail" placeholder="Введите адрес электронной почты">
         </p>
         <p id = 'error_orders_clients_email-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
     </div>    
@@ -111,7 +116,7 @@ if($clients_id!=0){
     <div id = 'div_input_orders_clients_address-<?=$id_orders?>'>
         <p class="form-row my-2">
             <img class="my_icon mx-1 my-2" src="<?=Url::to(['/img/home.svg'])?>">
-            <input id='input_orders_clients_address-<?=$id_orders?>' name='ClientsEdit[clients_address]' data-input-name = 'clients_address' value='<?=$clients_address?>' form='' class="input_orders form-control col-10 input_clients_address" type="text" placeholder="Введите домашний адрес">
+            <input id='input_orders_clients_address-<?=$id_orders?>' name='ClientsEdit[clients_address]' data-input-name = 'clients_address' value='<?=$clients_address?>' form='form_orders-<?=$id_orders?>' class="input_orders form-control col-10 input_clients_address" type="text" placeholder="Введите домашний адрес">
         </p>
         <p id = 'error_orders_clients_address-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
     </div>
