@@ -46,7 +46,7 @@ function addInputPhone(id_orders,count_phone){
                 "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"' class='div_orders_phone-"+id_orders+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
-                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' data-input-name = 'clients_phone' name='ClientsPhonesEdit[phone_number-"+next+"]'  form='' class='form-control col-8 input_orders phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' data-input-name = 'clients_phone' name='ClientsPhonesEdit[phone_number]["+next+"]'  form='form_orders-"+id_orders+"' class='form-control col-8 input_orders phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
                         "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>"+
                 "</div>";
@@ -94,7 +94,7 @@ function deleteInputPhone(id_orders,id_delete,count_phone){
                 console.log($(this));
                 $(this).attr('id',("div_orders_clients_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("input").attr('id',("input_orders_clients_phone-"+id_orders+"-"+(index+1)));
-                $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number-"+(index+1)+"]"));
+                $(this).find("input").attr('name',("ClientsPhonesEdit[phone_number]["+(index+1)+"]"));
                 $(this).find("a").attr('id',("delete_another_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("p .error_orders_phone").attr('id',("error_orders_phone-"+id_orders+"-"+(index+1)));
                 $(this).find("p .orders_phone").attr('id',("p_orders_clients_phone-"+id_orders+"-"+(index+1)));
@@ -129,8 +129,22 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
         var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-','user_engener_id-']; 
-        if(formFieldCheck(id,arrayFieldsChecked)){
+        if(true/*formFieldCheck(id,arrayFieldsChecked)*/){
             alert("Проверка Проверка прошла успешно");
+            var data = $('#form_orders-'+id).serialize();
+            console.log(data);
+            $.ajax({
+                        url: '/yii-application/backend/web/orders/default/create',
+                        type: 'POST',
+                        data: data,
+                        success: function(res){
+                            console.log(res['msg']);
+                            console.log(res['errors']);
+                        },
+                        error: function(){
+                            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                        }
+                    });
         }else{
             alert("Проверка Проверка прошла не успешно");
         }
@@ -796,7 +810,7 @@ function SendToServerOption(setInput,data,id_orders){
                     switch (InputName){
                         case 'clients_name':
                             $("#orders_clients_form-"+id_orders).remove();
-                            $("#form-update_orders-"+id_orders).prepend(res['msg']);  
+                            $("#form_orders-"+id_orders).prepend(res['msg']);  
                             break;
                         case 'name_brands':
                             $("#div_orders_name_brands-"+id_orders+" p").remove();

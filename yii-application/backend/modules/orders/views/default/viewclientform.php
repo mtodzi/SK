@@ -3,8 +3,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use backend\modules\orders\models\ClientsPhones;
 
-//Начало формирования телефонов клиентов для редактирования
-$phonestr = "";
+
 //Для формы которая добавляет нового пользователя
 if($modelClients==null && $modelOrders==null){
     $clients_id = 0;
@@ -41,7 +40,8 @@ if($modelClients!=null && $modelOrders==null){
     $clients_address = $modelClients->clients_address;
     $id_clients = $modelClients->id_clients;
 }
-
+//Начало формирования телефонов клиентов для редактирования
+$phonestr = "".Html :: hiddenInput('ClientsPhonesEdit[clients_id]',$id_clients, ['form'=>'form_orders-'.$id_orders]);
 if($clients_id!=0){        
     $ClientsPhones = ClientsPhones::findAll(['clients_id'=>$clients_id]);
     $count = count($ClientsPhones);
@@ -51,7 +51,7 @@ if($clients_id!=0){
         "<div id = 'div_orders_clients_phone-".$id_orders."-".$i."' class='div_orders_phone-".$id_orders."'>".        
             "<p id='p_orders_clients_phone-".$id_orders."-".$i."' class='form-row my-2 orders_phone-".$id_orders." orders_phone'>".
                 "<img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>".
-                "<input id='input_orders_clients_phone-".$id_orders."-".$i."' data-input-name = 'clients_phone' name='ClientsPhonesEdit[phone_number-".$i."]' value='".$phone->phone_number."'  form='' class='input_orders form-control col-8 phone phone_input phone_input-".$id_orders."' type='text' placeholder='*Введите номер телефона'>";
+                "<input id='input_orders_clients_phone-".$id_orders."-".$i."' data-input-name = 'clients_phone' name='ClientsPhonesEdit[phone_number][".$i."]' value='".$phone->phone_number."'  form='form_orders-".$id_orders."' class='input_orders form-control col-8 phone phone_input phone_input-".$id_orders."' type='text' placeholder='*Введите номер телефона'>";
                 if($count>1){
                     $phonestr = $phonestr."".
                     "<a  id = 'delete_another_phone-".$id_orders."-".$i."' class='btn btn-dark delete_another_phone mx-1'  data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>".
@@ -75,7 +75,7 @@ if($clients_id!=0){
         "<div id = 'div_orders_clients_phone-0-1'class='div_orders_phone-0'>        
             <p id='p_orders_clients_phone-0-1' class='form-row my-2 orders_phone-0 orders_phone'>
                 <img class='my_icon mx-1 my-2' src='".Url::to(['/img/smartphone-call.svg'])."'>
-                <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number-0]' data-input-name = 'clients_phone' value=''  form='' class='input_orders form-control col-8 phone phone_input phone_input-0' type='text' placeholder='*Введите номер телефона'>       
+                <input id='input_orders_clients_phone-0-1' name='ClientsPhonesEdit[phone_number][1]' data-input-name = 'clients_phone' value=''  form='form_orders-".$id_orders."' class='input_orders form-control col-8 phone phone_input phone_input-0' type='text' placeholder='*Введите номер телефона'>       
                 <p id = 'error_orders_clients_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-0' style='display: none;'>Ошибка</p>                             
             </p>
         </div>                       

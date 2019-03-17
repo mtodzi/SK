@@ -12,4 +12,4 @@
     <label class="form-check-label" for="check_repair-">ремонт</label>
 </div>
 <?php $id = 'orders_hidden_repair_type-'.(($model!=null)?$model->id_orders:0);?>
-<?=Html :: hiddenInput('OrdersEdit[repair_type]', (($model!=null)?$model->repair_type:0), ['id'=>$id])?>
+<?=Html :: hiddenInput('OrdersEdit[repair_type]', (($model!=null)?$model->repair_type:0), ['id'=>$id,'form'=>'form_orders-'.(($model!=null)?$model->id_orders:0)])?>

@@ -14,6 +14,7 @@ use backend\modules\orders\models\Brands;
 use backend\modules\orders\models\DeviceType;
 use backend\modules\orders\models\SearchSerialNumbers;
 use backend\modules\orders\models\SearchСlaimedMalfunction;
+use backend\modules\orders\models\ClientsPhonesEdit;
 
 /**
  * Default controller for the `orders` module
@@ -33,6 +34,24 @@ class DefaultController extends Controller
         ]);
     }
     
+    public function actionCreate(){
+        if(\Yii::$app->request->isAjax){
+            $modelClientsPhonesEdit = new ClientsPhonesEdit();
+            $modelClientsPhonesEdit->load(Yii::$app->request->post());
+            $modelClientsPhonesEdit->validate();
+            //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //Фармируем массив с ошибкой
+            $items = ['0','msg'=>$modelClientsPhonesEdit,'errors'=>$modelClientsPhonesEdit->getErrors()];
+            //Передаем данные в фармате json пользователю
+            return $items;
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }
+    }
+
+
     /*
      *Метод возврашает Список Имен клиентов при наборе в поле     
      * 

@@ -8,6 +8,7 @@ class OrdersEdit extends Model {
     
     public $id_orders;
     public $clients_id;
+    public $repair_type; 
 
 
     public function rules(){
@@ -17,6 +18,9 @@ class OrdersEdit extends Model {
             
             ['clients_id', 'required'],
             [['clients_id'], 'integer'],
+            
+            ['repair_type', 'required'],
+            [['repair_type'], 'integer'],
         ];           
     }
     
