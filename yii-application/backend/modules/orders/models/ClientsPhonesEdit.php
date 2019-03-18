@@ -39,4 +39,13 @@ class ClientsPhonesEdit extends Model{
         }
     }
     
+    //Метод возврашает русские лейбы полей обьекта
+    public function attributeLabels() {
+        return
+        [
+            'clients_id'=>'Ключ клиента',
+            'phone_number'=>'Телефон',             
+        ];
+    }
+    
 }

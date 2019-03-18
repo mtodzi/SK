@@ -873,10 +873,10 @@ function addNewClaimedMalfunction(id_orders, indexMalfunction){
     var input =""+
         "<div id = 'div_orders_malfunction-"+id_orders+"-"+next+"'class='div_orders_malfunction-"+id_orders+"'>"+        
             "<p id='p_orders_malfunction-"+id_orders+"-"+next+"' class='form-row my-2 orders_malfunction-"+id_orders+" orders_malfunction'>"+
-                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction-"+next+"]' data-input = '' data-input-name = 'malfunction' value=''  form='' class='input_orders form-control col-8 malfunction_input malfunction_input-0' type='text' placeholder='Заявленная неисправность'>"+       
+                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction]["+next+"]' data-input = '' data-input-name = 'malfunction' value=''  form='form_orders-"+id_orders+"' class='input_orders form-control col-8 malfunction_input malfunction_input-0' type='text' placeholder='Заявленная неисправность'>"+       
                 "<p id = 'error_orders_malfunction-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-"+next+"' style='display: none;'>Ошибка</p>"+                             
             "</p>"+
-            "<input type='hidden' class='hidden_malfunction_input' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id-"+next+"]' value='0'>"+
+            "<input type='hidden' class='hidden_malfunction_input' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id]["+next+"]' form='form_orders-"+id_orders+"' value='0'>"+
         "</div>";
     if(indexMalfunction == 1){
         $("#input_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(buttondeleteFirst);        

@@ -4,7 +4,7 @@
 
 <p class="form-row my-2">
     <input id='input_orders_appearance-<?=(($model!=null)?$model->id_orders:0)?>' 
-           name='OrdersEdit[appearance]' data-input-name = "appearance" form='' 
+           name='OrdersEdit[appearance]' data-input-name = "appearance" form='form_orders-<?=(($model!=null)?$model->id_orders:0)?>' 
            class="form-control col-10 mx-2 input_orders_appearance input_orders"
            value="<?=(($model!=null)?$model->appearance:'')?>"
            type="text" placeholder="Внешний вид"> 

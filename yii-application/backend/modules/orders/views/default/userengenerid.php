@@ -9,7 +9,7 @@
     }
 ?>
 <p class="form-row my-2">
-    <select id='input_orders_user_engener_id-<?=(($model!=null)?$model->id_orders:0)?>' form='' name='OrdersEdit[user_engener_id]' class="form-control col-6 mx-2"> 
+    <select id='input_orders_user_engener_id-<?=(($model!=null)?$model->id_orders:0)?>' form='form_orders-<?=(($model!=null)?$model->id_orders:0)?>' name='OrdersEdit[user_engener_id]' class="form-control col-6 mx-2"> 
         <?=$str?>
     </select>
 </p>

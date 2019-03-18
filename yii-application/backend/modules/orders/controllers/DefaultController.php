@@ -15,6 +15,12 @@ use backend\modules\orders\models\DeviceType;
 use backend\modules\orders\models\SearchSerialNumbers;
 use backend\modules\orders\models\SearchСlaimedMalfunction;
 use backend\modules\orders\models\ClientsPhonesEdit;
+use backend\modules\orders\models\MalfunctionEdit;
+use backend\modules\orders\models\OrdersEdit;
+use backend\modules\orders\models\BrandsEdit;
+use backend\modules\orders\models\DeviceTypeEdit;
+use backend\modules\orders\models\DevicesEdit;
+use backend\modules\orders\models\SerialNumbersEdit;
 
 /**
  * Default controller for the `orders` module
@@ -37,12 +43,33 @@ class DefaultController extends Controller
     public function actionCreate(){
         if(\Yii::$app->request->isAjax){
             $modelClientsPhonesEdit = new ClientsPhonesEdit();
-            $modelClientsPhonesEdit->load(Yii::$app->request->post());
+            $modelMalfunctionEdit = new MalfunctionEdit();
+            $modelOrdersEdit = new OrdersEdit();
+            $modelBrandsEdit = new BrandsEdit();
+            $modelDeviceTypeEdit = new DeviceTypeEdit();
+            $modelDevicesEdit = new DevicesEdit();
+            $SerialNumbersEdit = new SerialNumbersEdit();
+             
+            $modelClientsPhonesEdit->load(Yii::$app->request->post());           
+            $modelMalfunctionEdit->load(Yii::$app->request->post());
+            $modelOrdersEdit->load(Yii::$app->request->post());
+            $modelBrandsEdit->load(Yii::$app->request->post());
+            $modelDeviceTypeEdit->load(Yii::$app->request->post());
+            $modelDevicesEdit->load(Yii::$app->request->post());
+            $SerialNumbersEdit->load(Yii::$app->request->post());
+            
             $modelClientsPhonesEdit->validate();
+            $modelMalfunctionEdit->validate();
+            $modelOrdersEdit->validate();
+            $modelBrandsEdit->validate();
+            $modelDeviceTypeEdit->validate();
+            $modelDevicesEdit->validate();
+            $SerialNumbersEdit->validate();
+            
             //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             //Фармируем массив с ошибкой
-            $items = ['0','msg'=>$modelClientsPhonesEdit,'errors'=>$modelClientsPhonesEdit->getErrors()];
+            $items = ['0','msg'=>$SerialNumbersEdit,'errors'=>$SerialNumbersEdit->getErrors()];
             //Передаем данные в фармате json пользователю
             return $items;
         }else{

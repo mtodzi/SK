@@ -17,4 +17,13 @@ class DevicesEdit extends Model{
             [['devices_model'], 'string', 'max' => 255],            
         ];
     }
+    
+    //Метод возврашает русские лейбы полей обьекта
+    public function attributeLabels() {
+        return
+        [
+            'id_devices'=>'Ключ модели устройства',
+            'devices_model'=>'Модель устройства',            
+        ];
+    }
 }

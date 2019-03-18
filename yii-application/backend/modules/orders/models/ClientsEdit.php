@@ -23,9 +23,19 @@ class ClientsEdit extends Model{
             [['clients_email'], 'required'],
             [['clients_email'], 'string', 'max' => 100],
             
-            [['clients_email'], 'required'],
+            
             [['clients_address'], 'string', 'max' => 255],
         ];           
     }
     
+    //Метод возврашает русские лейбы полей обьекта
+    public function attributeLabels() {
+        return
+        [
+            'clients_id'=>'Ключ клиента',
+            'clients_name'=>'ФИО клиента', 
+            'clients_email'=>'адрес электронной почты',
+            'clients_address'=>'домашний адрес',
+        ];
+    }
 }

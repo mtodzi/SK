@@ -17,4 +17,13 @@ class BrandsEdit extends Model{
             [['name_brands'], 'string', 'max' => 45],            
         ];           
     }
+    
+    //Метод возврашает русские лейбы полей обьекта
+    public function attributeLabels() {
+        return
+        [
+            'id_brands'=>'Ключ Бренда',
+            'name_brands'=>'Бренд',            
+        ];
+    }
 }
