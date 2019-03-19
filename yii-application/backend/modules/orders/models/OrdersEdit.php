@@ -35,6 +35,7 @@ class OrdersEdit extends Model {
             
             ['user_engener_id', 'required'],
             [['user_engener_id'], 'integer'],
+            ['user_engener_id', 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number','message' => 'Выберите инженера в заказе.'],
             
             ['urgency', 'required'],
             [['urgency'], 'integer'],

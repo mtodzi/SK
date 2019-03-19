@@ -6,7 +6,7 @@ use yii\base\Model;
 
 class ClientsEdit extends Model{
     
-    public $clients_id;
+    public $id_clients;
     public $clients_name;
     public $clients_email;
     public $clients_address;
@@ -32,7 +32,7 @@ class ClientsEdit extends Model{
     public function attributeLabels() {
         return
         [
-            'clients_id'=>'Ключ клиента',
+            'id_clients'=>'Ключ клиента',
             'clients_name'=>'ФИО клиента', 
             'clients_email'=>'адрес электронной почты',
             'clients_address'=>'домашний адрес',

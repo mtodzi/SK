@@ -11,7 +11,7 @@ class MalfunctionEdit extends Model{
     
     public function rules(){
         return [
-            ['malfunction', 'each', 'rule' => ['required','message' => 'Один или более введенная заявленная неисправность пуста.']],
+            ['malfunction', 'each', 'rule' => ['required','message' => 'Одна или более введенная заявленная неисправность пуста.']],
             ['malfunction', 'each', 'rule' => ['string', 'max' => 255 ,'message' => 'Вы неправильно ввели один или более заявленных неисправностей.']],
             ['malfunction','validateMalfunctionCompare'],
             
@@ -26,9 +26,9 @@ class MalfunctionEdit extends Model{
      */
     public function validateMalfunctionCompare($attribute, $params)
     {
-        $i = 1;
+        $i = 0;
         foreach ($this->malfunction as $data){
-            if($i == 1){
+            if($i == 0){
                 $test = $data;                
             }else{
                 if(strcasecmp($test,$data)== 0){

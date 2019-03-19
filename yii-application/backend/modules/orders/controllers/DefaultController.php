@@ -21,6 +21,7 @@ use backend\modules\orders\models\BrandsEdit;
 use backend\modules\orders\models\DeviceTypeEdit;
 use backend\modules\orders\models\DevicesEdit;
 use backend\modules\orders\models\SerialNumbersEdit;
+use backend\modules\orders\models\ClientsEdit;
 
 /**
  * Default controller for the `orders` module
@@ -42,36 +43,86 @@ class DefaultController extends Controller
     
     public function actionCreate(){
         if(\Yii::$app->request->isAjax){
+            $countError = 0;
+            $errorsOrdersEdit = 0;
+            $errorsClientsEdit = 0;
+            $errorsClientsPhonesEdit = 0;
+            $errorsBrandsEdit = 0;
+            $errorsDeviceTypeEdit = 0;
+            $errorsDevicesEdit = 0;
+            $errorsSerialNumbersEdit = 0;
+            $errorsMalfunctionEdit = 0;
+                        
             $modelClientsPhonesEdit = new ClientsPhonesEdit();
             $modelMalfunctionEdit = new MalfunctionEdit();
             $modelOrdersEdit = new OrdersEdit();
             $modelBrandsEdit = new BrandsEdit();
             $modelDeviceTypeEdit = new DeviceTypeEdit();
             $modelDevicesEdit = new DevicesEdit();
-            $SerialNumbersEdit = new SerialNumbersEdit();
-             
-            $modelClientsPhonesEdit->load(Yii::$app->request->post());           
-            $modelMalfunctionEdit->load(Yii::$app->request->post());
-            $modelOrdersEdit->load(Yii::$app->request->post());
-            $modelBrandsEdit->load(Yii::$app->request->post());
-            $modelDeviceTypeEdit->load(Yii::$app->request->post());
-            $modelDevicesEdit->load(Yii::$app->request->post());
-            $SerialNumbersEdit->load(Yii::$app->request->post());
+            $modelSerialNumbersEdit = new SerialNumbersEdit();
+            $modelClientsEdit = new ClientsEdit();
+            if($modelOrdersEdit->load(Yii::$app->request->post()) && !$modelOrdersEdit->validate()){
+                $countError++;
+                $errorsOrdersEdit = $modelOrdersEdit->getErrors();
+            }
+            if($modelClientsEdit->load(Yii::$app->request->post()) && !$modelClientsEdit->validate()){
+                $countError++;
+                $errorsClientsEdit = $modelClientsEdit->getErrors();
+            }
+            if($modelClientsPhonesEdit->load(Yii::$app->request->post()) && !$modelClientsPhonesEdit->validate()){
+                $countError++;
+                $errorsClientsPhonesEdit = $modelClientsPhonesEdit->getErrors();
+            }
+            if($modelBrandsEdit->load(Yii::$app->request->post()) && !$modelBrandsEdit->validate()){
+                $countError++;
+                $errorsBrandsEdit = $modelBrandsEdit->getErrors();
+            }
+            if($modelDeviceTypeEdit->load(Yii::$app->request->post()) && !$modelDeviceTypeEdit->validate()){
+                $countError++;
+                $errorsDeviceTypeEdit = $modelDeviceTypeEdit->getErrors();
+            }
+            if($modelDevicesEdit->load(Yii::$app->request->post()) && !$modelDevicesEdit->validate()){
+                $countError++;
+                $errorsDevicesEdit = $modelDevicesEdit->getErrors();
+            }
+            if($modelSerialNumbersEdit->load(Yii::$app->request->post()) && !$modelSerialNumbersEdit->validate()){
+                $countError++;
+                $errorsSerialNumbersEdit = $modelSerialNumbersEdit->getErrors();
+            }
+            if($modelMalfunctionEdit->load(Yii::$app->request->post()) && !$modelMalfunctionEdit->validate()){
+                $countError++;
+                $errorsMalfunctionEdit = $modelMalfunctionEdit->getErrors();
+            }
             
-            $modelClientsPhonesEdit->validate();
-            $modelMalfunctionEdit->validate();
-            $modelOrdersEdit->validate();
-            $modelBrandsEdit->validate();
-            $modelDeviceTypeEdit->validate();
-            $modelDevicesEdit->validate();
-            $SerialNumbersEdit->validate();
-            
-            //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            //Фармируем массив с ошибкой
-            $items = ['0','msg'=>$SerialNumbersEdit,'errors'=>$SerialNumbersEdit->getErrors()];
-            //Передаем данные в фармате json пользователю
-            return $items;
+        if($countError==0){            
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['200','msg'=>'Успешная работа!'];
+                //Передаем данные в фармате json пользователю
+                return $items;
+                
+            }else{
+                //$modelOrdersEdit->validate();
+                //$modelClientsEdit->validate();
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0',
+                    'msg'=>'Передаваемые данные не прошли проверку',
+                    'test'=>$modelMalfunctionEdit,
+                    'errorsOrdersEdit'=>$errorsOrdersEdit,
+                    'errorsClientsEdit'=>$errorsClientsEdit,
+                    'errorsClientsPhonesEdit'=>$errorsClientsPhonesEdit,
+                    'errorsBrandsEdit'=>$errorsBrandsEdit,
+                    'errorsDeviceTypeEdit'=>$errorsDeviceTypeEdit,
+                    'errorsSerialNumbersEdit'=>$errorsSerialNumbersEdit,
+                    'errorsMalfunctionEdit'=>$errorsMalfunctionEdit,
+                    'errorsDevicesEdit'=>$errorsDevicesEdit    
+                ];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }    
         }else{
             //Если запрос был не AJAX делаем переадрисацю на главную страницу user
             return $this->redirect(['index']);

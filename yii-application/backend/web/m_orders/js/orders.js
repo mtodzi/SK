@@ -129,6 +129,7 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         //alert("Вы нажали кнопку пременить");
         var id = GetId($(this),1);
         var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-','user_engener_id-']; 
+        errorDeleteServerTreatment(arrayFieldsChecked,id);
         if(true/*formFieldCheck(id,arrayFieldsChecked)*/){
             alert("Проверка Проверка прошла успешно");
             var data = $('#form_orders-'+id).serialize();
@@ -138,8 +139,41 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                         type: 'POST',
                         data: data,
                         success: function(res){
+                            console.log(res); 
+                            if(Number(res[0])==0){
+                            var arrayError={};
+                            if(!empty(res['errorsClientsPhonesEdit'])){
+                                var countPhones = $('.phone_input-'+id).length;
+                                var valueErorrsValue = '';
+                                $.each(res['errorsClientsPhonesEdit'],function(index,value){
+                                    console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+                                    valueErorrsValue = valueErorrsValue + " "+value.toString()
+                                });
+                                arrayError['clients_phone'+'-'+id+'-'+countPhones]= valueErorrsValue;
+                            }
+                            if(!empty(res['errorsMalfunctionEdit'])){
+                                var countMalfunction = $('.malfunction_input-'+id).length;
+                                var valueErorrsMalfunctionValue = '';
+                                $.each(res['errorsMalfunctionEdit'],function(index,value){
+                                    console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+                                    valueErorrsMalfunctionValue = valueErorrsMalfunctionValue + " "+value.toString()
+                                });
+                                arrayError['malfunction-'+id+'-'+countMalfunction]= valueErorrsMalfunctionValue;
+                            }
                             console.log(res['msg']);
-                            console.log(res['errors']);
+                            console.log(res['errorsClientsPhonesEdit']);//
+                            console.log(res['errorsMalfunctionEdit']);
+                            console.log(res['errorsOrdersEdit']);
+                            console.log(res['errorsBrandsEdit']);
+                            console.log(res['errorsDeviceTypeEdit']);
+                            console.log(res['errorsDevicesEdit']);
+                            console.log(res['errorsSerialNumbersEdit']);
+                            console.log(res['errorsClientsEdit']);
+                            console.log(res['test']);
+                            errorServerTreatment(arrayError,id);
+                            }else{
+                                console.log(res['msg']);   
+                            }
                         },
                         error: function(){
                             alert('По неизвестной причине сервер не ответил обратитесь к админу.');
@@ -346,6 +380,18 @@ function errorServerTreatment(arrayError){
         });
         return false;
     }
+
+//Функция очишает все ошибки в карточке
+function errorDeleteServerTreatment(arrayError,id){
+    
+    $.each(arrayError,function(index,value){
+        $('#error_orders_'+value.toString()+''+id).text('');
+        $('#error_orders_'+value.toString()+id).hide();//Блок ошибки показываем пользователю
+        console.log(id);
+        $('#input_orders_'+value.toString()+id).removeClass('is-invalid');
+        console.log($('#error_orders_'+value.toString()+''+id));
+    });
+}
     
 //Функция проверяет сушествует ли переменная
 function empty(e) {
@@ -905,12 +951,12 @@ function deleteInputClaimedMalfunction(id_orders,id_malfunction){
             console.log($(this));
             $(this).attr('id',("div_orders_malfunction-"+id_orders+"-"+(index+1)));
             $(this).find(".malfunction_input").attr('id',("input_orders_malfunction-"+id_orders+"-"+(index+1)));
-            $(this).find(".malfunction_input").attr('name',("MalfunctionEdit[malfunction-"+(index+1)+"]"));
+            $(this).find(".malfunction_input").attr('name',("MalfunctionEdit[malfunction]["+(index+1)+"]"));
             $(this).find("a").attr('id',("delete_another_malfunction-"+id_orders+"-"+(index+1)));
             $(this).find(".error_orders_malfunction").attr('id',("error_orders_malfunction-"+id_orders+"-"+(index+1)));
             $(this).find(".orders_malfunction").attr('id',("p_orders_malfunction-"+id_orders+"-"+(index+1)));
             $(this).find(".hidden_malfunction_input").attr('id',("orders_claimed_malfunction_id-"+id_orders+"-"+(index+1)));
-            $(this).find(".hidden_malfunction_input").attr('name',("MalfunctionEdit[claimed_malfunction_id-"+(index+1)+"]"));
+            $(this).find(".hidden_malfunction_input").attr('name',("MalfunctionEdit[claimed_malfunction_id]["+(index+1)+"]"));
         });
         $('#add_another_malfunction-'+id_orders).attr('data-count-malfunction',(count-1));
         if(count==2){
