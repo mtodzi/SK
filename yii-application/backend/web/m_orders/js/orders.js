@@ -1,6 +1,6 @@
 //Задаем масску ввода для клсса phone
+var dataKard = {};
 $(".phone").mask("8(999)-999-99-99");
-
 //Обработчик нажатия кнопки добавить новый заказ
 $('.my_heders_bloc').on('click', '#add_new_orders', function(){
         if(GetStatusCard()){
@@ -9,6 +9,8 @@ $('.my_heders_bloc').on('click', '#add_new_orders', function(){
             $(window).scrollTop(0);
             $(this).tooltip('hide');
             $(this).blur();
+            dataKard = GetDataCardOrders(0);
+            console.log(dataKard);
             return false;
         }else{
             $(this).tooltip('hide');
@@ -17,6 +19,46 @@ $('.my_heders_bloc').on('click', '#add_new_orders', function(){
         }
     });
     
+function GetDataCardOrders(id){
+    var data={};
+    data = {
+        'id_orders':$("#input_orders_id_orders-"+id).val(),
+        'clients_name':$("#input_orders_clients_name-"+id).val(),
+        'clients_id':$("#input_orders_clients_id-"+id).val(),
+        'id_clients':$("#input_orders_id_clients-"+id).val(),
+        'clients_email':$("#input_orders_clients_email-"+id).val(),
+        'clients_address':$("#input_orders_clients_address-"+id).val(),
+        'repair_type':$("#orders_hidden_repair_type-"+id).val(),
+        'brand_name':$("#input_orders_brand_name-"+id).val(),
+        'id_brands':$("#orders_id_brands-"+id).val(),
+        'device_type_name':$("#input_orders_device_type_name-"+id).val(),
+        'id_device_type':$("#orders_id_device_type-"+id).val(),
+        'devices_model':$("#input_orders_devices_model-"+id).val(),
+        'id_devices':$("#orders_id_devices-"+id).val(),
+        'serial_numbers_name':$("#input_orders_serial_numbers_name-"+id).val(),
+        'id_serial_numbers':$("#orders_id_serial_numbers-"+id).val(),
+        'appearance':$("#input_orders_appearance-"+id).val(),
+        'user_engener_id':$("#input_orders_user_engener_id-"+id).val(),
+        'urgency':$("#orders_urgency-"+id).val(),
+        'special_notes':$("#input_orders_special_notes-"+id).val(),
+        'phone_number':{},
+        'malfunction':{},
+        'claimed_malfunction_id':{}
+    };
+    $(".phone_input-"+id).each(function(index){
+        console.log($(this));
+        data['phone_number'][(index+1)] = $(this).val(); 
+    });
+    $(".malfunction_input-"+id).each(function(index){
+        console.log($(this));
+        data['malfunction'][(index+1)] = $(this).val(); 
+    });
+    $(".hidden_malfunction_input-"+id).each(function(index){
+        console.log($(this));
+        data['claimed_malfunction_id'][(index+1)] = $(this).val(); 
+    });
+    return data;
+}   
 //Обработчик нажатия кнопки добавить еше один телефон
 $('.my_box_content').on('click', '.add_another_phone', function(){
         var id_orders = GetId($(this),1);
@@ -30,7 +72,7 @@ $('.my_box_content').on('click', '.add_another_phone', function(){
     });
     
 //Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
-function addInputPhone(id_orders,count_phone){
+function addInputPhone(id_orders,count_phone,value = ""){
         var count = $('.orders_phone-'+id_orders).length;
         if(count<=2){
             var next = count_phone+1;
@@ -46,7 +88,7 @@ function addInputPhone(id_orders,count_phone){
                 "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"' class='div_orders_phone-"+id_orders+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
-                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' data-input-name = 'clients_phone' name='ClientsPhonesEdit[phone_number]["+next+"]'  form='form_orders-"+id_orders+"' class='form-control col-8 input_orders phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
+                        "<input id='input_orders_clients_phone-"+id_orders+"-"+next+"' data-input-name = 'clients_phone' value = '"+value+"' name='ClientsPhonesEdit[phone_number]["+next+"]'  form='form_orders-"+id_orders+"' class='form-control col-8 input_orders phone phone_input phone_input-"+id_orders+"' type='text' placeholder='*Введите номер телефона'>"+
                         "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>"+
                 "</div>";
@@ -112,6 +154,8 @@ function deleteInputPhone(id_orders,id_delete,count_phone){
 $('.my_content_bloc').on('click', '.orders_edit_button', function(){
         var id = GetId($(this),1);
         if(GetStatusCard()){
+            dataKard = GetDataCardOrders(id);
+            console.log(dataKard);
             SetStatusCard(id,"#span_orders_id_orders_text-");
             $('#user_card_button_edit_print-'+id).hide();
             $('#orders_content-'+id).hide();        
@@ -126,40 +170,27 @@ $('.my_content_bloc').on('click', '.orders_edit_button', function(){
     
 //Обработчик нажатия кнопки Применить в userbox
 $('.my_content_bloc').on('click', '.orders_apply_button', function(){
-        //alert("Вы нажали кнопку пременить");
+        console.log(dataKard);
+        //alert("Вы нажали кнопку пременить");        
         var id = GetId($(this),1);
-        var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-','user_engener_id-']; 
-        errorDeleteServerTreatment(arrayFieldsChecked,id);
-        if(true/*formFieldCheck(id,arrayFieldsChecked)*/){
-            alert("Проверка Проверка прошла успешно");
-            var data = $('#form_orders-'+id).serialize();
-            console.log(data);
-            $.ajax({
+        var dataKard1 = GetDataCardOrders(id);
+        var  s1 = JSON.stringify(dataKard);
+        var  s2 = JSON.stringify(dataKard1);
+        console.log("сравнение двух обьектов:"+(s1 == s2));
+        if(!(s1 == s2)){
+            var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-','user_engener_id-']; 
+            errorDeleteServerTreatment(arrayFieldsChecked,id);
+            if(true/*formFieldCheck(id,arrayFieldsChecked)*/){
+                alert("Проверка Проверка прошла успешно");
+                var data = $('#form_orders-'+id).serialize();
+                console.log(data);
+                $.ajax({
                         url: '/yii-application/backend/web/orders/default/create',
                         type: 'POST',
                         data: data,
                         success: function(res){
                             console.log(res); 
                             if(Number(res[0])==0){
-                            var arrayError={};
-                            if(!empty(res['errorsClientsPhonesEdit'])){
-                                var countPhones = $('.phone_input-'+id).length;
-                                var valueErorrsValue = '';
-                                $.each(res['errorsClientsPhonesEdit'],function(index,value){
-                                    console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
-                                    valueErorrsValue = valueErorrsValue + " "+value.toString()
-                                });
-                                arrayError['clients_phone'+'-'+id+'-'+countPhones]= valueErorrsValue;
-                            }
-                            if(!empty(res['errorsMalfunctionEdit'])){
-                                var countMalfunction = $('.malfunction_input-'+id).length;
-                                var valueErorrsMalfunctionValue = '';
-                                $.each(res['errorsMalfunctionEdit'],function(index,value){
-                                    console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
-                                    valueErorrsMalfunctionValue = valueErorrsMalfunctionValue + " "+value.toString()
-                                });
-                                arrayError['malfunction-'+id+'-'+countMalfunction]= valueErorrsMalfunctionValue;
-                            }
                             console.log(res['msg']);
                             console.log(res['errorsClientsPhonesEdit']);//
                             console.log(res['errorsMalfunctionEdit']);
@@ -170,7 +201,7 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                             console.log(res['errorsSerialNumbersEdit']);
                             console.log(res['errorsClientsEdit']);
                             console.log(res['test']);
-                            errorServerTreatment(arrayError,id);
+                            errorServerTreatment(processingErrorsServer(res,id),id);
                             }else{
                                 console.log(res['msg']);   
                             }
@@ -178,12 +209,171 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                         error: function(){
                             alert('По неизвестной причине сервер не ответил обратитесь к админу.');
                         }
-                    });
+                });
+            }else{
+                alert("Проверка Проверка прошла не успешно");
+            }
         }else{
-            alert("Проверка Проверка прошла не успешно");
+            if(id == 0){
+                SetStatusCard(0,"");
+                $('#Block_add_orders-0').hide();
+                return false;
+            }else{
+                SetStatusCard(id,"#span_orders_id_orders_text-");
+                $('#user_card_button_edit_print-'+id).show();
+                $('#orders_content-'+id).show();        
+                $('#orders_cancel_button_card_apply-'+id).hide();
+                $('#orders_form-'+id).hide();
+                return false;
+            }    
+        }    
+    });
+    
+//Обработчик нажатия кнопки отмена в userbox
+$('.my_content_bloc').on('click', '.orders_cancel_button', function(){
+        console.log(dataKard);
+        //alert("Вы нажали кнопку отмена");        
+        var id = GetId($(this),1);
+        var dataKard1 = GetDataCardOrders(id);
+        var  s1 = JSON.stringify(dataKard);
+        var  s2 = JSON.stringify(dataKard1);
+        if(!(s1 == s2)){
+            settingCardData(dataKard,id)    
+        }else{
+            if(id == 0){
+                SetStatusCard(0,"");
+                $('#Block_add_orders-0').hide();
+                return false;
+            }else{
+                SetStatusCard(id,"#span_orders_id_orders_text-");
+                $('#user_card_button_edit_print-'+id).show();
+                $('#orders_content-'+id).show();        
+                $('#orders_cancel_button_card_apply-'+id).hide();
+                $('#orders_form-'+id).hide();
+                return false;
+            }    
+        }    
+});
+
+function settingCardData(data,id){
+    $("#input_orders_id_orders-"+id).val(data.id_orders);
+    $("#input_orders_clients_name-"+id).val(data.clients_name);
+    $("#input_orders_clients_id-"+id).val(data.clients_id);
+    $("#input_orders_id_clients-"+id).val(data.id_clients);
+    $("#input_orders_clients_email-"+id).val(data.clients_email);
+    $("#input_orders_clients_address-"+id).val(data.clients_address);
+    $("#orders_hidden_repair_type-"+id).val(data.repair_type);
+    $("#input_orders_brand_name-"+id).val(data.brand_name);
+    $("#orders_id_brands-"+id).val(data.id_brands);
+    $("#input_orders_device_type_name-"+id).val(data.device_type_name);
+    $("#orders_id_device_type-"+id).val(data.id_device_type);
+    $("#input_orders_devices_model-"+id).val(data.devices_model);    
+    $("#orders_id_devices-"+id).val(data.id_devices);
+    $("#input_orders_serial_numbers_name-"+id).val(data.serial_numbers_name);
+    $("#orders_id_serial_numbers-"+id).val(data.id_serial_numbers);
+    $("#input_orders_appearance-"+id).val(data.appearance);
+    $("#input_orders_user_engener_id-"+id).val(data.user_engener_id);
+    $("#orders_urgency-"+id).val(data.urgency);
+    $("#input_orders_special_notes-"+id).val(data.special_notes);
+    switch (data.repair_type){
+        case 0:
+            $("#check_diagnostics-"+id).prop('checked', false);
+            $("#check_repair-"+id).prop('checked', false);
+            break;
+        case 1:
+            $("#check_diagnostics-"+id).prop('checked', true);
+            $("#check_repair-"+id).prop('checked', false);
+            break;
+        case 2:
+            $("#check_diagnostics-"+id).prop('checked', false);
+            $("#check_repair-"+id).prop('checked', true);
+            break;
+        case 3:
+            $("#check_diagnostics-"+id).prop('checked', true);
+            $("#check_repair-"+id).prop('checked', true);
+            break;    
+    }
+    /*
+    console.log("Длина телефонов - "+data['phone_number'].length);
+    $(".phone_input-"+id).each(function(index){
+        console.log($(this));
+        
+    });
+    */
+    $.each(data['phone_number'],function(index,value){
+        console.log("Инзге input-"+"#input_orders_clients_phone-"+id+"-"+(index));
+        if($("#input_orders_clients_phone-"+id+"-"+(index)).is($("#input_orders_clients_phone-"+id+"-"+(index)))){
+            console.log($("#input_orders_clients_phone-"+id+"-"+(index)));
+            
+        }else{
+            
         }
     });
-        
+
+                    
+          
+}
+    
+function processingErrorsServer(res,id){
+    var arrayError={};    
+    if(!empty(res['errorsClientsPhonesEdit'])){
+        var countPhones = $('.phone_input-'+id).length;
+        var valueErorrsValue = '';
+        $.each(res['errorsClientsPhonesEdit'],function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            valueErorrsValue = valueErorrsValue + " "+value.toString()
+        });
+        arrayError['clients_phone'+'-'+id+'-'+countPhones]= valueErorrsValue;
+    }
+    if(!empty(res['errorsMalfunctionEdit'])){
+        var countMalfunction = $('.malfunction_input-'+id).length;
+        var valueErorrsMalfunctionValue = '';
+        $.each(res['errorsMalfunctionEdit'],function(index,value){
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            valueErorrsMalfunctionValue = valueErorrsMalfunctionValue + " "+value.toString()
+        });
+        arrayError['malfunction-'+id+'-'+countMalfunction]= valueErorrsMalfunctionValue;
+    }
+    if(!empty(res['errorsOrdersEdit'])){
+        $.each(res['errorsOrdersEdit'],function(index,value){
+            console.log('errorsOrdersEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString()+'-'+id] = value.toString();
+        });    
+    }
+    if(!empty(res['errorsBrandsEdit'])){
+        $.each(res['errorsBrandsEdit'],function(index,value){
+            console.log('errorsBrandsEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString()+'-'+id] = value.toString();
+        });    
+    }
+    if(!empty(res['errorsDeviceTypeEdit'])){
+        $.each(res['errorsDeviceTypeEdit'],function(index,value){
+            console.log('errorsDeviceTypeEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString()+'-'+id] = value.toString();
+        });    
+    }
+    if(!empty(res['errorsDevicesEdit'])){
+        $.each(res['errorsDevicesEdit'],function(index,value){
+            console.log('errorsDevicesEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString()+'-'+id] = value.toString();
+        });    
+    }
+    if(!empty(res['errorsSerialNumbersEdit'])){
+        $.each(res['errorsSerialNumbersEdit'],function(index,value){
+            console.log('errorsSerialNumbersEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString()+'-'+id] = value.toString();
+        });    
+    }
+    if(!empty(res['errorsClientsEdit'])){
+        $.each(res['errorsClientsEdit'],function(index,value){
+            console.log('errorsClientsEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString()+'-'+id] = value.toString();
+        });    
+    }
+    return arrayError;
+} 
+
+
 //Обработчик нажатия на option в подсказке clients_name в userbox для всех option
 $('.my_box_content').on('click', '.input_orders_option', function(){
         var id_orders = GetId($(this).parent(),1);
@@ -385,11 +575,34 @@ function errorServerTreatment(arrayError){
 function errorDeleteServerTreatment(arrayError,id){
     
     $.each(arrayError,function(index,value){
-        $('#error_orders_'+value.toString()+''+id).text('');
-        $('#error_orders_'+value.toString()+id).hide();//Блок ошибки показываем пользователю
-        console.log(id);
-        $('#input_orders_'+value.toString()+id).removeClass('is-invalid');
-        console.log($('#error_orders_'+value.toString()+''+id));
+        if(value.toString().localeCompare("clients_phone-")==0){
+            console.log("Блок телефонов"+$('.error_orders_phone-'+id));
+            $('.error_orders_phone-'+id).each(function(index){
+                console.log("Ошибка :"+this);
+                $(this).text('');
+                $(this).hide();
+                $(this).removeClass('is-invalid');
+            });
+            console.log("Конец блока");
+        }else{
+            if(value.toString().localeCompare("malfunction-")==0){
+                console.log("Блок телефонов"+$('.error_orders_phone-'+id));
+                $('.error_orders_malfunction-'+id).each(function(index){
+                    console.log("Ошибка :"+this.id);
+                    $(this).text('');
+                    $(this).hide();
+                    $(this).removeClass('is-invalid');
+            });
+            console.log("Конец блока");
+            }else{
+                $('#error_orders_'+value.toString()+''+id).text('');
+                $('#error_orders_'+value.toString()+id).hide();//Блок ошибки показываем пользователю
+                console.log(id);
+                $('#input_orders_'+value.toString()+id).removeClass('is-invalid');
+                console.log($('#error_orders_'+value.toString()+''+id));
+            }            
+        }
+        
     });
 }
     
@@ -649,7 +862,7 @@ function GetDataKeyUP(setInput){
         data={  
             'SearchInputOrders[id_orders]':id,
             'SearchInputOrders[devise_id]':$("#orders_id_devices-"+id).val(),
-            'SearchInputOrders[serial_numbers_name]':$("#input_serial_numbers_name-"+id).val(),
+            'SearchInputOrders[serial_numbers_name]':$("#input_orders_serial_numbers_name-"+id).val(),
             '_csrf-backend':$('input[name="_csrf-backend"]').val()
         };
         return data;
@@ -919,8 +1132,8 @@ function addNewClaimedMalfunction(id_orders, indexMalfunction){
     var input =""+
         "<div id = 'div_orders_malfunction-"+id_orders+"-"+next+"'class='div_orders_malfunction-"+id_orders+"'>"+        
             "<p id='p_orders_malfunction-"+id_orders+"-"+next+"' class='form-row my-2 orders_malfunction-"+id_orders+" orders_malfunction'>"+
-                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction]["+next+"]' data-input = '' data-input-name = 'malfunction' value=''  form='form_orders-"+id_orders+"' class='input_orders form-control col-8 malfunction_input malfunction_input-0' type='text' placeholder='Заявленная неисправность'>"+       
-                "<p id = 'error_orders_malfunction-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-"+next+"' style='display: none;'>Ошибка</p>"+                             
+                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction]["+next+"]' data-input = '' data-input-name = 'malfunction' value=''  form='form_orders-"+id_orders+"' class='input_orders form-control col-8 malfunction_input malfunction_input-"+id_orders+"' type='text' placeholder='Заявленная неисправность'>"+       
+                "<p id = 'error_orders_malfunction-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-"+id_orders+"' style='display: none;'>Ошибка</p>"+                             
             "</p>"+
             "<input type='hidden' class='hidden_malfunction_input' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id]["+next+"]' form='form_orders-"+id_orders+"' value='0'>"+
         "</div>";

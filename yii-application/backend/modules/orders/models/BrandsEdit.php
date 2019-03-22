@@ -6,15 +6,15 @@ use yii\base\Model;
 
 class BrandsEdit extends Model{
     public $id_brands;
-    public $name_brands;
+    public $brand_name;
     
     public function rules(){
         return [
             [['id_brands'], 'required'],
             [['id_brands'], 'integer'],
             
-            [['name_brands'], 'required'],
-            [['name_brands'], 'string', 'max' => 45],            
+            [['brand_name'], 'required'],
+            [['brand_name'], 'string', 'max' => 45],            
         ];           
     }
     
@@ -23,7 +23,7 @@ class BrandsEdit extends Model{
         return
         [
             'id_brands'=>'Ключ Бренда',
-            'name_brands'=>'Бренд',            
+            'brand_name'=>'Бренд',            
         ];
     }
 }

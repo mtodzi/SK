@@ -63,7 +63,7 @@ use yii\helpers\Html;
                         <div class=''>
                             <form id='form_orders-<?=(($model!=null)?$model->id_orders:0)?>' name='form_orders-<?=(($model!=null)?$model->id_orders:0)?>'>
                                 <?=Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
-                                <?=Html :: hiddenInput('OrdersEdit[id_orders]', (($model!=null)?$model->id_orders:0), [])?>
+                                <?=Html :: hiddenInput('OrdersEdit[id_orders]', (($model!=null)?$model->id_orders:0), ['id'=>'input_orders_id_orders-'.(($model!=null)?$model->id_orders:0)])?>
                             </form>
                             <!--div групирует элементы для более удобной подстановки данных на визуализацию не влияет-->
                                 <?=$this->render('viewclientform', ['modelOrders'=>$model,'modelClients'=>null]);?>

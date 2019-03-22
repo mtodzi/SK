@@ -94,7 +94,8 @@ class DefaultController extends Controller
                 $errorsMalfunctionEdit = $modelMalfunctionEdit->getErrors();
             }
             
-        if($countError==0){            
+        if($countError==0){
+            
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 //Фармируем массив с ошибкой
@@ -103,8 +104,6 @@ class DefaultController extends Controller
                 return $items;
                 
             }else{
-                //$modelOrdersEdit->validate();
-                //$modelClientsEdit->validate();
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 //Фармируем массив с ошибкой

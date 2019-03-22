@@ -95,8 +95,8 @@ if($clients_id!=0){
         <p id = 'p_input_orders_clients_name-<?=$id_orders?>' class='form-row my-2'>
             <img class='my_icon mx-1 my-2' src='<?=Url::to(['/img/orders/thumb/client.svg'])?>'>
             <input id='input_orders_clients_name-<?=$id_orders?>' name='ClientsEdit[clients_name]' data-input-name = "clients_name" value='<?=$clients_name?>' form='form_orders-<?=$id_orders?>' class='input_orders form-control col-10 input_clients_name' type='name' placeholder='*Введите ФИО клиента'>
-            <?=Html :: hiddenInput('OrdersEdit[clients_id]',$clients_id, ['form'=>'form_orders-'.$id_orders])?>
-            <?=Html :: hiddenInput('ClientsEdit[id_clients]',$id_clients, ['form'=>'form_orders-'.$id_orders])?>
+            <?=Html :: hiddenInput('OrdersEdit[clients_id]',$clients_id, ['id'=>'input_orders_clients_id-'.$id_orders,'form'=>'form_orders-'.$id_orders])?>
+            <?=Html :: hiddenInput('ClientsEdit[id_clients]',$id_clients, ['id'=>'input_orders_id_clients-'.$id_orders, 'form'=>'form_orders-'.$id_orders])?>
             <p id = 'error_orders_clients_name-<?=$id_orders?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
         </p>
     </div>    
