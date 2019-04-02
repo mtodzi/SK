@@ -95,11 +95,44 @@ class DefaultController extends Controller
             }
             
         if($countError==0){
-            
+                $countErrorSave = 0;
+                $msgCountErrorSave = 'Ошибки сохранения - ';
+                $modelClientsEdit = $modelClientsEdit->saveClients();
+                if($modelClientsEdit!==null){
+                    $modelClientsPhonesEdit->savePhoneClients($modelClientsEdit->id_clients);
+                }else{
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." клиент не был сохранен, ";
+                }
+                $modelBrandsEdit = $modelBrandsEdit->saveBrand();
+                if($modelBrandsEdit == null){
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." бренд не был сохранен, ";
+                }
+                $modelDeviceTypeEdit = $modelDeviceTypeEdit->saveDeviceType();
+                if($modelDeviceTypeEdit == null){
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." тип устройсва не был сохранен, ";
+                }
+                $modelDevicesEdit = $modelDevicesEdit->saveDevices($modelBrandsEdit,$modelDeviceTypeEdit);
+                if($modelDevicesEdit == null){
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." модель устройсва не была сохранена, ";
+                }
+                $modelSerialNumbersEdit = $modelSerialNumbersEdit->saveSerialNambers($modelDevicesEdit);
+                if($modelSerialNumbersEdit == null){
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." серийный нормер не был сохранен, ";
+                }
+                $modelOrdersEdit = $modelOrdersEdit->saveOrders($modelClientsEdit,$modelSerialNumbersEdit);
+                if($modelOrdersEdit == null){
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." заказ не был сохранен, ";
+                }
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 //Фармируем массив с ошибкой
-                $items = ['200','msg'=>'Успешная работа!'];
+                $items = ['200','msg'=>'Успешная работа!', 'modelClientsEdit' => $modelClientsEdit, 'modelBrandsEdit'=>$modelBrandsEdit,'msgCountErrorSave'=>$msgCountErrorSave];
                 //Передаем данные в фармате json пользователю
                 return $items;
                 

@@ -74,17 +74,17 @@ $('.my_box_content').on('click', '.add_another_phone', function(){
 //Функция добавляет поле телефона для заполнения не больше трех полей одному клиенту
 function addInputPhone(id_orders,count_phone,value = ""){
         var count = $('.orders_phone-'+id_orders).length;
-        if(count<=2){
-            var next = count_phone+1;
-            var buttondelete=""+
-                    "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1'  data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
-                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
-                    "</a>";
-            var buttondeleteFirst=""+
-                    "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1'  data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
-                        "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
-                    "</a>";
-            var input =''+
+        console.log("Число телефонов - "+count_phone);
+        var next = Number(count_phone)+1;
+        var buttondelete=""+
+                "<a  id = 'delete_another_phone-"+id_orders+"-"+next+"' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1'  data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                    "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
+                "</a>";
+        var buttondeleteFirst=""+
+                "<a  id = 'delete_another_phone-"+id_orders+"-1' class='btn btn-dark delete_another_phone delete_another_phone-"+id_orders+" mx-1'  data-count-phone='"+next+"' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>"+
+                    "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>"+
+                "</a>";
+        var input =''+
                 "<div id = 'div_orders_clients_phone-"+id_orders+"-"+next+"' class='div_orders_phone-"+id_orders+"'>"+     
                     "<p id='p_orders_clients_phone-"+id_orders+"-"+next+"' class='form-row my-2 orders_phone-"+id_orders+" orders_phone'>"+
                         "<img class='my_icon mx-1 my-2' src='/yii-application/backend/web/img/smartphone-call.svg'>"+
@@ -92,6 +92,8 @@ function addInputPhone(id_orders,count_phone,value = ""){
                         "<p id = 'error_orders_clients_phone-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-"+id_orders+"' style='display: none;'>Ошибка</p>"+
                     "</p>"+
                 "</div>";
+        
+        if(count<=2 && count!=0){            
             $("#search_input_phone_number-"+id_orders).remove();
             $('#add_another_phone-'+id_orders).attr('data-count-phone',next);
             $('#delete_another_phone-'+id_orders).attr('data-count-phone',next);
@@ -107,8 +109,17 @@ function addInputPhone(id_orders,count_phone,value = ""){
             console.log(input);
             return true;
         }else{
-            alert("Больше трех телефонов клиенту добавлять нельзя");
-            return true;
+            if(count == 0){
+                $("#search_input_phone_number-"+id_orders).remove();
+                $('#add_another_phone-'+id_orders).attr('data-count-phone',next);            
+                $("#p_add_another_phone-"+id_orders).before(input); 
+                $('[data-toggle="tooltip"]').tooltip();
+                $(".phone").mask("8(999)-999-99-99");
+                console.log("Попытка добавить");
+            }else{
+                alert("Больше трех телефонов клиенту добавлять нельзя");
+                return true;
+            }            
         }    
     }
     
@@ -203,7 +214,7 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                             console.log(res['test']);
                             errorServerTreatment(processingErrorsServer(res,id),id);
                             }else{
-                                console.log(res['msg']);   
+                                console.log(res);   
                             }
                         },
                         error: function(){
@@ -238,7 +249,19 @@ $('.my_content_bloc').on('click', '.orders_cancel_button', function(){
         var  s1 = JSON.stringify(dataKard);
         var  s2 = JSON.stringify(dataKard1);
         if(!(s1 == s2)){
-            settingCardData(dataKard,id)    
+            settingCardData(dataKard,id);
+            if(id == 0){
+                SetStatusCard(0,"");
+                $('#Block_add_orders-0').hide();
+                return false;
+            }else{
+                SetStatusCard(id,"#span_orders_id_orders_text-");
+                $('#user_card_button_edit_print-'+id).show();
+                $('#orders_content-'+id).show();        
+                $('#orders_cancel_button_card_apply-'+id).hide();
+                $('#orders_form-'+id).hide();
+                return false;
+            }
         }else{
             if(id == 0){
                 SetStatusCard(0,"");
@@ -275,7 +298,7 @@ function settingCardData(data,id){
     $("#input_orders_user_engener_id-"+id).val(data.user_engener_id);
     $("#orders_urgency-"+id).val(data.urgency);
     $("#input_orders_special_notes-"+id).val(data.special_notes);
-    switch (data.repair_type){
+    switch (Number(data.repair_type)){
         case 0:
             $("#check_diagnostics-"+id).prop('checked', false);
             $("#check_repair-"+id).prop('checked', false);
@@ -293,23 +316,52 @@ function settingCardData(data,id){
             $("#check_repair-"+id).prop('checked', true);
             break;    
     }
-    /*
+    switch (Number(data.urgency)){
+        case 0:
+            $("#input_orders_urgency-"+id).prop('checked', false);
+            console.log("Чекев false");
+            break;
+        case 1:
+            $("#input_orders_urgency-"+id).prop('checked', true);
+            console.log("Чекев true");
+            break;  
+    }
     console.log("Длина телефонов - "+data['phone_number'].length);
     $(".phone_input-"+id).each(function(index){
         console.log($(this));
-        
+        $("#div_orders_clients_phone-"+id+"-"+(index+1)).remove();                
     });
-    */
+    $('#add_another_phone-'+id).attr('data-count-phone',0);
     $.each(data['phone_number'],function(index,value){
-        console.log("Инзге input-"+"#input_orders_clients_phone-"+id+"-"+(index));
-        if($("#input_orders_clients_phone-"+id+"-"+(index)).is($("#input_orders_clients_phone-"+id+"-"+(index)))){
-            console.log($("#input_orders_clients_phone-"+id+"-"+(index)));
-            
+        console.log(index);
+        addInputPhone(id,(index-1),value = value);
+    });
+    var i = 0;
+    $.each(data['malfunction'],function(index,value){
+        if($("#input_orders_malfunction-"+id+"-"+index).is("#input_orders_malfunction-"+id+"-"+index)){
+            console.log("#input_orders_malfunction-"+id+"-"+index);
+            $("#input_orders_malfunction-"+id+"-"+index).val(value);
+            $("#orders_claimed_malfunction_id-"+id+"-"+index).val(data['claimed_malfunction_id'][index])
         }else{
-            
+            console.log("Ненашел - "+index);
+            addNewClaimedMalfunction(id, (index-1),value,data['claimed_malfunction_id'][index]);
+        }
+        i++;
+    });
+    
+    $(".malfunction_input-"+id).each(function(index){
+        console.log($(this));
+        console.log(i);
+        console.log(index);
+        if(i<(index+1)){
+             console.log("Сработал");
+            $("#div_orders_malfunction-"+id+"-"+(index+1)).remove();
+        }
+        if(i == 1){
+            $("#delete_another_malfunction-"+id+"-1").remove();
         }
     });
-
+    $("#add_another_malfunction-"+id).attr('data-count-malfunction',i);
                     
           
 }
@@ -777,19 +829,19 @@ function DeleteLetterInput(setInput){
         break;
     case 'name_brands':
         $("#orders_id_brands-"+id).val(0);
-        $("#orders_id_devices-"+id).val(0);
-        $("#input_orders_devices_model-"+id).val('');
+        //$("#orders_id_devices-"+id).val(0);
+        //$("#input_orders_devices_model-"+id).val('');
         break;
     case 'device_type_name':
         $("#orders_id_device_type-"+id).val(0);
-        $("#orders_id_devices-"+id).val(0);
-        $("#input_orders_devices_model-"+id).val('');
+        //$("#orders_id_devices-"+id).val(0);
+        //$("#input_orders_devices_model-"+id).val('');
         break;
     case 'devices_model':
-        $("#orders_id_brands-"+id).val(0);
-        $("#orders_id_device_type-"+id).val(0);
-        $("#input_orders_brand_name-"+id).val('');
-        $("#input_orders_device_type_name-"+id).val('');
+        $("#orders_id_devicse-"+id).val(0);
+        //$("#orders_id_device_type-"+id).val(0);
+        //$("#input_orders_brand_name-"+id).val('');
+        //$("#input_orders_device_type_name-"+id).val('');
         break;
     case 'serial_numbers_name':
         $("#orders_hidden_serrial_nambers_id-"+id).val(0);
@@ -1117,7 +1169,7 @@ $('.my_box_content').on('click', '.add_another_malfunction', function(){
     addNewClaimedMalfunction(id_orders, indexMalfunction);
 });
 
-function addNewClaimedMalfunction(id_orders, indexMalfunction){
+function addNewClaimedMalfunction(id_orders, indexMalfunction, value = "", valueHidden = 0){
     console.log(id_orders);
     console.log(indexMalfunction);
     var next = Number(indexMalfunction) + 1;
@@ -1132,17 +1184,22 @@ function addNewClaimedMalfunction(id_orders, indexMalfunction){
     var input =""+
         "<div id = 'div_orders_malfunction-"+id_orders+"-"+next+"'class='div_orders_malfunction-"+id_orders+"'>"+        
             "<p id='p_orders_malfunction-"+id_orders+"-"+next+"' class='form-row my-2 orders_malfunction-"+id_orders+" orders_malfunction'>"+
-                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction]["+next+"]' data-input = '' data-input-name = 'malfunction' value=''  form='form_orders-"+id_orders+"' class='input_orders form-control col-8 malfunction_input malfunction_input-"+id_orders+"' type='text' placeholder='Заявленная неисправность'>"+       
+                "<input id='input_orders_malfunction-"+id_orders+"-"+next+"' name='MalfunctionEdit[malfunction]["+next+"]' data-input = '' data-input-name = 'malfunction' value='"+value+"'  form='form_orders-"+id_orders+"' class='input_orders form-control col-8 malfunction_input malfunction_input-"+id_orders+"' type='text' placeholder='Заявленная неисправность'>"+       
                 "<p id = 'error_orders_malfunction-"+id_orders+"-"+next+"' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-"+id_orders+"' style='display: none;'>Ошибка</p>"+                             
             "</p>"+
-            "<input type='hidden' class='hidden_malfunction_input' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id]["+next+"]' form='form_orders-"+id_orders+"' value='0'>"+
+            "<input type='hidden' class='hidden_malfunction_input' id='orders_claimed_malfunction_id-"+id_orders+"-"+next+"' name='MalfunctionEdit[claimed_malfunction_id]["+next+"]' form='form_orders-"+id_orders+"' value='"+valueHidden+"'>"+
         "</div>";
     if(indexMalfunction == 1){
         $("#input_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(buttondeleteFirst);        
     }
-    $("#div_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(input);
-    $("#input_orders_malfunction-"+id_orders+"-"+next).after(buttondelete);
-    $("#add_another_malfunction-"+id_orders).attr('data-count-malfunction',next);
+    if(indexMalfunction > 0){
+        $("#div_orders_malfunction-"+id_orders+"-"+indexMalfunction).after(input);
+        $("#input_orders_malfunction-"+id_orders+"-"+next).after(buttondelete);
+        $("#add_another_malfunction-"+id_orders).attr('data-count-malfunction',next);
+    }else{
+        $("#p_add_another_malfunction-"+id_orders).before(input);
+        $("#add_another_malfunction-"+id_orders).attr('data-count-malfunction',next);
+    }    
 }
 
 //Обработчик нажатия кнопки удалить еше одину заявленную неисправность

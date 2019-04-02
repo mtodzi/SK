@@ -3,6 +3,7 @@
 namespace backend\modules\orders\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "clients".
@@ -27,6 +28,16 @@ class Clients extends \yii\db\ActiveRecord
     {
         return 'clients';
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -34,8 +45,8 @@ class Clients extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['clients_name', 'created_at', 'updated_at'], 'required'],
-            [['clients_archive', 'created_at', 'updated_at'], 'integer'],
+            [['clients_name'], 'required'],
+            [['clients_archive'], 'integer'],
             [['clients_name'], 'string', 'max' => 50],
             [['clients_email'], 'string', 'max' => 100],
             [['clients_address'], 'string', 'max' => 255],

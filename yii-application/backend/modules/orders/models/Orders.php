@@ -5,6 +5,7 @@ namespace backend\modules\orders\models;
 use Yii;
 use backend\modules\orders\models\ClientsPhones;
 use backend\modules\orders\models\OrdersClamedMalfunction;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "orders".
@@ -37,6 +38,16 @@ class Orders extends \yii\db\ActiveRecord
     {
         return 'orders';
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -44,14 +55,14 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['clients_id', 'serrial_nambers_id', 'repair_type', 'urgency', 'user_engener_id', 'user_manager_id', 'archive', 'created_at', 'updated_at'], 'integer'],
-            [['repair_type', 'urgency', 'archive', 'appearance', 'created_at', 'updated_at'], 'required'],
+            [['clients_id', 'serrial_nambers_id', 'repair_type', 'urgency', 'user_engener_id', 'user_manager_id', 'archive'], 'integer'],
+            [['repair_type', 'urgency', 'archive', 'appearance'], 'required'],
             [['special_notes'], 'string'],
             [['appearance'], 'string', 'max' => 255],
             [['clients_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['clients_id' => 'id_clients']],
             [['serrial_nambers_id'], 'exist', 'skipOnError' => true, 'targetClass' => SerialNumbers::className(), 'targetAttribute' => ['serrial_nambers_id' => 'id_serial_numbers']],
-            [['user_engener_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_engener_id' => 'id']],
-            [['user_manager_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_manager_id' => 'id']],
+            [['user_engener_id'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\User', 'targetAttribute' => ['user_engener_id' => 'id']],
+            [['user_manager_id'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\User', 'targetAttribute' => ['user_manager_id' => 'id']],
         ];
     }
 
@@ -97,7 +108,7 @@ class Orders extends \yii\db\ActiveRecord
      */
     public function getUserEngener()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_engener_id']);
+        return $this->hasOne('\common\models\User', ['id' => 'user_engener_id']);
     }
 
     /**
@@ -105,7 +116,7 @@ class Orders extends \yii\db\ActiveRecord
      */
     public function getUserManager()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_manager_id']);
+        return $this->hasOne('\common\models\User', ['id' => 'user_manager_id']);
     }
 
     /**
@@ -127,7 +138,7 @@ class Orders extends \yii\db\ActiveRecord
     }
     //Метод возврашает тип ремонта
     public function getRepairTypeString(){
-        $repair_type = array(0=>"Диагностика",1=>"Ремонт",2=>"Диагностика и ремонт");
+        $repair_type = array(0=>"Ничего не делать",1=>"Диагностика",2=>"Ремонт",3=>"Диагностика и ремонт");
         return $repair_type[$this->repair_type];
     }
     

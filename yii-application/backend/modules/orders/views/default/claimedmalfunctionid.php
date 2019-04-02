@@ -28,7 +28,7 @@ if($model != null){
         $i++;
     }
     $phonestr = $phonestr."".
-    "<p class='form-row my-2'>
+    "<p id ='p_add_another_malfunction-".$model->id_orders."' class='form-row my-2'>
         <a id ='add_another_malfunction-".$model->id_orders."' class='btn btn-dark add_another_malfunction mx-1' data-count-malfunction='".$count."' data-toggle='tooltip' data-placement='right' title='Добавить еще заявленную неисправность'>
             <img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще заявленную неисправность'>
         </a>
@@ -41,7 +41,7 @@ if($model != null){
                 <p id = 'error_orders_malfunction-0-1' class='text-danger my-2 mx-2 error_orders_malfunction error_orders_malfunction-0' style='display: none;'>Ошибка</p>                             
             </p>".Html :: hiddenInput('MalfunctionEdit[claimed_malfunction_id][1]', 0, ['id'=>'orders_claimed_malfunction_id-0-1','class'=>'hidden_malfunction_input hidden_malfunction_input-0','form'=>'form_orders-0']).
         "</div>                       
-        <p class='form-row my-2'>
+        <p id ='p_add_another_malfunction-0' class='form-row my-2'>
             <a id ='add_another_malfunction-0' class='btn btn-dark add_another_malfunction mx-1' data-count-malfunction='1' data-toggle='tooltip' data-placement='right' title='Добавить еще заявленную неисправность'>
                 <img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще заявленную неисправность'>
             </a>

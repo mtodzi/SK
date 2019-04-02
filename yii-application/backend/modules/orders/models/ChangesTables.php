@@ -3,6 +3,7 @@
 namespace backend\modules\orders\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "changes_tables".
@@ -25,6 +26,17 @@ class ChangesTables extends \yii\db\ActiveRecord
     {
         return 'changes_tables';
     }
+    
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -32,11 +44,11 @@ class ChangesTables extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['table_name', 'created_at', 'updated_at'], 'required'],
-            [['id_change_item', 'user_change_id', 'created_at', 'updated_at'], 'integer'],
+            [['table_name'], 'required'],
+            [['id_change_item', 'user_change_id'], 'integer'],
             [['description_changes'], 'string'],
             [['table_name'], 'string', 'max' => 255],
-            [['user_change_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_change_id' => 'id']],
+            [['user_change_id'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\User', 'targetAttribute' => ['user_change_id' => 'id']],
         ];
     }
 
@@ -53,6 +65,13 @@ class ChangesTables extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+    
+    function __construct($table_name, $id_change_item, $description_changes, $user_change_id){
+        $this->table_name = $table_name;
+        $this->id_change_item = $id_change_item;
+        $this->description_changes = $description_changes;
+        $this->user_change_id = $user_change_id;
     }
 
     /**

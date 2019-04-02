@@ -65,7 +65,7 @@ if($clients_id!=0){
         $i++;
     }
     $phonestr = $phonestr."".
-        "<p class='form-row my-2'>".
+        "<p id = 'p_add_another_phone-".$id_orders."' class='form-row my-2'>".
             "<a  id = 'add_another_phone-".$id_orders."' class='btn btn-dark add_another_phone mx-1' data-count-phone='".$count."' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>".
                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще телефон'>".
             "</a>".
@@ -79,7 +79,7 @@ if($clients_id!=0){
                 <p id = 'error_orders_clients_phone-0-1' class='text-danger my-2 mx-2 error_orders_phone error_orders_phone-0' style='display: none;'>Ошибка</p>                             
             </p>
         </div>                       
-        <p class='form-row my-2'>
+        <p id = 'p_add_another_phone-0' class='form-row my-2'>
             <a id ='add_another_phone-0' class='btn btn-dark add_another_phone mx-1' data-count-phone='1' data-toggle='tooltip' data-placement='right' title='Добавить еще телефон'>
                 <img id ='menu_navbar_top' class='' src='".Url::to(['/img/add.svg'])."' alt='Добавить еще телефон'>
             </a>
