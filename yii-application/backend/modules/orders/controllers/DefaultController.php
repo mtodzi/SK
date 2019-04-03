@@ -129,20 +129,30 @@ class DefaultController extends Controller
                     $countErrorSave++;
                     $msgCountErrorSave = $msgCountErrorSave." заказ не был сохранен, ";
                 }
-                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                //Фармируем массив с ошибкой
-                $items = ['200','msg'=>'Успешная работа!', 'modelClientsEdit' => $modelClientsEdit, 'modelBrandsEdit'=>$modelBrandsEdit,'msgCountErrorSave'=>$msgCountErrorSave];
-                //Передаем данные в фармате json пользователю
-                return $items;
-                
+                $modelMalfunctionEdit = $modelMalfunctionEdit->saveMalfunction($modelOrdersEdit);
+                if($modelOrdersEdit == null){
+                    $countErrorSave++;
+                    $msgCountErrorSave = $msgCountErrorSave." заявленные неисправности не были сохранены, ";
+                }
+                if($countErrorSave == 0){
+                    $select = $this->renderAjax('orderscard', ['model' => $modelOrdersEdit,]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>'Успешная работа!', 'txt'=>$select, 'id'=>$modelOrdersEdit->id_orders];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$msgCountErrorSave, 'txt'=>0];
+                }                    
             }else{
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 //Фармируем массив с ошибкой
                 $items = ['0',
                     'msg'=>'Передаваемые данные не прошли проверку',
-                    'test'=>$modelMalfunctionEdit,
                     'errorsOrdersEdit'=>$errorsOrdersEdit,
                     'errorsClientsEdit'=>$errorsClientsEdit,
                     'errorsClientsPhonesEdit'=>$errorsClientsPhonesEdit,

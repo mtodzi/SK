@@ -202,19 +202,31 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                         success: function(res){
                             console.log(res); 
                             if(Number(res[0])==0){
-                            console.log(res['msg']);
-                            console.log(res['errorsClientsPhonesEdit']);//
-                            console.log(res['errorsMalfunctionEdit']);
-                            console.log(res['errorsOrdersEdit']);
-                            console.log(res['errorsBrandsEdit']);
-                            console.log(res['errorsDeviceTypeEdit']);
-                            console.log(res['errorsDevicesEdit']);
-                            console.log(res['errorsSerialNumbersEdit']);
-                            console.log(res['errorsClientsEdit']);
-                            console.log(res['test']);
-                            errorServerTreatment(processingErrorsServer(res,id),id);
+                                console.log(res['msg']);
+                                console.log(res['errorsClientsPhonesEdit']);//
+                                console.log(res['errorsMalfunctionEdit']);
+                                console.log(res['errorsOrdersEdit']);
+                                console.log(res['errorsBrandsEdit']);
+                                console.log(res['errorsDeviceTypeEdit']);
+                                console.log(res['errorsDevicesEdit']);
+                                console.log(res['errorsSerialNumbersEdit']);
+                                console.log(res['errorsClientsEdit']);
+                                console.log(res['test']);
+                                errorServerTreatment(processingErrorsServer(res,id),id);
                             }else{
-                                console.log(res);   
+                                console.log(res);
+                                if(id != 0){
+                                    $("#Block_add_orders-"+id).remove();
+                                    $("[data-key='"+id+"']").append(res['txt']);
+                                    SetStatusCard(0,"");
+                                    return false;
+                                }else{
+                                    settingCardData(dataKard,id);
+                                    $('#Block_add_orders-0').hide();
+                                    $("#w0").prepend("<div class='' data-key='"+res['id']+"' >"+res['txt']+"</div>");
+                                    SetStatusCard(0,"");
+                                    return false;
+                                }
                             }
                         },
                         error: function(){
