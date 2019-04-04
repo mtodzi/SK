@@ -191,8 +191,8 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         if(!(s1 == s2)){
             var arrayFieldsChecked = ['clients_name-','clients_phone-','clients_email-','clients_address-','brand_name-','device_type_name-','devices_model-','serial_numbers_name-','malfunction-','appearance-','user_engener_id-']; 
             errorDeleteServerTreatment(arrayFieldsChecked,id);
-            if(true/*formFieldCheck(id,arrayFieldsChecked)*/){
-                alert("Проверка Проверка прошла успешно");
+            if(formFieldCheck(id,arrayFieldsChecked)){
+                //alert("Проверка Проверка прошла успешно");
                 var data = $('#form_orders-'+id).serialize();
                 console.log(data);
                 $.ajax({
@@ -215,18 +215,24 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                                 errorServerTreatment(processingErrorsServer(res,id),id);
                             }else{
                                 console.log(res);
-                                if(id != 0){
-                                    $("#Block_add_orders-"+id).remove();
-                                    $("[data-key='"+id+"']").append(res['txt']);
-                                    SetStatusCard(0,"");
-                                    return false;
+                                if(res['txt'] == 0){
+                                    var numberAlert = getRandomArbitary(1, 50);
+                                    var namePost = CreateErrorCards(res['msg'],id,numberAlert);
+                                    setTimeout(postDelete, 3000,namePost);
                                 }else{
-                                    settingCardData(dataKard,id);
-                                    $('#Block_add_orders-0').hide();
-                                    $("#w0").prepend("<div class='' data-key='"+res['id']+"' >"+res['txt']+"</div>");
-                                    SetStatusCard(0,"");
-                                    return false;
-                                }
+                                    if(id != 0){
+                                        $("#Block_add_orders-"+id).remove();
+                                        $("[data-key='"+id+"']").append(res['txt']);
+                                        SetStatusCard(0,"");
+                                        return false;
+                                    }else{
+                                        settingCardData(dataKard,id);
+                                        $('#Block_add_orders-0').hide();
+                                        $("#w0").prepend("<div class='' data-key='"+res['id']+"' >"+res['txt']+"</div>");
+                                        SetStatusCard(0,"");
+                                        return false;
+                                    }
+                                }                                
                             }
                         },
                         error: function(){
