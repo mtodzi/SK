@@ -178,7 +178,137 @@ $('.my_content_bloc').on('click', '.orders_edit_button', function(){
         }
        
     });
+
+//Обработчик нажатия кнопки печать в userbox
+$('.my_content_bloc').on('click', '.orders_print_button', function(){
+    alert("Вы нажали на кнопку print");
+    var id = GetId($(this),1);
+    dataKard = GetDataCardOrders(id);
+    console.log(dataKard);
+    var orders = $("#span_orders_id_orders_text-"+id).text();
+    console.log(orders);
+    var txtPhone = "Телефон(ы) клиента:\n";
+    var txtMalfunction = "Заявленные неисправности:\n";    
+    var txtRepairType = ["Ничего не делать", "Диагностика", "Ремонт", "Диагностика и ремонт"];
+    var txtUrgency = ["не срочно","срочно"];
+    var txtWishes = "Пожелания - "+txtRepairType[dataKard.repair_type]+", "+txtUrgency[dataKard.urgency];
+    $.each(dataKard['phone_number'],function(index,value){
+        console.log($(this));
+        txtPhone = txtPhone+index+" - "+value+"\n"
+    });
+    $.each(dataKard['malfunction'],function(index,value){
+        console.log($(this));
+        txtMalfunction = txtMalfunction+index+" - "+value+"\n"
+    });
+    var Manager = $("#userName").text();
+   var docInfo = {
+ 
+    info: {
+        title:'Тестовый документ PDF',
+        author:'Viktor',
+        subject:'Theme',
+        keywords:'Ключевые слова'
+    },
+ 
+    pageSize:'A4',
+    pageOrientation:'portrait',
     
+    content: [
+ 
+        {
+            text:orders,
+            fontSize:20,
+            margin:[10,10,10,10]
+            //pageBreak:'after'
+        },
+        {
+            text:'Клиент серверного центра его данные:',
+            fontSize:14,
+            margin:[0,5,5,5]
+        },
+        {
+            text:'ФИО клиента: '+dataKard.clients_name,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Домашний адрес клиента: '+dataKard.clients_address,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Email адрес клиента: '+dataKard.clients_email,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:txtPhone,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Принимаемое устройство:',
+            fontSize:14,
+            margin:[0,5,5,5]
+        },
+        {
+            text:'Бренд: '+dataKard.brand_name,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Тип устройства: '+dataKard.device_type_name,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Модель устройства: '+dataKard.devices_model,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'S/N: '+dataKard.serial_numbers_name,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Неисправности:',
+            fontSize:14,
+            margin:[0,5,5,5]
+        },
+        {
+            text:txtMalfunction,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Внешний вид: '+dataKard.appearance,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:'Особые заметки: '+dataKard.special_notes,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+        {
+            text:txtWishes,
+            fontSize:10,
+            margin:[5,5,5,5]
+        },
+         {
+            text:'Принял заказ: '+Manager,
+            fontSize:14,
+            margin:[0,5,5,5]
+        },
+    ]
+    }
+    
+    	
+    pdfMake.createPdf(docInfo).print();
+    //alert("я отработал");
+    
+});    
 //Обработчик нажатия кнопки Применить в userbox
 $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         console.log(dataKard);

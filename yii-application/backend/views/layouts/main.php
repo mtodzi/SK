@@ -31,7 +31,7 @@ MyAppAssetLayouteSite::register($this);
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/menu.svg'])?>' alt="Меню">
             </a>
             <p id ="currentUser" class="navbar_inner_content d-none d-lg-block d-xl-block">
-                Выполнен вход: <?=Yii::$app->user->identity->employeename?>
+                Выполнен вход: <span id = 'userName'><?=Yii::$app->user->identity->employeename?></span>
             </p>
         </nav>
     </header>

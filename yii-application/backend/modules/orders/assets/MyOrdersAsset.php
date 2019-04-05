@@ -18,6 +18,8 @@ class MyOrdersAsset extends AssetBundle
     ];
     public $js = [
         'm_orders/js/jquery.maskedinput.min.js',
+        'm_orders/js/pdfmake.min.js',        
+        'm_orders/js/vfs_fonts.js',
         'm_orders/js/orders.js',
     ];
     public $depends = [
