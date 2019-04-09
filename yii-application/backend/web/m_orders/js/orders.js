@@ -200,7 +200,7 @@ $('.my_content_bloc').on('click', '.orders_print_button', function(){
         console.log($(this));
         txtMalfunction = txtMalfunction+index+" - "+value+"\n"
     });
-    var Manager = $("#userName").text();
+    var Manager = $("#orders_user_manager-"+id).text();
    var docInfo = {
  
     info: {
