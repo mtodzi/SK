@@ -127,6 +127,11 @@ class Orders extends \yii\db\ActiveRecord
         return $this->hasMany(OrdersClamedMalfunction::className(), ['orders_id' => 'id_orders']);
     }
     
+    public function getClientsPhones()
+    {
+        return $this->hasMany(ClientsPhones::className(), ['clients_id' => 'id_clients']);
+    }
+    
     //Метод формирует строку № заказа
     public function getOrderNumberText(){
         return "Заказ № ".$this->id_orders." от ".gmdate("d-m-Y", $this->created_at);;

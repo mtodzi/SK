@@ -19,7 +19,8 @@ class OrdersSearch extends Orders
     public function rules()
     {
         return [
-            ['search','string','max' => 255],
+            //['search','string','max' => 255],
+            ['search','safe'],
             ['search', 'filter', 'filter' => 'trim'],
         ];
     }
@@ -58,7 +59,40 @@ class OrdersSearch extends Orders
             // $query->where('0=1');
             return $dataProvider;
         }
+        $query->joinWith('clients');
+        $query->joinWith('serrialNambers');
+        $query->andFilterWhere([
+                'id_orders'=>$this->search,
+            ]);
+        $query->orFilterWhere(['=', 'clients_name', $this->search]);
+        $query->orFilterWhere(['=', 'serial_numbers_name', $this->search]);
+        
         /*
+        if(is_numeric($this->search)){
+            $query->andFilterWhere([
+                'id_orders'=>$this->search,
+            ]);
+            return $dataProvider;
+        }
+        
+        if(is_string($this->search) && !isset($this->search)){
+            $query->joinWith('clients');
+            //$query->join('INNER JOIN','clients_phones',['orders.clients_id'=>'clients_phones.clients_id']);
+            $query->andFilterWhere(['=', 'clients_name', $this->search]);
+            //$query->andFilterWhere(['=', 'clients_phones.phone_number', $this->search]);
+            return $dataProvider;
+        }
+        
+        $query->joinWith('clients');
+        $query->join('LEFT JOIN','clients_phones',['orders.clients_id'=>'clients_phones.clients_id']);
+        
+        $query->andFilterWhere([
+            'id_orders'=>$this->search,
+        ]);
+        $query->orFilterWhere(['=', 'clients_name', $this->search]);
+        $query->orFilterWhere(['=', 'phone_number', $this->search]);
+        //$query->andFilterWhere(['id_orders'=>$this->search]);
+        
         $query->joinWith('position');
         
         $query->andFilterWhere(['like', 'email', $this->search]);
