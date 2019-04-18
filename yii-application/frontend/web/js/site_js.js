@@ -51,7 +51,7 @@ $( "a" ).click(function( event ) {
     /*console.log(event.type);*/
 });
 
-//выбор цвета обводки кнопки
+//выбор цвета обводки карточки
 //var block = document.getElementsByClassName('btn');
 $(".card-body").mouseleave(function() { console.log(this);
     var currentColor = window.getComputedStyle(this).getPropertyValue('color').replace(/rgb\((.+)\)/g, '$1').split(', ').map(function(e){return parseInt(e);});
@@ -73,7 +73,7 @@ $(".card-body").mouseleave(function() { console.log(this);
     }
 })
 
- 
+// функция рандомизации цвета
 function getRandomColor() {
   var color = [];
   while (color.length < 3) color.push(Math.floor(Math.random() * 255));
