@@ -13,10 +13,14 @@ use yii\helpers\Html;
                     <span id='span_orders_id_orders_text-<?=(($model!=null)?$model->id_orders:0)?>' class='navbar-brand text-light'><?=(($model!=null)?$model->getOrderNumberText():'Новый заказ')?></span>
                     <?php
                     $buttons_edit_print = "".   
-                        "<!--группировка кнопок в navbar с выравниванием вправо печать и редоктировать-->".
+                        "<!--группировка кнопок в navbar с выравниванием вправо вправо закрыть печать и редактировать-->".
                         "<div id='user_card_button_edit_print-".(($model!=null)?$model->id_orders:0)."' class='flex-box ml-auto'>". 
                             "<!--кнопка распечатать заказ-->".
-                            "<a id='orders_print_button-".(($model!=null)?$model->id_orders:0)."' class='nav-link btn btn-light mx-1 orders_print_button' data-toggle='tooltip' data-placement='left' title='Печать'>".
+                            "<a id='orders_print_button-".(($model!=null)?$model->id_orders:0)."' class='nav-link btn btn-light orders_print_button' data-toggle='tooltip' data-placement='left' title='Закрыть заказ'>".
+                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/lock_order.svg'])."' alt='Закрыть заказ'>".
+                            "</a>".
+                            "<!--кнопка распечатать заказ-->".
+                            "<a id='orders_print_button-".(($model!=null)?$model->id_orders:0)."' class='nav-link btn btn-light mx-1 orders_print_button' data-toggle='tooltip' data-placement='top' title='Печать'>".
                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/print.svg'])."' alt='Печать'>".
                             "</a>".
                             "<!--кнопка редактировать заказ-->".
@@ -24,7 +28,7 @@ use yii\helpers\Html;
                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/edit.svg'])."' alt='Редактировать'>".
                             "</a>".
                         "</div>".
-                        "<!--Конец группировка кнопок в navbar с выравниванием вправо печать и редоктировать-->";
+                        "<!--Конец группировка кнопок в navbar с выравниванием вправо закрыть печать и редактировать-->";
                     $buttons_card_apply = "".
                         "<!--группировка кнопок в navbar с выравниванием вправо пременить отмена-->".
                         "<div id='orders_cancel_button_card_apply-".(($model!=null)?$model->id_orders:0)."' class='flex-box ml-auto' ".(($model!=null)?("style='display: none;'"):'')."'>". 

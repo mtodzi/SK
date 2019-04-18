@@ -23,8 +23,8 @@ $this->title = Yii::t('app','Заказы');
             </div>
             <div class="mx-1">
                 <!--кнопка архив заказов-->            
-                <a  id = 'browse_archive_orders' class="btn btn-dark" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="top" title="Смотреть архив заказов">
-                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/addarch.svg'])?>' alt="Смотреть архив заказов">
+                <a  id = 'browse_archive_orders' class="btn btn-dark" href="<?=Url::to(['/orders'])?>" data-toggle="tooltip" data-placement="top" title="Закрытые заказы">
+                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/locked_orders.svg'])?>' alt="Закрытые заказы">
                 </a>
             </div>
             <!--кнопка добавить новый заказ-->
