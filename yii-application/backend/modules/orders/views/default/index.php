@@ -13,7 +13,7 @@ $this->title = Yii::t('app','Заказы');
 
 <div class='my_heders_bloc row-flex sticky-top'>
     <nav class='navbar navbar-light bg-light border rounded'>
-        <a class='navbar-brand' href='<?=Url::to(['/user/user/update'])?>'>Заказы</a>
+        <a class='navbar-brand' href='<?=Url::to(['/orders'])?>'>Заказы</a>
         <div class='btn-group'>
             <div class='scroll_to_up'>
                 <!--кнопка вверх scrollspy-->            
