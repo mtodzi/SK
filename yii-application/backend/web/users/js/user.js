@@ -3,7 +3,7 @@ $( document ).ready(function() {
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
-    var DOMEN = "sv";
+    var DOMEN = "SK";
     //Задаем масску ввода для клсса phone
     $(".phone").mask("8(999)-999-99-99");
     //Обработчик нажатия кнопки редактировать в userbox

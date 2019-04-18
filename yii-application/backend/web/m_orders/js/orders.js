@@ -179,7 +179,7 @@ $('.my_content_bloc').on('click', '.orders_edit_button', function(){
        
     });
 
-//Обработчик нажатия кнопки печать в userbox
+//Обработчик нажатия кнопки печать в userbox !!!!!!!! КНОПКА ПРИНТ
 $('.my_content_bloc').on('click', '.orders_print_button', function(){
     alert("Вы нажали на кнопку print");
     var id = GetId($(this),1);
