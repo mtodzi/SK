@@ -104,10 +104,10 @@ class OrdersSearch extends Orders
         */
         return $dataProvider;
     }
-    /*
+    
     public function searchArchive($params)
     {
-        $query = User::find()->where(['archive'=>1])->orderBy(['updated_at'=>SORT_DESC]);
+        $query = Orders::find()->where(['archive'=>1])->orderBy(['updated_at'=>SORT_DESC]);
         
         // add conditions that should always apply here
 
@@ -123,18 +123,14 @@ class OrdersSearch extends Orders
             // $query->where('0=1');
             return $dataProvider;
         }
-
-        // grid filtering conditions
-       $query->joinWith('position');
-        
-        $query->andFilterWhere(['like', 'email', $this->search])
-        ->orFilterWhere(['like', 'employeename', $this->search])
-        ->orFilterWhere(['like', 'address', $this->search])
-        ->orFilterWhere(['like', 'phone', $this->search])
-        ->orFilterWhere(['like', 'name_position', $this->search]);
-        $query->andFilterWhere(['archive'=>1]);
+        $query->joinWith('clients');
+        $query->joinWith('serrialNambers');
+        $query->andFilterWhere([
+                'id_orders'=>$this->search,
+            ]);
+        $query->orFilterWhere(['=', 'clients_name', $this->search]);
+        $query->orFilterWhere(['=', 'serial_numbers_name', $this->search]);
         return $dataProvider;
     }
-     * 
-     */
+
 }

@@ -22,6 +22,7 @@ use backend\modules\orders\models\DeviceTypeEdit;
 use backend\modules\orders\models\DevicesEdit;
 use backend\modules\orders\models\SerialNumbersEdit;
 use backend\modules\orders\models\ClientsEdit;
+use backend\modules\orders\models\Orders;
 
 /**
  * Default controller for the `orders` module
@@ -41,6 +42,23 @@ class DefaultController extends Controller
         ]);
     }
     
+    /**
+     * Выводит все заказы которые в архиве
+     * @return string
+     */
+    public function actionArchive(){
+        $searchModel = new OrdersSearch();
+        $dataProvider = $searchModel->searchArchive(Yii::$app->request->queryParams);
+        return $this->render('indexarhive', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    /*
+     *Метод создает новый заказ и редактирует его     
+     * 
+    */
     public function actionCreate(){
         if(\Yii::$app->request->isAjax){
             $countError = 0;
@@ -171,6 +189,52 @@ class DefaultController extends Controller
         }
     }
 
+    /*
+     * Метод закрывает заказ
+     */
+    public function actionCloseorder(){
+        if(\Yii::$app->request->isAjax){
+            $id = Yii::$app->request->post('id'); 
+            if(is_numeric($id) && $id!=0){
+                $modelOrder = Orders::findOne($id);
+                if($modelOrder!==null){
+                    $modelOrder->archive = 1;
+                    if($modelOrder->save()){
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['200','msg'=>'Заказ №'.$id.' был закрыт', 'id'=>Yii::$app->request->post('id')];
+                        //Передаем данные в фармате json пользователю
+                        return $items;
+                    }else{
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['0','msg'=>'Заказ не был закрыт, повторите попытку позже.', 'id'=>Yii::$app->request->post('id')];
+                        //Передаем данные в фармате json пользователю
+                        return $items;
+                    }
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'Искомого заказа не существует', 'id'=>Yii::$app->request->post('id')];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Данные переданные на сервер не соответствуют нужным параметрам', 'id'=>Yii::$app->request->post('id')];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }        
+    }
 
     /*
      *Метод возврашает Список Имен клиентов при наборе в поле     

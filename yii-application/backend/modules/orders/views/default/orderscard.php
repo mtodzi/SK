@@ -15,8 +15,8 @@ use yii\helpers\Html;
                     $buttons_edit_print = "".   
                         "<!--группировка кнопок в navbar с выравниванием вправо вправо закрыть печать и редактировать-->".
                         "<div id='user_card_button_edit_print-".(($model!=null)?$model->id_orders:0)."' class='flex-box ml-auto'>". 
-                            "<!--кнопка распечатать заказ-->".
-                            "<a id='orders_print_button-".(($model!=null)?$model->id_orders:0)."' class='nav-link btn btn-light orders_print_button' data-toggle='tooltip' data-placement='left' title='Закрыть заказ'>".
+                            "<!--кнопка закрыть заказ-->".
+                            "<a id='orders_close_button-".(($model!=null)?$model->id_orders:0)."' class='nav-link btn btn-light orders_close_button' data-toggle='tooltip' data-placement='left' title='Закрыть заказ'>".
                                 "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/lock_order.svg'])."' alt='Закрыть заказ'>".
                             "</a>".
                             "<!--кнопка распечатать заказ-->".
