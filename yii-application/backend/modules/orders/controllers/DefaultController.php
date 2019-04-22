@@ -23,12 +23,36 @@ use backend\modules\orders\models\DevicesEdit;
 use backend\modules\orders\models\SerialNumbersEdit;
 use backend\modules\orders\models\ClientsEdit;
 use backend\modules\orders\models\Orders;
+use backend\modules\orders\models\ChangesTables;
+
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use common\models\AcsessCo;
 
 /**
  * Default controller for the `orders` module
  */
 class DefaultController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => AcsessCo::getAcsessAction('default'),
+                'rules' => AcsessCo::getAcsess(Yii::$app->user->identity->id,'default')                
+            ]
+            
+        ];
+    }
+    
     /**
      * Выводит все заказы которые не в архиве
      * @return string
@@ -200,6 +224,8 @@ class DefaultController extends Controller
                 if($modelOrder!==null){
                     $modelOrder->archive = 1;
                     if($modelOrder->save()){
+                        $modelChangesTables = new ChangesTables('orders',$modelOrder->id_orders,'Заказ № - '.$modelOrder->id_orders.' закрыт', Yii::$app->user->identity->id);
+                        $modelChangesTables->save();
                         //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         //Фармируем массив с ошибкой
@@ -211,6 +237,55 @@ class DefaultController extends Controller
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         //Фармируем массив с ошибкой
                         $items = ['0','msg'=>'Заказ не был закрыт, повторите попытку позже.', 'id'=>Yii::$app->request->post('id')];
+                        //Передаем данные в фармате json пользователю
+                        return $items;
+                    }
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'Искомого заказа не существует', 'id'=>Yii::$app->request->post('id')];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Данные переданные на сервер не соответствуют нужным параметрам', 'id'=>Yii::$app->request->post('id')];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }        
+    }
+    
+    /*
+     * Метод закрывает заказ
+     */
+    public function actionOpenorder(){
+        if(\Yii::$app->request->isAjax){
+            $id = Yii::$app->request->post('id'); 
+            if(is_numeric($id) && $id!=0){
+                $modelOrder = Orders::findOne($id);
+                if($modelOrder!==null){
+                    $modelOrder->archive = 0;
+                    if($modelOrder->save()){
+                        $modelChangesTables = new ChangesTables('orders',$modelOrder->id_orders,'Заказ № - '.$modelOrder->id_orders.' открыт', Yii::$app->user->identity->id);
+                        $modelChangesTables->save();
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['200','msg'=>'Заказ №'.$id.' был открыт', 'id'=>Yii::$app->request->post('id')];
+                        //Передаем данные в фармате json пользователю
+                        return $items;
+                    }else{
+                        //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        //Фармируем массив с ошибкой
+                        $items = ['0','msg'=>'Заказ не был открыт, повторите попытку позже.', 'id'=>Yii::$app->request->post('id')];
                         //Передаем данные в фармате json пользователю
                         return $items;
                     }

@@ -13,24 +13,12 @@ $this->title = Yii::t('app','Заказы');
 
 <div class='my_heders_bloc row-flex sticky-top'>
     <nav class='navbar navbar-light bg-light border rounded'>
-        <a class='navbar-brand' href='<?=Url::to(['/orders'])?>'>Заказы</a>
+        <a class='navbar-brand' href='<?=Url::to(['archive'])?>'>Закрытые заказы</a> 
         <div class='btn-group'>
             <div class='scroll_to_up'>
                 <!--кнопка вверх scrollspy-->            
                 <a  id = '' class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="В начало">
                     <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/arrow-up.svg'])?>' alt="В начало">
-                </a>
-            </div>
-            <div class="mx-1">
-                <!--кнопка архив заказов-->            
-                <a  id = 'browse_archive_orders' class="btn btn-dark" href="<?=Url::to(['/indexarchive'])?>" data-toggle="tooltip" data-placement="top" title="Закрытые заказы">
-                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/locked_orders.svg'])?>' alt="Закрытые заказы">
-                </a>
-            </div>
-            <!--кнопка добавить новый заказ-->
-            <div class="">
-                <a  id = 'add_new_orders' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить заказ">
-                <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить заказ">
                 </a>
             </div>
         </div>
@@ -48,7 +36,7 @@ $this->title = Yii::t('app','Заказы');
 <div class='index_orders_bloc'>
     <div class='my_content_bloc'>        
         <div id="ordercard-0">
-            <?= $this->render('orderscard', ['model' => null,]);?>
+            <?= $this->render('orderscardarchive', ['model' => null,]);?>
         </div>    
 <?php
         echo ListView::widget([
@@ -77,7 +65,7 @@ $this->title = Yii::t('app','Заказы');
                 'itemOptions' => ['class' => ''],
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
-                    return $this->render('orderscard', ['model' => $model,]);
+                    return $this->render('orderscardarchive', ['model' => $model,]);
                 },
         ]);
      ?>    

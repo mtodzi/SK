@@ -337,6 +337,33 @@ $('.my_content_bloc').on('click', '.orders_close_button', function(){
     
 });
 
+//Обработчик нажатия открыть заказ в userbox 
+$('.my_content_bloc').on('click', '.orders_open_button', function(){
+    var id = GetId($(this),1);
+    data={
+            'id':id,
+            '_csrf-backend':$('input[name="_csrf-backend"]').val()
+        };
+    $.ajax({
+        url: '/yii-application/backend/web/orders/default/openorder',
+        type: 'POST',
+        data: data,
+        success: function(res){
+            console.log(res);
+            if(res[0]!=0){
+                $('[data-key = '+id+']').remove();
+                alert(res['msg']);
+            }else{
+                alert(res['msg']);
+            }
+        },
+        error: function(){
+            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+        }
+    });
+    
+});
+
 //Обработчик нажатия кнопки Применить в userbox
 $('.my_content_bloc').on('click', '.orders_apply_button', function(){
         console.log(dataKard);
