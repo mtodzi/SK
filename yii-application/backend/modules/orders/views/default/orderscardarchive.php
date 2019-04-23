@@ -17,7 +17,7 @@ use yii\helpers\Html;
                         "<div id='user_card_button_edit_print-".(($model!=null)?$model->id_orders:0)."' class='flex-box ml-auto'>". 
                             "<!--кнопка открыть заказ-->".
                             "<a id='orders_open_button-".(($model!=null)?$model->id_orders:0)."' class='nav-link btn btn-light orders_open_button' data-toggle='tooltip' data-placement='left' title='Открыть заказ'>".
-                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/lock_order.svg'])."' alt='Закрыть заказ'>".
+                                "<img id ='menu_navbar_top' class='' src='".Url::to(['/img/recover_arch.svg'])."' alt='Открыть заказ'>".
                             "</a>".
                         "<!--Конец группировка кнопок в navbar с выравниванием вправо закрыть печать и редактировать-->";                    
                     echo $buttons_edit_print;

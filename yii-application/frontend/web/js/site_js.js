@@ -79,15 +79,3 @@ function getRandomColor() {
   while (color.length < 3) color.push(Math.floor(Math.random() * 255));
   return color;
 }
-/* 
-document.getElementsByClassName('btn').onmousemove = function() {
-  currentStep++;
-    this.style.backgroundColor = 'rgb( ' + currentColor.map(function(e,i){
-    return Math.floor(e + (nextColor[i] - e) * currentStep / steps);
-  }).join(', ') + ')';
-  if (currentStep == steps) {
-    currentStep = 0;
-    currentColor = nextColor;
-    nextColor = getRandomColor();
-  }
-}*/

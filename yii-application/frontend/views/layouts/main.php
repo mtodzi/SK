@@ -24,9 +24,7 @@ MyAppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="wrap">
-    
     <div class="container">
-       
     <header class='linkblock' onclick="location.href='<?=Url::to(['site/index'])?>';">
     <div class="jumbotron jumbotron-fluid">
         <video autoplay muted loop src="/vidz/background_video.webm"> </video>
