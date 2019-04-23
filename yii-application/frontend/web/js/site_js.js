@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 //разворачивание текста в p за span по клику
 $(function() {
-    $('.letter_info').on('click', function() {
+    $('.letter_red').on('click', function() {
         $(this).next().toggle(1000);
     });
 });
@@ -53,7 +53,7 @@ $(function() {
 //});
 
 //выбор цвета обводки карточки
-$(".card-body").mouseleave(function() { console.log(this);
+/*$(".card-body").mouseleave(function() { console.log(this);
     var currentColor = window.getComputedStyle(this).getPropertyValue('color').replace(/rgb\((.+)\)/g, '$1').split(', ').map(function(e){return parseInt(e);});
     var nextColor = getRandomColor();
     var currentStep = 0;
@@ -71,7 +71,7 @@ $(".card-body").mouseleave(function() { console.log(this);
         currentColor = nextColor;
         nextColor = getRandomColor();
     }
-})
+})*/
 
 // функция рандомизации цвета
 function getRandomColor() {

@@ -45,6 +45,9 @@
   left: 0;
   z-index: 1030;
 }
+.container {
+  min-width: 300px; 
+}
 /* стили для появляющегося меню */
 .affix.navbar {
   background-color: #333;
@@ -68,11 +71,12 @@
     }
 }
 .letter_red { 
-     color: red; /* Красный цвет символов */ 
-     /*font-size: 200%; /* Размер шрифта в процентах */ 
-     /*font-family: serif; /* Шрифт с засечками */ 
-     position: relative; /* Относительное позиционирование */ 
-     top: 5px; /* Сдвиг сверху */ 
+    color: red; /* Красный цвет символов */ 
+    /*font-size: 200%; /* Размер шрифта в процентах */ 
+    /*font-family: serif; /* Шрифт с засечками */ 
+    position: relative; /* Относительное позиционирование */ 
+    bottom: 5px; /* Сдвиг сверху */ 
+    cursor: pointer;
 }
 .letter_info { 
      color: cornflowerblue; /* Синий цвет символов */ 
@@ -84,13 +88,18 @@
 }
 .card-body {
 background-color: black; 
-color:#ffffff;
+color:#fff;
 }
 /*убрать обводку ссылок браузером*/
 a:active, a:focus {
     outline: none; 
 }
-
+hr{
+    border: none; /* Убираем границу для браузера Firefox */
+    color: red; /* Цвет линии для остальных браузеров */
+    background-color: red; /* Цвет линии для браузера Firefox и Opera */
+    height: 2px; /* Толщина линии */    
+}
 /*обводка кнопок на карточках при наведении*/
 .border:hover
 {
@@ -107,4 +116,42 @@ a:active, a:focus {
   z-index: -1;
   top: 0px;
   left: 0px;
+}
+.list-counter-circle {
+  list-style: none;
+  counter-reset: list;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.list-counter-circle>li {
+  position: relative;
+  display: block;
+  height: 2rem;
+  line-height: 2rem;
+  margin-left: 1.75rem;
+  margin-bottom: .25rem;
+  padding-left: 1rem;
+  padding-right: .5rem;
+  color: #fff;
+  background: black;
+  white-space: nowrap;
+}
+.list-counter-circle>li:last-child {
+  margin-bottom: 0;
+}
+.list-counter-circle>li::before {
+  content: counter(list);
+  counter-increment: list;
+  position: absolute;
+  left: -2rem;
+  top: -.25rem;
+  bottom: -.25rem;
+  width: 2.5rem;
+  line-height: 2rem;
+  border-radius: 1.25rem;
+  border: .25rem solid #fff;
+  text-align: center;
+  color: #fff;
+  background: black;
 }
