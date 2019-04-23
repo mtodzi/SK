@@ -2,7 +2,9 @@
 
 namespace backend\modules\clients\controllers;
 
+use Yii;
 use yii\web\Controller;
+use backend\modules\clients\models\ClientsSearch;
 
 /**
  * Default controller for the `clients` module
@@ -15,6 +17,11 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new ClientsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }
