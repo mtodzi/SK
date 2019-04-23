@@ -128,7 +128,7 @@ class OrdersEdit extends Model {
                     $i++;
                     $OUserManagerName = $modelOrders->userManager->employeename;
                     $modelOrders->user_manager_id = Yii::$app->user->identity->id;
-                    $modelChangeUserManager_id = new ChangesTables('orders',$modelOrders->id_orders,'При работе с заказом изменения вносил новый менеджер был - '.$OUserEngenerName.'стал - '.$modelOrders->userEngener->employeename, Yii::$app->user->identity->id);
+                    $modelChangeUserManager_id = new ChangesTables('orders',$modelOrders->id_orders,'При работе с заказом изменения вносил новый менеджер был - '.$OUserManagerName.'стал - '.$modelOrders->userEngener->employeename, Yii::$app->user->identity->id);
                 }
                 if(strcmp($modelOrders->appearance , $this->appearance)!== 0){//
                     $i++;

@@ -66,6 +66,7 @@ class OrdersSearch extends Orders
             ]);
         $query->orFilterWhere(['=', 'clients_name', $this->search]);
         $query->orFilterWhere(['=', 'serial_numbers_name', $this->search]);
+        $query->andFilterWhere(['archive'=>0]);
         
         /*
         if(is_numeric($this->search)){
@@ -130,6 +131,7 @@ class OrdersSearch extends Orders
             ]);
         $query->orFilterWhere(['=', 'clients_name', $this->search]);
         $query->orFilterWhere(['=', 'serial_numbers_name', $this->search]);
+        $query->andFilterWhere(['archive'=>1]);
         return $dataProvider;
     }
 

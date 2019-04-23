@@ -181,7 +181,7 @@ $('.my_content_bloc').on('click', '.orders_edit_button', function(){
 
 //Обработчик нажатия кнопки печать в userbox !!!!!!!! КНОПКА ПРИНТ
 $('.my_content_bloc').on('click', '.orders_print_button', function(){
-    alert("Вы нажали на кнопку print");
+    //alert("Вы нажали на кнопку print");
     var id = GetId($(this),1);
     dataKard = GetDataCardOrders(id);
     console.log(dataKard);
@@ -330,8 +330,9 @@ $('.my_content_bloc').on('click', '.orders_close_button', function(){
                 alert(res['msg']);
             }
         },
-        error: function(){
-            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+        error: function(jqXHR){
+            console.log(jqXHR);
+            alert(jqXHR.responseText);
         }
     });
     
@@ -357,8 +358,9 @@ $('.my_content_bloc').on('click', '.orders_open_button', function(){
                 alert(res['msg']);
             }
         },
-        error: function(){
-            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+        error: function(jqXHR){
+            console.log(jqXHR);
+            alert(jqXHR.responseText);
         }
     });
     
@@ -420,8 +422,9 @@ $('.my_content_bloc').on('click', '.orders_apply_button', function(){
                                 }                                
                             }
                         },
-                        error: function(){
-                            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+                        error: function(jqXHR){
+                            console.log(jqXHR);
+                            alert(jqXHR.responseText);
                         }
                 });
             }else{
@@ -1281,8 +1284,9 @@ function SendToServerSelected(setInput,data){
                 return false;
             }    
         },
-        error: function(){
-            alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+        error: function(jqXHR){
+            console.log(jqXHR);
+            alert(jqXHR.responseText);
         }
     });
 }
@@ -1357,8 +1361,9 @@ function SendToServerOption(setInput,data,id_orders){
                 }
 
             },
-            error: function(){
-                alert('По неизвестной причине сервер не ответил обратитесь к админу.');
+            error: function(jqXHR){
+                console.log(jqXHR);
+                alert(jqXHR.responseText);
             }
     });
 }
