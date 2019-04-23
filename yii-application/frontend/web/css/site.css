@@ -22,12 +22,12 @@
     width: auto;
 }
 #main {
-    padding-top:70px;
+    padding-top:35px;
     padding-bottom:70px;
     min-width: 300px;
 }
 .inner_content_block {
-    padding-top:70px;
+    padding-top:35px;
     padding-bottom:70px;
     min-width: 300px;
 }
@@ -48,6 +48,7 @@
 /* стили для появляющегося меню */
 .affix.navbar {
   background-color: #333;
+  min-width: 300px;
 }
 .affix.navbar .nav-item>a, 
 .affix.navbar .navbar-brand {
@@ -81,29 +82,9 @@
      bottom: 5px; /* Сдвиг сверху */ 
      cursor: pointer;
 }
-.jumbotron {
-  position: relative;
-  overflow: hidden;
-  background-color:white;
-  min-width: 300px;
-}
 .card-body {
 background-color: black; 
 color:#ffffff;
-}
-.jumbotron video {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  width:100%;
-  height:100%;
-  object-fit: cover; /*не поддерживается IE*/
-  opacity:0.8;
-}
-.jumbotron .container {
-  z-index: 2;
-  position: relative;
-  background-color: rgba(245, 245, 245, 0.6);
 }
 /*убрать обводку ссылок браузером*/
 a:active, a:focus {

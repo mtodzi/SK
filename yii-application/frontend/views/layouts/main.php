@@ -26,12 +26,9 @@ MyAppAsset::register($this);
 <div class="wrap">
     <div class="container">
     <header class='linkblock' onclick="location.href='<?=Url::to(['site/index'])?>';">
-    <div class="jumbotron jumbotron-fluid">
-        <video autoplay muted loop src="/vidz/background_video.webm"> </video>
             <div class="container">
             <img id ='header_logo_small' class='img-fluid img_header' src='<?=Url::to(['/img/Logo_SK_small.svg'])?>' alt='Лого'>
-            </div><!-- /.container -->
-    </div> <!-- /.jumbotron -->
+        </div><!-- /.container -->
 </header>
     
 <nav class="navbar navbar-expand-sm navbar-light" data-toggle="affix">

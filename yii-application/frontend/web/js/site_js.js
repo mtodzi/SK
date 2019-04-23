@@ -46,10 +46,10 @@ $(function() {
 });
 
 //предотвращение перехода по ссылке для проверки
-$( "a" ).click(function( event ) {
+//$( "a" ).click(function( event ) {
   //event.preventDefault();
     /*console.log(event.type);*/
-});
+//});
 
 //выбор цвета обводки карточки
 //var block = document.getElementsByClassName('btn');
