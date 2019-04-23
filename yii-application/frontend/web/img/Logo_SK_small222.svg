@@ -19,22 +19,7 @@
 </style>
 	<g transform=" matrix(0.366, -0.21, 0.22, 0.113, 95, 75)">
 	<path d="M 0,70 A 65,70 0 0,0 65,0 5,5 0 0,1 75,0 75,70 0 0,1 0,70Z" fill="red">
-    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="1s" repeatCount="indefinite" />
-    </path>
-    </g>
-	<g transform=" matrix(0.366, -0.21, 0.22, 0.113, 95, 75)">
-	<path d="M 0,70 A 65,70 0 0,0 65,0 5,5 0 0,1 75,0 75,70 0 0,1 0,70Z" fill="white">
-    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="0.87s" repeatCount="indefinite" />
-    </path>
-    </g>
-	<g transform=" matrix(0.366, 0.21, -0.22, 0.113, 95, 75)">
-	<path d="M 0,70 A 65,70 0 0,0 65,0 5,5 0 0,1 75,0 75,70 0 0,1 0,70Z" fill="red">
-    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="0.9s" repeatCount="indefinite" />
-    </path>
-    </g>
-	<g transform=" matrix(0.366, 0.21, -0.22, 0.113, 95, 75)">
-	<path d="M 0,70 A 65,70 0 0,0 65,0 5,5 0 0,1 75,0 75,70 0 0,1 0,70Z" fill="white">
-    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="0.77s" repeatCount="indefinite" />
+    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="0.7s" repeatCount="indefinite" />
     </path>
     </g>
 <g id="Слой_9">
