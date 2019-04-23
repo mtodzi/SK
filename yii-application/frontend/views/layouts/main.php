@@ -23,13 +23,14 @@ MyAppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+
 <div class="wrap">
     <div class="container">
     <header class='linkblock' onclick="location.href='<?=Url::to(['site/index'])?>';">
-            <div class="container">
+        <div class="container">
             <img id ='header_logo_small' class='img-fluid img_header' src='<?=Url::to(['/img/Logo_SK_small.svg'])?>' alt='Лого'>
         </div><!-- /.container -->
-</header>
+    </header>
     
 <nav class="navbar navbar-expand-sm navbar-light" data-toggle="affix">
     <a class="navbar-brand img_nav" href="#" style='display: none;' >

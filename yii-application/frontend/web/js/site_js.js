@@ -3,39 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+//меню после прокрутки Affix
 $(document).ready(function() {
 
-  var toggleAffix = function(affixElement, scrollElement, wrapper) {
+    var toggleAffix = function(affixElement, scrollElement, wrapper) {
   
-    var height = affixElement.outerHeight(),
+        var height = affixElement.outerHeight(),
         top = wrapper.offset().top;
     
-    if (scrollElement.scrollTop() >= top){
-        wrapper.height(height);
-        affixElement.addClass("affix");
-        affixElement.addClass("navbar-dark");
-    $('.img_nav').show();    
-    }
-    else {
-        affixElement.removeClass("affix");
-        affixElement.removeClass("navbar-dark");
-        wrapper.height('auto');
+        if (scrollElement.scrollTop() >= top){
+            wrapper.height(height);
+            affixElement.addClass("affix");
+            affixElement.addClass("navbar-dark");
+        $('.img_nav').show();    
+        }
+        else {
+            affixElement.removeClass("affix");
+            affixElement.removeClass("navbar-dark");
+            wrapper.height('auto');
         $('.img_nav').hide(); 
-    }
+        }
       
-  };
+    };
   
 
-  $('[data-toggle="affix"]').each(function() {
+    $('[data-toggle="affix"]').each(function() {
     var ele = $(this),
         wrapper = $('<div></div>');
     ele.before(wrapper);
     $(window).on('scroll resize', function() {
         toggleAffix(ele, $(this), wrapper);
     });
-    // init
+    // инициализация
     toggleAffix(ele, $(window), wrapper);
-  });
+    });
 });
 
 //разворачивание текста в p за span по клику
@@ -52,7 +53,6 @@ $(function() {
 //});
 
 //выбор цвета обводки карточки
-//var block = document.getElementsByClassName('btn');
 $(".card-body").mouseleave(function() { console.log(this);
     var currentColor = window.getComputedStyle(this).getPropertyValue('color').replace(/rgb\((.+)\)/g, '$1').split(', ').map(function(e){return parseInt(e);});
     var nextColor = getRandomColor();
