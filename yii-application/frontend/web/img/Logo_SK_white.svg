@@ -1,1 +1,22 @@
-<svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 85.37 62.31"><defs><style>.cls-1,.cls-2,.cls-4,.cls-6{fill:#fff;}.cls-2,.cls-7{stroke:#fff;stroke-miterlimit:10;}.cls-2{stroke-width:0.2px;}.cls-3{opacity:0.83;fill:url(#Безымянный_градиент_2);}.cls-3,.cls-4,.cls-5,.cls-6,.cls-7{isolation:isolate;}.cls-4{font-size:37.41px;font-family:ArialMT, Arial;}.cls-6,.cls-7{font-size:53.54px;font-family:Broadway;}.cls-7{fill:none;stroke-width:0.2px;}</style><linearGradient id="Безымянный_градиент_2" x1="656.03" y1="-73.92" x2="673.25" y2="-88.21" gradientTransform="matrix(-0.98, 0.18, 0.18, 0.98, 733.73, -15.34)" gradientUnits="userSpaceOnUse"><stop offset="0.76" stop-color="#f71b0d"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><title>Logo_SK_white</title><path class="cls-1" d="M14.23,33.41a1.2,1.2,0,0,0,0-2.4A1.2,1.2,0,0,0,14.23,33.41Z" transform="translate(-13.07 -12.24)"/><path class="cls-1" d="M75,30.21a1.2,1.2,0,0,0,0-2.4A1.2,1.2,0,0,0,75,30.21Z" transform="translate(-13.07 -12.24)"/><path class="cls-1" d="M97.27,37.47a1.2,1.2,0,0,0,0-2.4A1.2,1.2,0,0,0,97.27,37.47Z" transform="translate(-13.07 -12.24)"/><path class="cls-1" d="M62.47,26a1.2,1.2,0,0,0,0-2.4A1.2,1.2,0,0,0,62.47,26Z" transform="translate(-13.07 -12.24)"/><path class="cls-2" d="M75,28.32l-25.4-.06-5.74-5.6H23.2l-8.93,8.49,1,1.06L23.85,24h19.4l5.64,5.4.31.26L75,29.68Z" transform="translate(-13.07 -12.24)"/><polygon class="cls-2" points="50.52 11.88 64.12 11.88 72.88 20.68 81.81 20.68 84.52 23.22 83.68 24.37 81.28 22.02 72.52 22.15 63.59 13.26 50.21 13.48 50.52 11.88"/><path class="cls-3" d="M65.67,42.2A14.77,14.77,0,1,1,80.43,27.43,14.77,14.77,0,0,1,65.67,42.2" transform="translate(-13.07 -12.24)"/><text class="cls-4" transform="translate(48.6 50.17) scale(1.19 1)">K</text><g id="Слой_9" data-name="Слой 9"><g class="cls-5"><text class="cls-6" transform="translate(25.85 44.97) scale(0.86 1)">S</text><text class="cls-7" transform="translate(25.85 44.97) scale(0.86 1)">S</text></g></g></svg>
+<svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+     viewBox="22 -18 65 65">
+    <defs>
+        <style>.cls-1,.cls-2,.cls-4,.cls-6{fill:#fff;}.cls-2,.cls-7{stroke:#fff;stroke-miterlimit:10;}.cls-2{stroke-width:0.2px;}.cls-3{opacity:0.83;fill:url(#Безымянный_градиент_2);}.cls-3,.cls-4,.cls-5,.cls-6,.cls-7{isolation:isolate;}.cls-4{font-size:37.41px;font-family:ArialMT, Arial;}.cls-6,.cls-7{font-size:53.54px;font-family:Broadway;}.cls-7{fill:none;stroke-width:0.2px;}</style>
+        <linearGradient id="Безымянный_градиент_2" x1="656.03" y1="-73.92" x2="673.25" y2="-88.21" gradientTransform="matrix(-0.98, 0.18, 0.18, 0.98, 733.73, -15.34)" gradientUnits="userSpaceOnUse">
+            <stop offset="0.76" stop-color="#f71b0d"/>
+            <stop offset="1" stop-color="#fff"/>
+        </linearGradient>
+    </defs>
+    <title>Logo_SK_white</title>
+        <g transform=" matrix(0.366, -0.21, 0.22, 0.113, 55, 15)">
+	<path d="M 0,70 A 65,70 0 0,0 65,0 5,5 0 0,1 75,0 75,70 0 0,1 0,70Z" fill="white">
+            <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="1s" repeatCount="indefinite" />
+        </path>
+        </g>
+	<g transform=" matrix(0.366, 0.21, -0.22, 0.113, 55, 15)">
+	<path d="M 0,70 A 65,70 0 0,0 65,0 5,5 0 0,1 75,0 75,70 0 0,1 0,70Z" fill="white">
+            <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="0.87s" repeatCount="indefinite" />
+        </path>
+        </g>
+    <path class="cls-3" d="M65.67,42.2A14.77,14.77,0,1,1,80.43,27.43,14.77,14.77,0,0,1,65.67,42.2" transform="translate(-13.07 -12.24)"/>
+</svg>

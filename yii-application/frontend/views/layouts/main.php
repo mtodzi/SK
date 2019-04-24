@@ -34,7 +34,7 @@ MyAppAsset::register($this);
     
 <nav class="navbar navbar-expand-sm navbar-light" data-toggle="affix">
     <a class="navbar-brand img_nav" href="#" style='display: none;' >
-        <img src="/img/Logo_SK_white.svg" width="45" height="45" class="d-inline-block align-top" alt="" >
+        <img src="/img/Logo_SK_white.svg" width="45" height="45" class="d-inline-block" alt="Лого" >
     </a>
      
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">

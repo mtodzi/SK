@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
 }
+body {
+    overflow-y: scroll; /*когда появляется скролл*/
+}
 .footer {
     position: fixed;
     /*padding-left: 85px;*/
@@ -71,21 +74,17 @@
     }
 }
 .letter_red { 
-    color: red; /* Красный цвет символов */ 
-    /*font-size: 200%; /* Размер шрифта в процентах */ 
-    /*font-family: serif; /* Шрифт с засечками */ 
-    position: relative; /* Относительное позиционирование */ 
-    bottom: 5px; /* Сдвиг сверху */ 
+   /* color: red; // цвет символов */ 
     cursor: pointer;
 }
-.letter_info { 
+/*.letter_info { 
      color: cornflowerblue; /* Синий цвет символов */ 
      /*font-size: 200%; /* Размер шрифта в процентах */ 
      /*font-family: serif; /* Шрифт с засечками */ 
-     position: relative; /* Относительное позиционирование */ 
-     bottom: 5px; /* Сдвиг сверху */ 
-     cursor: pointer;
-}
+/*     position: relative; /* Относительное позиционирование */ 
+/*     bottom: 5px; /* Сдвиг сверху */ 
+/*     cursor: pointer;
+}*/
 .card-body {
 background-color: black; 
 color:#fff;
@@ -109,14 +108,14 @@ hr{
 .linkblock {
     cursor:pointer
 }
-#canvas{
+/*#canvas{
   border: solid 1px blue;  
   width: 100%;
   position: absolute;
   z-index: -1;
   top: 0px;
   left: 0px;
-}
+}*/
 .list-counter-circle {
   list-style: none;
   counter-reset: list;
