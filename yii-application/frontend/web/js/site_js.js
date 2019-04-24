@@ -74,8 +74,8 @@ $(function() {
 })*/
 
 // функция рандомизации цвета
-function getRandomColor() {
+/*function getRandomColor() {
   var color = [];
   while (color.length < 3) color.push(Math.floor(Math.random() * 255));
   return color;
-}
+}*/
