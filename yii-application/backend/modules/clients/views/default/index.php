@@ -22,7 +22,7 @@ $this->title = Yii::t('app','Клиенты');
                 </a>
             </div>
             <!--кнопка добавить новый заказ-->
-            <div class="">
+            <div class="mx-1">
                 <a  id = 'add_new_clients' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить клиента">
                 <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить клиента">
                 </a>
@@ -42,9 +42,9 @@ $this->title = Yii::t('app','Клиенты');
 <div class='index_clients_bloc'>
     <div class='my_content_bloc'>        
         <div id="clientscard-0">
-           
+            <?= $this->render('clientscard', ['model' => null,]);?>
         </div>    
-<?php echo "Тут";/*
+<?php 
         echo ListView::widget([
                 'dataProvider' => $dataProvider,
                 'pager' => [
@@ -71,9 +71,9 @@ $this->title = Yii::t('app','Клиенты');
                 'itemOptions' => ['class' => ''],
                 'summary'=>FALSE,
                 'itemView' => function ($model, $key, $index, $widget) {
-                    return $this->render('orderscard', ['model' => $model,]);
+                    return $this->render('clientscard', ['model' => $model,]);
                 },
-        ]);*/
+        ]);
      ?>    
         
     </div>

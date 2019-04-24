@@ -4,6 +4,7 @@ namespace backend\modules\clients\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use backend\modules\clients\models\ClientsPhones;
 
 /**
  * This is the model class for table "clients".
@@ -83,5 +84,10 @@ class Clients extends \yii\db\ActiveRecord
     public function getOrders()
     {
         return $this->hasMany(Orders::className(), ['clients_id' => 'id_clients']);
+    }
+    
+    public function getFirstPhone(){
+        $ClientsPhones = ClientsPhones::findOne(['clients_id'=>$this->id_clients]);
+        return (($ClientsPhones!=null)?$ClientsPhones->phone_number:'Нет телефона');
     }
 }

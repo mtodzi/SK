@@ -17,6 +17,7 @@ class MyClientsAsset extends AssetBundle
         'm_clients/css/clients.css',
     ];
     public $js = [
+        'm_clients/js/jquery.maskedinput.min.js',
         'm_clients/js/clients.js',
     ];
     public $depends = [
