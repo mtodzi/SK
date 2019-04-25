@@ -9,19 +9,19 @@ use yii\web\AssetBundle;
  */
 class AssetKartikFileInput extends AssetBundle
 {
-    public $sourcePath = '@vendor';
+    public $sourcePath = '@vendor/kartik-v';
     public $css = [
-        'kartik-v/bootstrap-fileinput/css/fileinput.min.css',
+        'bootstrap-fileinput/css/fileinput.min.css',
     ];
     public $js = [
                 
-        'kartik-v/bootstrap-fileinput/js/plugins/piexif.min.js',
-        'kartik-v/bootstrap-fileinput/js/plugins/purify.min.js',
-        'kartik-v/bootstrap-fileinput/js/plugins/sortable.min.js',
-        'kartik-v/bootstrap-fileinput/js/fileinput.min.js',
-        'kartik-v/bootstrap-fileinput/themes/fas/theme.min.js',
-        'kartik-v/bootstrap-fileinput/js/locales/LANG.js',
-        'kartik-v/bootstrap-fileinput/js/locales/ru.js',
+        'bootstrap-fileinput/js/plugins/piexif.min.js',
+        'bootstrap-fileinput/js/plugins/purify.min.js',
+        'bootstrap-fileinput/js/plugins/sortable.min.js',
+        'bootstrap-fileinput/js/fileinput.min.js',
+        'bootstrap-fileinput/themes/fas/theme.min.js',
+        'bootstrap-fileinput/js/locales/LANG.js',
+        'bootstrap-fileinput/js/locales/ru.js',
        
         
   

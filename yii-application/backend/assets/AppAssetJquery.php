@@ -10,11 +10,11 @@ use yii\web\AssetBundle;
  */
 class AppAssetJquery extends AssetBundle
 {
-    public $sourcePath = '@vendor';
+    public $sourcePath = '@vendor/components';
     public $css = [    
     ];
     public $js = [
-        'components/jquery/jquery.min.js',
+        'jquery/jquery.min.js',
     ];
     public $depends = [       
     ];

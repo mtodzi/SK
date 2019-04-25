@@ -9,12 +9,12 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor';
+    public $sourcePath = '@vendor/twbs';
     public $css = [        
-        'twbs/bootstrap/dist/css/bootstrap.min.css',
+        'bootstrap\dist\css\bootstrap.min.css',
     ];
     public $js = [
-        'twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
+        'bootstrap\dist\js\bootstrap.bundle.min.js',
   
     ];
     public $depends = [
