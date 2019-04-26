@@ -32,7 +32,7 @@ $('[data-toggle="tooltip"]').on("click", function() {
 
 //Обработчик нажатия кнопки добавить новый клиент
 $('.my_heders_bloc').on('click', '#add_new_clients', function(){
-    alert ("Вы нажали кнопку дабавить клиента");
+    //alert ("Вы нажали кнопку дабавить клиента");
         if(GetStatusCard()){
             SetStatusCard(0,"");
             $('#Block_add_clients-0').show();
@@ -222,3 +222,183 @@ function deleteInputPhone(id_clients,id_delete,count_phone){
         }
         
     }
+    
+//Обработчик нажатия кнопки отмена в userbox
+$('.my_content_bloc').on('click', '.clients_cancel_button', function () {
+    console.log(dataKard);
+    //alert("Вы нажали кнопку отмена");        
+    var id = GetId($(this), 1);
+    var dataKard1 = GetDataCardOrders(id);
+    var s1 = JSON.stringify(dataKard);
+    var s2 = JSON.stringify(dataKard1);
+    console.log(s1);
+    console.log(s2);    
+    if (!(s1 == s2)) {
+        settingCardData(dataKard, id);
+        if (id == 0) {
+            SetStatusCard(0, "");
+            $('#Block_add_clients-0').hide();
+            return false;
+        } else {
+            SetStatusCard(id, "#span_clients_name-");
+            $('#clients_card_button_edit-' + id).show();
+            $('#clients_content-' + id).show();
+            $('#clients_cancel_button_card_apply-' + id).hide();
+            $('#clients_form-' + id).hide();
+            return false;
+        }
+    } else {
+        if (id == 0) {
+            SetStatusCard(0, "");
+            $('#Block_add_clients-0').hide();
+            return false;
+        } else {
+            SetStatusCard(id, "#span_clients_name-");
+            $('#clients_card_button_edit-' + id).show();
+            $('#clients_content-' + id).show();
+            $('#clients_cancel_button_card_apply-' + id).hide();
+            $('#clients_form-' + id).hide();
+            return false;
+        }
+    }
+});
+
+function settingCardData(data, id) {
+    $("#input_clients_name-" + id).val(data.clients_name);
+    $("#input_clients_id_clients-" + id).val(data.id_clients);
+    $("#input_clients_email-" + id).val(data.clients_email);
+    $("#input_clients_address-" + id).val(data.clients_address);    
+    console.log("Длина телефонов - " + data['phone_number'].length);
+    $(".phone_input-" + id).each(function (index) {
+        console.log($(this));
+        $("#div_clients_phone-" + id + "-" + (index + 1)).remove();
+    });
+    $('#add_another_phone-' + id).attr('data-count-phone', 0);
+    $.each(data['phone_number'], function (index, value) {
+        console.log(index);
+        addInputPhone(id, (index - 1), value = value);
+    });
+    
+}
+
+//Обработчик нажатия кнопки редактировать в userbox
+$('.my_content_bloc').on('click', '.clients_edit_button', function () {
+    var id = GetId($(this), 1);
+    if (GetStatusCard()) {
+        dataKard = GetDataCardOrders(id);
+        console.log(dataKard);
+        SetStatusCard(id, "#span_clients_name-");
+        $('#clients_card_button_edit-' + id).hide();
+        $('#clients_content-' + id).hide();
+        $('#clients_cancel_button_card_apply-' + id).show();
+        $('#clients_form-' + id).show();
+        return false;
+    } else {
+        return false;
+    }
+
+});
+
+//Обработчик нажатия кнопки Применить в userbox
+$('.my_content_bloc').on('click', '.clients_apply_button', function () {
+    console.log(dataKard);
+    //alert("Вы нажали кнопку пременить");        
+    var id = GetId($(this), 1);
+    var dataKard1 = GetDataCardOrders(id);
+    var s1 = JSON.stringify(dataKard);
+    var s2 = JSON.stringify(dataKard1);
+    console.log("сравнение двух обьектов:" + (s1 == s2));
+    if (!(s1 == s2)) {
+        var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
+        errorDeleteServerTreatment(arrayFieldsChecked, id);
+        if (true/*formFieldCheck(id, arrayFieldsChecked)*/) {
+            //alert("Проверка Проверка прошла успешно");
+            //var data = $('#form_orders-' + id).serialize();
+            console.log(data);/*
+            $.ajax({
+                url: '/yii-application/backend/web/orders/default/create',
+                type: 'POST',
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    if (Number(res[0]) == 0) {
+                        console.log(res['msg']);
+                        console.log(res['errorsClientsPhonesEdit']);//
+                        console.log(res['errorsMalfunctionEdit']);
+                        console.log(res['errorsOrdersEdit']);
+                        console.log(res['errorsBrandsEdit']);
+                        console.log(res['errorsDeviceTypeEdit']);
+                        console.log(res['errorsDevicesEdit']);
+                        console.log(res['errorsSerialNumbersEdit']);
+                        console.log(res['errorsClientsEdit']);
+                        console.log(res['test']);
+                        errorServerTreatment(processingErrorsServer(res, id), id);
+                    } else {
+                        console.log(res);
+                        if (res['txt'] == 0) {
+                            var numberAlert = getRandomArbitary(1, 50);
+                            var namePost = CreateErrorCards(res['msg'], id, numberAlert);
+                            setTimeout(postDelete, 3000, namePost);
+                        } else {
+                            if (id != 0) {
+                                $("#Block_add_orders-" + id).remove();
+                                $("[data-key='" + id + "']").append(res['txt']);
+                                SetStatusCard(0, "");
+                                return false;
+                            } else {
+                                settingCardData(dataKard, id);
+                                $('#Block_add_orders-0').hide();
+                                $("#w0").prepend("<div class='' data-key='" + res['id'] + "' >" + res['txt'] + "</div>");
+                                SetStatusCard(0, "");
+                                return false;
+                            }
+                        }
+                    }
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR);
+                    alert(jqXHR.responseText);
+                }
+            });*/
+        } else {
+            alert("Проверка Проверка прошла не успешно");
+        }
+    } else {
+        if (id == 0) {
+            SetStatusCard(0, "");
+            $('#Block_add_clients-0').hide();
+            return false;
+        } else {
+            SetStatusCard(id, "#span_clients_name-");
+            $('#clients_card_button_edit-' + id).show();
+            $('#clients_content-' + id).show();
+            $('#clients_cancel_button_card_apply-' + id).hide();
+            $('#clients_form-' + id).hide();
+            return false;
+        }
+    }
+});
+
+//Функция очишает все ошибки в карточке
+function errorDeleteServerTreatment(arrayError, id) {
+
+    $.each(arrayError, function (index, value) {
+        if (value.toString().localeCompare("clients_phone-") == 0) {
+            console.log("Блок телефонов" + $('.error_clients_phone-' + id));
+            $('.error_clients_phone-' + id).each(function (index) {
+                console.log("Ошибка :" + this);
+                $(this).text('');
+                $(this).hide();
+                $(this).removeClass('is-invalid');
+            });
+            console.log("Конец блока");
+        } else {          
+                $('#error_clients_' + value.toString() + '' + id).text('');
+                $('#error_clients_' + value.toString() + id).hide();//Блок ошибки показываем пользователю
+                console.log(id);
+                $('#input_clients_' + value.toString() + id).removeClass('is-invalid');
+                console.log($('#error_clients_' + value.toString() + '' + id));
+        }
+
+    });
+}
