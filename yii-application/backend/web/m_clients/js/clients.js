@@ -311,55 +311,24 @@ $('.my_content_bloc').on('click', '.clients_apply_button', function () {
     if (!(s1 == s2)) {
         var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
         errorDeleteServerTreatment(arrayFieldsChecked, id);
-        if (true/*formFieldCheck(id, arrayFieldsChecked)*/) {
-            //alert("Проверка Проверка прошла успешно");
-            //var data = $('#form_orders-' + id).serialize();
-            console.log(data);/*
+        if (formFieldCheck(id, arrayFieldsChecked)) {
+            alert("Проверка Проверка прошла успешно");
+            var data = $('#form_clients-' + id).serialize();
+            console.log(data);
+            
             $.ajax({
                 url: '/yii-application/backend/web/orders/default/create',
                 type: 'POST',
                 data: data,
                 success: function (res) {
                     console.log(res);
-                    if (Number(res[0]) == 0) {
-                        console.log(res['msg']);
-                        console.log(res['errorsClientsPhonesEdit']);//
-                        console.log(res['errorsMalfunctionEdit']);
-                        console.log(res['errorsOrdersEdit']);
-                        console.log(res['errorsBrandsEdit']);
-                        console.log(res['errorsDeviceTypeEdit']);
-                        console.log(res['errorsDevicesEdit']);
-                        console.log(res['errorsSerialNumbersEdit']);
-                        console.log(res['errorsClientsEdit']);
-                        console.log(res['test']);
-                        errorServerTreatment(processingErrorsServer(res, id), id);
-                    } else {
-                        console.log(res);
-                        if (res['txt'] == 0) {
-                            var numberAlert = getRandomArbitary(1, 50);
-                            var namePost = CreateErrorCards(res['msg'], id, numberAlert);
-                            setTimeout(postDelete, 3000, namePost);
-                        } else {
-                            if (id != 0) {
-                                $("#Block_add_orders-" + id).remove();
-                                $("[data-key='" + id + "']").append(res['txt']);
-                                SetStatusCard(0, "");
-                                return false;
-                            } else {
-                                settingCardData(dataKard, id);
-                                $('#Block_add_orders-0').hide();
-                                $("#w0").prepend("<div class='' data-key='" + res['id'] + "' >" + res['txt'] + "</div>");
-                                SetStatusCard(0, "");
-                                return false;
-                            }
-                        }
-                    }
+                    
                 },
                 error: function (jqXHR) {
                     console.log(jqXHR);
                     alert(jqXHR.responseText);
                 }
-            });*/
+            });
         } else {
             alert("Проверка Проверка прошла не успешно");
         }
@@ -401,4 +370,84 @@ function errorDeleteServerTreatment(arrayError, id) {
         }
 
     });
+}
+
+/**
+ * Функция проверяет поля редактируемого пользователя
+ * */
+function formFieldCheck(id, arrayFieldsChecked) {
+    var arrayError = {};
+    var countError = 0;
+    $.each(arrayFieldsChecked, function (i, val) {
+        console.log(i + " - " + val);
+        switch ("input_" + val) {
+            case "input_clients_name-":
+                if (empty($('#input_' + val + id).val())) {
+                    countError++;
+                    arrayError['clients_name-' + id] = 'Заполните ФИО клиента';
+                }
+                break;
+            case "input_clients_phone-":
+                $(".phone_input-" + id).each(function (index) {
+                    if (empty($('#input_' + val + id + "-" + (index + 1)).val())) {
+                        countError++;
+                        arrayError['clients_phone-' + id + "-" + (index + 1)] = 'Заполните телефон клиента';
+                    }
+                });
+                break;
+            case "input_clients_email-":
+                if (empty($('#input_' + val + id).val())) {
+                    countError++;
+                    arrayError['clients_email-' + id] = 'Заполните email клиента';
+                } else {
+                    if (emailEmpty($('#input_' + val + id).val())) {
+                        countError++;
+                        arrayError['clients_email-' + id] = 'Вы неправильно ввели email клиента';
+                    }
+                }
+                break;
+
+        }
+    });
+    if (countError == 0) {
+        return true
+    } else {
+        errorServerTreatment(arrayError, id);
+        return false
+    }
+}
+
+//Функция обработки полученных ошибок с сервера
+function errorServerTreatment(arrayError) {
+    //перебирает поля с данными, присланные с сервера
+    $.each(arrayError, function (index, value) {
+        console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+        $('#error_' + index.toString()).text(value.toString());//Добавляем текст ошибки
+        $('#error_' + index.toString()).show();//Блок ошибки показываем пользователю
+        console.log($('#error_' + index.toString()));
+        $('#input_' + index.toString()).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+        console.log($('#input_' + index.toString()));
+    });
+    return false;
+}
+
+//Функция проверяет сушествует ли переменная
+function empty(e) {
+    switch (e) {
+        case "":
+        case 0:
+        case "0":
+        case null:
+        case false:
+        case typeof this == "undefined":
+            return true;
+        default:
+            return false;
+    }
+}
+
+//Функция проверки email
+function emailEmpty(email) {
+    var re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    return !re.test(email);
 }
