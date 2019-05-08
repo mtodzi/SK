@@ -134,8 +134,7 @@ class DefaultController extends Controller
             if($modelMalfunctionEdit->load(Yii::$app->request->post()) && !$modelMalfunctionEdit->validate()){
                 $countError++;
                 $errorsMalfunctionEdit = $modelMalfunctionEdit->getErrors();
-            }
-            
+            }            
         if($countError==0){
                 $countErrorSave = 0;
                 $msgCountErrorSave = 'Ошибки сохранения - ';
@@ -188,6 +187,7 @@ class DefaultController extends Controller
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     //Фармируем массив с ошибкой
                     $items = ['200','msg'=>$msgCountErrorSave, 'txt'=>0];
+                    return $items;
                 }                    
             }else{
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON

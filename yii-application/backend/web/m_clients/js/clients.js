@@ -224,7 +224,7 @@ function deleteInputPhone(id_clients,id_delete,count_phone){
     }
     
 //Обработчик нажатия кнопки отмена в userbox
-$('.my_content_bloc').on('click', '.clients_cancel_button', function () {
+$('.my_content_bloc').on('click', '.clients_cancel_button', function () {    
     console.log(dataKard);
     //alert("Вы нажали кнопку отмена");        
     var id = GetId($(this), 1);
@@ -238,6 +238,8 @@ $('.my_content_bloc').on('click', '.clients_cancel_button', function () {
         if (id == 0) {
             SetStatusCard(0, "");
             $('#Block_add_clients-0').hide();
+            var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
+            errorDeleteServerTreatment(arrayFieldsChecked, id);
             return false;
         } else {
             SetStatusCard(id, "#span_clients_name-");
@@ -245,12 +247,16 @@ $('.my_content_bloc').on('click', '.clients_cancel_button', function () {
             $('#clients_content-' + id).show();
             $('#clients_cancel_button_card_apply-' + id).hide();
             $('#clients_form-' + id).hide();
+            var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
+            errorDeleteServerTreatment(arrayFieldsChecked, id);
             return false;
         }
     } else {
         if (id == 0) {
             SetStatusCard(0, "");
             $('#Block_add_clients-0').hide();
+            var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
+            errorDeleteServerTreatment(arrayFieldsChecked, id);
             return false;
         } else {
             SetStatusCard(id, "#span_clients_name-");
@@ -258,6 +264,8 @@ $('.my_content_bloc').on('click', '.clients_cancel_button', function () {
             $('#clients_content-' + id).show();
             $('#clients_cancel_button_card_apply-' + id).hide();
             $('#clients_form-' + id).hide();
+            var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
+            errorDeleteServerTreatment(arrayFieldsChecked, id);
             return false;
         }
     }
@@ -311,18 +319,47 @@ $('.my_content_bloc').on('click', '.clients_apply_button', function () {
     if (!(s1 == s2)) {
         var arrayFieldsChecked = ['clients_name-', 'clients_phone-', 'clients_email-', 'clients_address-'];
         errorDeleteServerTreatment(arrayFieldsChecked, id);
-        if (formFieldCheck(id, arrayFieldsChecked)) {
+        if(true/*formFieldCheck(id, arrayFieldsChecked)*/) {
             alert("Проверка Проверка прошла успешно");
             var data = $('#form_clients-' + id).serialize();
             console.log(data);
-            
+            var urlMetod = "";
+            if(id == 0){
+                urlMetod = "create";
+            }else{
+                urlMetod = "update";
+            }
             $.ajax({
-                url: '/yii-application/backend/web/orders/default/create',
+                url: '/yii-application/backend/web/clients/default/'+urlMetod,
                 type: 'POST',
                 data: data,
                 success: function (res) {
                     console.log(res);
-                    
+                    if (Number(res[0]) == 0){
+                        console.log(res['msg']);
+                        console.log(res['errorsClientsPhonesEdit']);//
+                        console.log(res['errorsClientsEdit']);
+                        errorServerTreatment(processingErrorsServer(res, id), id);
+                    } else {
+                        if(res['txt']==0){
+                            console.log(res['msg']);
+                            alert(res['msg']);
+                        }else{
+                            console.log(res['msg']);
+                             if (id != 0) {
+                                $("#Block_add_clients-" + id).remove();
+                                $("[data-key='" + id + "']").append(res['txt']);
+                                SetStatusCard(0, "");
+                                return false;
+                            } else {
+                                settingCardData(dataKard, id);
+                                $('#Block_add_clients-0').hide();
+                                $("#w0").prepend("<div class='' data-key='" + res['id'] + "' >" + res['txt'] + "</div>");
+                                SetStatusCard(0, "");
+                                return false;
+                            }
+                        }    
+                    }                    
                 },
                 error: function (jqXHR) {
                     console.log(jqXHR);
@@ -348,6 +385,26 @@ $('.my_content_bloc').on('click', '.clients_apply_button', function () {
     }
 });
 
+function processingErrorsServer(res, id) {
+    var arrayError = {};
+    if (!empty(res['errorsClientsPhonesEdit'])) {
+        var countPhones = $('.phone_input-' + id).length;
+        var valueErorrsValue = '';
+        $.each(res['errorsClientsPhonesEdit'], function (index, value) {
+            console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            valueErorrsValue = valueErorrsValue + " " + value.toString()
+        });
+        arrayError['clients_phone' + '-' + id + '-' + countPhones] = valueErorrsValue;
+    }
+    if (!empty(res['errorsClientsEdit'])) {
+        $.each(res['errorsClientsEdit'], function (index, value) {
+            console.log('errorsClientsEdit Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+            arrayError[index.toString() + '-' + id] = value.toString();
+        });
+    }
+    return arrayError;
+}
+
 //Функция очишает все ошибки в карточке
 function errorDeleteServerTreatment(arrayError, id) {
 
@@ -362,11 +419,11 @@ function errorDeleteServerTreatment(arrayError, id) {
             });
             console.log("Конец блока");
         } else {          
-                $('#error_clients_' + value.toString() + '' + id).text('');
-                $('#error_clients_' + value.toString() + id).hide();//Блок ошибки показываем пользователю
+                $('#error_' + value.toString() + '' + id).text('');
+                $('#error__' + value.toString() + id).hide();//Блок ошибки показываем пользователю
                 console.log(id);
-                $('#input_clients_' + value.toString() + id).removeClass('is-invalid');
-                console.log($('#error_clients_' + value.toString() + '' + id));
+                $('#input_' + value.toString() + id).removeClass('is-invalid');
+                console.log($('#error_' + value.toString() + '' + id));
         }
 
     });

@@ -1,11 +1,11 @@
 <?php
 
-namespace backend\modules\orders\models;
+namespace backend\modules\clients\models;
 
 use Yii;
 use yii\base\Model;
-use backend\modules\orders\models\Clients;
-use backend\modules\orders\models\ChangesTables;
+use backend\modules\clients\models\Clients;
+use backend\modules\clients\models\ChangesTables;
 
 class ClientsEdit extends Model{
     
@@ -42,7 +42,7 @@ class ClientsEdit extends Model{
             $modelClients->clients_address = $this->clients_address;
             $modelClients->clients_archive = 0;
             if($modelClients->save()){
-                $modelChangesTables = new ChangesTables('clients',$modelClients->id_clients,'Был создан новый клиент '.$modelClients->clients_name.' для заказ', Yii::$app->user->identity->id);
+                $modelChangesTables = new ChangesTables('clients',$modelClients->id_clients,'Был создан новый клиент '.$modelClients->clients_name, Yii::$app->user->identity->id);
                 $modelChangesTables->save();
                 return $modelClients;
             }else{
@@ -59,19 +59,19 @@ class ClientsEdit extends Model{
                     $i++;
                     $nameKlient = $modelClients->clients_name;
                     $modelClients->clients_name = $this->clients_name;
-                    $modelChangesСlients = new ChangesTables('clients',$modelClients->id_clients,'При работе с заказом был изменен ФИО клиента было - '.$nameKlient.'стало - '.$this->clients_name, Yii::$app->user->identity->id);
+                    $modelChangesСlients = new ChangesTables('clients',$modelClients->id_clients,'При работе с картой клиента был изменен ФИО клиента было - '.$nameKlient.'стало - '.$this->clients_name, Yii::$app->user->identity->id);
                 }
                 if(strcmp($modelClients->clients_email , $this->clients_email)!== 0){
                     $i++;
                     $emailKlient = $modelClients->clients_email;
                     $modelClients->clients_email = $this->clients_email;
-                    $modelChangesTablesEmail = new ChangesTables('clients',$modelClients->id_clients,'При работе с заказом был изменен email клиента было - '.$emailKlient.'стало - '.$this->clients_email, Yii::$app->user->identity->id);
+                    $modelChangesTablesEmail = new ChangesTables('clients',$modelClients->id_clients,'При работе картой клиента был изменен email клиента было - '.$emailKlient.'стало - '.$this->clients_email, Yii::$app->user->identity->id);
                 }
                 if(strcmp($modelClients->clients_address , $this->clients_address)!== 0){
                     $i++;
                     $clientsAddress = $modelClients->clients_address;
                     $modelClients->clients_address = $this->clients_address;
-                    $modelChangesTablesAddress = new ChangesTables('clients',$modelClients->id_clients,'При работе с заказом был изменен адресс клиента было - '.$clientsAddress.'стало - '.$this->clients_address, Yii::$app->user->identity->id);
+                    $modelChangesTablesAddress = new ChangesTables('clients',$modelClients->id_clients,'При работе с картой клиента был изменен адресс клиента было - '.$clientsAddress.'стало - '.$this->clients_address, Yii::$app->user->identity->id);
                 }
                 if($i!=0){
                     if($modelClients->save()){
