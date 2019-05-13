@@ -22,12 +22,15 @@ class ClientsEdit extends Model{
             
             [['clients_name'], 'required'],
             [['clients_name'], 'string', 'max' => 50],
+            ['clients_name', 'filter', 'filter' => 'trim'],
             
             [['clients_email'], 'required'],
             [['clients_email'], 'string', 'max' => 100],
+            ['clients_email', 'filter', 'filter' => 'trim'],
             
             
             [['clients_address'], 'string', 'max' => 255],
+            ['clients_address', 'filter', 'filter' => 'trim'],
         ];           
     }
     

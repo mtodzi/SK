@@ -59,6 +59,11 @@ class ClientsSearch extends Clients
             // $query->where('0=1');
             return $dataProvider;
         }
+        
+        $query->orFilterWhere(['=', 'clients_name', $this->search]);
+        $query->orFilterWhere(['=', 'clients_email', $this->search]);
+        $query->joinWith('clientsPhones');
+        $query->orFilterWhere(['=', 'phone_number', $this->search]);
         /*
         $query->joinWith('clients');
         $query->joinWith('serrialNambers');
