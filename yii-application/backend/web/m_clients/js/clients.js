@@ -122,7 +122,7 @@ function GetDataCardOrders(id){
 }
 
 //Обработчик нажатия кнопки добавить еше один телефон
-$('.my_box_content').on('click', '.add_another_phone', function(){
+$('.my_content_bloc').on('click', '.add_another_phone', function(){
         var id_clients = GetId($(this),1);
         var count_phone = Number($(this).attr('data-count-phone'));
         console.log('id_clients-'+id_clients+" count_phone-"+count_phone);

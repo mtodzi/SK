@@ -18,7 +18,7 @@ class Clients extends \yii\base\Module
     public function init()
     {
         parent::init();
-
+        $this->defaultRoute = 'client';
         // custom initialization code goes here
     }
 }
