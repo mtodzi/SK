@@ -44,7 +44,7 @@ MyAppAsset::register($this);
 
         <ul class="nav navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" id='home_link' href='<?=Url::to(['site/index'])?>'>
+                <a class="nav-link img_home" id='home_link' href='<?=Url::to(['site/index'])?>'>
                     <img src="/img/home.svg" width="20" height="20" alt="На главную" >
                 </a>
             </li>

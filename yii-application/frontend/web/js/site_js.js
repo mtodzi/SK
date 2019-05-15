@@ -15,13 +15,15 @@ $(document).ready(function() {
             wrapper.height(height);
             affixElement.addClass("affix");
             affixElement.addClass("navbar-dark");
-        $('.img_nav').show();    
+        $('.img_nav').show(); 
+        $('.img_home').hide(); 
         }
         else {
             affixElement.removeClass("affix");
             affixElement.removeClass("navbar-dark");
             wrapper.height('auto');
         $('.img_nav').hide(); 
+        $('.img_home').show();
         }
       
     };
