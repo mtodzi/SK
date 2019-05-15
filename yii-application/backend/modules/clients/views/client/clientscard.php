@@ -10,7 +10,7 @@ use yii\helpers\Html;
             <!--Начало Хедера карточки-->
             <div class = "my_box_heder">
                <nav class="navbar navbar-light bg-dark rounded-top">
-                    <span id='span_clients_id_clients_text-<?=(($model!=null)?$model->id_clients:0)?>' class='navbar-brand text-light'><?=(($model!=null)?'Карточка сотрудника':'Новый клиент')?></span>
+                    <span id='span_clients_id_clients_text-<?=(($model!=null)?$model->id_clients:0)?>' class='navbar-brand text-light'><?=(($model!=null)?'Карточка клиента':'Новый клиент')?></span>
                     <?php
                     $buttons_edit = "".   
                         "<!--группировка кнопок в navbar с выравниванием вправо  редактировать-->".
