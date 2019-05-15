@@ -5,9 +5,9 @@ use yii\base\InvalidConfigException;
 use yii\rbac\DbManager;
 
 /**
- * Class m190311_110620_orders_clamed_malfunction
+ * Class m190515_110010_equipment_stock
  */
-class m190311_110620_orders_clamed_malfunction extends Migration
+class m190515_110010_equipment_stock extends Migration
 {
     /**
      * @throws yii\base\InvalidConfigException
@@ -30,7 +30,6 @@ class m190311_110620_orders_clamed_malfunction extends Migration
         return $this->db->driverName === 'mssql' || $this->db->driverName === 'sqlsrv' || $this->db->driverName === 'dblib';
     }
     
-    
     /**
      * {@inheritdoc}
      */
@@ -45,27 +44,29 @@ class m190311_110620_orders_clamed_malfunction extends Migration
         $authManager = $this->getAuthManager();
         $this->db = $authManager->db;
         
-        $this->createTable('{{%orders_clamed_malfunction}}', [
-            'orders_id' => $this->integer()->notNull(),
-            'claimed_malfunction_id' => $this->integer()->notNull(),
+        $this->createTable('{{%equipment_stock}}', [
+            'stock_id' => $this->integer()->notNull(),
+            'serial_number_id' => $this->integer()->notNull(),
             
         ], $tableOptions);
         
-        $this->createIndex('I_orders_id', 'orders_clamed_malfunction', 'orders_id');
-        $this->createIndex('I_claimed_malfunction_id', 'orders_clamed_malfunction', 'claimed_malfunction_id');
-        $this->addForeignKey('FK_orders_id', 'orders_clamed_malfunction','orders_id','orders','id_orders','CASCADE','CASCADE');
-        $this->addForeignKey('FK_claimed_malfunction_id', 'orders_clamed_malfunction','claimed_malfunction_id','claimed_malfunction','id_claimed_malfunction','CASCADE','CASCADE');
+        $this->createIndex('I_stock_id', 'equipment_stock', 'stock_id');
+        $this->createIndex('I_serial_number_id', 'equipment_stock', 'serial_number_id');
+        $this->addForeignKey('FK_stock_id', 'equipment_stock','stock_id','stocks','id_stocks','CASCADE','CASCADE');
+        $this->addForeignKey('FK_serial_number_id', 'equipment_stock','serial_number_id','serial_numbers','id_serial_numbers','CASCADE','CASCADE');
         
         //добавляем некоторое количество тестовых пользователей
-        for($i=1; $i<=30; $i++){
-            $v=random_int(1,2);
-            for($j=0; $j<=$v; $j++){
-                $s=random_int(1,29);
-                $this->insert('{{%orders_clamed_malfunction}}',[
-                                        'orders_id' => $i,
-                                        'claimed_malfunction_id' => $s,
-                ]);
-            }
+        for($i=1; $i<=15; $i++){
+            $this->insert('{{equipment_stock}}',['stock_id' => 1,
+                                   'serial_number_id' => $i,                                  
+                                   ]);
+            
+        }
+        for($i=16; $i<=29; $i++){
+            $this->insert('{{equipment_stock}}',['stock_id' => 2,
+                                   'serial_number_id' => $i,                                  
+                                   ]);
+            
         }
     }
 
@@ -74,11 +75,11 @@ class m190311_110620_orders_clamed_malfunction extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('FK_orders_id', 'orders_clamed_malfunction');
-        $this->dropForeignKey('FK_claimed_malfunction_id', 'orders_clamed_malfunction');
-        $this->dropIndex('I_orders_id', 'orders_clamed_malfunction');
-        $this->dropIndex('I_claimed_malfunction_id', 'orders_clamed_malfunction');
-        $this->dropTable('orders_clamed_malfunction');
+        $this->dropForeignKey('FK_serial_number_id', 'equipment_stock');
+        $this->dropForeignKey('FK_stock_id', 'equipment_stock');
+        $this->dropIndex('I_serial_number_id', 'equipment_stock');
+        $this->dropIndex('I_stock_id', 'equipment_stock');
+        $this->dropTable('equipment_stock');
     }
 
     /*
@@ -90,7 +91,7 @@ class m190311_110620_orders_clamed_malfunction extends Migration
 
     public function down()
     {
-        echo "m190311_110620_orders_clamed_malfunction cannot be reverted.\n";
+        echo "m190515_110010_equipment_stock cannot be reverted.\n";
 
         return false;
     }

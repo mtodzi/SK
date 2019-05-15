@@ -5,9 +5,9 @@ use yii\base\InvalidConfigException;
 use yii\rbac\DbManager;
 
 /**
- * Class m190311_110620_orders_clamed_malfunction
+ * Class m190515_141740_equipment_showcase
  */
-class m190311_110620_orders_clamed_malfunction extends Migration
+class m190515_141740_equipment_showcase extends Migration
 {
     /**
      * @throws yii\base\InvalidConfigException
@@ -30,7 +30,6 @@ class m190311_110620_orders_clamed_malfunction extends Migration
         return $this->db->driverName === 'mssql' || $this->db->driverName === 'sqlsrv' || $this->db->driverName === 'dblib';
     }
     
-    
     /**
      * {@inheritdoc}
      */
@@ -45,27 +44,29 @@ class m190311_110620_orders_clamed_malfunction extends Migration
         $authManager = $this->getAuthManager();
         $this->db = $authManager->db;
         
-        $this->createTable('{{%orders_clamed_malfunction}}', [
-            'orders_id' => $this->integer()->notNull(),
-            'claimed_malfunction_id' => $this->integer()->notNull(),
+        $this->createTable('{{%equipment_showcase}}', [
+            'showcase_id' => $this->integer()->notNull(),
+            'devices_id' => $this->integer()->notNull(),
             
         ], $tableOptions);
         
-        $this->createIndex('I_orders_id', 'orders_clamed_malfunction', 'orders_id');
-        $this->createIndex('I_claimed_malfunction_id', 'orders_clamed_malfunction', 'claimed_malfunction_id');
-        $this->addForeignKey('FK_orders_id', 'orders_clamed_malfunction','orders_id','orders','id_orders','CASCADE','CASCADE');
-        $this->addForeignKey('FK_claimed_malfunction_id', 'orders_clamed_malfunction','claimed_malfunction_id','claimed_malfunction','id_claimed_malfunction','CASCADE','CASCADE');
+        $this->createIndex('I_showcase_id', 'equipment_showcase', 'showcase_id');
+        $this->createIndex('I_devices_id', 'equipment_showcase', 'devices_id');
+        $this->addForeignKey('FK_showcase_id', 'equipment_showcase','showcase_id','showcases','id_showcase','CASCADE','CASCADE');
+        $this->addForeignKey('FK_devices_id', 'equipment_showcase','devices_id','devices','id_devices','CASCADE','CASCADE');
         
         //добавляем некоторое количество тестовых пользователей
-        for($i=1; $i<=30; $i++){
-            $v=random_int(1,2);
-            for($j=0; $j<=$v; $j++){
-                $s=random_int(1,29);
-                $this->insert('{{%orders_clamed_malfunction}}',[
-                                        'orders_id' => $i,
-                                        'claimed_malfunction_id' => $s,
-                ]);
-            }
+        for($i=1; $i<=15; $i++){
+            $this->insert('{{equipment_showcase}}',['showcase_id' => 1,
+                                   'devices_id' => $i,                                  
+                                   ]);
+            
+        }
+        for($i=16; $i<=29; $i++){
+            $this->insert('{{equipment_showcase}}',['showcase_id' => 2,
+                                   'devices_id' => $i,                                  
+                                   ]);
+            
         }
     }
 
@@ -74,11 +75,11 @@ class m190311_110620_orders_clamed_malfunction extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('FK_orders_id', 'orders_clamed_malfunction');
-        $this->dropForeignKey('FK_claimed_malfunction_id', 'orders_clamed_malfunction');
-        $this->dropIndex('I_orders_id', 'orders_clamed_malfunction');
-        $this->dropIndex('I_claimed_malfunction_id', 'orders_clamed_malfunction');
-        $this->dropTable('orders_clamed_malfunction');
+        $this->dropForeignKey('FK_showcase_id', 'equipment_showcase');
+        $this->dropForeignKey('FK_serial_number_id', 'equipment_showcase');
+        $this->dropIndex('I_devices_id', 'equipment_showcase');
+        $this->dropIndex('I_showcase_id', 'equipment_showcase');
+        $this->dropTable('equipment_showcase');
     }
 
     /*
@@ -90,7 +91,7 @@ class m190311_110620_orders_clamed_malfunction extends Migration
 
     public function down()
     {
-        echo "m190311_110620_orders_clamed_malfunction cannot be reverted.\n";
+        echo "m190515_141740_equipment_showcase cannot be reverted.\n";
 
         return false;
     }
