@@ -18,7 +18,7 @@ class Stock extends \yii\base\Module
     public function init()
     {
         parent::init();
-
+        $this->defaultRoute = 'stocks';
         // custom initialization code goes here
     }
 }
