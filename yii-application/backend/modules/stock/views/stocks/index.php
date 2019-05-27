@@ -17,12 +17,12 @@ $this->title = Yii::t('app','Склады');
             <!--кнопка добавить новый склад-->
             <div class="mx-1">
                 <a  id = 'btn_create_new_stock' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить новый склад">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить новый склад">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/m_stocks/img/no-photos-light.svg'])?>' alt="Добавить новый склад">
                 </a>
             </div>
             <div class="mx-1">
                 <a  id = 'btn_update_new_stock' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Отредактировать склад">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Отредактировать склад">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/m_stocks/img/no-photos-light.svg'])?>' alt="Отредактировать склад">
                 </a>
             </div>
         </div>
@@ -39,7 +39,7 @@ $this->title = Yii::t('app','Склады');
             <!--кнопка добавить новый продукт на склад-->
             <div class="mx-1">
                 <a  id = 'add_new_serialNambers_in_stock' class="btn btn-dark" href="#" data-toggle="tooltip" data-placement="top" title="Добавить устройство на склад">
-                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/img/add.svg'])?>' alt="Добавить устройство на склад">
+                    <img id ="menu_navbar_top" class="" src='<?=Url::to(['/m_stocks/img/no-photos-light.svg'])?>' alt="Добавить устройство на склад">
                 </a>
             </div>
         </div>
