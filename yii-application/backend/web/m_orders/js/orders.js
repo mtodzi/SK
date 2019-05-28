@@ -999,7 +999,7 @@ $('.my_box_content').on('focusin', '.input_orders', function () {
 
 $('.my_box_content').on('keyup', '.input_orders', function (eventObject) {
     var inputName = $(this).attr('data-input-name');
-    var notInput = ['clients_address', 'appearance', 'special_notes'];
+    var notInput = ['clients_address', 'appearance', 'special_notes'];//массив в котором храняться поля которые не нужно отслеживать
     if (notInput.indexOf(inputName) == -1) {
         switch (eventObject.which) {
             case 27:

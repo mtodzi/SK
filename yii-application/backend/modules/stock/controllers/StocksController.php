@@ -7,6 +7,7 @@ use yii\web\Controller;
 use backend\modules\stock\models\Stocks;
 use backend\modules\stock\models\StocksEdit;
 use backend\modules\stock\models\EquipmentStockSearch;
+use backend\modules\stock\models\SearchInput;
 
 /**
  * Default controller for the `stock` module
@@ -103,5 +104,58 @@ class StocksController extends Controller
             //Если запрос был не AJAX делаем переадрисацю на главную страницу user
             return $this->redirect(['index']);
         }
+    }
+    
+    /*
+     *Метод возврашает выбранный Бренд из списка Брендов 
+     * 
+     */
+    public function actionTaketxtinput(){
+        if(\Yii::$app->request->isAjax){
+            $data_input_name = Yii::$app->request->post('data-input-name');
+            switch ($data_input_name){
+                case 'name_brands':
+                    $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_BREND]);
+                    break;
+            }            
+            if($modelSearchInput->load(Yii::$app->request->post()) && $modelSearchInput->validate()){
+                $id_serial_numbers = $modelSearchInput->id_serial_numbers;
+                switch ($data_input_name){
+                    case 'name_brands':
+                        $model = $modelSearchInput->SearchBrandName();
+                        break;
+                }                
+                if($model){
+                    switch ($data_input_name){
+                        case 'name_brands':
+                            $select = $this->renderAjax('select', ['model'=>$model,'id_serial_numbers'=>$id_serial_numbers, 'data_input_name'=>$data_input_name]);
+                            break;
+                    }                    
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$select,'id_serial_numbers'=>$id_serial_numbers];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['0','msg'=>'В БД ничего не было найдено'];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }    
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0','msg'=>'Передаваемые данные не прошли проверку'];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }    
     }
 }

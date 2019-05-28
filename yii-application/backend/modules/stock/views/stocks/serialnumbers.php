@@ -75,7 +75,7 @@ use yii\helpers\Html;
                                         class="form-control col-4 mx-2 input_serialnambers_brand_name input_serialnambers"
                                         value="<?=(($model!=null)?$model->serialNumber->devise->brands->name_brands:'')?>"
                                         type="text" placeholder="Бренд">
-                                    <?php $id = 'serialnambers_brands-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0);?>
+                                    <?php $id = 'serialnambers_id_brands-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0);?>
                                     <?=Html :: hiddenInput('BrandsEdit[id_brands]', (($model!=null)?$model->serialNumber->devise->brands->name_brands:0), ['id'=>$id, 'form'=>'form_serialnambers_stock-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
                                 </p>
                                 <p id = 'error_serialnambers_brand_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
