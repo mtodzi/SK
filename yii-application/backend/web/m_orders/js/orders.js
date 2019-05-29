@@ -967,7 +967,7 @@ $('.my_content_bloc').on('click', '.check_repair_type', function () {
     }
 });
 
-//Обработчик отслеживает получение фокуса input_clients_name
+//Обработчик отслеживает получение фокуса 
 $('.my_box_content').on('focusin', '.input_orders', function () {
     var id_orders = GetId($(this), 1);
     console.log($("#search_input_clients_name-" + id_orders));

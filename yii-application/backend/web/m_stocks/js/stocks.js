@@ -337,15 +337,44 @@ $('.my_serialnumbers_content_block').on('keyup', '.input_serialnambers', functio
 $('.my_serialnumbers_content_block').on('click', '.input_serial_numbers_option', function () {
     var id_serial_numbers = GetId($(this).parent(), 1);
     var id_input = GetId($(this), 1);
-    var id_brands = $("#option_name_brands-"+id_input).val();
-    var name_brands = $("#option_name_brands-"+id_input).text();
+    var data_input_name =  $(this).attr('data-input-name');
+    console.log('data_input_name - '+data_input_name);
+    var id_brands = $(this).attr('data-id_brands');
+    console.log("id_brands - "+id_brands);
+    var brand_name = $(this).attr('data-brand_name');
+    console.log("brand_name - "+brand_name);
+    var id_device_type = $(this).attr('data-id_device_type');
+    console.log("id_device_type - "+id_device_type);
+    var device_type_name = $(this).attr('data-device_type_name');
+    console.log("device_type_name - "+device_type_name);
+    var id_input_val = $("#option_"+data_input_name+"-"+id_input).val();
+    var name_input_val = $("#option_"+data_input_name+"-"+id_input).text();
     console.log("id_serial_numbers - " + id_serial_numbers);
     console.log("id_input - " + id_input);
-    console.log("id_brands - " + id_brands);
-    console.log("name_brands - " + name_brands);
-    $('#input_serialnambers_brand_name-'+id_serial_numbers).val(name_brands);
-    $('#serialnambers_id_brands-'+id_serial_numbers).val(id_brands);
-    $("#search_input_name_brands-" + id_serial_numbers).remove();
+    console.log("id_input_val - " + id_input_val);
+    console.log("name_input_val - " + name_input_val);
+    switch (data_input_name){
+        case 'name_brands':
+            $('#input_serialnambers_brand_name-'+id_serial_numbers).val(name_input_val);
+            $('#serialnambers_id_brands-'+id_serial_numbers).val(id_input_val);
+            $("#search_input_name_brands-" + id_serial_numbers).remove();
+            break;
+        case 'device_type_name':
+            $('#input_serialnambers_device_type_name-'+id_serial_numbers).val(name_input_val);
+            $('#serialnambers_id_device_type-'+id_serial_numbers).val(id_input_val);
+            $("#search_input_device_type_name-" + id_serial_numbers).remove();
+            break;
+        case 'devices_model':            
+            $('#input_serialnambers_brand_name-'+id_serial_numbers).val(brand_name);
+            $('#serialnambers_id_brands-'+id_serial_numbers).val(id_brands);
+            $('#input_serialnambers_device_type_name-'+id_serial_numbers).val(device_type_name);
+            $('#serialnambers_id_device_type-'+id_serial_numbers).val(id_device_type);
+            $('#input_serialnambers_devices_model-'+id_serial_numbers).val(name_input_val);
+            $('#serialnambers_id_devices-'+id_serial_numbers).val(id_input_val);
+            $("#search_input_devices_model-" + id_serial_numbers).remove();
+            break;
+    }
+    
     return false;
 });
 
@@ -367,18 +396,20 @@ function GetDataKeyUP(setInput) {
             break;
         case 'device_type_name':
             data = {
-                'SearchInputOrders[id_orders]': id,
-                'SearchInputOrders[device_type]': $("#input_orders_device_type_name-" + id).val(),
+                'data-input-name':'device_type_name',
+                'SearchInput[id_serial_numbers]': id,
+                'SearchInput[device_type]': $("#input_serialnambers_device_type_name-" + id).val(),
                 '_csrf-backend': $('input[name="_csrf-backend"]').val()
             };
             return data;
             break;
         case 'devices_model':
             data = {
-                'SearchInputOrders[id_orders]': id,
-                'SearchInputOrders[devices_model]': $("#input_orders_devices_model-" + id).val(),
-                'SearchInputOrders[brands_id]': $("#orders_id_brands-" + id).val(),
-                'SearchInputOrders[devices_type_id]': $("#orders_id_device_type-" + id).val(),
+                'data-input-name':'devices_model',
+                'SearchInput[id_serial_numbers]': id,
+                'SearchInput[devices_model]': $("#input_serialnambers_devices_model-" + id).val(),
+                'SearchInput[brands_id]': $("#serialnambers_id_brands-" + id).val(),
+                'SearchInput[devices_type_id]': $("#serialnambers_id_device_type-" + id).val(),
                 '_csrf-backend': $('input[name="_csrf-backend"]').val()
             };
             return data;
@@ -432,10 +463,10 @@ function SendToServerSelected(setInput, data) {
                             $("#div_serialnambers_" + InputName + "-" + id).after(res['msg']);
                             break;
                         case 'device_type_name':
-                            //$("#div_orders_" + InputName + "-" + id).after(res['msg']);
+                            $("#div_serialnambers_" + InputName + "-" + id).after(res['msg']);
                             break;
                         case 'devices_model':
-                            //$("#div_orders_" + InputName + "-" + id).after(res['msg']);
+                            $("#div_serialnambers_" + InputName + "-" + id).after(res['msg']);
                             break;
                         case 'serial_numbers_name':
                             //$("#div_orders_" + InputName + "-" + id).after(res['msg']);
@@ -464,27 +495,36 @@ function DeleteLetterInput(setInput) {
     switch (InputName) {
         case 'name_brands':
             countSendServer = 0;
-            //$("#orders_id_brands-" + id).val(0);
-            //$("#orders_id_devices-"+id).val(0);
-            //$("#input_orders_devices_model-"+id).val('');
+            $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'device_type_name':
-            $("#orders_id_device_type-" + id).val(0);
-            //$("#orders_id_devices-"+id).val(0);
-            //$("#input_orders_devices_model-"+id).val('');
+            countSendServer = 0;
+            $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'devices_model':
-            $("#orders_id_devicse-" + id).val(0);
-            //$("#orders_id_device_type-"+id).val(0);
-            //$("#input_orders_brand_name-"+id).val('');
-            //$("#input_orders_device_type_name-"+id).val('');
+            countSendServer = 0;
+            $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'serial_numbers_name':
             $("#orders_hidden_serrial_nambers_id-" + id).val(0);
             break;
-        case 'malfunction':
-            var id_malfunction_card = GetId(setInput, 2);
-            $("#orders_claimed_malfunction_id-" + id + "-" + id_malfunction_card).val(0);
-            break;
     }
 }
+
+//Обработчик отслеживает получение фокуса 
+$('.my_serialnumbers_content_block').on('focusin', '.input_serialnambers', function () {
+    var id_serialnambers = GetId($(this), 1);
+    console.log($("search_input_device_type-" + id_serialnambers));
+    if ($("#search_input_name_brands-" + id_serialnambers).is("#search_input_name_brands-" + id_serialnambers)) {
+        $("#search_input_name_brands-" + id_serialnambers).remove();
+    }
+    if ($("#search_input_device_type_name-" + id_serialnambers).is("#search_input_device_type_name-" + id_serialnambers)) {
+        $("#search_input_device_type_name-" + id_serialnambers).remove();
+    }
+    if ($("#search_input_devices_model-" + id_serialnambers).is("#search_input_devices_model-" + id_serialnambers)) {
+        $("#search_input_devices_model-" + id_serialnambers).remove();
+    }
+    if ($("#search_input_serial_numbers_name-" + id_serialnambers).is("#search_input_serial_numbers_name-" + id_serialnambers)) {
+        $("#search_input_serial_numbers_name-" + id_serialnambers).remove();
+    }
+});

@@ -76,9 +76,33 @@ use yii\helpers\Html;
                                         value="<?=(($model!=null)?$model->serialNumber->devise->brands->name_brands:'')?>"
                                         type="text" placeholder="Бренд">
                                     <?php $id = 'serialnambers_id_brands-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0);?>
-                                    <?=Html :: hiddenInput('BrandsEdit[id_brands]', (($model!=null)?$model->serialNumber->devise->brands->name_brands:0), ['id'=>$id, 'form'=>'form_serialnambers_stock-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
+                                    <?=Html :: hiddenInput('BrandsEdit[id_brands]', (($model!=null)?$model->serialNumber->devise->brands->id_brands:0), ['id'=>$id, 'form'=>'form_serialnambers_stock-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
                                 </p>
                                 <p id = 'error_serialnambers_brand_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                            </div>
+                            <div id = "div_serialnambers_device_type_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>">
+                                <p class="form-row my-2"> 
+                                    <input id='input_serialnambers_device_type_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' 
+                                    name='DeviceTypeEdit[device_type_name]' data-input-name = "device_type_name"  form='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' 
+                                    class="form-control col-6 mx-2 input_device_type_name input_serialnambers"
+                                    value="<?=(($model!=null)?$model->serialNumber->devise->devicesType->device_type_name:'')?>"
+                                    type="text" placeholder="Тип устройства">
+                                    <?php $id = 'serialnambers_id_device_type-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0);?>
+                                    <?=Html :: hiddenInput('DeviceTypeEdit[id_device_type]', (($model!=null)?$model->serialNumber->devise->devicesType->id_device_type:0), ['id'=>$id, 'form'=>'form_serialnambers_stock-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
+                                </p>
+                                <p id = 'error_serialnambers_device_type_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
+                            </div>
+                            <div id = "div_serialnambers_devices_model-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>">
+                                <p class="form-row my-2"> 
+                                    <input id='input_serialnambers_devices_model-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' 
+                                    name='DevicesEdit[devices_model]' data-input-name = "devices_model"  form='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' 
+                                    class="form-control col-4 mx-2 input_serialnambers_devices_model input_serialnambers"
+                                    value="<?=(($model!=null)?$model->serialNumber->devise->devices_model:'')?>"
+                                    type="text" placeholder="Модель устройства">
+                                    <?php $id = 'serialnambers_id_devices-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0);?>
+                                    <?=Html :: hiddenInput('DevicesEdit[id_devices]', (($model!=null)?$model->serialNumber->devise->devicesType->id_device_type:0), ['id'=>$id, 'form'=>'form_serialnambers_stock-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
+                                </p>
+                                <p id = 'error_serialnambers_devices_model-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                             </div>
                         </div>
                     </div>        

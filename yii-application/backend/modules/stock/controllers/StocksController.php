@@ -117,6 +117,12 @@ class StocksController extends Controller
                 case 'name_brands':
                     $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_BREND]);
                     break;
+                case 'device_type_name':
+                    $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_DEVICE_TYPE]);
+                    break;
+                case 'devices_model':
+                    $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_DEVICES_MODEL]);
+                    break;
             }            
             if($modelSearchInput->load(Yii::$app->request->post()) && $modelSearchInput->validate()){
                 $id_serial_numbers = $modelSearchInput->id_serial_numbers;
@@ -124,10 +130,22 @@ class StocksController extends Controller
                     case 'name_brands':
                         $model = $modelSearchInput->SearchBrandName();
                         break;
+                    case 'device_type_name':
+                        $model = $modelSearchInput->SearchDeviceType();
+                        break;
+                    case 'devices_model':
+                        $model = $modelSearchInput->SearchDevicesModel();
+                        break;
                 }                
                 if($model){
                     switch ($data_input_name){
                         case 'name_brands':
+                            $select = $this->renderAjax('select', ['model'=>$model,'id_serial_numbers'=>$id_serial_numbers, 'data_input_name'=>$data_input_name]);
+                            break;
+                        case 'device_type_name':
+                            $select = $this->renderAjax('select', ['model'=>$model,'id_serial_numbers'=>$id_serial_numbers, 'data_input_name'=>$data_input_name]);
+                            break;
+                        case 'devices_model':
                             $select = $this->renderAjax('select', ['model'=>$model,'id_serial_numbers'=>$id_serial_numbers, 'data_input_name'=>$data_input_name]);
                             break;
                     }                    
