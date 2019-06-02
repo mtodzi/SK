@@ -495,14 +495,17 @@ function DeleteLetterInput(setInput) {
     switch (InputName) {
         case 'name_brands':
             countSendServer = 0;
+            $("#serialnambers_id_brands-" + id).val(0);
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'device_type_name':
             countSendServer = 0;
+            $("#serialnambers_id_device_type-" + id).val(0);
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'devices_model':
             countSendServer = 0;
+            $("#serialnambers_id_devices-" + id).val(0);
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'serial_numbers_name':
@@ -527,4 +530,69 @@ $('.my_serialnumbers_content_block').on('focusin', '.input_serialnambers', funct
     if ($("#search_input_serial_numbers_name-" + id_serialnambers).is("#search_input_serial_numbers_name-" + id_serialnambers)) {
         $("#search_input_serial_numbers_name-" + id_serialnambers).remove();
     }
+});
+
+//Обработчик отслеживает получение фокуса 
+$('.my_serialnumbers_content_block').on('change', "input[type='radio']", function () {
+    alert("вы сменили");
+    console.log($(this));
+    var check = $(this).val();
+    var htmlOne = ""+
+            "<p id = 'p_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
+                "<input id='input_serialnambers_serial_numbers_name-0'"+
+                "name='SerialNumbersEdit[serial_numbers_name]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers' type='text'"+
+                "placeholder='Серийный номер'>"+
+                "<input id='serialnambers_id_serial_numbers-0' type='hidden' name='SerialNumbersEdit[id_serial_numbers]' value='0' form='form_serialnambers_stock-0'>"+
+            "</p>"+    
+            "";
+    var htmlRange = ""+
+            "<p id = 'p_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
+                "<input id='input_serialnambers_serial_numbers_common_body_range-0'"+
+                "name='SerialNumbersEdit[serial_numbers_common_body_range]' data-input-name = 'serial_numbers_common_body_range'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_common_body_range input_serialnambers' type='text'"+
+                "placeholder='Общая часть'>  "+
+                "<input id='input_serialnambers_serial_numbers_start_range-0'"+
+                "name='SerialNumbersEdit[serial_numbers_start_range]' data-input-name = 'serial_numbers_start_range'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-2 mx-2 input_serialnambers_serial_numbers_start_range input_serialnambers' type='text'"+
+                "placeholder='начало'> - "+
+                "<input id='input_serialnambers_serial_numbers_end_range-0'"+
+                "name='SerialNumbersEdit[serial_numbers_end_range]' data-input-name = 'serial_numbers_end_range'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-2 mx-2 input_serialnambers_serial_numbers_end_range input_serialnambers' type='text'"+
+                "placeholder='конец'>"+
+            "</p>"+
+            "";
+    var htmlSome = ""+
+            "<p id = 'p_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
+                "<input id='input_serialnambers_serial_numbers_name-0'"+
+                "name='SerialNumbersEdit[serial_numbers_name-1]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers' type='text'"+
+                "placeholder='Серийный номер'>"+
+                "<input id='serialnambers_id_serial_numbers-0' type='hidden' name='SerialNumbersEdit[id_serial_numbers-1]' value='0' form='form_serialnambers_stock-0'>"+
+            "</p>"+
+            "<p id = 'p_add_another_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
+                "<a id ='add_another_serial_numbers_name-0' class='btn btn-dark add_another_serial_numbers_name mx-1' data-count-serial_numbers_name='1' data-toggle='tooltip' data-placement='right' title='Добавить еще один серийный номер'>"+
+                    "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_stocks/img/add.svg' alt='Добавить еще один серийный номер'>"+
+                "</a>"+
+            "</p>"+
+            "";
+    switch (check){
+        case 'one':
+            alert("Вы выбрали one");
+            $("#p_serialnambers_serial_numbers_name-0").remove();
+            $("#p_type_addition").after(htmlOne);
+            break;
+        case 'range':
+            alert("Вы выбрали range");
+            $("#p_serialnambers_serial_numbers_name-0").remove();
+            $("#p_type_addition").after(htmlRange);
+            break;
+        case 'some':
+            alert("Вы выбрали some");
+            $("#p_serialnambers_serial_numbers_name-0").remove();
+            $("#p_type_addition").after(htmlSome);
+            $("#add_another_serial_numbers_name-0").tooltip('enable');
+            break;
+    }
+    
 });
