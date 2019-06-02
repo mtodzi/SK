@@ -538,16 +538,16 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
     console.log($(this));
     var check = $(this).val();
     var htmlOne = ""+
-            "<p id = 'p_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
+            "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
                 "<input id='input_serialnambers_serial_numbers_name-0'"+
                 "name='SerialNumbersEdit[serial_numbers_name]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
-                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers' type='text'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers input_serialnambers-0' type='text'"+
                 "placeholder='Серийный номер'>"+
                 "<input id='serialnambers_id_serial_numbers-0' type='hidden' name='SerialNumbersEdit[id_serial_numbers]' value='0' form='form_serialnambers_stock-0'>"+
             "</p>"+    
             "";
     var htmlRange = ""+
-            "<p id = 'p_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
+            "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
                 "<input id='input_serialnambers_serial_numbers_common_body_range-0'"+
                 "name='SerialNumbersEdit[serial_numbers_common_body_range]' data-input-name = 'serial_numbers_common_body_range'  form='form_serialnambers_stock-0'"+
                 "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_common_body_range input_serialnambers' type='text'"+
@@ -563,12 +563,12 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
             "</p>"+
             "";
     var htmlSome = ""+
-            "<p id = 'p_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
-                "<input id='input_serialnambers_serial_numbers_name-0'"+
+            "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
+                "<input id='input_serialnambers_serial_numbers_name-0-1'"+
                 "name='SerialNumbersEdit[serial_numbers_name-1]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
-                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers' type='text'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers  input_serialnambers-0' type='text'"+
                 "placeholder='Серийный номер'>"+
-                "<input id='serialnambers_id_serial_numbers-0' type='hidden' name='SerialNumbersEdit[id_serial_numbers-1]' value='0' form='form_serialnambers_stock-0'>"+
+                "<input id='serialnambers_id_serial_numbers-0-1' type='hidden' name='SerialNumbersEdit[id_serial_numbers-1]' value='0' form='form_serialnambers_stock-0'>"+
             "</p>"+
             "<p id = 'p_add_another_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
                 "<a id ='add_another_serial_numbers_name-0' class='btn btn-dark add_another_serial_numbers_name mx-1' data-count-serial_numbers_name='1' data-toggle='tooltip' data-placement='right' title='Добавить еще один серийный номер'>"+
@@ -579,20 +579,110 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
     switch (check){
         case 'one':
             alert("Вы выбрали one");
-            $("#p_serialnambers_serial_numbers_name-0").remove();
+            $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
+            $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlOne);
             break;
         case 'range':
             alert("Вы выбрали range");
-            $("#p_serialnambers_serial_numbers_name-0").remove();
+            $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
+            $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlRange);
             break;
         case 'some':
             alert("Вы выбрали some");
-            $("#p_serialnambers_serial_numbers_name-0").remove();
+            $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlSome);
             $("#add_another_serial_numbers_name-0").tooltip('enable');
             break;
     }
     
 });
+
+//Обработчик нажатия кнопки добавить еше один серийный номер
+$('.my_serialnumbers_content_block').on('click', '.add_another_serial_numbers_name', function () {
+    var id_serialnambers = GetId($(this), 1);
+    var count_serialnambers = Number($(this).attr('data-count-serial_numbers_name'));
+    console.log('id_serialnambers: ' + id_serialnambers + " count_serialnambers: " + count_serialnambers);
+    addInputSerialNambers(id_serialnambers, count_serialnambers);
+    $(this).tooltip('update');
+    $(this).tooltip('hide');
+    $(this).blur();
+    return false;
+});
+
+//Функция добавляет поле серийного номера в карточке добавить продукт на склад
+function addInputSerialNambers(id, count_serialNambers, value = "") {
+    var count = $('.input_serialnambers-0').length;
+    console.log("Число добовляемых серийных номеров - " + count);
+    var next = Number(count_serialNambers) + 1;
+    var buttondelete = "" +
+            "<a  id = 'delete_another_serialnambers-" + id + "-" + next + "' class='btn btn-dark delete_another_serialnambers delete_another_serialnambers-" + id + " mx-1'  data-count-serialnambers='" + next + "' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>" +
+            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>" +
+            "</a>";
+    var buttondeleteFirst = "" +
+            "<a  id = 'delete_another_serialnambers-" + id + "-1' class='btn btn-dark delete_another_serialnambers delete_another_serialnambers-" + id + " mx-1'  data-count-serialnambers='" + next + "' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>" +
+            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>" +
+            "</a>";
+    var input = '' +
+            "<p id = 'p_serialnambers_serial_numbers_name-0-"+next+"' class='form-row my-2 input_serialnambers-0'>"+
+                "<input id='input_serialnambers_serial_numbers_name-0-"+next+"'"+
+                "name='SerialNumbersEdit[serial_numbers_name-"+next+"]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers  input_serialnambers-0' type='text'"+
+                "placeholder='Серийный номер'>"+
+                "<input id='serialnambers_id_serial_numbers-0"+next+"' type='hidden' name='SerialNumbersEdit[id_serial_numbers-"+next+"]' value='0' form='form_serialnambers_stock-0'>"+
+            "</p>";
+ 
+        //$("#search_input_phone_number-" + id_orders).remove();
+        $('#add_another_serial_numbers_name-' + id).attr('data-count-serial_numbers_name', next);
+        $('#delete_another_serialnambers-' + id).attr('data-count-serialnambers', next);
+        $("#p_serialnambers_serial_numbers_name-" + id + "-" + count_serialNambers).after(input);
+        $(("#input_serialnambers_serial_numbers_name-" + id + "-" + next)).after(buttondelete);
+        $('[data-toggle="tooltip"]').tooltip();
+        if (count_serialNambers == 1) {
+            $(("#input_serialnambers_serial_numbers_name-" + id + "-1")).after(buttondeleteFirst);
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        console.log(count_serialNambers);
+        console.log(input);
+        return true;
+
+}
+
+//Обработчик нажатия кнопки Удалить еше один серийный номер
+$('.my_serialnumbers_content_block').on('click', '.delete_another_serialnambers', function () {
+    var id_serialnumbers = GetId($(this), 1);
+    var id_delete = GetId($(this), 2);
+    var count_serialnambers = Number($(this).attr('data-count-serialnambers'));
+    console.log('id_serialnumbers-' + id_serialnumbers + " id_delete-" + id_delete);
+    $(this).tooltip('update');
+    $(this).tooltip('hide');
+    $(this).blur();
+    deleteInputPhone(id_serialnumbers, id_delete, count_serialnambers);
+    return false;
+});
+
+//Функция инпут телефона 
+function deleteInputPhone(id, id_delete, count_serialnambers) {
+    var count = $('.input_serialnambers-' + id).length;
+    console.log(count);
+    //$("#search_input_phone_number-" + id_orders).remove();
+    if (count > 1) {
+        $("#p_serialnambers_serial_numbers_name-" + id + "-" + id_delete).remove();
+        $('.input_serialnambers-' + id).each(function (index) {
+            console.log($(this));/*
+            $(this).attr('id', ("div_orders_clients_phone-" + id_orders + "-" + (index + 1)));
+            $(this).find("input").attr('id', ("input_orders_clients_phone-" + id_orders + "-" + (index + 1)));
+            $(this).find("input").attr('name', ("ClientsPhonesEdit[phone_number][" + (index + 1) + "]"));
+            $(this).find("a").attr('id', ("delete_another_phone-" + id_orders + "-" + (index + 1)));
+            $(this).find("p .error_orders_phone").attr('id', ("error_orders_phone-" + id_orders + "-" + (index + 1)));
+            $(this).find("p .orders_phone").attr('id', ("p_orders_clients_phone-" + id_orders + "-" + (index + 1)));
+            console.log(index + ": ");*/
+        });
+        $('#add_another_phone-' + id_orders).attr('data-count-phone', (count - 1));
+        if (count == 2) {
+            $("#delete_another_phone-" + id_orders + "-1").remove();
+        }
+    }
+
+}
