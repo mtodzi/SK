@@ -1,5 +1,87 @@
 //Глобальные переменные
 var countSendServer = 0;//Счетчик запросов который дал отрицательный результат в поиске подстановки
+var dataKard = {};//пустой обьект с данными карточки
+
+function GetDataCardOrders(id) {
+    var data = {};
+    data = {        
+        'brand_name': $("#input_serialnambers_brand_name-" + id).val(),
+        'id_brands': $("#serialnambers_id_brands-" + id).val(),
+        'device_type_name': $("#input_serialnambers_device_type_name-" + id).val(),
+        'id_device_type': $("#serialnambers_id_device_type-" + id).val(),
+        'devices_model': $("#input_serialnambers_devices_model-" + id).val(),
+        'id_devices': $("#serialnambers_id_devices-" + id).val(),
+        'serial_numbers_name': $("#input_serialnambers_serial_numbers_name-" + id).val(),
+        'id_serial_numbers': $("#serialnambers_id_serial_numbers-" + id).val(),
+        'type_addition':$("input[name='SerialNumbersEdit[type_addition]']:checked").val(),
+    };
+    return data;
+}
+
+//Обработчик нажатия кнопки отмена в userbox
+$('.my_content_bloc').on('click', '.serialnambers_cancel_button', function () {
+    console.log(dataKard);
+    alert("Вы нажали кнопку отмена");        
+    var id = GetId($(this), 1);
+    var dataKard1 = GetDataCardOrders(id);
+    var s1 = JSON.stringify(dataKard);
+    var s2 = JSON.stringify(dataKard1);
+    if (!(s1 == s2)) {
+        settingCardData(dataKard, id);
+        if (id == 0) {
+            SetStatusCard(0, "");
+            $('#Block_add_serialnumbers-0').hide();
+            return false;
+        } else {
+            SetStatusCard(id, "#span_serialnumbers_id_serial_numbers-");
+            $('#stock_card_button_edit_delete-' + id).show();
+            $('#serialnumbers_content-' + id).show();
+            $('#serialnambers_cancel_button_card_apply-' + id).hide();
+            $('#serialnumbers_form-' + id).hide();
+            return false;
+        }
+    } else {
+        if (id == 0) {
+            SetStatusCard(0, "");
+            $('#Block_add_serialnumbers-0').hide();
+            return false;
+        } else {
+            SetStatusCard(id, "#span_serialnumbers_id_serial_numbers-");
+            $('#stock_card_button_edit_delete-' + id).show();
+            $('#serialnumbers_content-' + id).show();
+            $('#serialnambers_cancel_button_card_apply-' + id).hide();
+            $('#serialnumbers_form-' + id).hide();
+            return false;
+        }
+    }
+});
+
+function settingCardData(data, id) {
+    var htmlOne = ""+
+            "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
+                "<input id='input_serialnambers_serial_numbers_name-0'"+
+                "name='SerialNumbersEdit[serial_numbers_name]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers input_serialnambers-0' type='text'"+
+                "placeholder='Серийный номер'>"+
+                "<input id='serialnambers_id_serial_numbers-0' type='hidden' name='SerialNumbersEdit[id_serial_numbers]' value='0' form='form_serialnambers_stock-0'>"+
+            "</p>"+    
+            "";
+    $("#input_serialnambers_brand_name-" + id).val(data.brand_name);
+    $("#serialnambers_id_brands-" + id).val(data.id_brands);
+    $("#input_serialnambers_device_type_name-" + id).val(data.device_type_name);
+    $("#serialnambers_id_device_type-" + id).val(data.id_device_type);
+    $("#input_serialnambers_devices_model-" + id).val(data.devices_model);
+    $("#serialnambers_id_devices-" + id).val(data.id_devices);
+    if($("input[name='SerialNumbersEdit[type_addition]']:checked").val()!='one' && id == 0){
+        $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
+        $(".delete_another_serialnambers-0").remove();
+        $(".input_serialnambers-0").remove();
+        $("#p_type_addition").after(htmlOne);
+        $("input[value='one']").prop('checked', true);
+    }    
+    $("#input_serialnambers_serial_numbers_name-" + id).val(data.serial_numbers_name);
+    $("#serialnambers_id_serial_numbers-" + id).val(data.id_serial_numbers);    
+}
 
 $(function() {
     // при нажатии на кнопку scrollup
@@ -213,8 +295,8 @@ $('.my_heders_bloc').on('click', '#add_new_serialNambers_in_stock', function(){
         $(window).scrollTop(0);
         $(this).tooltip('hide');
         $(this).blur();
-        //dataKard = GetDataCardOrders(0);
-        //console.log(dataKard);
+        dataKard = GetDataCardOrders(0);
+        console.log(dataKard);
         return false;
     }else{
         $(this).tooltip('hide');
@@ -227,8 +309,8 @@ $('.my_heders_bloc').on('click', '#add_new_serialNambers_in_stock', function(){
 $('.my_serialnumbers_content_block').on('click', '.serialnambers_edit_button', function () {
     var id = GetId($(this), 1);
     if (GetStatusCard()) {
-        //dataKard = GetDataCardOrders(id);
-        //console.log(dataKard);
+        dataKard = GetDataCardOrders(id);
+        console.log(dataKard);
         SetStatusCard(id, "#span_serialnumbers_id_serial_numbers-");
         $('#stock_card_button_edit_delete-' + id).hide();
         $('#serialnumbers_content-' + id).hide();
@@ -337,16 +419,7 @@ $('.my_serialnumbers_content_block').on('keyup', '.input_serialnambers', functio
 $('.my_serialnumbers_content_block').on('click', '.input_serial_numbers_option', function () {
     var id_serial_numbers = GetId($(this).parent(), 1);
     var id_input = GetId($(this), 1);
-    var data_input_name =  $(this).attr('data-input-name');
-    console.log('data_input_name - '+data_input_name);
-    var id_brands = $(this).attr('data-id_brands');
-    console.log("id_brands - "+id_brands);
-    var brand_name = $(this).attr('data-brand_name');
-    console.log("brand_name - "+brand_name);
-    var id_device_type = $(this).attr('data-id_device_type');
-    console.log("id_device_type - "+id_device_type);
-    var device_type_name = $(this).attr('data-device_type_name');
-    console.log("device_type_name - "+device_type_name);
+    var data_input_name =  $(this).attr('data-input-name');    
     var id_input_val = $("#option_"+data_input_name+"-"+id_input).val();
     var name_input_val = $("#option_"+data_input_name+"-"+id_input).text();
     console.log("id_serial_numbers - " + id_serial_numbers);
@@ -364,7 +437,16 @@ $('.my_serialnumbers_content_block').on('click', '.input_serial_numbers_option',
             $('#serialnambers_id_device_type-'+id_serial_numbers).val(id_input_val);
             $("#search_input_device_type_name-" + id_serial_numbers).remove();
             break;
-        case 'devices_model':            
+        case 'devices_model':
+            console.log('data_input_name - '+data_input_name);
+            var id_brands = $(this).attr('data-id_brands');
+            console.log("id_brands - "+id_brands);
+            var brand_name = $(this).attr('data-brand_name');
+            console.log("brand_name - "+brand_name);
+            var id_device_type = $(this).attr('data-id_device_type');
+            console.log("id_device_type - "+id_device_type);
+            var device_type_name = $(this).attr('data-device_type_name');
+            console.log("device_type_name - "+device_type_name);
             $('#input_serialnambers_brand_name-'+id_serial_numbers).val(brand_name);
             $('#serialnambers_id_brands-'+id_serial_numbers).val(id_brands);
             $('#input_serialnambers_device_type_name-'+id_serial_numbers).val(device_type_name);
@@ -373,6 +455,40 @@ $('.my_serialnumbers_content_block').on('click', '.input_serial_numbers_option',
             $('#serialnambers_id_devices-'+id_serial_numbers).val(id_input_val);
             $("#search_input_devices_model-" + id_serial_numbers).remove();
             break;
+        case 'serial_numbers_name':
+            var checked = $("input[name='SerialNumbersEdit[type_addition]']:checked").val();
+            console.log(checked);
+            var textSelectorName = "#input_serialnambers_serial_numbers_name-" + id_serial_numbers;
+            var textSelectorId = '#serialnambers_id_serial_numbers-'+id_serial_numbers;
+            var textSelectorSerche = "#search_input_serial_numbers_name-" + id_serial_numbers;
+            if(checked=='some'){
+                var idInput = GetId($(this).parent(), 2);
+                var textSelectorName = "#input_serialnambers_serial_numbers_name-" +id_serial_numbers+"-"+idInput;
+                var textSelectorId = '#serialnambers_id_serial_numbers-'+id_serial_numbers+"-"+idInput;
+                var textSelectorSerche = "#search_input_serial_numbers_name-" +id_serial_numbers+"-"+idInput;
+            }
+            var id_brands = $(this).attr('data-id_brands');
+            console.log("id_brands - "+id_brands);
+            var brand_name = $(this).attr('data-brand_name');
+            console.log("brand_name - "+brand_name);
+            var id_device_type = $(this).attr('data-id_device_type');
+            console.log("id_device_type - "+id_device_type);
+            var device_type_name = $(this).attr('data-device_type_name');
+            console.log("device_type_name - "+device_type_name);
+            var id_devices = $(this).attr('data-id_devices');
+            console.log("id_devices - "+id_devices);
+            var devices_model = $(this).attr('data-devices_model');
+            console.log("devices_model - "+devices_model);
+            $(textSelectorName).val(name_input_val);
+            $(textSelectorId).val(id_input_val);
+            $('#input_serialnambers_brand_name-'+id_serial_numbers).val(brand_name);
+            $('#serialnambers_id_brands-'+id_serial_numbers).val(id_brands);
+            $('#input_serialnambers_device_type_name-'+id_serial_numbers).val(device_type_name);
+            $('#serialnambers_id_device_type-'+id_serial_numbers).val(id_device_type);
+            $('#input_serialnambers_devices_model-'+id_serial_numbers).val(devices_model);
+            $('#serialnambers_id_devices-'+id_serial_numbers).val(id_devices);
+            $(textSelectorSerche).remove();
+            break;    
     }
     
     return false;
@@ -415,31 +531,26 @@ function GetDataKeyUP(setInput) {
             return data;
             break;
         case 'serial_numbers_name':
+            var checked = $("input[name='SerialNumbersEdit[type_addition]']:checked").val()
+            console.log(checked);
+            var textSelector = "#input_serialnambers_serial_numbers_name-" + id;
+            type_addition = 0;
+            if(checked=='some'){
+                var indexInput = GetId(setInput, 2);
+                textSelector = "#input_serialnambers_serial_numbers_name-" +id+"-"+indexInput;
+                type_addition = indexInput;
+            }
             data = {
-                'SearchInputOrders[id_orders]': id,
-                'SearchInputOrders[devise_id]': $("#orders_id_devices-" + id).val(),
-                'SearchInputOrders[serial_numbers_name]': $("#input_orders_serial_numbers_name-" + id).val(),
+                'type_addition':type_addition,
+                'data-input-name':'serial_numbers_name',
+                'SearchInput[id_serial_numbers]': id,
+                'SearchInput[serial_numbers_name]': $(textSelector).val(),
+                'SearchInput[brands_id]': $("#serialnambers_id_brands-" + id).val(),
+                'SearchInput[devices_type_id]': $("#serialnambers_id_device_type-" + id).val(),
+                'SearchInput[devise_id]': $("#serialnambers_id_devices-" + id).val(),
                 '_csrf-backend': $('input[name="_csrf-backend"]').val()
             };
             return data;
-            break;
-        case 'malfunction':
-            var id_malfunction_card = GetId(setInput, 2);
-            var valHidden = Number($("#orders_claimed_malfunction_id-" + id + "-" + id_malfunction_card).val());
-            if (valHidden == 0) {
-                data = {
-                    'SearchInputOrders[id_orders]': id,
-                    'SearchInputOrders[id_malfunction_card]': id_malfunction_card,
-                    'SearchInputOrders[claimed_malfunction_name]': setInput.val(),
-                    '_csrf-backend': $('input[name="_csrf-backend"]').val()
-                };
-                return data;
-            } else {
-                var a = $("#input_orders_malfunction-" + id + "-" + id_malfunction_card).attr('data-input');
-                $("#input_orders_malfunction-" + id + "-" + id_malfunction_card).val(a);
-                alert("В одно поле нельзя добавлять несколько заявленных неисправностей");
-                return false;
-            }
             break;
     }
 }
@@ -469,7 +580,14 @@ function SendToServerSelected(setInput, data) {
                             $("#div_serialnambers_" + InputName + "-" + id).after(res['msg']);
                             break;
                         case 'serial_numbers_name':
-                            //$("#div_orders_" + InputName + "-" + id).after(res['msg']);
+                            var checked = $("input[name='SerialNumbersEdit[type_addition]']:checked").val()
+                            console.log(checked);
+                            var textSelector = "#div_serialnambers_" + InputName + "-" + id;
+                            if(checked=='some'){
+                                var indexInput = GetId(setInput, 2);
+                                textSelector = "#p_serialnambers_serial_numbers_name-" +id+"-"+indexInput;
+                            }
+                            $(textSelector).after(res['msg']);
                             break;
                     }
                 } else {
@@ -509,7 +627,9 @@ function DeleteLetterInput(setInput) {
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'serial_numbers_name':
-            $("#orders_hidden_serrial_nambers_id-" + id).val(0);
+            countSendServer = 0;
+            $("#serialnambers_id_serial_numbers-" + id).val(0);
+            $("#search_input_" + InputName + "-" + id).remove();
             break;
     }
 }
@@ -527,8 +647,15 @@ $('.my_serialnumbers_content_block').on('focusin', '.input_serialnambers', funct
     if ($("#search_input_devices_model-" + id_serialnambers).is("#search_input_devices_model-" + id_serialnambers)) {
         $("#search_input_devices_model-" + id_serialnambers).remove();
     }
-    if ($("#search_input_serial_numbers_name-" + id_serialnambers).is("#search_input_serial_numbers_name-" + id_serialnambers)) {
-        $("#search_input_serial_numbers_name-" + id_serialnambers).remove();
+    var checked = $("input[name='SerialNumbersEdit[type_addition]']:checked").val()
+    console.log(checked);
+    textSelector = "#search_input_serial_numbers_name-" + id_serialnambers;
+    if(checked=='some'){
+        var indexInput = GetId($(this), 2);
+        textSelector = "#search_input_serial_numbers_name-" + id_serialnambers+"-"+indexInput;
+    }
+    if ($(textSelector).is(textSelector)) {
+        $(textSelector).remove();
     }
 });
 
@@ -548,8 +675,8 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
             "";
     var htmlRange = ""+
             "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
-                "<input id='input_serialnambers_serial_numbers_common_body_range-0'"+
-                "name='SerialNumbersEdit[serial_numbers_common_body_range]' data-input-name = 'serial_numbers_common_body_range'  form='form_serialnambers_stock-0'"+
+                "<input id='input_serialnambers_serial_numbers_name-0'"+
+                "name='SerialNumbersEdit[serial_numbers_common_body_range]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
                 "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_common_body_range input_serialnambers' type='text'"+
                 "placeholder='Общая часть'>  "+
                 "<input id='input_serialnambers_serial_numbers_start_range-0'"+
@@ -565,10 +692,10 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
     var htmlSome = ""+
             "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
                 "<input id='input_serialnambers_serial_numbers_name-0-1'"+
-                "name='SerialNumbersEdit[serial_numbers_name-1]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
-                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers  input_serialnambers-0' type='text'"+
+                "name=SerialNumbersEdit[serial_numbers_name][1]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name-0 input_serialnambers_serial_numbers_name input_serialnambers  input_serialnambers-0' type='text'"+
                 "placeholder='Серийный номер'>"+
-                "<input id='serialnambers_id_serial_numbers-0-1' type='hidden' name='SerialNumbersEdit[id_serial_numbers-1]' value='0' form='form_serialnambers_stock-0'>"+
+                "<input id='serialnambers_id_serial_numbers-0-1' class = 'input_serialnambers_id_serial_numbers' type='hidden' name='SerialNumbersEdit[id_serial_numbers][1]' value='0' form='form_serialnambers_stock-0'>"+
             "</p>"+
             "<p id = 'p_add_another_serialnambers_serial_numbers_name-0' class='form-row my-2'>"+
                 "<a id ='add_another_serial_numbers_name-0' class='btn btn-dark add_another_serial_numbers_name mx-1' data-count-serial_numbers_name='1' data-toggle='tooltip' data-placement='right' title='Добавить еще один серийный номер'>"+
@@ -580,12 +707,14 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
         case 'one':
             alert("Вы выбрали one");
             $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
+            $(".delete_another_serialnambers-0").remove();
             $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlOne);
             break;
         case 'range':
             alert("Вы выбрали range");
             $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
+            $(".delete_another_serialnambers-0").remove();
             $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlRange);
             break;
@@ -603,6 +732,7 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
 $('.my_serialnumbers_content_block').on('click', '.add_another_serial_numbers_name', function () {
     var id_serialnambers = GetId($(this), 1);
     var count_serialnambers = Number($(this).attr('data-count-serial_numbers_name'));
+    $("#search_input_serial_numbers_name-" + id_serialnambers).remove();
     console.log('id_serialnambers: ' + id_serialnambers + " count_serialnambers: " + count_serialnambers);
     addInputSerialNambers(id_serialnambers, count_serialnambers);
     $(this).tooltip('update');
@@ -617,20 +747,20 @@ function addInputSerialNambers(id, count_serialNambers, value = "") {
     console.log("Число добовляемых серийных номеров - " + count);
     var next = Number(count_serialNambers) + 1;
     var buttondelete = "" +
-            "<a  id = 'delete_another_serialnambers-" + id + "-" + next + "' class='btn btn-dark delete_another_serialnambers delete_another_serialnambers-" + id + " mx-1'  data-count-serialnambers='" + next + "' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>" +
-            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>" +
+            "<a  id = 'delete_another_serialnambers-" + id + "-" + next + "' class='btn btn-dark delete_another_serialnambers delete_another_serialnambers-" + id + " mx-1'  data-count-serialnambers='" + next + "' data-toggle='tooltip' data-placement='right' title='Удалить серийный номер'>" +
+            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить серийный номер'>" +
             "</a>";
     var buttondeleteFirst = "" +
-            "<a  id = 'delete_another_serialnambers-" + id + "-1' class='btn btn-dark delete_another_serialnambers delete_another_serialnambers-" + id + " mx-1'  data-count-serialnambers='" + next + "' data-toggle='tooltip' data-placement='right' title='Удалить телефон'>" +
-            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить телефон'>" +
+            "<a  id = 'delete_another_serialnambers-" + id + "-1' class='btn btn-dark delete_another_serialnambers delete_another_serialnambers-" + id + " mx-1'  data-count-serialnambers='" + next + "' data-toggle='tooltip' data-placement='right' title='Удалить серийный номер '>" +
+            "<img id ='menu_navbar_top' class='' src='/yii-application/backend/web/m_orders/img/minus.svg' alt='Удалить серийный номер'>" +
             "</a>";
     var input = '' +
-            "<p id = 'p_serialnambers_serial_numbers_name-0-"+next+"' class='form-row my-2 input_serialnambers-0'>"+
+            "<p id = 'p_serialnambers_serial_numbers_name-0-"+next+"' class='form-row my-2 p_input_serialnambers-0'>"+
                 "<input id='input_serialnambers_serial_numbers_name-0-"+next+"'"+
-                "name='SerialNumbersEdit[serial_numbers_name-"+next+"]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
-                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers  input_serialnambers-0' type='text'"+
+                "name='SerialNumbersEdit[serial_numbers_name]["+next+"]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_name-0 input_serialnambers_serial_numbers_name input_serialnambers  input_serialnambers-0' type='text'"+
                 "placeholder='Серийный номер'>"+
-                "<input id='serialnambers_id_serial_numbers-0"+next+"' type='hidden' name='SerialNumbersEdit[id_serial_numbers-"+next+"]' value='0' form='form_serialnambers_stock-0'>"+
+                "<input id='serialnambers_id_serial_numbers-0"+next+"' class = 'input_serialnambers_id_serial_numbers' type='hidden' name='SerialNumbersEdit[id_serial_numbers]-["+next+"]' value='0' form='form_serialnambers_stock-0'>"+
             "</p>";
  
         //$("#search_input_phone_number-" + id_orders).remove();
@@ -664,24 +794,24 @@ $('.my_serialnumbers_content_block').on('click', '.delete_another_serialnambers'
 
 //Функция инпут телефона 
 function deleteInputPhone(id, id_delete, count_serialnambers) {
-    var count = $('.input_serialnambers-' + id).length;
+    var count = $('.input_serialnambers_serial_numbers_name-' + id).length;
     console.log(count);
     //$("#search_input_phone_number-" + id_orders).remove();
     if (count > 1) {
         $("#p_serialnambers_serial_numbers_name-" + id + "-" + id_delete).remove();
-        $('.input_serialnambers-' + id).each(function (index) {
-            console.log($(this));/*
-            $(this).attr('id', ("div_orders_clients_phone-" + id_orders + "-" + (index + 1)));
-            $(this).find("input").attr('id', ("input_orders_clients_phone-" + id_orders + "-" + (index + 1)));
-            $(this).find("input").attr('name', ("ClientsPhonesEdit[phone_number][" + (index + 1) + "]"));
-            $(this).find("a").attr('id', ("delete_another_phone-" + id_orders + "-" + (index + 1)));
-            $(this).find("p .error_orders_phone").attr('id', ("error_orders_phone-" + id_orders + "-" + (index + 1)));
-            $(this).find("p .orders_phone").attr('id', ("p_orders_clients_phone-" + id_orders + "-" + (index + 1)));
-            console.log(index + ": ");*/
+        $('.p_input_serialnambers-' + id).each(function (index) {
+            console.log($(this));
+            $(this).attr('id', ("p_serialnambers_serial_numbers_name-" + id + "-" + (index + 1)));
+            $(this).find(".input_serialnambers_serial_numbers_name").attr('id', ("input_serialnambers_serial_numbers_name-" + id + "-" + (index + 1)));
+            $(this).find(".input_serialnambers_serial_numbers_name").attr('name', ("SerialNumbersEdit[serial_numbers_name][" + (index + 1) + "]"));
+            $(this).find(".input_serialnambers_id_serial_numbers").attr('id', ("input_serialnambers_serial_numbers_name-" + id + "-" + (index + 1)));
+            $(this).find(".input_serialnambers_id_serial_numbers").attr('name', ("SerialNumbersEdit[id_serial_numbers][" + (index + 1) + "]"));
+            $(this).find("a").attr('id', ("delete_another_serialnambers-" + id + "-" + (index + 1)));
+            console.log(index + ": ");
         });
-        $('#add_another_phone-' + id_orders).attr('data-count-phone', (count - 1));
+        $('#add_another_serial_numbers_name-' + id).attr('data-count-serial_numbers_name', (count - 1));
         if (count == 2) {
-            $("#delete_another_phone-" + id_orders + "-1").remove();
+            $("#delete_another_serialnambers-" + id + "-1").remove();
         }
     }
 

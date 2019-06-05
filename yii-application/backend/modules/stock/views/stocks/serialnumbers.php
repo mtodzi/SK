@@ -117,7 +117,7 @@ use yii\helpers\Html;
                                 <p id = "p_serialnambers_serial_numbers_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>" class="form-row my-2 input_serialnambers-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>">
                                     <input id='input_serialnambers_serial_numbers_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' 
                                         name='SerialNumbersEdit[serial_numbers_name]' data-input-name = "serial_numbers_name"  form='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>'
-                                        class="form-control col-4 mx-2 input_serialnambers_serial_numbers_name input_serialnambers" type="text"
+                                        class="form-control col-4 mx-2 input_serialnambers_serial_numbers_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?> input_serialnambers" type="text"
                                         value="<?=(($model!=null)?$model->serialNumber->serial_numbers_name:'')?>"
                                         placeholder="Серийный номер">
                                         <?php $id = 'serialnambers_id_serial_numbers-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0);?>

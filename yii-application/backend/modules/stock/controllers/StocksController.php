@@ -113,6 +113,7 @@ class StocksController extends Controller
     public function actionTaketxtinput(){
         if(\Yii::$app->request->isAjax){
             $data_input_name = Yii::$app->request->post('data-input-name');
+            $type_addition =  Yii::$app->request->post('type_addition');
             switch ($data_input_name){
                 case 'name_brands':
                     $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_BREND]);
@@ -122,6 +123,9 @@ class StocksController extends Controller
                     break;
                 case 'devices_model':
                     $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_DEVICES_MODEL]);
+                    break;
+                case 'serial_numbers_name':
+                    $modelSearchInput =  new SearchInput(['scenario' => SearchInput::SCENARIO_SEREIAL_NUMBERS]);
                     break;
             }            
             if($modelSearchInput->load(Yii::$app->request->post()) && $modelSearchInput->validate()){
@@ -136,6 +140,9 @@ class StocksController extends Controller
                     case 'devices_model':
                         $model = $modelSearchInput->SearchDevicesModel();
                         break;
+                    case 'serial_numbers_name':
+                        $model = $modelSearchInput->SearchSerialNnumbersName();
+                        break;
                 }                
                 if($model){
                     switch ($data_input_name){
@@ -147,6 +154,9 @@ class StocksController extends Controller
                             break;
                         case 'devices_model':
                             $select = $this->renderAjax('select', ['model'=>$model,'id_serial_numbers'=>$id_serial_numbers, 'data_input_name'=>$data_input_name]);
+                            break;
+                        case 'serial_numbers_name':
+                            $select = $this->renderAjax('select', ['model'=>$model,'id_serial_numbers'=>$id_serial_numbers, 'data_input_name'=>$data_input_name, 'type_addition'=>$type_addition]);
                             break;
                     }                    
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
