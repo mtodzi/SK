@@ -55,7 +55,7 @@ $('.my_content_bloc').on('click', '.serialnambers_cancel_button', function () {
         }
     }
 });
-
+//Установка данных в полях 
 function settingCardData(data, id) {
     var htmlOne = ""+
             "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
@@ -82,7 +82,7 @@ function settingCardData(data, id) {
     $("#input_serialnambers_serial_numbers_name-" + id).val(data.serial_numbers_name);
     $("#serialnambers_id_serial_numbers-" + id).val(data.id_serial_numbers);    
 }
-
+//Кнопка подняться в верх
 $(function() {
     // при нажатии на кнопку scrollup
     $('.scroll_to_up').click(function() {
@@ -378,7 +378,7 @@ function GetStatusCard(){
         return false;
     }
 }
-
+//Обработчик нажатия клавиш в input
 $('.my_serialnumbers_content_block').on('keyup', '.input_serialnambers', function (eventObject) {
     //alert("я работаю");
     var inputName = $(this).attr('data-input-name');
@@ -554,7 +554,7 @@ function GetDataKeyUP(setInput) {
             break;
     }
 }
-
+//Функция отправляет данные на сервер и обрабатывает ответ
 function SendToServerSelected(setInput, data) {
     setInput = setInput.first();
     var id = GetId(setInput, 1);
@@ -815,4 +815,215 @@ function deleteInputPhone(id, id_delete, count_serialnambers) {
         }
     }
 
+}
+
+//Обработчик нажатия кнопки Применить в userbox
+$('.my_serialnumbers_content_block').on('click', '.serialnambers_apply_button', function () {
+    console.log(dataKard);
+    //alert("Вы нажали кнопку пременить");        
+    var id = GetId($(this), 1);
+    var dataKard1 = GetDataCardOrders(id);
+    var s1 = JSON.stringify(dataKard);
+    var s2 = JSON.stringify(dataKard1);
+    console.log("сравнение двух обьектов:" + (s1 == s2));
+    if (!(s1 == s2)) {
+        var arrayFieldsChecked = ['brand_name-', 'device_type_name-', 'devices_model-', 'serial_numbers_name-'];
+        errorDeleteServerTreatment(arrayFieldsChecked, id);
+        if (formFieldCheck(id, arrayFieldsChecked)) {
+            alert("Проверка Проверка прошла успешно");
+            
+            /*var data = $('#form_orders-' + id).serialize();
+            console.log(data);
+            $.ajax({
+                url: '/yii-application/backend/web/orders/default/create',
+                type: 'POST',
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    if (Number(res[0]) == 0) {
+                        console.log(res['msg']);
+                        console.log(res['errorsClientsPhonesEdit']);//
+                        console.log(res['errorsMalfunctionEdit']);
+                        console.log(res['errorsOrdersEdit']);
+                        console.log(res['errorsBrandsEdit']);
+                        console.log(res['errorsDeviceTypeEdit']);
+                        console.log(res['errorsDevicesEdit']);
+                        console.log(res['errorsSerialNumbersEdit']);
+                        console.log(res['errorsClientsEdit']);
+                        console.log(res['test']);
+                        errorServerTreatment(processingErrorsServer(res, id), id);
+                    } else {
+                        console.log(res);
+                        if (res['txt'] == 0) {
+                            var numberAlert = getRandomArbitary(1, 50);
+                            var namePost = CreateErrorCards(res['msg'], id, numberAlert);
+                            setTimeout(postDelete, 3000, namePost);
+                        } else {
+                            if (id != 0) {
+                                $("#Block_add_orders-" + id).remove();
+                                $("[data-key='" + id + "']").append(res['txt']);
+                                SetStatusCard(0, "");
+                                return false;
+                            } else {
+                                settingCardData(dataKard, id);
+                                $('#Block_add_orders-0').hide();
+                                $("#w0").prepend("<div class='' data-key='" + res['id'] + "' >" + res['txt'] + "</div>");
+                                SetStatusCard(0, "");
+                                return false;
+                            }
+                        }
+                    }
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR);
+                    alert(jqXHR.responseText);
+                }
+            });*/
+        } else {
+            alert("Проверка прошла не успешно");
+        }
+    } else {
+        if (id == 0) {
+            SetStatusCard(0, "");
+            $('#Block_add_serialnumbers-0').hide();
+            return false;
+        } else {
+            SetStatusCard(id, "#span_serialnumbers_id_serial_numbers-");
+            $('#stock_card_button_edit_delete-' + id).show();
+            $('#serialnumbers_content-' + id).show();
+            $('#serialnambers_cancel_button_card_apply-' + id).hide();
+            $('#serialnumbers_form-' + id).hide();
+            return false;
+        }
+    }
+});
+
+/**
+ * Функция проверяет поля редактируемого пользователя
+ * */
+function formFieldCheck(id, arrayFieldsChecked) {
+    var arrayError = {};
+    var countError = 0;
+    $.each(arrayFieldsChecked, function (i, val) {
+        console.log(i + " - " + val);
+        switch ("input_serialnambers_" + val) {
+            case "input_serialnambers_brand_name-":
+                if (empty($('#input_serialnambers_' + val + id).val())) {
+                    countError++;
+                    arrayError['brand_name-' + id] = 'Заполните поле Бренд';
+                }
+                break;
+            case "input_serialnambers_device_type_name-":
+                if (empty($('#input_serialnambers_' + val + id).val())) {
+                    countError++;
+                    arrayError['device_type_name-' + id] = 'Заполните поле тип устройства';
+                }
+                break;
+            case "input_serialnambers_devices_model-":
+                if (empty($('#input_serialnambers_' + val + id).val())) {
+                    countError++;
+                    arrayError['devices_model-' + id] = 'Заполните поле модель устройсва';
+                }
+                break;
+            case "input_serialnambers_serial_numbers_name-":
+                var checked = $("input[name='SerialNumbersEdit[type_addition]']:checked").val();
+                switch (checked){
+                    case 'one':
+                        if (empty($('#input_serialnambers_' + val + id).val())) {
+                            countError++;
+                            arrayError['serial_numbers_name-' + id] = 'Заполните поле серийный номер';
+                        }
+                        break;
+                    case 'range':
+                        if (empty($('#input_serialnambers_' + val + id).val())) {
+                            countError++;
+                            if(!empty(arrayError['serial_numbers_name-' + id])){
+                                arrayError['serial_numbers_name-' + id] = 'Заполните поле общею часть серийных номеров ';
+                            }else{
+                                arrayError['serial_numbers_name-' + id] = arrayError['serial_numbers_name-' + id] + 'Заполните поле общею часть серийных номеров ';
+                            }    
+                        }
+                        if (empty($('#input_serialnambers_serial_numbers_start_range-' + id).val())) {
+                            countError++;
+                            if(!empty(arrayError['serial_numbers_name-' + id])){
+                                arrayError['serial_numbers_name-' + id] = 'Заполните начало диапазона  </br>';
+                            }else{
+                                arrayError['serial_numbers_name-' + id] = arrayError['serial_numbers_name-' + id] + 'Заполните начало диапазона ';
+                            }    
+                        }
+                        if (empty($('#input_serialnambers_serial_numbers_end_range-' + id).val())) {
+                            countError++;
+                            if(!empty(arrayError['serial_numbers_name-' + id])){
+                                arrayError['serial_numbers_name-' + id] = 'Заполните конец диапазона  </br>';
+                            }else{
+                                arrayError['serial_numbers_name-' + id] = arrayError['serial_numbers_name-' + id] + 'Заполните конец диапазона ';
+                            }    
+                        }
+                        break;
+                }
+                break;
+        }
+    });
+    if (countError == 0) {
+        return true
+    } else {
+        errorServerTreatment(arrayError, id);
+        return false
+    }
+    
+//Функция обработки полученных ошибок с сервера
+function errorServerTreatment(arrayError) {
+    //перебирает поля с данными, присланные с сервера
+    $.each(arrayError, function (index, value) {
+        console.log('Индекс: ' + index.toString() + '; Значение: ' + value.toString());
+        $('#error_serialnambers_' + index.toString()).text(value.toString());//Добавляем текст ошибки
+        $('#error_serialnambers_' + index.toString()).show();//Блок ошибки показываем пользователю
+        console.log($('#error_serialnambers_' + index.toString()));
+        $('#input_serialnambers_' + index.toString()).addClass('is-invalid');//Окрашиваем поле где ошибка в красный
+        console.log($('#input_serialnambers_' + index.toString()));
+    });
+    return false;
+}
+}
+
+//Функция очишает все ошибки в карточке
+function errorDeleteServerTreatment(arrayError, id) {
+
+    $.each(arrayError, function (index, value) {
+        console.log("Номер итерации" - index);
+        $('#error_serialnambers_' + value.toString() + '' + id).text('');
+        $('#error_serialnambers_' + value.toString() + id).hide();//Блок ошибки показываем пользователю
+        console.log("Номер карточки - "+id);
+        $('#input_serialnambers_' + value.toString() + id).removeClass('is-invalid');
+        console.log($('#error_serialnambers_' + value.toString() + '' + id));
+        /*
+        if (value.toString().localeCompare("clients_phone-") == 0) {
+            console.log("Блок телефонов" + $('.error_orders_phone-' + id));
+            $('.error_orders_phone-' + id).each(function (index) {
+                console.log("Ошибка :" + this);
+                $(this).text('');
+                $(this).hide();
+                $(this).removeClass('is-invalid');
+            });
+            console.log("Конец блока");
+        } else {
+            if (value.toString().localeCompare("malfunction-") == 0) {
+                console.log("Блок телефонов" + $('.error_orders_phone-' + id));
+                $('.error_orders_malfunction-' + id).each(function (index) {
+                    console.log("Ошибка :" + this.id);
+                    $(this).text('');
+                    $(this).hide();
+                    $(this).removeClass('is-invalid');
+                });
+                console.log("Конец блока");
+            } else {
+                $('#error_orders_' + value.toString() + '' + id).text('');
+                $('#error_orders_' + value.toString() + id).hide();//Блок ошибки показываем пользователю
+                console.log(id);
+                $('#input_orders_' + value.toString() + id).removeClass('is-invalid');
+                console.log($('#error_orders_' + value.toString() + '' + id));
+            }
+        }
+        */
+    });
 }
