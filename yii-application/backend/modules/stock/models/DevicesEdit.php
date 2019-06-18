@@ -30,11 +30,11 @@ class DevicesEdit extends Model{
                 $modelDevices->devices_type_id = $devices_type->id_device_type;
                 $modelDevices->devices_model = $this->devices_model;
                 if($modelDevices->save()){
-                    $modelChangesTables = new ChangesTables('devices',$modelDevices->id_devices,'Был создана новая модель устройства - '.$modelDevices->devices_model, Yii::$app->user->identity->id);
+                    $modelChangesTables = new ChangesTables('devices',$modelDevices->id_devices,'Был создана новая модель устройства для склада - '.$modelDevices->devices_model, Yii::$app->user->identity->id);
                     $modelChangesTables->save();
-                    return $modelDevices;
+                    return array('errror'=>0,'msg'=>$modelDevices);                    
                 }else{
-                    return null;
+                    return array('errror'=>1,'msg'=>'Новое устройство не было добавлено в БД обратитесь к админу'); 
                 }
             }else{
                 $i = 0; //количество измененых полей в клиенте
@@ -47,19 +47,19 @@ class DevicesEdit extends Model{
                         $i++;
                         $DeviceModel = $modelDevices->devices_model;
                         $modelDevices->devices_model = $this->devices_model;
-                        $modelChangesDeviceTypeName = new ChangesTables('devices',$modelDevices->id_devices,'При работе с заказом был изменено имя модели устройсва было - '.$DeviceModel.'стало - '.$this->devices_model, Yii::$app->user->identity->id);
+                        $modelChangesDeviceTypeName = new ChangesTables('devices',$modelDevices->id_devices,'При работе со складом было изменено имя модели устройсва было - '.$DeviceModel.'стало - '.$this->devices_model, Yii::$app->user->identity->id);
                     }
                     if($modelDevices->brands_id != $brand->id_brands){
                         $i++;
                         $DeviceModelBrands_id = $modelDevices->brands_id;
                         $modelDevices->brands_id = $brand->id_brands;
-                        $modelChangesDeviceBrands_id = new ChangesTables('devices',$modelDevices->id_devices,'При работе с заказом был изменен id бренда модели было - '.$DeviceModelBrands_id.'стало - '.$brand->id_brands, Yii::$app->user->identity->id);
+                        $modelChangesDeviceBrands_id = new ChangesTables('devices',$modelDevices->id_devices,'При работе со складом было изменено id бренда модели было - '.$DeviceModelBrands_id.'стало - '.$brand->id_brands, Yii::$app->user->identity->id);
                     }
                     if($modelDevices->devices_type_id != $devices_type->id_device_type){
                         $i++;
                         $DeviceModelDevicesType_id = $modelDevices->devices_type_id;
                         $modelDevices->devices_type_id = $devices_type->id_device_type;
-                        $modelChangesDevicesType_id = new ChangesTables('devices',$modelDevices->id_devices,'При работе с заказом был изменен id типа модели было - '.$DeviceModelDevicesType_id.'стало - '.$devices_type->id_device_type, Yii::$app->user->identity->id);
+                        $modelChangesDevicesType_id = new ChangesTables('devices',$modelDevices->id_devices,'При работе со складом был изменен id типа модели было - '.$DeviceModelDevicesType_id.'стало - '.$devices_type->id_device_type, Yii::$app->user->identity->id);
                     }
                     if($i!=0){
                         if($modelDevices->save()){
@@ -72,19 +72,19 @@ class DevicesEdit extends Model{
                             if(!empty($DeviceModelDevicesType_id)){
                                 $DeviceModelDevicesType_id->save();
                             }
-                            return $modelDevices;
+                            return array('errror'=>0,'msg'=>$modelDevices);
                         }else{
-                            return null;
+                            return array('errror'=>1,'msg'=>'Параметры устройства не были изменены в БД обратитесь к админу');
                         }
                     }else{
-                        return $modelDevices;
+                        return array('errror'=>0,'msg'=>$modelDevices);
                     }
                 }else{
-                    return null;
+                    return array('errror'=>1,'msg'=>'Данное устройство не было обнаружено в БД обратитесь к админу');
                 }
             }
         }else{
-            return null;
+            return array('errror'=>1,'msg'=>'Данные Бренда и Типа устройства не были переданы обратитесь к админу');
         }
     }
 

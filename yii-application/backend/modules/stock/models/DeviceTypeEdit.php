@@ -29,11 +29,11 @@ class DeviceTypeEdit extends Model{
             $modelDeviceType->id_device_type = $this->id_device_type;
             $modelDeviceType->device_type_name = $this->device_type_name;
             if($modelDeviceType->save()){
-                $modelChangesTables = new ChangesTables('device_type',$modelDeviceType->id_device_type,'Был создан новый тип устройсва - '.$modelDeviceType->device_type_name, Yii::$app->user->identity->id);
+                $modelChangesTables = new ChangesTables('device_type',$modelDeviceType->id_device_type,'Был создан новый тип устройсва для склада - '.$modelDeviceType->device_type_name, Yii::$app->user->identity->id);
                 $modelChangesTables->save();
-                return $modelDeviceType;
+                return array('errror'=>0,'msg'=>$modelDeviceType);                
             }else{
-                return null;
+                return array('errror'=>1,'msg'=>'Новый тип устройства не был добавлен в БД обратитесь к админу');  
             }
         }else{
             $i = 0; //количество измененых полей в клиенте
@@ -44,22 +44,22 @@ class DeviceTypeEdit extends Model{
                     $i++;
                     $DeviceTypeName = $modelDeviceType->device_type_name;
                     $modelDeviceType->device_type_name = $this->device_type_name;
-                    $modelChangesDeviceTypeName = new ChangesTables('device_type',$modelDeviceType->id_device_type,'При работе с заказом был изменено имя типа устройства было - '.$DeviceTypeName.'стало - '.$this->device_type_name, Yii::$app->user->identity->id);
+                    $modelChangesDeviceTypeName = new ChangesTables('device_type',$modelDeviceType->id_device_type,'При работе со складом был изменено имя типа устройства было - '.$DeviceTypeName.'стало - '.$this->device_type_name, Yii::$app->user->identity->id);
                 }
                 if($i!=0){
                     if($modelDeviceType->save()){
                         if(!empty($modelChangesDeviceTypeNameё)){
                             $modelChangesDeviceTypeName->save();
                         }
-                        return $modelDeviceType;
+                        return array('errror'=>0,'msg'=>$modelDeviceType); 
                     }else{
-                        return null;
+                        return array('errror'=>1,'msg'=>'Название типа устройства не было изменено в БД обратитесь к админу');
                     }
                 }else{
-                    return $modelDeviceType;
+                    return array('errror'=>0,'msg'=>$modelDeviceType); 
                 }
             }else{
-                return null;
+                return array('errror'=>1,'msg'=>'Указанный тип устройства отсутствует в БД обратитесь к админу');
             }
             
         }

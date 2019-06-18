@@ -29,11 +29,11 @@ class BrandsEdit extends Model{
             $modelBrand = new Brands();
             $modelBrand->name_brands = $this->brand_name;
             if($modelBrand->save()){
-                $modelChangesTables = new ChangesTables('brands',$modelBrand->id_brands,'Был создан новый бренд - '.$modelBrand->name_brands, Yii::$app->user->identity->id);
+                $modelChangesTables = new ChangesTables('brands',$modelBrand->id_brands,'Был создан новый бренд при добавлении продукта на склад - '.$modelBrand->name_brands, Yii::$app->user->identity->id);
                 $modelChangesTables->save();
-                return $modelBrand;
+                return array('errror'=>0,'msg'=>$modelBrand);
             }else{
-                return null;
+                return array('errror'=>1,'msg'=>'По неизвестной причине новый бренд при добавление нового продукта на склад не был создан');
             }
         }else{
             $i = 0; //количество измененых полей в клиенте
@@ -44,22 +44,22 @@ class BrandsEdit extends Model{
                     $i++;
                     $nameBrands = $modelBrand->name_brands;
                     $modelBrand->name_brands = $this->brand_name;
-                    $modelChangesBrand = new ChangesTables('brands',$modelBrand->id_brands,'При работе с заказом был изменен имя бренда было - '.$nameBrands.'стало - '.$this->brand_name, Yii::$app->user->identity->id);
+                    $modelChangesBrand = new ChangesTables('brands',$modelBrand->id_brands,'При работе со складом  был изменено имя бренда было - '.$nameBrands.'стало - '.$this->brand_name, Yii::$app->user->identity->id);
                 }
                 if($i!=0){
                     if($modelBrand->save()){
                         if(!empty($modelChangesBrand)){
                             $modelChangesBrand->save();
                         }
-                        return $modelBrand;
+                        return array('errror'=>0,'msg'=>$modelBrand);
                     }else{
-                        return null;
+                        return array('errror'=>1,'msg'=>'По неизвестной причине новый бренд при добавление нового продукта на склад не был изменен');
                     }
                 }else{
-                    return $modelBrand;
+                    return array('errror'=>0,'msg'=>$modelBrand);
                 }
             }else{
-                return null;
+                return array('errror'=>1,'msg'=>'По неизвестной причине новый бренд не был найден в БД');
             }
         }
     }

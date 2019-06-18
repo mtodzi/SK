@@ -6,7 +6,7 @@
 <div id="index_stock_bloc"  class='index_stock_bloc'>
     <div class='my_content_bloc'>        
         <div id="new_serialnumbers">
-            <?=$this->render('serialnumbers', ['model' => null,])?>
+            <?=$this->render('serialnumbers', ['model' => null, 'id' =>$id])?>
         </div>    
 <?php
         echo ListView::widget([

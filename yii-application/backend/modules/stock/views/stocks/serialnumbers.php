@@ -65,8 +65,8 @@ use yii\helpers\Html;
                         <div class=''>
                             <form id='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' name='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>'>
                                 <?=Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
-                                <?=Html :: hiddenInput('EquipmentStockEdit[stock_id]', (($model!=null)?$model->stock_id:0), ['id'=>'input_equipment_stock_stock_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
-                                <?=Html :: hiddenInput('EquipmentStockEdit[serial_number_id]', (($model!=null)?$model->serial_number_id:0), ['id'=>'input_equipment_stock_serial_number_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
+                                <?=Html :: hiddenInput('EquipmentStockEdit[stock_id]', (($model!=null)?$model->stock_id:$id), ['id'=>'input_equipment_stock_stock_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
+                                <?=Html :: hiddenInput('EquipmentStockEdit[serial_number_id]', 0, ['id'=>'input_equipment_stock_serial_number_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
                             </form>
                             <div id = "div_serialnambers_name_brands-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>">
                                 <p class="form-row my-2"> 
@@ -108,9 +108,9 @@ use yii\helpers\Html;
                                 <?php
                                     if($model == null){
                                         echo "<p id = 'p_type_addition'>"
-                                            ."<input checked name='SerialNumbersEdit[type_addition]' type='radio' value='one' form='form_serialnambers_stock-".(($model!=null)?$model->serialNumber->id_serial_numbers:0)."'> один продукт "
-                                            ."<input name='SerialNumbersEdit[type_addition]' type='radio' value='range' form='form_serialnambers_stock-".(($model!=null)?$model->serialNumber->id_serial_numbers:0)."'> диапазон продуктов "
-                                            ."<input name='SerialNumbersEdit[type_addition]' type='radio' value='some' form='form_serialnambers_stock-".(($model!=null)?$model->serialNumber->id_serial_numbers:0)."'> несколько продуктов "    
+                                            ."<input checked name='type_addition' type='radio' value='one' form='form_serialnambers_stock-".(($model!=null)?$model->serialNumber->id_serial_numbers:0)."'> один продукт "
+                                            ."<input name='type_addition' type='radio' value='range' form='form_serialnambers_stock-".(($model!=null)?$model->serialNumber->id_serial_numbers:0)."'> диапазон продуктов "
+                                            ."<input name='type_addition' type='radio' value='some' form='form_serialnambers_stock-".(($model!=null)?$model->serialNumber->id_serial_numbers:0)."'> несколько продуктов "    
                                         . "</p>";
                                     }
                                 ?>
@@ -125,6 +125,7 @@ use yii\helpers\Html;
                                 </p>
                                 <p id = 'error_serialnambers_serial_numbers_name-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                             </div>
+                            <p id = 'error_serialnambers_equipment_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' class='text-danger my-2 mx-2' style='display: none;'>Ошибка</p>
                         </div>
                     </div>        
                 </div>

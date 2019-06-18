@@ -55,7 +55,7 @@ $this->title = Yii::t('app','Склады');
 <!-- конец скрытой переменной открытой карточки -->
 
 <!--Блок продуктов на выбранном складе-->
-     <?= $this->render('serialnumbers_in_stock', ['dataProvider' => $dataProvider])?>
+     <?= $this->render('serialnumbers_in_stock', ['dataProvider' => $dataProvider, 'id'=>$id])?>
 <!--Конец блока продуктов на выбранном складе-->
 
 

@@ -8,6 +8,11 @@ use backend\modules\stock\models\Stocks;
 use backend\modules\stock\models\StocksEdit;
 use backend\modules\stock\models\EquipmentStockSearch;
 use backend\modules\stock\models\SearchInput;
+use backend\modules\stock\models\BrandsEdit;
+use backend\modules\stock\models\DeviceTypeEdit;
+use backend\modules\stock\models\DevicesEdit;
+use backend\modules\stock\models\SerialNumbersEdit;
+use backend\modules\stock\models\EquipmentStockEdit;
 
 /**
  * Default controller for the `stock` module
@@ -105,7 +110,150 @@ class StocksController extends Controller
             return $this->redirect(['index']);
         }
     }
+    /**
+     * Метод будет добавлять продукт на склад
+     */
+    public function actionAddserialnambersinstock(){
+        if(\Yii::$app->request->isAjax){
+            $countError = 0;
+            $errorsBrandsEdit = 0;
+            $errorsDeviceTypeEdit = 0;
+            $errorsDevicesEdit = 0;
+            $errorsSerialNumbersEdit = 0;
+            $errorsEquipmentStockEdit = 0;
+            
+            $modelBrandsEdit = new BrandsEdit();
+            $modelDeviceTypeEdit = new DeviceTypeEdit();
+            $modelDevicesEdit = new DevicesEdit();
+            $modelSerialNumbersEdit = new SerialNumbersEdit();
+            
+            if($modelBrandsEdit->load(Yii::$app->request->post()) && !$modelBrandsEdit->validate()){
+                $countError++;
+                $errorsBrandsEdit = $modelBrandsEdit->getErrors();
+            }
+            
+            if($modelDeviceTypeEdit->load(Yii::$app->request->post()) && !$modelDeviceTypeEdit->validate()){
+                $countError++;
+                $errorsDeviceTypeEdit = $modelDeviceTypeEdit->getErrors();
+            }
+            
+            if($modelDevicesEdit->load(Yii::$app->request->post()) && !$modelDevicesEdit->validate()){
+                $countError++;
+                $errorsDevicesEdit = $modelDevicesEdit->getErrors();
+            }
+            switch (Yii::$app->request->post('type_addition')){
+                case 'one':
+                    $modelSerialNumbersEdit = new SerialNumbersEdit(['scenario' => SerialNumbersEdit::SCENARIO_SEREIAL_NUMBERS_ONE]);
+                    $modelEquipmentStockEdit = new EquipmentStockEdit(['scenario' => EquipmentStockEdit::SCENARIO_EQUIPMENT_STOCK_ONE]);
+                    break;
+                case 'range':
+                    $modelSerialNumbersEdit = new SerialNumbersEdit(['scenario' => SerialNumbersEdit::SCENARIO_SEREIAL_NUMBERS_RANGE]);
+                    break;
+                case 'some':
+                    $modelSerialNumbersEdit = new SerialNumbersEdit(['scenario' => SerialNumbersEdit::SCENARIO_SEREIAL_NUMBERS_SOME]);
+                    break;
+            }
+            if($modelSerialNumbersEdit->load(Yii::$app->request->post()) && !$modelSerialNumbersEdit->validate()){
+                $countError++;
+                $errorsSerialNumbersEdit = $modelSerialNumbersEdit->getErrors();
+            }
+            if($modelEquipmentStockEdit->load(Yii::$app->request->post()) && !$modelEquipmentStockEdit->validate()){
+                $countError++;
+                $errorsEquipmentStockEdit = $modelEquipmentStockEdit->getErrors();
+            }            
+            if($countError == 0){
+                $countErrorSave = 0;
+                $msgCountErrorSave = 'Ошибки сохранения - ';
+                switch (Yii::$app->request->post('type_addition')){
+                    case 'one':
+                        if($modelEquipmentStockEdit->serial_number_id != 0){
+                            $resultSave = $modelEquipmentStockEdit->saveEquipmentStock();
+                            if($resultSave['errror']==1){
+                                $countErrorSave++;
+                                $msgCountErrorSave = $msgCountErrorSave.$resultSave['msg'];
+                            }
+                        }else{
+                            $resultSave = $this->NewSerialNambers($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit);
+                            if($resultSave['errror']==1){
+                                $countErrorSave++;
+                                $msgCountErrorSave = $msgCountErrorSave.$resultSave['msg'];
+                            }else{
+                                $resultSave = $modelEquipmentStockEdit->saveEquipmentStockNewSirealNambers($resultSave['msg']);
+                            }
+                        }
+                        break;
+                case 'range':
+                        
+                        break;
+                case 'some':
+                        
+                        break;
+                }
+                if($countErrorSave==0){
+                    $select = $this->renderAjax('serialnumbers', ['model' => $resultSave['msg'],]);
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>'Успешная работа!', 'txt'=>$select];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$msgCountErrorSave, 'txt'=>0];
+                    return $items;
+                }
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0',
+                    'msg'=>'Передаваемые данные не прошли проверку',
+                    'errorsBrandsEdit'=>$errorsBrandsEdit,
+                    'errorsDeviceTypeEdit'=>$errorsDeviceTypeEdit,
+                    'errorsSerialNumbersEdit'=>$errorsSerialNumbersEdit,
+                    'errorsDevicesEdit'=>$errorsDevicesEdit,
+                    'errorsEquipmentStockEdit'=>$errorsEquipmentStockEdit
+                ];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+            //Если данные на загрузились в обьект и не прошли валидацию
+            //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //Фармируем массив с ошибкой
+            $items = ['200','msg'=>"запрос верен" ];
+            //Передаем данные в фармате json пользователю
+            return $items;
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }        
+    }
     
+    
+    public function NewSerialNambers($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit){
+        $modelBrandsEdit = $modelBrandsEdit->saveBrand();
+        if($modelBrandsEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelBrandsEdit['msg']);
+        }
+        $modelDeviceTypeEdit = $modelDeviceTypeEdit->saveDeviceType();
+        if($modelDeviceTypeEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelDeviceTypeEdit['msg']);
+        }
+        $modelDevicesEdit = $modelDevicesEdit->saveDevices($modelBrandsEdit['msg'],$modelDeviceTypeEdit['msg']);
+        if($modelDevicesEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelDevicesEdit['msg']);
+        }
+        $modelSerialNumbersEdit = $modelSerialNumbersEdit->saveSerialNambers($modelDevicesEdit['msg']);
+        if($modelSerialNumbersEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelSerialNumbersEdit['msg']);
+        }else{
+            return array('errror'=>0,'msg'=>$modelSerialNumbersEdit['msg']);
+        }
+        
+    }
+
     /*
      *Метод возврашает выбранный Бренд из списка Брендов 
      * 
