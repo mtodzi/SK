@@ -19,7 +19,7 @@ function GetDataCardOrders(id) {
 }
 
 //Обработчик нажатия кнопки отмена в userbox
-$('.my_content_bloc').on('click', '.serialnambers_cancel_button', function () {
+$('.index_stock_bloc').on('click', '.serialnambers_cancel_button', function () {
     console.log(dataKard);
     alert("Вы нажали кнопку отмена");        
     var id = GetId($(this), 1);
@@ -308,7 +308,7 @@ $('.my_heders_bloc').on('click', '#add_new_serialNambers_in_stock', function(){
 });
 
 //Обработчик нажатия кнопки редактировать продукта на складе
-$('.my_serialnumbers_content_block').on('click', '.serialnambers_edit_button', function () {
+$('.index_stock_bloc').on('click', '.serialnambers_edit_button', function () {
     var id = GetId($(this), 1);
     if (GetStatusCard()) {
         dataKard = GetDataCardOrders(id);
@@ -381,7 +381,7 @@ function GetStatusCard(){
     }
 }
 //Обработчик нажатия клавиш в input
-$('.my_serialnumbers_content_block').on('keyup', '.input_serialnambers', function (eventObject) {
+$('.index_stock_bloc').on('keyup', '.input_serialnambers', function (eventObject) {
     //alert("я работаю");
     var inputName = $(this).attr('data-input-name');
     var notInput = ['clients_address', 'appearance', 'special_notes'];//массив в котором храняться поля которые не нужно отслеживать
@@ -418,7 +418,7 @@ $('.my_serialnumbers_content_block').on('keyup', '.input_serialnambers', functio
 });
 
 //Обработчик нажатия на option в подсказке clients_name в userbox для всех option
-$('.my_serialnumbers_content_block').on('click', '.input_serial_numbers_option', function () {
+$('.index_stock_bloc').on('click', '.input_serial_numbers_option', function () {
     var id_serial_numbers = GetId($(this).parent(), 1);
     var id_input = GetId($(this), 1);
     var data_input_name =  $(this).attr('data-input-name');    
@@ -647,7 +647,7 @@ function DeleteLetterInput(setInput) {
 }
 
 //Обработчик отслеживает получение фокуса 
-$('.my_serialnumbers_content_block').on('focusin', '.input_serialnambers', function () {
+$('.index_stock_bloc').on('focusin', '.input_serialnambers', function () {
     var id_serialnambers = GetId($(this), 1);
     console.log($("search_input_device_type-" + id_serialnambers));
     if ($("#search_input_name_brands-" + id_serialnambers).is("#search_input_name_brands-" + id_serialnambers)) {
@@ -672,7 +672,7 @@ $('.my_serialnumbers_content_block').on('focusin', '.input_serialnambers', funct
 });
 
 //Обработчик отслеживает получение фокуса 
-$('.my_serialnumbers_content_block').on('change', "input[type='radio']", function () {
+$('.index_stock_bloc').on('change', "input[type='radio']", function () {
     alert("вы сменили");
     console.log($(this));
     var check = $(this).val();
@@ -688,7 +688,7 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
     var htmlRange = ""+
             "<p id = 'p_serialnambers_serial_numbers_name-0-1' class='form-row my-2 input_serialnambers-0'>"+
                 "<input id='input_serialnambers_serial_numbers_name-0'"+
-                "name='SerialNumbersEdit[serial_numbers_common_body_range]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
+                "name='SerialNumbersEdit[serial_numbers_name]' data-input-name = 'serial_numbers_name'  form='form_serialnambers_stock-0'"+
                 "value='' class='form-control col-4 mx-2 input_serialnambers_serial_numbers_common_body_range input_serialnambers' type='text'"+
                 "placeholder='Общая часть'>  "+
                 "<input id='input_serialnambers_serial_numbers_start_range-0'"+
@@ -741,7 +741,7 @@ $('.my_serialnumbers_content_block').on('change', "input[type='radio']", functio
 });
 
 //Обработчик нажатия кнопки добавить еше один серийный номер
-$('.my_serialnumbers_content_block').on('click', '.add_another_serial_numbers_name', function () {
+$('.index_stock_bloc').on('click', '.add_another_serial_numbers_name', function () {
     var id_serialnambers = GetId($(this), 1);
     var count_serialnambers = Number($(this).attr('data-count-serial_numbers_name'));
     $("#search_input_serial_numbers_name-" + id_serialnambers).remove();
@@ -792,7 +792,7 @@ function addInputSerialNambers(id, count_serialNambers, value = "") {
 }
 
 //Обработчик нажатия кнопки Удалить еше один серийный номер
-$('.my_serialnumbers_content_block').on('click', '.delete_another_serialnambers', function () {
+$('.index_stock_bloc').on('click', '.delete_another_serialnambers', function () {
     var id_serialnumbers = GetId($(this), 1);
     var id_delete = GetId($(this), 2);
     console.log("id_delete - "+id_delete+" id_serialnumbers - "+id_serialnumbers);
@@ -832,7 +832,7 @@ function deleteInputPhone(id, id_delete, count_serialnambers) {
 }
 
 //Обработчик нажатия кнопки Применить в userbox
-$('.my_serialnumbers_content_block').on('click', '.serialnambers_apply_button', function () {
+$('.index_stock_bloc').on('click', '.serialnambers_apply_button', function () {
     console.log(dataKard);
     //alert("Вы нажали кнопку пременить");        
     var id = GetId($(this), 1);
@@ -870,7 +870,19 @@ $('.my_serialnumbers_content_block').on('click', '.serialnambers_apply_button', 
                             settingCardData(dataKard, id);
                             $('#Block_add_serialnumbers-0').hide();
                             $('.empty').remove();
-                            $("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
+                            switch (res['msg']){
+                                case 'one':
+                                    $("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
+                                    break;
+                                case 'range':
+                                    $("#w0").prepend(res['txt']);
+                                    console.log("Ошибки с серийными номерами по складам -" + res['textError']);
+                                    if(Number(res['textError'])!=0){
+                                        alert(res['textError']);
+                                    }    
+                                    break;
+                            }
+                            //$("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
                             SetStatusCard(0, "");
                             return false;                            
                         }

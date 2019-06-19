@@ -130,6 +130,33 @@ class SerialNumbersEdit extends Model{
             return array('errror'=>1,'msg'=>'Устройство не было правильно передано в метод обратитесь к админу');
         }
     }
+    
+    public function saveSerialNambersRange($devise){
+        if(!empty($devise)){
+            $msgCountErrorSave = 'Ошибки сохранения - ';
+            $ArrayReturn = array();
+            for ($i = $this->serial_numbers_start_range; $i<=$this->serial_numbers_end_range;$i++){
+                $modelSerialNambers = SerialNumbers::findOne(['serial_numbers_name'=>($this->serial_numbers_name.$i),'devise_id'=>$devise->id_devices]);
+                if($modelSerialNambers!=null){
+                    $ArrayReturn[$i]=$modelSerialNambers;
+                }else{
+                    $modelSerialNambers = new SerialNumbers();
+                    $modelSerialNambers->serial_numbers_name = $this->serial_numbers_name.$i;
+                    $modelSerialNambers->devise_id = $devise->id_devices;
+                    if($modelSerialNambers->save()){
+                        $modelChangesTables = new ChangesTables('serial_numbers',$modelSerialNambers->id_serial_numbers,'Был создана новый серийный номер для склада - '.$modelSerialNambers->serial_numbers_name, Yii::$app->user->identity->id);
+                        $modelChangesTables->save();
+                        $ArrayReturn[$i]=$modelSerialNambers;
+                    }else{
+                        return array('errror'=>1,'msg'=>'Устройство с новым серийным номером не было создано в БД обратитесь к админу');
+                    }
+                }
+            }
+            return array('errror'=>0,'msg'=>$ArrayReturn);
+        }else{
+            return array('errror'=>1,'msg'=>'Устройство не было правильно передано в метод обратитесь к админу');
+        }
+    }
 
     public function attributeLabels() {
         return

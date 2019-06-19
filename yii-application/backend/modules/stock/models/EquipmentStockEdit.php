@@ -80,6 +80,35 @@ class EquipmentStockEdit extends Model{
             }
         }
     }
+    
+    public function saveEquipmentStockNewSirealNambersRange($sirealNambersModel){
+        $addError = "Ошибки размещения - ";
+        $countError = 0;
+        $arrayReturn = array();
+        $i = 1;
+        foreach ($sirealNambersModel as $data){
+            $EquipmentStockModelinStoks = EquipmentStock::findOne([
+                'serial_number_id' => $data->id_serial_numbers,
+            ]);
+            if($EquipmentStockModelinStoks != null ){
+                $countError++;
+                $addError = $addError.' На '.($EquipmentStockModelinStoks->stock->name_stock).' уже есть добавляемый серийный номер - '.($EquipmentStockModelinStoks->serialNumber->serial_numbers_name);
+            }else{
+                $EquipmentStockModel = new EquipmentStock();
+                $EquipmentStockModel->stock_id = $this->stock_id;
+                $EquipmentStockModel->serial_number_id = $data->id_serial_numbers;
+                if($EquipmentStockModel->save()){
+                    $modelChangesTables = new ChangesTables('equipment_stock',$EquipmentStockModel->stock_id,'Был добавлен продукт с серийым номером - '.$EquipmentStockModel->serialNumber->serial_numbers_name, Yii::$app->user->identity->id);
+                    $modelChangesTables->save();
+                    $arrayReturn[$i] = $EquipmentStockModel;
+                }else{
+                    return array('errror'=>1,'msg'=>'По неизвестной причине продукт не был помещен на склад обратитесь к админу');
+                }
+            }
+            $i++;
+        }
+        return array('errror'=>0,'msg'=>$arrayReturn,'msgError'=>$addError,'countError'=>$countError);
+    }
 
     public function attributeLabels() {
         return
