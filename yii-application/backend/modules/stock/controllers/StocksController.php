@@ -152,6 +152,7 @@ class StocksController extends Controller
                     break;
                 case 'some':
                     $modelSerialNumbersEdit = new SerialNumbersEdit(['scenario' => SerialNumbersEdit::SCENARIO_SEREIAL_NUMBERS_SOME]);
+                    $modelEquipmentStockEdit = new EquipmentStockEdit(['scenario' => EquipmentStockEdit::SCENARIO_EQUIPMENT_STOCK_SOME]);
                     break;
             }
             if($modelSerialNumbersEdit->load(Yii::$app->request->post()) && !$modelSerialNumbersEdit->validate()){
@@ -189,11 +190,17 @@ class StocksController extends Controller
                             $countErrorSave++;
                             $msgCountErrorSave = $msgCountErrorSave.$resultSave['msg'];
                         }else{
-                            $resultSave = $modelEquipmentStockEdit->saveEquipmentStockNewSirealNambersRange($resultSave['msg']);
+                            $resultSave = $modelEquipmentStockEdit->saveEquipmentStockNewSirealNambersSomeRange($resultSave['msg']);
                         }    
                         break;
                 case 'some':
-                        
+                        $resultSave = $this->NewSerialNambersSome($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit);
+                        if($resultSave['errror']==1){
+                            $countErrorSave++;
+                            $msgCountErrorSave = $msgCountErrorSave.$resultSave['msg'];
+                        }else{
+                            $resultSave = $modelEquipmentStockEdit->saveEquipmentStockNewSirealNambersSomeRange($resultSave['msg']);
+                        }
                         break;
                 }
                 $select = '';
@@ -217,7 +224,15 @@ class StocksController extends Controller
                             $msgSwitch = 'range';
                             break;
                         case 'some':
-                        
+                            foreach ($resultSave['msg'] as $data){
+                                $select = $select."<div class='' data-key='[]' >".($this->renderAjax('serialnumbers', ['model' => $data,]))."</div>";
+                            }
+                            if($resultSave['countError']!=0){
+                                $textError = $resultSave['msgError'];
+                            }else{
+                                $textError = 0;
+                            }    
+                            $msgSwitch = 'range';
                             break;
                     }   
                     //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
@@ -260,7 +275,7 @@ class StocksController extends Controller
         }        
     }
     
-    
+    //Создание нового Серийного номера для склада при добавлении одного продукта
     public function NewSerialNambers($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit){
         $modelBrandsEdit = $modelBrandsEdit->saveBrand();
         if($modelBrandsEdit['errror']==1){
@@ -283,6 +298,7 @@ class StocksController extends Controller
         
     }
     
+    //Создание нового Серийного номера для склада при добовлении диапозона продуктов
     public function NewSerialNambersRange($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit){
         $modelBrandsEdit = $modelBrandsEdit->saveBrand();
         if($modelBrandsEdit['errror']==1){
@@ -297,6 +313,28 @@ class StocksController extends Controller
             return array('errror'=>1,'msg'=>$modelDevicesEdit['msg']);
         }
         $modelSerialNumbersEdit = $modelSerialNumbersEdit->saveSerialNambersRange($modelDevicesEdit['msg']);
+        if($modelSerialNumbersEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelSerialNumbersEdit['msg']);
+        }else{
+            return array('errror'=>0,'msg'=>$modelSerialNumbersEdit['msg']);
+        }
+    }
+    
+    //Создание нового Серийного номера для склада при добовлении массива продуктов одного типа
+    public function NewSerialNambersSome($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit){
+        $modelBrandsEdit = $modelBrandsEdit->saveBrand();
+        if($modelBrandsEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelBrandsEdit['msg']);
+        }
+        $modelDeviceTypeEdit = $modelDeviceTypeEdit->saveDeviceType();
+        if($modelDeviceTypeEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelDeviceTypeEdit['msg']);
+        }
+        $modelDevicesEdit = $modelDevicesEdit->saveDevices($modelBrandsEdit['msg'],$modelDeviceTypeEdit['msg']);
+        if($modelDevicesEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelDevicesEdit['msg']);
+        }
+        $modelSerialNumbersEdit = $modelSerialNumbersEdit->saveSerialNambersSome($modelDevicesEdit['msg']);
         if($modelSerialNumbersEdit['errror']==1){
             return array('errror'=>1,'msg'=>$modelSerialNumbersEdit['msg']);
         }else{

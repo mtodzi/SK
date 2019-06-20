@@ -81,7 +81,7 @@ class EquipmentStockEdit extends Model{
         }
     }
     
-    public function saveEquipmentStockNewSirealNambersRange($sirealNambersModel){
+    public function saveEquipmentStockNewSirealNambersSomeRange($sirealNambersModel){
         $addError = "Ошибки размещения - ";
         $countError = 0;
         $arrayReturn = array();

@@ -157,7 +157,39 @@ class SerialNumbersEdit extends Model{
             return array('errror'=>1,'msg'=>'Устройство не было правильно передано в метод обратитесь к админу');
         }
     }
-
+    
+    public function saveSerialNambersSome($devise){
+        if(!empty($devise)){
+            $ArrayReturn = array();
+            $lengthArrayId = count($this->id_serial_numbers_array);
+            $lengthArrayName = count($this->serial_numbers_name_array);
+            if($lengthArrayId == $lengthArrayName){
+                for($i = 1; $i<=$lengthArrayId;$i++){
+                    if($this->id_serial_numbers_array[$i] != 0){
+                        $modelSerialNambers = SerialNumbers::findOne($this->id_serial_numbers_array[$i]);
+                        $ArrayReturn[$i]=$modelSerialNambers;
+                    }else{
+                        $modelSerialNambers = new SerialNumbers();
+                        $modelSerialNambers->serial_numbers_name = $this->serial_numbers_name_array[$i];
+                        $modelSerialNambers->devise_id = $devise->id_devices;
+                        if($modelSerialNambers->save()){
+                            $modelChangesTables = new ChangesTables('serial_numbers',$modelSerialNambers->id_serial_numbers,'Был создана новый серийный номер для склада - '.$modelSerialNambers->serial_numbers_name, Yii::$app->user->identity->id);
+                            $modelChangesTables->save();
+                            $ArrayReturn[$i]=$modelSerialNambers;
+                        }else{
+                            return array('errror'=>1,'msg'=>'Устройство с новым серийным номером не было создано в БД обратитесь к админу');
+                        }
+                    }
+                }
+                return array('errror'=>0,'msg'=>$ArrayReturn);
+            }else{
+                return array('errror'=>1,'msg'=>'Данные по серийным номерам были переданы неверно повторите ввод, если ошибка повториться обратитесь к админу');
+            }
+        }else{
+            return array('errror'=>1,'msg'=>'Устройство не было правильно передано в метод обратитесь к админу');
+        }
+    }
+    
     public function attributeLabels() {
         return
             [
