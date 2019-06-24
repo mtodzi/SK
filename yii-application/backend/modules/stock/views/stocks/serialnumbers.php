@@ -66,7 +66,7 @@ use yii\helpers\Html;
                             <form id='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>' name='form_serialnambers_stock-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>'>
                                 <?=Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), [])?>
                                 <?=Html :: hiddenInput('EquipmentStockEdit[stock_id]', (($model!=null)?$model->stock_id:$id), ['id'=>'input_equipment_stock_stock_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
-                                <?=Html :: hiddenInput('EquipmentStockEdit[serial_number_id]', 0, ['id'=>'input_equipment_stock_serial_number_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
+                                <?=Html :: hiddenInput('EquipmentStockEdit[serial_number_id]', (($model!=null)?$model->serial_number_id:0), ['id'=>'input_equipment_stock_serial_number_id-'.(($model!=null)?$model->serialNumber->id_serial_numbers:0)])?>
                             </form>
                             <div id = "div_serialnambers_name_brands-<?=(($model!=null)?$model->serialNumber->id_serial_numbers:0)?>">
                                 <p class="form-row my-2"> 

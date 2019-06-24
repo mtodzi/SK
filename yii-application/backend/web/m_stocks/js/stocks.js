@@ -559,6 +559,7 @@ function GetDataKeyUP(setInput) {
             break;
     }
 }
+
 //Функция отправляет данные на сервер и обрабатывает ответ
 function SendToServerSelected(setInput, data) {
     setInput = setInput.first();
@@ -625,22 +626,31 @@ function DeleteLetterInput(setInput) {
     switch (InputName) {
         case 'name_brands':
             countSendServer = 0;
-            $("#serialnambers_id_brands-" + id).val(0);
+            if(id==0){
+                $("#serialnambers_id_brands-" + id).val(0);
+            }    
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'device_type_name':
             countSendServer = 0;
-            $("#serialnambers_id_device_type-" + id).val(0);
+            if(id==0){
+                $("#serialnambers_id_device_type-" + id).val(0);
+            }    
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'devices_model':
             countSendServer = 0;
-            $("#serialnambers_id_devices-" + id).val(0);
+            if(id==0){
+                $("#serialnambers_id_devices-" + id).val(0);
+            }    
             $("#search_input_" + InputName + "-" + id).remove();
             break;
         case 'serial_numbers_name':
             countSendServer = 0;
-            $("#serialnambers_id_serial_numbers-" + id).val(0);
+            if(id==0){
+                $("#serialnambers_id_serial_numbers-" + id).val(0);
+                $("#input_equipment_stock_serial_number_id-" + id).val(0);
+            }    
             $("#search_input_" + InputName + "-" + id).remove();
             break;
     }
@@ -843,49 +853,71 @@ $('.index_stock_bloc').on('click', '.serialnambers_apply_button', function () {
     if (!(s1 == s2)) {
         var arrayFieldsChecked = ['brand_name-', 'device_type_name-', 'devices_model-', 'serial_numbers_name-','equipment_stock-'];
         errorDeleteServerTreatment(arrayFieldsChecked, id);
-        if (formFieldCheck(id, arrayFieldsChecked)) {
+        var EndRequest = '';
+        if(id == 0){
+            EndRequest = 'addserialnambersinstock';
+        }else{
+            EndRequest = 'updateserialnamber';
+        }
+        if (true/*formFieldCheck(id, arrayFieldsChecked)*/) {
             alert("Проверка Проверка прошла успешно");            
             var data = $('#form_serialnambers_stock-' + id).serialize();
             console.log(data);
             $.ajax({
-                url: '/yii-application/backend/web/stock/stocks/addserialnambersinstock',
+                url: '/yii-application/backend/web/stock/stocks/'+EndRequest,
                 type: 'POST',
                 data: data,
                 success: function (res) {
                     console.log(res);
-                    if (Number(res[0]) == 0) {
-                        console.log(res['msg']);
-                        console.log(res['errorsBrandsEdit']);
-                        console.log(res['errorsDeviceTypeEdit']);
-                        console.log(res['errorsDevicesEdit']);
-                        console.log(res['errorsSerialNumbersEdit']);
-                        console.log(processingErrorsServer(res, id));
-                        var arr = processingErrorsServer(res, id); 
-                        errorServerTreatment(arr,id);
-                    } else {
-                        console.log(res);
-                        if (res['txt'] == 0) {
-                            alert(res['msg']);
-                        } else {                            
-                            settingCardData(dataKard, id);
-                            $('#Block_add_serialnumbers-0').hide();
-                            $('.empty').remove();
-                            switch (res['msg']){
-                                case 'one':
-                                    $("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
-                                    break;
-                                case 'range':
-                                    $("#w0").prepend(res['txt']);
-                                    console.log("Ошибки с серийными номерами по складам -" + res['textError']);
-                                    if(Number(res['textError'])!=0){
-                                        alert(res['textError']);
-                                    }    
-                                    break;
+                    if(id == 0){
+                        if (Number(res[0]) == 0) {
+                            console.log(res['msg']);
+                            console.log(res['errorsBrandsEdit']);
+                            console.log(res['errorsDeviceTypeEdit']);
+                            console.log(res['errorsDevicesEdit']);
+                            console.log(res['errorsSerialNumbersEdit']);
+                            console.log(processingErrorsServer(res, id));
+                            var arr = processingErrorsServer(res, id); 
+                            errorServerTreatment(arr,id);
+                        } else {
+                            console.log(res);
+                            if (res['txt'] == 0) {
+                                alert(res['msg']);
+                            } else {                            
+                                settingCardData(dataKard, id);
+                                $('#Block_add_serialnumbers-0').hide();
+                                $('.empty').remove();
+                                switch (res['msg']){
+                                    case 'one':
+                                        $("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
+                                        break;
+                                    case 'range':
+                                        $("#w0").prepend(res['txt']);
+                                        console.log("Ошибки с серийными номерами по складам -" + res['textError']);
+                                        if(Number(res['textError'])!=0){
+                                            alert(res['textError']);
+                                        }    
+                                        break;
+                                }
+                                //$("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
+                                SetStatusCard(0, "");
+                                return false;                            
                             }
-                            //$("#w0").prepend("<div class='' data-key='[]' >" + res['txt'] + "</div>");
-                            SetStatusCard(0, "");
-                            return false;                            
                         }
+                    }else{
+                        if (Number(res[0]) == 0) {
+                            console.log(res['msg']);
+                            console.log(res['errorsBrandsEdit']);
+                            console.log(res['errorsDeviceTypeEdit']);
+                            console.log(res['errorsDevicesEdit']);
+                            console.log(res['errorsSerialNumbersEdit']);
+                            console.log(processingErrorsServer(res, id));
+                            var arr = processingErrorsServer(res, id); 
+                            errorServerTreatment(arr,id);
+                        } else {
+                            
+                        }                        
+                        
                     }
                 },
                 error: function (jqXHR) {

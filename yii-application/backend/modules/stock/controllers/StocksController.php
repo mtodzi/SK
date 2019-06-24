@@ -31,7 +31,9 @@ class StocksController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
         return $this->render('index',['StocksModel'=>$StocksModel, 'id'=>$id, 'searchModel'=>$searchModel, 'dataProvider'=>$dataProvider]);
     }
-    
+    /*
+        Добавляет новый склад в БД
+    */
     public function actionCreatestock(){
         if(\Yii::$app->request->isAjax){
             //Создаем новый обьект для добовления 
@@ -74,6 +76,9 @@ class StocksController extends Controller
         }
     }
     
+    /*
+       Редактирует название склада
+    */
     public function actionUpdatestock(){
         if(\Yii::$app->request->isAjax){
             //Создаем новый обьект для добовления 
@@ -422,4 +427,112 @@ class StocksController extends Controller
             return $this->redirect(['index']);
         }    
     }
+    
+    public function actionUpdateserialnamber(){
+        if(\Yii::$app->request->isAjax){
+            $valdationData = $this->ValidationIncomingData();
+            if($valdationData['error']==0){
+                
+            }else{
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['0',
+                    'msg'=>'Передаваемые данные не прошли проверку',
+                    'errorsBrandsEdit'=>$valdationData['errorsBrandsEdit'],
+                    'errorsDeviceTypeEdit'=>$valdationData['errorsDeviceTypeEdit'],
+                    'errorsSerialNumbersEdit'=>$valdationData['errorsSerialNumbersEdit'],
+                    'errorsDevicesEdit'=>$valdationData['errorsDevicesEdit'],
+                ];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }
+        
+    }
+    
+    
+    
+    public function ValidationIncomingData(){
+        $countError = 0;
+        $modelBrandsEdit = $this->ValidationBrands();
+        $modelDeviceTypeEdit = $this->ValidationDeviceType();
+        $modelDevicesEdit = $this->ValidationDevices();
+        $modelSerialNumbersEdit = $this->ValidationSerialNumbers();
+        $countError = $modelBrandsEdit['countError'] + $modelDeviceTypeEdit['countError'] + $modelDevicesEdit['countError'] + $modelSerialNumbersEdit['countError'];
+        if($countError == 0){
+            return array('modelBrandsEdit'=>$modelBrandsEdit['modelBrandsEdit'],
+                            'modelDeviceTypeEdit'=>$modelDeviceTypeEdit['modelDeviceTypeEdit'],
+                            'modelDevicesEdit'=>$modelDeviceTypeEdit['modelDevicesEdit'],
+                            'modelSerialNumbersEdit'=> $modelSerialNumbersEdit['modelSerialNumbersEdit'],
+                            'error'=>0);
+        }else{
+            return array('errorsBrandsEdit'=>$modelBrandsEdit['errorsBrandsEdit'],
+                            'errorsDeviceTypeEdit'=>$modelDeviceTypeEdit['errorsDeviceTypeEdit'],
+                            'errorsDevicesEdit'=>$modelDevicesEdit['errorsDevicesEdit'],
+                            'errorsSerialNumbersEdit'=>$modelSerialNumbersEdit['errorsSerialNumbersEdit'],
+                            'error'=>1);
+        }
+        
+    }
+    
+    //Проверка данных по Бренду Серийного номера
+    public function ValidationBrands(){
+        $countError = 0;
+        $errorsBrandsEdit = 0;
+        $modelBrandsEdit = new BrandsEdit();
+        if($modelBrandsEdit->load(Yii::$app->request->post()) && !$modelBrandsEdit->validate()){
+            $countError++;
+            $errorsBrandsEdit = $modelBrandsEdit->getErrors();
+            return array('modelBrandsEdit'=>$modelBrandsEdit, 'countError'=>$countError, 'errorsBrandsEdit'=>$errorsBrandsEdit);
+        }else{
+            return array('modelBrandsEdit'=>$modelBrandsEdit, 'countError'=>$countError, 'errorsBrandsEdit'=>$errorsBrandsEdit);
+        }
+        
+    }
+    
+    //Проверка данных по Типу продукта Серийного номера
+    public function ValidationDeviceType(){
+        $countError = 0;
+        $errorsDeviceTypeEdit = 0;
+        $modelDeviceTypeEdit = new DeviceTypeEdit();
+        if($modelDeviceTypeEdit->load(Yii::$app->request->post()) && !$modelDeviceTypeEdit->validate()){
+            $countError++;
+            $errorsDeviceTypeEdit = $modelDeviceTypeEdit->getErrors();
+            return array('modelDeviceTypeEdit'=>$modelDeviceTypeEdit, 'countError'=>$countError, 'errorsDeviceTypeEdit'=>$errorsDeviceTypeEdit);
+        }else{
+            return array('modelDeviceTypeEdit'=>$modelDeviceTypeEdit, 'countError'=>$countError, 'errorsDeviceTypeEdit'=>$errorsDeviceTypeEdit);
+        }
+    }
+    
+    public function ValidationDevices(){
+        $countError = 0;
+        $errorsDevicesEdit = 0;
+        $modelDevicesEdit = new DevicesEdit();
+        if($modelDevicesEdit->load(Yii::$app->request->post()) && !$modelDevicesEdit->validate()){
+            $countError++;
+            $errorsDevicesEdit = $modelDevicesEdit->getErrors();
+            return array('modelDevicesEdit'=>$modelDevicesEdit, 'countError'=>$countError, 'errorsDevicesEdit'=>$errorsDevicesEdit);
+        }else{
+            return array('modelDevicesEdit'=>$modelDevicesEdit, 'countError'=>$countError, 'errorsDevicesEdit'=>$errorsDevicesEdit);
+        }
+        
+    }
+    
+    public function ValidationSerialNumbers(){
+        $countError = 0;
+        $errorsSerialNumbersEdit = 0;
+        $modelSerialNumbersEdit = new SerialNumbersEdit(['scenario' => SerialNumbersEdit::SCENARIO_SEREIAL_NUMBERS_ONE]);
+        if($modelSerialNumbersEdit->load(Yii::$app->request->post()) && !$modelSerialNumbersEdit->validate()){
+            $countError++;
+            $errorsSerialNumbersEdit = $modelSerialNumbersEdit->getErrors();
+            return array('modelSerialNumbersEdit'=>$modelSerialNumbersEdit, 'countError'=>$countError, 'errorsSerialNumbersEdit'=>$errorsSerialNumbersEdit);
+        }else{
+            return array('modelSerialNumbersEdit'=>$modelSerialNumbersEdit, 'countError'=>$countError, 'errorsSerialNumbersEdit'=>$errorsSerialNumbersEdit);
+        }
+    }
+        
 }
