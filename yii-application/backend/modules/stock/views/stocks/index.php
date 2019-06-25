@@ -44,7 +44,8 @@ $this->title = Yii::t('app','Склады');
             </div>
         </div>
         <form class='form-inline' post="GET" action="<?=Url::to(['/stock'])?>">
-            <input name="StocksSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="" aria-label='Search'>
+            <input name="EquipmentStockSearch[search]" class='form-control mr-2 my-2' type='search' placeholder='Поиск' value="<?=$searchModel->search?>" aria-label='Search'>
+            <input name="id" class='form-control mr-2 my-2' type='hidden' placeholder='Поиск' value="<?=$id?>" aria-label='Search'>            
             <button class='btn btn-outline-success my-2' type='submit'>Поиск</button>
         </form>
     </nav>

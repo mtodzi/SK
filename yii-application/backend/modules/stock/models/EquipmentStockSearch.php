@@ -12,7 +12,7 @@ use backend\modules\stock\models\EquipmentStock;
  */
 class EquipmentStockSearch extends EquipmentStock
 {
-    
+    public $search;
 
     /**
      * @inheritdoc
@@ -21,6 +21,15 @@ class EquipmentStockSearch extends EquipmentStock
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+    
+    public function rules()
+    {
+        return [
+            //['search','string','max' => 255],
+            ['search','safe'],
+            ['search', 'filter', 'filter' => 'trim'],
+        ];
     }
 
     /**
@@ -48,43 +57,17 @@ class EquipmentStockSearch extends EquipmentStock
             // $query->where('0=1');
             return $dataProvider;
         }
+        $query->joinWith('serialNumber');
+        $query->joinWith('devices');
+        $query->joinWith('brands');
+        $query->joinWith('devicesType');
         
+        $query->andFilterWhere(['=', 'serial_numbers_name', $this->search]);
+        $query->orFilterWhere(['=', 'devices_model', $this->search]);
+        $query->orFilterWhere(['=', 'name_brands', $this->search]);
+        $query->orFilterWhere(['=', 'device_type_name', $this->search]);
+        $query->andFilterWhere(['stock_id'=>$id]);
         
-        /*
-        if(is_numeric($this->search)){
-            $query->andFilterWhere([
-                'id_orders'=>$this->search,
-            ]);
-            return $dataProvider;
-        }
-        
-        if(is_string($this->search) && !isset($this->search)){
-            $query->joinWith('clients');
-            //$query->join('INNER JOIN','clients_phones',['orders.clients_id'=>'clients_phones.clients_id']);
-            $query->andFilterWhere(['=', 'clients_name', $this->search]);
-            //$query->andFilterWhere(['=', 'clients_phones.phone_number', $this->search]);
-            return $dataProvider;
-        }
-        
-        $query->joinWith('clients');
-        $query->join('LEFT JOIN','clients_phones',['orders.clients_id'=>'clients_phones.clients_id']);
-        
-        $query->andFilterWhere([
-            'id_orders'=>$this->search,
-        ]);
-        $query->orFilterWhere(['=', 'clients_name', $this->search]);
-        $query->orFilterWhere(['=', 'phone_number', $this->search]);
-        //$query->andFilterWhere(['id_orders'=>$this->search]);
-        
-        $query->joinWith('position');
-        
-        $query->andFilterWhere(['like', 'email', $this->search]);
-        $query->orFilterWhere(['like', 'employeename', $this->search]);
-        $query->orFilterWhere(['like', 'address', $this->search]);
-        $query->orFilterWhere(['like', 'phone', $this->search]);
-        $query->orFilterWhere(['like', 'name_position', $this->search]);
-        $query->andFilterWhere(['archive'=>0]);
-        */
         return $dataProvider;
     }
     

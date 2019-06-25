@@ -61,6 +61,21 @@ class EquipmentStock extends \yii\db\ActiveRecord
     {
         return $this->hasOne(SerialNumbers::className(), ['id_serial_numbers' => 'serial_number_id']);
     }
+    
+    public function getDevices()
+    {
+        return $this->hasMany(Devices::className(), ['id_devices' => 'devise_id'])->via('serialNumber');
+    }
+    
+    public function getBrands()
+    {
+        return $this->hasMany(Brands::className(), ['id_brands' => 'brands_id'])->via('devices');
+    }
+    
+    public function getDevicesType()
+    {
+        return $this->hasMany(DeviceType::className(), ['id_device_type' => 'devices_type_id'])->via('devices');
+    }
 
     /**
      * @return \yii\db\ActiveQuery
