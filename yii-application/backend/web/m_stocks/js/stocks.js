@@ -82,7 +82,13 @@ function settingCardData(data, id) {
         $("input[value='one']").prop('checked', true);
     }    
     $("#input_serialnambers_serial_numbers_name-" + id).val(data.serial_numbers_name);
-    $("#serialnambers_id_serial_numbers-" + id).val(data.id_serial_numbers);    
+    $("#serialnambers_id_serial_numbers-" + id).val(data.id_serial_numbers);
+    if(id!=0){
+        $("#span_name_brands-" + id).text(data.brand_name);
+        $("#span_device_type_name-" + id).text(data.device_type_name);
+        $("#span_devices_model-" + id).text(data.devices_model);
+        $("#span_serial_numbers_name-" + id).text(data.serial_numbers_name);
+    }
 }
 //Кнопка подняться в верх
 $(function() {
@@ -323,6 +329,41 @@ $('.index_stock_bloc').on('click', '.serialnambers_edit_button', function () {
         return false;
     }
 
+});
+
+//Обработчик нажатия кнопки удалить продукт на складе
+$('.index_stock_bloc').on('click', '.serialnambers_delete_button', function () {
+    alert('Вы путаетесь удалить продукт со склада');
+    var id = GetId($(this), 1);
+    var name_serial_nambers_name = $("#span_serial_numbers_name-"+id).text();
+    var isDeleteStockProduckt = confirm('Вы хотите удалить - '+name_serial_nambers_name);
+    if(isDeleteStockProduckt){
+            data = {
+                'EquipmentStockEdit[stock_id]': $("#input_equipment_stock_stock_id-" + id).val(),
+                'EquipmentStockEdit[serial_number_id]': $("#input_equipment_stock_serial_number_id-" + id).val(),
+                '_csrf-backend': $('input[name="_csrf-backend"]').val()
+            };
+            console.log(data);
+            $.ajax({
+                url: '/yii-application/backend/web/stock/stocks/deleteproducktstock',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    if(Number(res['error'])==0){
+                        alert(res['msg']);
+                        $("#Block_add_serialnumbers-"+id).remove();
+                    }else{
+                        alert(res['msg']);
+                    }
+                },
+                error: function(){
+                    console.log(jqXHR);
+                    alert(jqXHR.responseText);
+                }
+            });
+            return false;
+    }
 });
 
 
@@ -915,7 +956,17 @@ $('.index_stock_bloc').on('click', '.serialnambers_apply_button', function () {
                             var arr = processingErrorsServer(res, id); 
                             errorServerTreatment(arr,id);
                         } else {
-                            
+                            if(Number(res['textError']) == 0){
+                                settingCardData(res['msg'], id)
+                                SetStatusCard(id, "#span_serialnumbers_id_serial_numbers-");
+                                $('#stock_card_button_edit_delete-' + id).show();
+                                $('#serialnumbers_content-' + id).show();
+                                $('#serialnambers_cancel_button_card_apply-' + id).hide();
+                                $('#serialnumbers_form-' + id).hide();
+                                return false;
+                            }else{
+                                alert(res['textError']);
+                            }
                         }                        
                         
                     }

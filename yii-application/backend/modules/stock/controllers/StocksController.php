@@ -76,6 +76,35 @@ class StocksController extends Controller
         }
     }
     
+    public function actionDeleteproducktstock(){
+        if(\Yii::$app->request->isAjax){
+            $validateData = $this->ValidateEquipmentStock();
+            if($validateData['countError'] == 0){
+                $modelEquipmentStockEdit = $validateData['modelEquipmentStockEdit']->deleteProducktStock();
+                //Если данные на загрузились в обьект и не прошли валидацию
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['200','error'=>$modelEquipmentStockEdit['errror'], 'msg'=>$modelEquipmentStockEdit['msg']];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }else{
+                //Если данные на загрузились в обьект и не прошли валидацию
+                //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                //Фармируем массив с ошибкой
+                $items = ['200','error'=>1, 'msg'=>"Данные для удаления продукта со склады были переданы не верно, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу"];
+                //Передаем данные в фармате json пользователю
+                return $items;
+            }
+            
+        }else{
+            //Если запрос был не AJAX делаем переадрисацю на главную страницу user
+            return $this->redirect(['index']);
+        }
+    }
+
+
     /*
        Редактирует название склада
     */
@@ -428,11 +457,27 @@ class StocksController extends Controller
         }    
     }
     
+    //Метод обрабатывает запрос на обнавленния данных в серийном номере
     public function actionUpdateserialnamber(){
         if(\Yii::$app->request->isAjax){
             $valdationData = $this->ValidationIncomingData();
             if($valdationData['error']==0){
-                
+                $saveUpdateSerial = $this->UpdateSerialNamber($valdationData['modelBrandsEdit'], $valdationData['modelDeviceTypeEdit'], $valdationData['modelDevicesEdit'], $valdationData['modelSerialNumbersEdit']);
+                if($saveUpdateSerial['errror']==0){
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>$saveUpdateSerial['msg'], 'txt'=>0, 'textError'=>0];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }else{
+                    //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    //Фармируем массив с ошибкой
+                    $items = ['200','msg'=>0, 'txt'=>0, 'textError'=>$saveUpdateSerial['msg']];
+                    //Передаем данные в фармате json пользователю
+                    return $items;
+                }
             }else{
                 //Вызываем метод Yii где задаем что ответ должен быть в формате JSON
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -454,8 +499,36 @@ class StocksController extends Controller
         
     }
     
-    
-    
+    //Метод изменят имена полей в Серийных номерах
+    public function UpdateSerialNamber($modelBrandsEdit,$modelDeviceTypeEdit,$modelDevicesEdit,$modelSerialNumbersEdit){
+        $modelBrandsEdit = $modelBrandsEdit->UpdateBrand();
+        if($modelBrandsEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelBrandsEdit['msg']);
+        }
+        $modelDeviceTypeEdit = $modelDeviceTypeEdit->UpdateDeviceType();
+        if($modelDeviceTypeEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelDeviceTypeEdit['msg']);
+        }
+        $modelDevicesEdit = $modelDevicesEdit->UpdateDevices();
+        if($modelDevicesEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelDevicesEdit['msg']);
+        }
+        $modelSerialNumbersEdit = $modelSerialNumbersEdit->UpdateSerialNambers();
+        if($modelSerialNumbersEdit['errror']==1){
+            return array('errror'=>1,'msg'=>$modelSerialNumbersEdit['msg']);
+        }
+        return array('errror'=>0,'msg'=>array('brand_name'=>$modelBrandsEdit['msg']->name_brands,
+                                                'id_brands'=>$modelBrandsEdit['msg']->id_brands,
+                                                'device_type_name'=>$modelDeviceTypeEdit['msg']->device_type_name,
+                                                'id_device_type'=>$modelDeviceTypeEdit['msg']->id_device_type,
+                                                'devices_model'=>$modelDevicesEdit['msg']->devices_model,
+                                                'id_devices'=>$modelDevicesEdit['msg']->devices_type_id,
+                                                'serial_numbers_name'=>$modelSerialNumbersEdit['msg']->serial_numbers_name,
+                                                'id_serial_numbers'=>$modelSerialNumbersEdit['msg']->id_serial_numbers,
+                                                'type_addition'=>'some'));                
+    }
+
+    //Метод проверят входяшие данные от клиента
     public function ValidationIncomingData(){
         $countError = 0;
         $modelBrandsEdit = $this->ValidationBrands();
@@ -466,7 +539,7 @@ class StocksController extends Controller
         if($countError == 0){
             return array('modelBrandsEdit'=>$modelBrandsEdit['modelBrandsEdit'],
                             'modelDeviceTypeEdit'=>$modelDeviceTypeEdit['modelDeviceTypeEdit'],
-                            'modelDevicesEdit'=>$modelDeviceTypeEdit['modelDevicesEdit'],
+                            'modelDevicesEdit'=>$modelDevicesEdit['modelDevicesEdit'],
                             'modelSerialNumbersEdit'=> $modelSerialNumbersEdit['modelSerialNumbersEdit'],
                             'error'=>0);
         }else{
@@ -507,7 +580,7 @@ class StocksController extends Controller
             return array('modelDeviceTypeEdit'=>$modelDeviceTypeEdit, 'countError'=>$countError, 'errorsDeviceTypeEdit'=>$errorsDeviceTypeEdit);
         }
     }
-    
+    //Проверка данных по устройстыу
     public function ValidationDevices(){
         $countError = 0;
         $errorsDevicesEdit = 0;
@@ -521,7 +594,7 @@ class StocksController extends Controller
         }
         
     }
-    
+    //Проверка данных по Серийному номеру
     public function ValidationSerialNumbers(){
         $countError = 0;
         $errorsSerialNumbersEdit = 0;
@@ -533,6 +606,17 @@ class StocksController extends Controller
         }else{
             return array('modelSerialNumbersEdit'=>$modelSerialNumbersEdit, 'countError'=>$countError, 'errorsSerialNumbersEdit'=>$errorsSerialNumbersEdit);
         }
+    }
+    
+    public function ValidateEquipmentStock(){
+        $countError = 0;
+        $errorsEquipmentStockEdit = 0;
+        $modelEquipmentStockEdit = new EquipmentStockEdit(['scenario' => EquipmentStockEdit::SCENARIO_EQUIPMENT_STOCK_ONE]);
+        if($modelEquipmentStockEdit->load(Yii::$app->request->post()) && !$modelEquipmentStockEdit->validate()){
+            $countError++;
+            $errorsEquipmentStockEdit = $modelEquipmentStockEdit->getErrors();           
+        }
+        return array('modelEquipmentStockEdit'=>$modelEquipmentStockEdit, 'countError'=>$countError, 'errorsEquipmentStockEdit'=>$errorsEquipmentStockEdit);
     }
         
 }

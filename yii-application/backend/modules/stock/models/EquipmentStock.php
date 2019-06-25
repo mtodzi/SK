@@ -23,6 +23,13 @@ class EquipmentStock extends \yii\db\ActiveRecord
         return 'equipment_stock';
     }
 
+    public static function primaryKey()
+    {
+        return [
+            'stock_id',
+            'serial_number_id',
+        ];
+    }
     /**
      * {@inheritdoc}
      */

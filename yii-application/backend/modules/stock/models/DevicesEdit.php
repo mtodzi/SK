@@ -87,9 +87,40 @@ class DevicesEdit extends Model{
             return array('errror'=>1,'msg'=>'Данные Бренда и Типа устройства не были переданы обратитесь к админу');
         }
     }
+    
+    public function UpdateDevices(){
+        if($this->id_devices != 0){
+            $i = 0; //количество измененых полей в клиенте
+                $modelChangesDeviceName = 0;                
+                $modelDevices = Devices::findOne($this->id_devices);
+                if($modelDevices !== null){
+                    if(strcmp($modelDevices->devices_model , $this->devices_model)!== 0){
+                        $i++;
+                        $DeviceModel = $modelDevices->devices_model;
+                        $modelDevices->devices_model = $this->devices_model;
+                        $modelChangesDeviceName = new ChangesTables('devices',$modelDevices->id_devices,'При работе со складом было изменено имя модели устройсва было - '.$DeviceModel.'стало - '.$this->devices_model, Yii::$app->user->identity->id);
+                    }
+                    if($i!=0){
+                        if($modelDevices->save()){
+                            if(!empty($modelChangesDeviceName)){
+                                $modelChangesDeviceName->save();
+                            }
+                            return array('errror'=>0,'msg'=>$modelDevices);
+                        }else{
+                            return array('errror'=>1,'msg'=>'Изменения в название  устройства не были сохранены в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу ');
+                        }
+                    }else{
+                        return array('errror'=>0,'msg'=>$modelDevices);
+                    }
+                }else{
+                    return array('errror'=>1,'msg'=>'Искомое устройство не найдено в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+                }
+        }else{
+            return array('errror'=>1,'msg'=>'Данные по устройствe были не верно преданны на сервер, обновите страницу и повторите действия если ошибка повториться обратитесь к админу');
+        }
+    }
 
-
-    //Метод возврашает русские лейбы полей обьекта
+        //Метод возврашает русские лейбы полей обьекта
     public function attributeLabels() {
         return
         [

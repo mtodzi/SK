@@ -64,8 +64,40 @@ class DeviceTypeEdit extends Model{
             
         }
     }
+    
+    public function UpdateDeviceType(){
+        if($this->id_device_type != 0){
+            $i = 0; //количество измененых полей в клиенте
+            $modelChangesDeviceTypeName = 0;
+            $modelDeviceType = DeviceType::findOne($this->id_device_type);
+            if($modelDeviceType !== null){
+                if(strcmp($modelDeviceType->device_type_name , $this->device_type_name)!== 0){
+                    $i++;
+                    $DeviceTypeName = $modelDeviceType->device_type_name;
+                    $modelDeviceType->device_type_name = $this->device_type_name;
+                    $modelChangesDeviceTypeName = new ChangesTables('device_type',$modelDeviceType->id_device_type,'При работе со складом был изменено имя типа устройства было - '.$DeviceTypeName.'стало - '.$this->device_type_name, Yii::$app->user->identity->id);
+                }
+                if($i!=0){
+                    if($modelDeviceType->save()){
+                        if(!empty($modelChangesDeviceTypeNameё)){
+                            $modelChangesDeviceTypeName->save();
+                        }
+                        return array('errror'=>0,'msg'=>$modelDeviceType); 
+                    }else{
+                        return array('errror'=>1,'msg'=>'Изменения в название типа устройства не были сохранены в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+                    }
+                }else{
+                    return array('errror'=>0,'msg'=>$modelDeviceType); 
+                }
+            }else{
+                return array('errror'=>1,'msg'=>'Искомый тип устройства не  не найден в Базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+            }
+        }else{
+            return array('errror'=>1,'msg'=>'Данные по типу устройства были не верно преданны на сервер, обновите страницу и повторите действия если ошибка повториться обратитесь к админу ');
+        }
+    }
 
-
+    
     //Метод возврашает русские лейбы полей обьекта
     public function attributeLabels() {
         return

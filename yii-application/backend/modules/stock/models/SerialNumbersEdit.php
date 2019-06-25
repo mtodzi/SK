@@ -190,6 +190,38 @@ class SerialNumbersEdit extends Model{
         }
     }
     
+    public function UpdateSerialNambers(){
+        if($this->id_serial_numbers != 0){
+            $i = 0; //количество измененых полей в клиенте
+                $modelChangeSserialNumbersName = 0;
+                $modelSerialNambers = SerialNumbers::findOne($this->id_serial_numbers);
+                if($modelSerialNambers !== null){
+                    if(strcmp($modelSerialNambers->serial_numbers_name , $this->serial_numbers_name)!== 0){
+                        $i++;
+                        $SerialNumbersName = $modelSerialNambers->serial_numbers_name;
+                        $modelSerialNambers->serial_numbers_name = $this->serial_numbers_name;
+                        $modelChangeSserialNumbersName = new ChangesTables('serial_number',$modelSerialNambers->id_serial_numbers,'При работе со складом было изменено имя серийного номера было - '. $SerialNumbersName.'стало - '.$this->serial_numbers_name, Yii::$app->user->identity->id);
+                    }
+                    if($i!=0){
+                        if($modelSerialNambers->save()){
+                            if(!empty($modelChangeSserialNumbersName)){
+                                $modelChangeSserialNumbersName->save();
+                            }
+                            return array('errror'=>0,'msg'=>$modelSerialNambers);
+                        }else{
+                            return array('errror'=>1,'msg'=>'Изменения в название  серийного номера не были сохранены в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+                        }
+                    }else{
+                        return array('errror'=>0,'msg'=>$modelSerialNambers);
+                    }
+                }else{
+                    return array('errror'=>1,'msg'=>'Искомый серийный номер  не найден в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу  ');
+                }
+        }else{
+            return array('errror'=>1,'msg'=>'Данные по серийному номеру были не верно преданны на сервер, обновите страницу и повторите действия если ошибка повториться обратитесь к админу');
+        }
+    } 
+
     public function attributeLabels() {
         return
             [

@@ -64,7 +64,39 @@ class BrandsEdit extends Model{
         }
     }
     
-    //Метод возврашает русские лейбы полей обьекта
+    public function UpdateBrand(){
+        if($this->id_brands != 0){
+            $i = 0; //количество измененых полей в клиенте
+            $modelChangesBrand = 0;
+            $modelBrand = Brands::findOne($this->id_brands);
+            if($modelBrand!==null){
+                if(strcmp($modelBrand->name_brands , $this->brand_name)!== 0){
+                    $i++;
+                    $nameBrands = $modelBrand->name_brands;
+                    $modelBrand->name_brands = $this->brand_name;
+                    $modelChangesBrand = new ChangesTables('brands',$modelBrand->id_brands,'При работе со складом  был изменено имя бренда было - '.$nameBrands.'стало - '.$this->brand_name, Yii::$app->user->identity->id);
+                }
+                if($i!=0){
+                    if($modelBrand->save()){
+                        if(!empty($modelChangesBrand)){
+                            $modelChangesBrand->save();
+                        }
+                        return array('errror'=>0,'msg'=>$modelBrand);
+                    }else{
+                        return array('errror'=>1,'msg'=>'Изменения в название бренда не были сохранены в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+                    }
+                }else{
+                    return array('errror'=>0,'msg'=>$modelBrand);
+                }
+            }else{
+                return array('errror'=>1,'msg'=>'Искомый Бренд не найден в Базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+            }
+        }else{
+            return array('errror'=>1,'msg'=>'Данные по бренду были не верно преданны на сервер, обновите страницу и повторите действия если ошибка повториться обратитесь к админу');
+        }
+    }
+
+        //Метод возврашает русские лейбы полей обьекта
     public function attributeLabels() {
         return
         [

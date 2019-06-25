@@ -41,6 +41,26 @@ class EquipmentStockEdit extends Model{
         ];
     }
     
+    public function deleteProducktStock(){
+        $EquipmentStockModelinStoks = EquipmentStock::findOne([
+            'serial_number_id' => $this->serial_number_id,
+            'stock_id' => $this->stock_id,    
+        ]);
+        $msg = 'Был удален продукт с серийым номером - '.$EquipmentStockModelinStoks->serialNumber->serial_numbers_name.' со склада - '.$EquipmentStockModelinStoks->stock->name_stock;
+        $delete_id_stock = $EquipmentStockModelinStoks->stock_id;
+        if($EquipmentStockModelinStoks != null ){
+            if($EquipmentStockModelinStoks->delete()){
+                $modelChangesTables = new ChangesTables('equipment_stock',$delete_id_stock,$msg, Yii::$app->user->identity->id);
+                $modelChangesTables->save();
+                return array('errror'=>0,'msg'=>'Удаляемый продукт был удален');
+            }else{
+                return array('errror'=>1,'msg'=>'Удаляемый продукт со склада не найден в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+            }
+        }else{
+            return array('errror'=>1,'msg'=>'Удаляемый продукт со склада не найден в базе данных, обновите страницу и повторите действия  если ошибка повториться обратитесь к админу');
+        }
+    }
+
     public function saveEquipmentStock(){
         $EquipmentStockModelinStoks = EquipmentStock::findOne([
                 'serial_number_id' => $this->serial_number_id,
