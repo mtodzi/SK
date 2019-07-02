@@ -21,7 +21,7 @@ function GetDataCardOrders(id) {
 //Обработчик нажатия кнопки отмена в userbox
 $('.index_stock_bloc').on('click', '.serialnambers_cancel_button', function () {
     console.log(dataKard);
-    alert("Вы нажали кнопку отмена");        
+    //alert("Вы нажали кнопку отмена");        
     var id = GetId($(this), 1);
     var dataKard1 = GetDataCardOrders(id);
     var s1 = JSON.stringify(dataKard);
@@ -296,7 +296,7 @@ function empty(e) {
 
 //Обработчик нажатия кнопки добавить продукт на склад
 $('.my_heders_bloc').on('click', '#add_new_serialNambers_in_stock', function(){
-    alert("Вы пытаетесь добавить продукт на склад");
+    //alert("Вы пытаетесь добавить продукт на склад");
     if(GetStatusCard()){
         SetStatusCard(0,"");
         $('#Block_add_serialnumbers-0').show();
@@ -333,7 +333,7 @@ $('.index_stock_bloc').on('click', '.serialnambers_edit_button', function () {
 
 //Обработчик нажатия кнопки удалить продукт на складе
 $('.index_stock_bloc').on('click', '.serialnambers_delete_button', function () {
-    alert('Вы путаетесь удалить продукт со склада');
+    //alert('Вы путаетесь удалить продукт со склада');
     var id = GetId($(this), 1);
     var name_serial_nambers_name = $("#span_serial_numbers_name-"+id).text();
     var isDeleteStockProduckt = confirm('Вы хотите удалить - '+name_serial_nambers_name);
@@ -724,7 +724,7 @@ $('.index_stock_bloc').on('focusin', '.input_serialnambers', function () {
 
 //Обработчик отслеживает получение фокуса 
 $('.index_stock_bloc').on('change', "input[type='radio']", function () {
-    alert("вы сменили");
+    //alert("вы сменили");
     console.log($(this));
     var check = $(this).val();
     var htmlOne = ""+
@@ -768,21 +768,21 @@ $('.index_stock_bloc').on('change', "input[type='radio']", function () {
             "";
     switch (check){
         case 'one':
-            alert("Вы выбрали one");
+            //alert("Вы выбрали one");
             $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
             $(".delete_another_serialnambers-0").remove();
             $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlOne);
             break;
         case 'range':
-            alert("Вы выбрали range");
+            //alert("Вы выбрали range");
             $("#p_add_another_serialnambers_serial_numbers_name-0").remove();
             $(".delete_another_serialnambers-0").remove();
             $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlRange);
             break;
         case 'some':
-            alert("Вы выбрали some");
+            //alert("Вы выбрали some");
             $(".input_serialnambers-0").remove();
             $("#p_type_addition").after(htmlSome);
             $("#add_another_serial_numbers_name-0").tooltip('enable');
@@ -1193,35 +1193,6 @@ function errorDeleteServerTreatment(arrayError, id) {
         $('#error_serialnambers_' + value.toString() + id).hide();//Блок ошибки показываем пользователю
         console.log("Номер карточки - "+id);
         $('#input_serialnambers_' + value.toString() + id).removeClass('is-invalid');
-        console.log($('#error_serialnambers_' + value.toString() + '' + id));
-        /*
-        if (value.toString().localeCompare("clients_phone-") == 0) {
-            console.log("Блок телефонов" + $('.error_orders_phone-' + id));
-            $('.error_orders_phone-' + id).each(function (index) {
-                console.log("Ошибка :" + this);
-                $(this).text('');
-                $(this).hide();
-                $(this).removeClass('is-invalid');
-            });
-            console.log("Конец блока");
-        } else {
-            if (value.toString().localeCompare("malfunction-") == 0) {
-                console.log("Блок телефонов" + $('.error_orders_phone-' + id));
-                $('.error_orders_malfunction-' + id).each(function (index) {
-                    console.log("Ошибка :" + this.id);
-                    $(this).text('');
-                    $(this).hide();
-                    $(this).removeClass('is-invalid');
-                });
-                console.log("Конец блока");
-            } else {
-                $('#error_orders_' + value.toString() + '' + id).text('');
-                $('#error_orders_' + value.toString() + id).hide();//Блок ошибки показываем пользователю
-                console.log(id);
-                $('#input_orders_' + value.toString() + id).removeClass('is-invalid');
-                console.log($('#error_orders_' + value.toString() + '' + id));
-            }
-        }
-        */
+        console.log($('#error_serialnambers_' + value.toString() + '' + id));      
     });
 }

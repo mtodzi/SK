@@ -14,11 +14,35 @@ use backend\modules\stock\models\DevicesEdit;
 use backend\modules\stock\models\SerialNumbersEdit;
 use backend\modules\stock\models\EquipmentStockEdit;
 
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use common\models\AcsessCo;
+
 /**
  * Default controller for the `stock` module
  */
 class StocksController extends Controller
 {
+    
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => AcsessCo::getAcsessAction('stocks'),
+                'rules' => AcsessCo::getAcsess(Yii::$app->user->identity->id,'stocks')                
+            ]
+            
+        ];
+    }
+    
     /**
      * Renders the index view for the module
      * @return string
